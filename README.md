@@ -1,19 +1,19 @@
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:48A1DB,100:FEFBF6&height=180&section=header&fontSize=50" />
-<img src="https://capsule-render.vercel.app/api?type=venom&color=FEFBF6&height=150&section=header&text=재난탈출NO.1&fontSize=50" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:134B70,100:508C9B&height=180&section=header&fontSize=50" />
+<img src="https://capsule-render.vercel.app/api?type=venom&color=EEEEEE&height=150&section=header&text=재난탈출𝐍𝐎.𝟏&fontSize=50" />
 
     
 
 
 
 <div align ="center">
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Franklin Gothic Medium&pause=1000&random=false&color=546E7A&width=435&lines=　　　　A Disaster Forecasting Website" alt="Typing SVG" /></a>
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Franklin Gothic Medium&pause=1000&random=false&color=546E7A&width=435&lines=　 　 𝑨 𝑫𝒊𝒔𝒂𝒔𝒕𝒆𝒓 𝑭𝒐𝒓𝒆𝒄𝒂𝒔𝒕𝒊𝒏𝒈 𝑾𝒆𝒃𝒔𝒊𝒕𝒆" alt="Typing SVG" /></a>
 </div>
 
 
 <details>
 <summary>
-<h3 align="center"> 프로젝트 소개 </h3>
+<h3 align="center"> 프로젝트 소개 <h4>${\textsf{\color{#90A4AE} ㅤ────────────────────────────────* 。 • ☀️}}$  </h4> </h3>
 </summary>
 <h4>• 프로젝트 주제   : 재난 예보 시스템</h4> <br>
 <h4>• 조이름         : 재난탈출 넘버원</h4><br>
@@ -25,7 +25,7 @@
 
  <details>
 <summary>
-<h3 align="center"> 팀원 구성 </h3>
+<h3 align="center"> 팀원 구성 <h4>${\textsf{\color{#90A4AE}　　　───────────────────────────────────* 。 • ˚🌧️}}$  </h4></h3>
 </summary>
 <table>
   <tr>
@@ -59,7 +59,7 @@
 
 <details>
 <summary>
-<h3 align="center"> 개발환경 </h3>
+<h3 align="center"> 개발 환경 <h4>${\textsf{\color{#90A4AE}　───────────────────────────────────* 。 • ˚❄️}}$  </h4> </h3>
 </summary>
 
 <div align= "center">
@@ -80,7 +80,7 @@
 
 <details>
 <summary>
-<h3 align="center"> 주요 기능 </h3>
+<h3 align="center"> 주요 기능 <h4>${\textsf{\color{#90A4AE}　───────────────────────────────────* 。 • ˚☁️}}$  </h4> </h3>
 </summary>
 
 <h3>${\textsf{\color{#5A72A0}• 사용자 맞춤 정보 제공}}$  </h3>
@@ -111,7 +111,7 @@
 
 <details>
 <summary>
-<h3 align="center"> 개발 기간 </h3>
+<h3 align="center"> 개발 기간 <h4>${\textsf{\color{#90A4AE}　───────────────────────────────────* 。 • ˚🌩️}}$  </h4> </h3>
 </summary>
 <table>
   <tr>
@@ -141,4 +141,13 @@
 
 
 
-![Footer](https://capsule-render.vercel.app/api?type=waving&color=0:48A1DB,100:FEFBF6&height=200&section=footer)
+![Footer](https://capsule-render.vercel.app/api?type=waving&color=0:508C9B,100:134B70&height=200&section=footer)
+
+
+
+
+
+
+
+
+
