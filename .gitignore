@@ -23,6 +23,9 @@ local.properties
 # PyDev specific (Python IDE for Eclipse)
 *.pydevproject
 
+# JDT-specific (Eclipse Java Development Tools)      
+.classpath
+
 # CDT-specific (C/C++ Development Tooling)
 .cproject
 
