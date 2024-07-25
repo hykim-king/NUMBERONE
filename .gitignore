@@ -14,6 +14,12 @@ local.properties
 .loadpath
 .recommenders
 
+# Spring Tool Suite
+.classpath
+
+# Compiled output
+target/
+
 # External tool builders
 .externalToolBuilders/
 
