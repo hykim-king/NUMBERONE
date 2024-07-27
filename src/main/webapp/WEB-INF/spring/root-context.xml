@@ -1,8 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+        
+    <!-- mapper interface 설정  scanner 매퍼 읽을 위치 정하기-->   
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       <property name="basePackage" value="com.pcwk.ehr.mapper"></property>
+    </bean>
+        
+    <!-- annotation 설정 
+    base-package : com.pcwk.ehr 하위 모든것들을 읽겠다.
+    -->
+    
+   
+
+        
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- <property name="dataSource" ref="dataSource"></property> -->
+        <constructor-arg index="0" ref="dataSource"></constructor-arg>
+    </bean>
+    
+    <!-- HikariDataSource Bean -->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+        <!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> -->
+        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+        <!-- <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe"></property> -->
+        <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
+        <property name="username" value="scott"></property>
+        <property name="password" value="pcwk"></property>
+        
+        <!--  Optional settings -->
+        <property name="maximumPoolSize" value="10"></property>
+        <property name="minimumIdle" value="5"></property>
+        <property name="connectionTimeout" value="30000"></property>
+        <property name="idleTimeout" value="600000"></property>
+        <property name="maxLifetime" value="1800000"></property>
+        
+        <!--  
+        - `maximumPoolSize`: 풀에 유지할 최대 연결 수입니다.
+        - `minimumIdle`: 유휴 상태로 유지할 최소 연결 수입니다.
+        - `connectionTimeout`: 연결 시도 시 타임아웃 설정입니다 (밀리초 단위).
+        - `idleTimeout`: 유휴 연결이 풀에서 제거되기 전 대기 시간입니다 (밀리초 단위).
+        - `maxLifetime`: 연결이 풀에서 제거되기 전 최대 생존 시간입니다 (밀리초 단위).        
+        -->
+    </bean>
+
+
 </beans>
