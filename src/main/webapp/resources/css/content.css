@@ -1,0 +1,101 @@
+@charset "utf-8";
+
+.content {width: 1170px;margin:0 auto;padding-bottom: 90px;}
+
+/* 공통 제목 아이콘 */
+.title_01 {position: relative;font-size:20px;color:#003668;padding-left:27px;margin:36px 0 20px 0;}
+.title_01:before {content:"";display: inline-block;clear: both;position: absolute;top:12px;left: 0;background: url("/idsiSFK/neo/ext/img/ico_title_01.jpg")no-repeat;width: 16px;height: 16px;}
+.title_02 {position: relative;margin-top: 30px;font-size:20px;color: #1b1b1b;padding-top: 5px;}
+.title_02:before {content:"";display: inline-block;clear: both;position: absolute;top:0;left:0;background: url("/idsiSFK/neo/ext/img/ico_title_02.jpg")no-repeat;width: 30px;height: 3px;}
+.title_03 {position:relative;font-size:18px;color:#003668;display: block;padding-left:16px;margin-top: 22px;}
+.title_03:before {content:"";display: inline-block;clear: both;position: absolute;top:12px;left:0;background-color:#003668;width: 9px;height: 9px;border-radius: 50%;}
+/*    tab 메뉴    */
+ul.tablist {overflow: hidden;}
+ul.tablist li {float:left; width: 33%;height: 40px;border-top:1px solid #003668;border-bottom: 1px solid #003668;border-left: 1px solid #003668;}
+ul.tablist li:last-child {border-right: 1px solid #003668;}
+ul.tablist li a {display: block;height: 100%;width: 100%;line-height: 35px;text-align: center;font-size:18px;font-weight: 700;color:#003668;}
+ul.tablist li.on {background-color: #003668;}
+ul.tablist li.on a {color: #fff !important;}
+.tabarea > div {display: none;} 
+.tabarea div.on {display: block;}
+/*    table 공통     */
+ul.tablewrap {overflow: hidden;}
+ul.tablewrap li {float:left;border-left:1px solid #dddddd;border-top:1px solid #dddddd;border-bottom:1px solid #dddddd;}
+ul.tablewrap li:last-child {border-right:1px solid #dddddd;}
+ul.tablewrap li p:first-child {height: 57px;background-color: #f7f9fa;line-height: 57px; text-align: center;font-size:17px;color: #000000;font-weight: 700;}
+ul.tablewrap li p:last-child {margin-top: 24px;padding-left:15px;line-height: 25px;}
+ul.tablewrap li p e {letter-spacing: -2.5px}
+/*    title03_wrap   파란점 아이콘 wrap   */
+.title03_wrap {line-height: 30px;font-size:18px;margin-top: 15px;padding-left: 15px;color: #303030;}
+.title03_wrap .title_03 {margin-top: 5px;}
+hr {margin:30px 0 10px 0;}
+/* 자료제공 */
+.Provision p {float:right;font-size:16px;color:#979797;}
+/* bg_wrap */
+.bg_wrap {background-color: #f3f3f3;border-radius: 10px;padding:1px 0 20px 0;margin-top: 15px;}
+/* 숫자 매겨진 라인 */
+.detail p {margin-top: 25px;font-size:18px;line-height: 33px;}
+.detail p strong {color:#003668;display: block;margin-bottom: 5px;}
+/* img_wrap */
+ul.img_wrap {overflow:hidden;margin: 20px 60px 50px 60px;}
+ul.img_wrap.line_wrap {position: relative;}
+ul.img_wrap.line_wrap:after {content: "";display: inline-block;clear: both;position: absolute;background-color: #c5c5c5;height:1px;width: 85%;top:119px;left:54px;z-index: 1;}
+ul.img_wrap li {float:left;margin-right: 40px;width: 220px;text-align: center;}
+ul.img_wrap li:last-child {margin-right: 0;}
+ul.img_wrap li p {color:#232323;font-size:16px;font-weight:700;margin-top: 10px;line-height: 25px;}
+ul.img_wrap li p.circle {position: relative;padding-top: 30px;}
+ul.img_wrap li p.circle:before {content:"";display: inline-block;clear: both;position: absolute;left: 50%;margin-left: -5px; top:8px;width: 11px;height: 11px;border-radius: 50%;background-color: #003668;z-index: 2;}
+/* black_circle */
+.black_circle span {position: relative;display: block;padding-left: 15px;margin-left: 15px;color: #000000;}
+.black_circle span:before {content: "";display: inline-block;clear: both;position: absolute;width: 9px;height: 9px;background-color: #000;border-radius: 50%;left: 0;top:13px;}
+
+/* sub01_Typhoon 자연재난행동요령_태풍 */
+.section01 .box {border: 5px solid #f2f2f2;margin-top: 17px;position: relative;padding:48px 0;}
+.section01 .box:before {content: "";display: inline-block;clear: both;position: absolute;top: 50%;margin-top:-33px;left: 54px;width: 63px;height: 66px;}
+.section01 .box p {text-align: center;font-size:18px;color: #1b1b1b;line-height: 28px;}
+.sub01_Typhoon .section01 .tabmenu01 .box:before {background: url("../images/content/ico_typhoon01.jpg")no-repeat;}
+.sub01_Typhoon .section01 .tabmenu02 .box:before {background: url("../images/content/ico_typhoon02.jpg")no-repeat;}
+.sub01_Typhoon .section01 .tabmenu03 .box:before {background: url("../images/content/ico_typhoon03.jpg")no-repeat;}
+.section02 ul.tablewrap li {width: 33%;height: 334px;}
+.sub01_Typhoon .section02 ul.tablewrap li p a {color: #003668;text-decoration: underline;}
+.sub01_Typhoon .section03 p {color: #000000;font-size:18px;font-weight: 700;line-height: 35px;}
+
+/* sub01_Earthquake 자연재난행동요령_지진 */
+.sub01_Earthquake .title_01 a {display: inline-block;float: right;color:#003668;font-size:16px;width: 175px;height: 31px;border:1px solid #003668;border-radius: 10px;line-height: 27px;text-align:center;}
+.sub01_Earthquake .title_01 a img {vertical-align: middle;margin-left: 5px;}
+.sub01_Earthquake .section01 .tabmenu03 ul.ico_wrap {overflow:hidden;margin-top: 15px;}
+.sub01_Earthquake .section01 .tabmenu03 ul.ico_wrap li {float:left;text-align:center;width:25%;font-size:18px;color:#303030;}
+.sub01_Earthquake .section01 .tabmenu03 ul.ico_wrap li .textarea strong{width:23px;height:23px;display: inline-block;background-color:#3445b9;border-radius:50%;color:#fff;font-size:16px;line-height: 22px;}
+.sub01_Earthquake .section01 .tabmenu03 ul.ico_wrap li .textarea p {margin-top: 20px;margin-bottom: 15px;}
+.sub01_Earthquake .section03 ul.tablewrap li {width: 50%;height: 970px;}
+.sub01_Earthquake ul.tablewrap li p a {float: right;display: inline-block;width: 34px;height: 34px;margin:10px;}
+
+/* sub01_Volcano 자연재난행동요령_화산 */
+.sub01_Volcano ul.tablewrap li {width: 33%;height: 540px;}
+.sub01_Volcano ul.tablewrap li p span {display: block;color:#000000;font-size:16px;margin-bottom: 10px;}
+.sub01_Volcano ul.tablewrap li p span.smalltit {font-weight: 700;font-size:18px;margin-top: 22px;}
+.sub01_Volcano .section05 > div {margin-top: 25px;}
+.sub01_Volcano .section05 > div p {display: inline-block;color:#414141;border:1px solid #003668;border-radius: 5px;background-color:#f3f3f3;padding:10px 20px;font-weight: 700;line-height: 20px;}
+.sub01_Volcano .section05 > div span {display: block;margin-top: 10px;font-size:18px;color:#000000;line-height: 30px;font-weight: 700;}
+
+/* sub01_Wind */
+.sub01_Wind .section01 p {color:#000000;font-size:18px;font-weight: 700;line-height: 40px;}
+.sub01_Wind .section02 p {color:#000000;font-size:18px;font-weight: 700;line-height: 40px;}
+.sub01_Wind .section02 p span {display: inline-block; font-weight: 500;}
+.sub01_Wind .section03 .faqline {border-top:2px solid #000000;}
+.sub01_Wind .section03 .faqline p {border-bottom:1px solid #626262;height: 68px;line-height: 68px;font-size:18px;font-weight: 700;color: #262626;}
+.sub01_Wind .section03 .faqline span {background-color: #f5f5f5;font-size: 18px; display: block;height: 68px;border-bottom:1px solid #626262;line-height: 68px;}
+.sub01_Wind .section03 .faqline p,
+.sub01_Wind .section03 .faqline span {position: relative;padding-left: 70px;}
+.sub01_Wind .section03 .faqline p:before,
+.sub01_Wind .section03 .faqline span:before {content: "";display: inline-block;clear: both;position: absolute;top:14px;left:20px;width: 38px;height: 38px;}
+.sub01_Wind .section03 .faqline p:before {background: url("../images/content/ico_faqtitle.gif")no-repeat;}
+.sub01_Wind .section03 .faqline span:before {background: url("../images/content/ico_faqcont.gif")no-repeat;}
+
+/* sub02_Space 사회재난행동요령_인공우주물체추락 */
+.sub01_Space .detail p {margin-top: 0;}
+
+/* 국민행동요령 동영상 */
+#videoTitle{line-height:32px}
+#videoLink{display:block;position:relative;width:480px;height:320px;cursor:pointer}
+.play_img{position:absolute;top:128px;left:208px;}
