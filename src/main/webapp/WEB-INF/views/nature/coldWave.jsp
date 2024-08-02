@@ -536,7 +536,7 @@ function agobeforeView_onclick() {
 </div>
 
 <!-- Footer -->
-<!-- <div id="footer_include" data-include="/idsiSFK/neo/sfk/include/work_footer.html"></div> -->
+<!-- <div id="footer_include" data-include="/WEB-INF/views/footer.jsp"></div> -->
 </body>
 </html>
 <!-- 웹 접근성 조치 -->
