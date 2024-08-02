@@ -5,12 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.pcwk.ehr.cmn.PLog;
+
 @Controller
 @RequestMapping("nature")
-public class NatureController {
+public class NatureController implements PLog {
+	
+	
 
 	public NatureController() {
-		
+		log.debug("NatureController");
 	}
 	
 	@GetMapping("natureMain.do")
