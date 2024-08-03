@@ -5,7 +5,7 @@
 <html lang ="ko">
 <head>
 <meta charset="UTF-8">
-<title>자연재난행동요령</title>
+<title>사회재난행동요령</title>
 <link href="/ehr/resources/css/common.css"  rel="stylesheet"/>
 <link href="/ehr/resources/css/layout2.css" rel="stylesheet" />
 <link href="/ehr/resources/css/layout.css" rel="stylesheet"/>

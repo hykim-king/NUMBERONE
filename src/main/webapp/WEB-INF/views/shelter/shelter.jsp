@@ -27,7 +27,7 @@
 <%-- jquery --%>
 <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
 <%-- common.js --%>
-<script src="${CP}/resources/js/common.js"></script> 
+<script src="${CP}/resources/js/common.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
