@@ -17,7 +17,24 @@
     <!-- annotation 설정 
     base-package : com.pcwk.ehr 하위 모든것들을 읽겠다.
     -->
-    
+    <!-- sqlSessionTemplate -->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+      <!-- mybatis-config.xml, mapper*.xml파일  -->
+      <constructor-arg index="0" ref="sqlSessionFactoryBean"></constructor-arg>
+    </bean>
+    <!-- 
+         mybatis-config.xml
+         mapper: user.xml, board.xml 
+     -->        
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+       <!-- db연결 -->
+       <property name="dataSource" ref="dataSource"/>
+       
+       <!--  mybatis-config.xml 위치-->
+       <property name="configLocation" value="classpath:mybatis-config.xml"/>
+       <!-- mapper파일 : mapper/**/*.xml -->
+       <property name="mapperLocations" value="classpath:mapper/**/*.xml"></property>
+    </bean>     
    
 
         

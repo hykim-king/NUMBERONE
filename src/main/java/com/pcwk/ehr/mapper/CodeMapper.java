@@ -1,4 +1,4 @@
-package com.pcwk.ehr.code.mapper;
+package com.pcwk.ehr.mapper;
 
 import java.sql.SQLException;
 import java.util.List;
