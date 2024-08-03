@@ -38,6 +38,16 @@ public class CodeMapperTest implements PLog{
 	Code code;
 	ArrayList<String> list;
 	
+	@Test
+	public void doRetrieveIn() throws SQLException{
+		List<Code> codeList = codeMapper.doRetrieveIn(list);
+		
+		for(Code vo : codeList) {
+			log.debug(vo);
+		}
+		
+	}
+	
 	@Before
 	public void setUp() throws Exception {
 		log.debug("┌─────────────────────────────────────────────────────────┐");
@@ -59,7 +69,7 @@ public class CodeMapperTest implements PLog{
 		log.debug("└─────────────────────────────────────────────────────────┘");
 		
 	}
-	
+	@Ignore
 	@Test
 	public void doRetrieve() throws SQLException{
 		code.setMstCode("SHELTER_DIV");
