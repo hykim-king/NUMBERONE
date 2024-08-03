@@ -1,7 +1,16 @@
 package com.pcwk.ehr.mapper;
 
-import com.pcwk.ehr.cmn.DTO;
+import java.sql.SQLException;
+import java.util.List;
 
-public class LocationMapper extends DTO {
+import org.apache.ibatis.annotations.Mapper;
 
+import com.pcwk.ehr.cmn.WorkDiv;
+import com.pcwk.ehr.location.domain.Location;
+
+@Mapper
+public interface LocationMapper extends WorkDiv<Location> {
+
+	List<Location> doRetrieveIn(List search) throws SQLException;
+	
 }
