@@ -9,6 +9,17 @@
         <result column="seq" property="seq"/>
     </resultMap>
 
+    <select id="doSelectOne" parameterType ="Code" resultMap = "codeResultMap">
+    SELECT
+	    mst_code as mstCode,
+	    det_code as detCode,
+	    det_code_nm as detNm
+	FROM
+	    code
+	WHERE mst_code = #{mstCode}
+	  AND det_code = #{detCode}
+    
+    </select>
 
     <select id="doRetrieve" parameterType="Code" resultMap ="codeResultMap">
     
