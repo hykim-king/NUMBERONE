@@ -9,6 +9,6 @@
     </settings>
   
     <typeAliases>
-       
+       <typeAlias alias="Code" type="com.pcwk.ehr.code.domain.Code" />
     </typeAliases>
  </configuration>

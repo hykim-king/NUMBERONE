@@ -2,7 +2,9 @@ package com.pcwk.ehr.code.mapper;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -58,7 +60,17 @@ public class CodeMapperTest implements PLog{
 		
 	}
 	
-	//@Ignore
+	@Test
+	public void doRetrieve() throws SQLException{
+		code.setMstCode("SHELTER_DIV");
+		List<Code> codeList = codeMapper.doRetrieve(code);
+		for(Code vo : codeList) {
+			log.debug(vo);
+		}
+		
+	}
+	
+	@Ignore
 	@Test
 	public void beans() {
 		
