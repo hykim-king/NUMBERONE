@@ -11,6 +11,6 @@ import com.pcwk.ehr.location.domain.Location;
 @Mapper
 public interface LocationMapper extends WorkDiv<Location> {
 
-	List<Location> doRetrieveIn(List search) throws SQLException;
+	List<Location> sidoRetrieve() throws SQLException;
 	
 }

@@ -48,5 +48,4 @@ public interface WorkDiv<T> {
 	 */
 	int doDelete(T inVO) throws SQLException;
 	
-	
 }

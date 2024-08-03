@@ -37,7 +37,10 @@ public class LocationServiceImpl implements LocationService, PLog {
 	@Override
 	public List<Location> doRetrieve(DTO search) throws SQLException {
 		log.debug("1. param :" + search);
-		return this.locationMapper.doRetrieve(search);
+		
+		List<Location> list = this.locationMapper.doRetrieve(search);
+		
+		return list;
 	}
 
 	@Override
@@ -50,6 +53,15 @@ public class LocationServiceImpl implements LocationService, PLog {
 	public int doDelete(Location inVO) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<Location> sidoRetrieve() throws SQLException {
+		log.debug("1. param :");
+		
+		List<Location> list = this.locationMapper.sidoRetrieve();
+		
+		return list;
 	}
 
 }

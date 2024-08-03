@@ -2,9 +2,14 @@ package com.pcwk.ehr.location;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -14,6 +19,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.cmn.Search;
+import com.pcwk.ehr.location.domain.Location;
 import com.pcwk.ehr.mapper.LocationMapper;
 
 @RunWith(SpringRunner.class) // 스프링 컨텍스트 프레임워크의 JUnit확장기능 지정
@@ -28,14 +35,40 @@ public class LocationTest implements PLog{
 	@Autowired
 	LocationMapper locationMapper;
 	
+	Location location;
+	ArrayList<String> list;
+	
+	Search search;
+	
 	@Before
 	public void setUp() throws Exception {
+		log.debug("┌──────────────────────────────────────────────┐");
+		log.debug("│ setUp()                                      │");
+		log.debug("└──────────────────────────────────────────────┘");
+		
+		location = new Location();
+		list = new ArrayList<String>();
+		
+		search = new Search();
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		log.debug("┌──────────────────────────────────────────────┐");
+		log.debug("│ tearDown()                                   │");
+		log.debug("└──────────────────────────────────────────────┘");
 	}
-
+	
+	@Test
+	public void sidoRetrieve() throws SQLException {
+		
+		List<Location> list = locationMapper.sidoRetrieve();
+		for(Location vo :list) {
+			log.debug(vo);
+		}
+	}
+	
+	@Ignore
 	@Test
 	public void beans() {
 		log.debug("┌──────────────────────────────────────────────┐");
