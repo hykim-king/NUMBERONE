@@ -32,9 +32,10 @@ public class CodeServiceImpl implements CodeService, PLog {
 
 	@Override
 	public Code doSelectOne(Code inVO) throws SQLException {
+	
 		
 		Code outVO = codeMapper.doSelectOne(inVO);
-		
+		log.debug(outVO);
 		return outVO;
 	}
 
