@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.cmn.WorkDiv;
-import com.pcwk.ehr.user.domain.Member;
+import com.pcwk.ehr.member.domain.Member;
 
 
 @Mapper
