@@ -194,12 +194,11 @@
 <body>
     <div id="headerMenu">
         <ul>
-            <li><a href="http://localhost:8080/ehr/template/login.do">로그인</a></li>
-            <li><a href="#">회원가입</a></li>
+            <li><a href="http://localhost:8080/ehr/member/signInUp.do">로그인 / 회원가입</a></li>
         </ul>
     </div>
     <div>
-        <a href="http://localhost:8080/ehr/template/index.do"><img src="/ehr/resources/img/logo1.png" alt="logo" id="logo"></a>
+        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/img/logo1.png" alt="logo" id="logo"></a>
     </div>
 
     <div id="nav">
@@ -217,8 +216,8 @@
                        
                         <ul>
                             <li><a href="#">재난 문자</a></li>
-                            <li><a href="http://localhost:8080/ehr/template/dataChart.do">발생 건수 그래프</a></li>
-                            <li><a href="#">지역 통계 그래프</a></li>
+                            <li><a href="#">전국 통계 그래프</a></li>
+                            <li><a href="#">지역 재난 그래프</a></li>
                         </ul>
                     </li>
 
@@ -288,7 +287,7 @@
     createHoverEffect("gnbWrap2", "navMenu2");
     createHoverEffect("gnbWrap3", "navMenu3");
     createHoverEffect("gnbWrap4", "navMenu4");
-	  
+      
     </script>
 </body>
 </html>
