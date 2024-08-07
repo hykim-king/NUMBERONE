@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.ehr.mapper.BoardMapper">
+
+    <!-- 조회 수 증가 -->
+    <update id="readCntUpdate" parameterType="Board">
+        UPDATE C##NUMBERONE.BOARD
+        SET READ_CNT = NVL(READ_CNT, 0) + 1
+        WHERE BOARD_NO = #{boardNo}
+        AND   REG_ID <![CDATA[ <>  #{regId} ]]>  
+    </update>
+    
+    <!-- ASK_CNT 증가 -->
+   <update id="askCntUpdate" parameterType="Board">
+        UPDATE C##NUMBERONE.BOARD
+           SET ask_cnt = NVL(ASK_CNT, 0) + 1
+         WHERE BOARD_NO = #{boardNo}
+   </update>
+ 
+    <!-- 최신 게시판 순번순으로 조회 -->
+    <select id="getLatestBoardNo" parameterType="Board" resultType="int">
+        SELECT NVL(MAX(BOARD_NO), 0) 
+        FROM C##NUMBERONE.BOARD
+    </select> 
+    
+    <!-- 게시물 대량 저장 -->
+    <insert id="multipleSave" parameterType="Board">
+        INSERT INTO C##NUMBERONE.BOARD (
+            BOARD_NO,
+            REG_ID,
+            TITLE,
+            CONTENTS,
+            ASK_CNT,
+            READ_CNT,
+            REG_DT,
+            MOD_DT
+        )
+        SELECT ROWNUM,
+               'USER' || LPAD(ROWNUM, 4, '0'),
+               '제목 ' || LPAD(ROWNUM, 7, '0'),
+               '내용 ' || LPAD(ROWNUM, 7, '0'),
+               0,
+               0,
+               SYSDATE - ROWNUM / 24,
+               SYSDATE - ROWNUM / 24
+        FROM DUAL
+        CONNECT BY LEVEL <![CDATA[ <= 202 ]]>
+    </insert>
+
+    <!-- 검색 조건에 따른 게시물 조회 -->
+    <sql id="whereDoRetrieve">
+        <choose>
+            <when test="searchDiv != null and searchDiv == '10'">
+                AND TITLE LIKE #{searchWord} || '%'
+            </when>
+            <when test="searchDiv != null and searchDiv == '20'">
+                AND CONTENTS LIKE #{searchWord} || '%'
+            </when>
+            <when test="searchDiv != null and searchDiv == '30'">
+                AND (TITLE LIKE #{searchWord} || '%'
+                OR CONTENTS LIKE #{searchWord} || '%')
+            </when>
+        </choose>
+    </sql>
+
+    <!-- 게시물 목록 조회 -->
+    <select id="doRetrieve" parameterType="Search" resultType="Board">
+        SELECT A.*, B.*
+        FROM (
+            SELECT TT1.RNUM AS no,
+                   TT1.TITLE,
+                   TT1.READ_CNT as readCnt,
+                   TO_CHAR(TT1.MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
+                   TT1.BOARD_NO
+            FROM (
+                SELECT ROWNUM AS RNUM, T1.*
+                FROM (
+                    SELECT *
+                    FROM C##NUMBERONE.BOARD
+                    WHERE 1=1
+                    <include refid="whereDoRetrieve"/>
+                    ORDER BY MOD_DT DESC
+                ) T1
+                WHERE ROWNUM <![CDATA[ <= (#{pageSize} * (#{pageNo} - 1) + #{pageSize}) ]]>
+            ) TT1
+            WHERE TT1.RNUM >= (#{pageSize} * (#{pageNo} - 1) + 1)
+        ) A
+        CROSS JOIN (
+            SELECT COUNT(*) totalCnt
+            FROM C##NUMBERONE.BOARD
+            WHERE 1=1
+            <include refid="whereDoRetrieve"/>
+        ) B
+    </select>
+
+    <!-- 게시물 수정 -->
+    <update id="doUpdate" parameterType="Board">
+        UPDATE C##NUMBERONE.BOARD
+        SET TITLE = #{title},
+            CONTENTS = #{contents},
+            MOD_DT = SYSDATE
+        WHERE BOARD_NO = #{boardNo}
+    </update>
+
+    <!-- 특정 게시물 조회 -->
+    <select id="doSelectOne" parameterType="Board" resultType="Board">
+        SELECT
+            BOARD_NO as boardNo,
+            TITLE as title,
+            CONTENTS as contents,
+            READ_CNT as readCnt,
+            REG_ID as regId,
+            TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
+            TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
+        FROM C##NUMBERONE.BOARD
+        WHERE BOARD_NO = #{boardNo}
+    </select>
+
+    <!-- 게시물 삭제 -->
+    <delete id="doDelete" parameterType="Board">
+        DELETE FROM C##NUMBERONE.BOARD
+        WHERE BOARD_NO = #{boardNo}
+    </delete>
+
+    <!-- 전체 게시물 삭제 -->
+    <delete id="deleteAll">
+        DELETE FROM C##NUMBERONE.BOARD
+    </delete>
+
+    <!-- 게시물 저장 -->
+    <insert id="doSave" parameterType="Board">
+        INSERT INTO C##NUMBERONE.BOARD (
+            BOARD_NO,
+            REG_ID,
+            TITLE,
+            CONTENTS,
+            ASK_CNT,
+            READ_CNT,
+            REG_DT,
+            MOD_DT
+        ) VALUES (
+            #{boardNo},
+            #{regId},
+            #{title},
+            #{contents},
+            0,
+            0,
+            SYSDATE,
+            SYSDATE
+        )
+    </insert>
+
+</mapper>
