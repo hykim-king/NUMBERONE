@@ -4,7 +4,7 @@
 
     
 
-    <select id="getMessageAreas" parameterType ="MessageArea" resultType = "String">
+    <select id="getMessageAreas" parameterType ="Integer" resultType = "String">
      select LISTAGG(tt1.messageAreaNm,', ') WITHIN GROUP (ORDER BY tt1.messageAreaNm) AS messageareanm  
        from   (select t1.area_code,
                Trim(t2.sido || ' ' ||NVL(t2.sigungu,'') || ' ' ||  NVL(t2.eupmyeondong,'')) as messageAreaNm

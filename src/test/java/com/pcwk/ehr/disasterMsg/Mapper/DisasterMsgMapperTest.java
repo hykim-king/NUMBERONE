@@ -1,4 +1,4 @@
-package com.pcwk.ehr.disasterMsg;
+package com.pcwk.ehr.disasterMsg.Mapper;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,7 +49,7 @@ public class DisasterMsgMapperTest implements PLog{
 	@Before
 	public void setUp() throws Exception {
 		disasterMsg = new DisasterMsg();
-		disasterMsg.setMessageSeq(214429);
+		disasterMsg.setMessageSeq(211111);
 		
 		condition = new StatisticsCondition();
 		condition.setStartDate("2024/01/01");
@@ -110,7 +110,6 @@ public class DisasterMsgMapperTest implements PLog{
 	}
 	
 	
-	@Ignore
 	@Test
 	public void doSelectOneTest() throws SQLException {
 		DisasterMsg outVO=disasterMsgMapper.doSelectOne(disasterMsg);

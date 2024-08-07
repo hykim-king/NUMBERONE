@@ -10,6 +10,6 @@ import com.pcwk.ehr.messageArea.domain.MessageArea;
 @Mapper
 public interface MessageAreaMapper extends WorkDiv<MessageArea> {
 	
-	public String getMessageAreas (MessageArea messageArea) throws SQLException;
+	public String getMessageAreas (int messageArea) throws SQLException;
 
 }

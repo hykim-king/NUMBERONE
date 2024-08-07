@@ -1,4 +1,4 @@
-package com.pcwk.ehr.messageArea.mapper;
+package com.pcwk.ehr.disasterMsg.service;
 
 import static org.junit.Assert.*;
 
@@ -17,28 +17,26 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.pcwk.ehr.cmn.PLog;
-import com.pcwk.ehr.mapper.DisasterMsgMapper;
-import com.pcwk.ehr.mapper.MessageAreaMapper;
-import com.pcwk.ehr.messageArea.domain.MessageArea;
+import com.pcwk.ehr.disasterMsg.domain.DisasterMsg;
 
 @RunWith(SpringRunner.class) //스프링 컨텍스트 프레임워크의 JUnit확장기능 지정
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
                                    "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" 		
 })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) //메소드 수행 순서: method ASCENDING ex)a~z
-public class MessageAreaMapperTest implements PLog{
+public class DisasterMsgServiceImplTest implements PLog {
 	
 	@Autowired
 	ApplicationContext context;
 	
 	@Autowired
-	MessageAreaMapper messageAreaMapper;
+	DisasterMsgService disasterMsgService;
     
-	MessageArea messageArea;
+	DisasterMsg msg;
 	@Before
 	public void setUp() throws Exception {
-		messageArea=new MessageArea();
-		messageArea.setMessageSeq(216994);
+		msg= new DisasterMsg();
+		msg.setMessageSeq(216990);
 	}
 
 	@After
@@ -46,17 +44,18 @@ public class MessageAreaMapperTest implements PLog{
 	}
     
 	@Test
-	public void getAreaNmTest() throws SQLException {
-		String areaNm =messageAreaMapper.getMessageAreas(216994);
-		log.debug(areaNm);
-		assertEquals("경상남도 창원시 마산합포구, 경상남도 창원시 마산회원구, 경상남도 창원시 성산구, 경상남도 창원시 의창구, 경상남도 창원시 진해구", areaNm);
+	public void doSelectOneWithDetails() throws SQLException {
+		log.debug(msg);
+		DisasterMsg outVO =disasterMsgService.doSelectOneWithDetails(msg);
+	    log.debug(outVO);
 	}
 	
 	@Ignore
 	@Test
 	public void beans() {
+		assertNotNull(disasterMsgService);
 		assertNotNull(context);
-		assertNotNull(messageAreaMapper);
+		
 	}
 
 }
