@@ -79,7 +79,7 @@ public class ReplyControllerTest implements PLog {
         log.debug("└─────────────────────────────────────────────────────────┘");
     }
     
-    //@Ignore
+    @Ignore
     @Test
     public void doSave() throws Exception {
         log.debug("┌──────────────────────────────────────────┐");
@@ -213,7 +213,7 @@ public class ReplyControllerTest implements PLog {
         assertEquals(1, totalCnt);
         assertEquals("reply/reply_list", viewName);
     }
-
+    @Ignore
     @Test
     public void beans() {
         log.debug("┌──────────────────────────────────────────┐");

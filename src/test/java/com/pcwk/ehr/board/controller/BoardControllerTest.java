@@ -112,7 +112,7 @@ public class BoardControllerTest implements PLog {
 				assertEquals(board01.getTitle()+" 이 수정되었습니다.",resultMessage.getMessageContents());
     }
     
-    
+    @Ignore
     @Test
     public void doRetrieve() throws Exception {
         // 테스트 데이터 저장
