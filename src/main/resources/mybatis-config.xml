@@ -15,5 +15,9 @@
         <typeAlias alias="Member"   type="com.pcwk.ehr.member.domain.Member"/>
         <typeAlias alias="Reply" type="com.pcwk.ehr.reply.domain.Reply"/>
         <typeAlias alias="Board" type="com.pcwk.ehr.board.domain.Board" />
+        <typeAlias alias="DisasterMsg" type="com.pcwk.ehr.disasterMsg.domain.DisasterMsg"/>
+        <typeAlias alias="MessageArea" type ="com.pcwk.ehr.messageArea.domain.MessageArea"/>
+        <typeAlias alias="StatisticsCondition" type = "com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition"/>
+
     </typeAliases>
  </configuration>
