@@ -14,7 +14,7 @@
     
     </select>
 
-    <insert id="doSave" parameterType="MessageArea">
+    <insert id="doSaveMessageArea" parameterType="MessageArea">
     
     		<![CDATA[
 				BEGIN

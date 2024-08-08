@@ -32,11 +32,8 @@
 <title>Insert title here</title>
 
 <script>
-
 function sigunguSet(){
     
-	
-	
     let locCode = $("#sido option:selected").val();
     let type = "GET";
     let url = "/ehr/location/location_sigungu.do";
@@ -48,26 +45,62 @@ function sigunguSet(){
     if("" === locCode){
     	 $("#sigungu").empty();
     	 $("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
+    	 $("#eupmyeondong").empty();
+         $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
+    	 
     }else{
     
 	    let params = {
 	         "locCode" : locCode
-	         
 	       };
 	    
-	     PClass.pAjax(url,params,dataType,type,async,function(data){
-	         
-	         
-	   	   var optionSigunguData = JSON.parse(data);
-	    
-	       optionSigunguData.forEach(function(item){
-	    	    $("#sigungu").append('<option value="' + item.locCode + '">' + item.sigungu + '</option>');         
-	    });
-     
-   }); 
+		     PClass.pAjax(url,params,dataType,type,async,function(data){
+		         
+		   	   var optionSigunguData = JSON.parse(data);
+		    
+		       optionSigunguData.forEach(function(item){
+		    	    $("#sigungu").append('<option value="' + item.locCode + '">' + item.sigungu + '</option>');         
+		    });
+	     
+	   }); 
     
     }
-}
+}//--sigunguSet end
+
+function eupmyeondongSet() {
+	
+	let locCode = $("#sigungu option:selected").val();
+    let type = "GET";
+    let url = "/ehr/location/location_eupmyeondong.do";
+    let async = "true";
+    let dataType = "html";
+    
+    console.log("locCode:" + locCode);
+	
+    if("" === locCode){
+    	$("#eupmyeondong").empty();
+        $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
+   }else{
+   
+       let params = {
+            "locCode" : locCode
+          };
+       
+            PClass.pAjax(url,params,dataType,type,async,function(data){
+                
+              var optionEupmyeondongData = JSON.parse(data);
+           
+              optionEupmyeondongData.forEach(function(item){
+                   $("#eupmyeondong").append('<option value="' + item.locCode + '">' + item.eupmyeondong + '</option>');         
+           });
+        
+      }); 
+   
+   }
+	
+}//--eupmyeondongSet end
+
+
 </script>
 </head>
 <body>
@@ -96,7 +129,7 @@ function sigunguSet(){
                         <option value="">시도선택</option>
                     </select>
 
-                    <select name="sigungu" class="form-select" id="sigungu">
+                    <select name="sigungu" class="form-select" id="sigungu" onchange="eupmyeondongSet()">
                         <option value="">시군구선택</option>
                     </select>
 
@@ -104,7 +137,7 @@ function sigunguSet(){
                         <option value="">읍면동선택</option>
                     </select>
                 </div>
-                <button type="button" class="btn btn-primary">검색</button>
+                <button type="button" class="btn btn-primary" id="search">검색</button>
             </form>
         </div>
         
@@ -189,25 +222,23 @@ $(document).ready(function(){
 		
 		var optionSidoData = JSON.parse('${sidoSearch}');
 		
-		
-		
 		optionSidoData.forEach(function(item){
 			$("#sido").append('<option value="' + item.locCode + '">' + item.sido + '</option>');
-			
 
 		});
 		
-			
 	}
 	sidoSet();
 	
-	/* if ("" == "sido") {
-        $("#sido").val(""); //선택 상태 초기화
-    } */
-});
-
+	$("#search").on("click",function(event){
+		//이벤트 버블링 방지
+        event.preventDefault();
+        console.log("search click");
+        /* doRetrieve(1); */ 
+	});
+	
+});//--document end
 
 </script>
-
 </body>
 </html>

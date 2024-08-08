@@ -35,12 +35,6 @@ public class LocationController implements PLog{
 		log.debug("└───────────────────────────────────────┘");
 	}
 	
-//	@GetMapping("shelter.do")
-//	public String test() {
-//		String viewName = "shelter/shelter";
-//		
-//		return viewName;
-//	}
 	
 	@RequestMapping(value ="/location.do"
 				,method = RequestMethod.GET)
@@ -79,6 +73,27 @@ public class LocationController implements PLog{
 		
 		return jsonString;
 	}
+	
+	@RequestMapping(value = "/location_eupmyeondong.do"
+			         ,method = RequestMethod.GET,
+			         produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String eupmyeondongRetrieve(Long locCode) throws SQLException {
+		log.debug("┌──────────────────────────────────────────────────┐");
+		log.debug("│ eupmyeondongRetrieve()                           │");
+		log.debug("└──────────────────────────────────────────────────┘");
+		
+		String jsonString = "";
+		Location inVO2 = new Location();
+		inVO2.setLocCode(locCode);
+		List<Location> eupmyeondongSearch = this.locationService.eupmyeondongRetrieve(inVO2);
+		
+		jsonString = new Gson().toJson(eupmyeondongSearch);
+		
+		return jsonString;
+		
+	}
+	
 	
 	
 	
