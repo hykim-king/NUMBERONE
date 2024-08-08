@@ -59,6 +59,38 @@ public class LocationTest implements PLog{
 		log.debug("└──────────────────────────────────────────────┘");
 	}
 	
+	
+	@Test
+	public void eupmyeondongRetrieve() throws SQLException {
+		
+		List<Location> inVO = locationMapper.sidoRetrieve();
+		
+		List<Location> inVO2 = locationMapper.sigunguRetrieve(inVO.get(0));
+		
+		List<Location> list = locationMapper.eupmyeondongRetrieve(inVO2.get(0));
+		for(Location vo : list) {
+			log.debug(vo);
+		}
+		assertEquals(list.get(0).getEupmyeondong(), "개포동");
+		
+		
+	}
+	
+	
+	@Test
+	public void sigunguRetrieve() throws SQLException {
+		
+		List<Location> inVO = locationMapper.sidoRetrieve();
+		
+		
+		List<Location> list = locationMapper.sigunguRetrieve(inVO.get(0));
+		for(Location vo : list) {
+			log.debug(vo);
+		}
+		assertEquals(list.get(0).getSigungu(), "강남구");
+	}
+	
+	
 	@Test
 	public void sidoRetrieve() throws SQLException {
 		

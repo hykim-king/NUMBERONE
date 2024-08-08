@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.code.domain.Code;
 import com.pcwk.ehr.location.domain.Location;
 import com.pcwk.ehr.mapper.LocationMapper;
 
@@ -61,6 +62,28 @@ public class LocationServiceImpl implements LocationService, PLog {
 		
 		List<Location> list = this.locationMapper.sidoRetrieve();
 		
+		return list;
+	}
+
+	@Override
+	public List<Location> sigunguRetrieve(Location inVO) throws SQLException {
+		log.debug("1. param :" + inVO);
+		
+		List<Location> list = this.locationMapper.sigunguRetrieve((Location) inVO);
+		for (Location vo : list) {
+			log.debug(vo);
+		}
+		return list;
+	}
+
+	@Override
+	public List<Location> eupmyeondongRetrieve(Location inVO2) throws SQLException {
+		log.debug("1. param :" + inVO2);
+		
+		List<Location> list = locationMapper.eupmyeondongRetrieve((Location) inVO2);
+		for (Location vo : list) {
+			log.debug(vo);
+		}
 		return list;
 	}
 

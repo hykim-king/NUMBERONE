@@ -10,10 +10,20 @@
   
     <typeAliases>
         <typeAlias alias="Location" type="com.pcwk.ehr.location.domain.Location"/>
+        <typeAlias alias="Search" type="com.pcwk.ehr.cmn.Search"/>
         <typeAlias alias="Code"     type="com.pcwk.ehr.code.domain.Code"/>
         <typeAlias alias="Member"   type="com.pcwk.ehr.member.domain.Member"/>
+<<<<<<< HEAD
         <typeAlias alias="Login"    type="com.pcwk.ehr.login.domain.Login"/>
         
         
+=======
+        <typeAlias alias="Reply" type="com.pcwk.ehr.reply.domain.Reply"/>
+        <typeAlias alias="Board" type="com.pcwk.ehr.board.domain.Board" />
+        <typeAlias alias="DisasterMsg" type="com.pcwk.ehr.disasterMsg.domain.DisasterMsg"/>
+        <typeAlias alias="MessageArea" type ="com.pcwk.ehr.messageArea.domain.MessageArea"/>
+        <typeAlias alias="StatisticsCondition" type = "com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition"/>
+
+>>>>>>> 426f02107598e3dcaa22c6a63a2d1fe3d1a2c958
     </typeAliases>
  </configuration>
