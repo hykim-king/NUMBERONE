@@ -1,4 +1,4 @@
-package com.pcwk.ehr.main.controller;
+package com.pcwk.ehr.member.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.pcwk.ehr.cmn.PLog;
 
 @Controller
-@RequestMapping("main")
-public class mainController implements PLog{
-	   
+@RequestMapping("member")
+
+public class MemberController implements PLog{
 	
-		@GetMapping("/header.do")
-	   public String header() {
-	      String viewName = "main/header";
+
+	   @GetMapping("/signInUp.do")
+	   public String signInUp() {
+	      String viewName = "member/signInUp";
 	      
 	      log.debug("┌──────────────────────────────────────────┐");
 	      log.debug("│ viewName:"+viewName);                                 
@@ -23,20 +24,9 @@ public class mainController implements PLog{
 	      return viewName;
 	   }
 	   
-	   @GetMapping("/footer.do")
-	   public String footer() {
-	      String viewName = "main/footer";
-	      
-	      log.debug("┌──────────────────────────────────────────┐");
-	      log.debug("│ viewName:"+viewName);                                 
-	      log.debug("└──────────────────────────────────────────┘");
-	      
-	      return viewName;
-	   }
-	   
-	   @GetMapping("/index.do")
-	   public String index() {
-	      String viewName = "main/index";
+	   @GetMapping("/findIdPw.do")
+	   public String findIdPw() {
+	      String viewName = "member/findIdPw";
 	      
 	      log.debug("┌──────────────────────────────────────────┐");
 	      log.debug("│ viewName:"+viewName);                                 

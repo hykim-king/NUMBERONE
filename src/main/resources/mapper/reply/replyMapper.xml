@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.ehr.mapper.ReplyMapper">
+    
+    <!-- 최신 댓글 순번순으로 조회 -->
+    <select id="getLatestReplyNo" resultType="int">
+        SELECT NVL(MAX(REPLY_NO), 0) 
+        FROM C##NUMBERONE.REPLY
+    </select> 
+    
+    <!-- 전체 댓글 삭제(테스트용) -->
+    <delete id="deleteAll">
+        DELETE FROM C##NUMBERONE.REPLY
+    </delete>
+    
+    <!-- 댓글 저장 -->
+    <insert id="doSave" parameterType="Reply">
+        INSERT INTO C##NUMBERONE.REPLY (
+            REPLY_NO,
+            BOARD_NO,
+            REG_ID,
+            REPLY_CONTENTS,
+            PARENT_REPLY,
+            REG_DT,
+            MOD_DT
+        ) VALUES (
+            #{replyNo},
+            #{boardNo},
+            #{regId},
+            #{replyContents},
+            #{parentReply},
+            SYSDATE,
+            SYSDATE
+        )
+    </insert>
+    <!-- 댓글 조건 검색 
+    <sql id="whereReplyRetrieve">
+        <choose> 
+           <when test="searchDiv != null  and searchDiv == '10' ">
+               AND  BOARD_NO LIKE #{searchWord} || '%'
+           </when>
+           <when test="searchDiv != null  and searchDiv == '20' ">
+               AND  REG_ID LIKE #{searchWord} || '%'     
+           </when>
+           <when test="searchDiv != null  and searchDiv == '30' ">           
+               AND  title LIKE #{searchWord} || '%'
+           </when>
+           <when test="searchDiv != null  and searchDiv == '40' ">
+               AND  contents LIKE #{searchWord} || '%'
+           </when>    
+           <when test="searchDiv != null  and searchDiv == '50' ">
+              AND  ( title LIKE #{searchWord} || '%'
+               OR 
+               contents LIKE #{searchWord} || '%'
+               )
+           </when>                                  
+        </choose>
+ </sql> -->
+    
+    <!-- 특정 댓글 조회 -->
+    <select id="doSelectOne" parameterType="Reply" resultType="Reply">
+        SELECT
+            REPLY_NO as replyNo,
+            BOARD_NO as boardNo,
+            REG_ID as regId,
+            REPLY_CONTENTS as replyContents,
+            PARENT_REPLY as parentReply,
+            TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
+            TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
+        FROM C##NUMBERONE.REPLY
+        WHERE REPLY_NO = #{replyNo}
+    </select>
+
+    <!-- 댓글 수정 -->
+    <update id="doUpdate" parameterType="Reply">
+        UPDATE C##NUMBERONE.REPLY
+        SET REPLY_CONTENTS = #{replyContents},
+            PARENT_REPLY = #{parentReply},
+            MOD_DT = SYSDATE
+        WHERE REPLY_NO = #{replyNo}
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="doDelete" parameterType="Reply">
+        DELETE FROM C##NUMBERONE.REPLY
+        WHERE REPLY_NO = #{replyNo}
+    </delete>
+
+    <!-- 특정 게시물에 대한 모든 댓글 삭제 -->
+    <delete id="deleteByBoardNo" parameterType="Reply">
+        DELETE FROM C##NUMBERONE.REPLY
+        WHERE BOARD_NO = #{boardNo}
+    </delete>
+    
+    <!-- 댓글 전체 조회 -->
+    <select id="doRetrieve" parameterType="Search" resultType="Reply">
+    SELECT T1.*, T2.*
+    FROM (
+        SELECT ROWNUM AS rnum, A.*
+        FROM (
+            SELECT 
+                REPLY_NO as replyNo, 
+                BOARD_NO as boardNo,
+                REPLY_CONTENTS as replyContents, 
+                PARENT_REPLY as parentReply,  
+                TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
+                TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt 
+            FROM C##NUMBERONE.REPLY
+           <!--   <include refid="whereReplyRetrieve"/> -->           
+        ) A
+        WHERE ROWNUM <![CDATA[ <= ]]> #{pageSize} * (#{pageNo} - 1) + #{pageSize}
+        START WITH parentReply = 0
+        CONNECT BY PRIOR replyNo = parentReply
+        ORDER SIBLINGS BY replyNo
+    ) T1
+    JOIN (
+        SELECT COUNT(*) as totalCnt 
+        FROM C##NUMBERONE.REPLY
+       <!--  <include refid="whereReplyRetrieve"/> -->
+    ) T2 ON 1=1
+    WHERE T1.rnum <![CDATA[ >= ]]> #{pageSize} * (#{pageNo} - 1) + 1
+</select>
+
+    
+    
+</mapper>
