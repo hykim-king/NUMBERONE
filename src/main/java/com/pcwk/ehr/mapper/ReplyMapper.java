@@ -35,21 +35,7 @@ public interface ReplyMapper extends WorkDiv<Reply> {
      * @return 수정한 댓글
      * @throws SQLException
      */
-    //int deleteByBoardNo(Reply inVO) throws SQLException;
-    
-    /**
-     * 특정 게시물의 댓글 목록 조회
-     * @param inVO
-     * @return 댓글 목록
-     * @throws SQLException
-     */
-    //List<Reply> getRepliesByBoardNo(Reply inVO) throws SQLException;
-    
-    /**
-     * 최신 REPLY_NO 조회
-     * @return 최신 REPLY_NO
-     * @throws SQLException
-     */
+  
     List<Reply> doRetrieve(Search search) throws SQLException;
     
     /**
