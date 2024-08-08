@@ -26,11 +26,52 @@
 <link rel="stylesheet" href="${CP}/resources/css/bootstrap.css">
 <%-- jquery --%>
 <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
 <%-- common.js --%>
 <script src="${CP}/resources/js/common.js"></script>
 <title>Insert title here</title>
+
+<script>
+
+function sigunguSet(){
+    
+	
+	
+    let locCode = $("#sido option:selected").val();
+    let type = "GET";
+    let url = "/ehr/location/location_sigungu.do";
+    let async = "true";
+    let dataType = "html";
+    
+    console.log("locCode:" + locCode);
+    
+    if("" === locCode){
+    	 $("#sigungu").empty();
+    	 $("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
+    }else{
+    
+	    let params = {
+	         "locCode" : locCode
+	         
+	       };
+	    
+	     PClass.pAjax(url,params,dataType,type,async,function(data){
+	         
+	         
+	   	   var optionSigunguData = JSON.parse(data);
+	    
+	       optionSigunguData.forEach(function(item){
+	    	    $("#sigungu").append('<option value="' + item.locCode + '">' + item.sigungu + '</option>');         
+	    });
+     
+   }); 
+    
+    }
+}
+</script>
 </head>
 <body>
+    
     <div class="container-sm" id="content" style="display: block;">
         <div class="level1_titleWrap">
           <h2 class="level1_title">대피시설</h2>
@@ -49,18 +90,18 @@
         </div>
         
         <div class="container-sm">
-            <form class="">
+            <form action="#" name="locationForm" class="row g-2 align-items-right" id="locationForm">
                 <div class="row g-3">
-                    <select id="sido" class="form-select" title="시도선택" readonly="readonly" >
-                        <option value>시도선택</option>
+                    <select name="sido" class="form-select" id="sido" onchange="sigunguSet()">
+                        <option value="">시도선택</option>
                     </select>
 
-                    <select id="sigungu" class="form-select" title="시군구선택" readonly="readonly">
-                        <option value>시군구선택</option>
+                    <select name="sigungu" class="form-select" id="sigungu">
+                        <option value="">시군구선택</option>
                     </select>
 
-                    <select id="sbLawArea3" class="form-select" title="읍면동선택" readonly="readonly">
-                        <option value>읍면동선택</option>
+                    <select name="eupmyeondong" class="form-select" id="eupmyeondong">
+                        <option value="">읍면동선택</option>
                     </select>
                 </div>
                 <button type="button" class="btn btn-primary">검색</button>
@@ -139,5 +180,34 @@
 
     </div>
 <script src="${CP}/resources/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    console.log("document ready!");
+		
+	function sidoSet(){
+		
+		var optionSidoData = JSON.parse('${sidoSearch}');
+		
+		
+		
+		optionSidoData.forEach(function(item){
+			$("#sido").append('<option value="' + item.locCode + '">' + item.sido + '</option>');
+			
+
+		});
+		
+			
+	}
+	sidoSet();
+	
+	/* if ("" == "sido") {
+        $("#sido").val(""); //선택 상태 초기화
+    } */
+});
+
+
+</script>
+
 </body>
 </html>

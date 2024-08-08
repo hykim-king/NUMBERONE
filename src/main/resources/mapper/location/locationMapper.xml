@@ -2,12 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.LocationMapper">
 
-    <select id="sidoRetrieve" parameterType="Location" resultType="Location">
+    <select id="sidoRetrieve" resultType="Location">
          SELECT loc_code as locCode,
 		        sido as sido
 		  FROM location
 		  WHERE parent_loc_code is null
 		  ORDER BY loc_code ASC
     </select>
-
+    
+    <select id="sigunguRetrieve" parameterType="Location" resultType="Location">
+        SELECT loc_code as locCode,
+	           sigungu as sigungu,
+	           sido    as sido
+		  FROM location
+		  WHERE eupmyeondong is null
+		  AND sigungu is not null
+		  START WITH loc_code = #{locCode}
+		  CONNECT BY parent_loc_code = PRIOR loc_code
+		  ORDER SIBLINGS BY sigungu
+    </select>
+    
+    <select id="eupmyeondongRetrieve" parameterType="Location" resultType="Location">
+	    SELECT loc_code as locCode, 
+		       sido as sido,
+		       sigungu as sigungu,
+		       eupmyeondong as eupmyeondong
+		 FROM location
+		 WHERE eupmyeondong is not null
+		 START WITH loc_code = #{locCode}
+		 CONNECT BY  parent_loc_code = PRIOR loc_code
+		 ORDER SIBLINGS BY eupmyeondong
+    </select>
+    
 </mapper>

@@ -12,5 +12,9 @@ import com.pcwk.ehr.location.domain.Location;
 public interface LocationMapper extends WorkDiv<Location> {
 
 	List<Location> sidoRetrieve() throws SQLException;
- 
+	
+	List<Location> sigunguRetrieve(Location inVO) throws SQLException;
+	
+	List<Location> eupmyeondongRetrieve(Location inVO2) throws SQLException;
+	
 }
