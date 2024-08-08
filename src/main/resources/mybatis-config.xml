@@ -12,5 +12,8 @@
         <typeAlias alias="Location" type="com.pcwk.ehr.location.domain.Location"/>
         <typeAlias alias="Code"     type="com.pcwk.ehr.code.domain.Code"/>
         <typeAlias alias="Member"   type="com.pcwk.ehr.member.domain.Member"/>
+        <typeAlias alias="Login"    type="com.pcwk.ehr.login.domain.Login"/>
+        
+        
     </typeAliases>
  </configuration>

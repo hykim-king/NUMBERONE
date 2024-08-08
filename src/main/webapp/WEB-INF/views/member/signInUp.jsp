@@ -22,7 +22,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>login</title>
+<title>로그인/회원가입</title>
 <link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
 <style>
     * {
@@ -55,13 +55,15 @@
     .clearfix:after,.clearfix:before { content: ''; display: table; }
     .clearfix:after { clear: both; display: block; }
     a { color: inherit; text-decoration: none; }
+    
+    
     .login-wrap {
         width: 100%;
         margin: 0 auto;
         max-width: 525px;
         position: relative;
         top: 75px; 
-        box-shadow: 0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+       
     }
     .login-html {
         width: 100%;
@@ -89,6 +91,24 @@
         backface-visibility: hidden;
         transition: all .4s linear;
     }
+    
+    
+    
+	    
+	.login-wrap.signup-active {
+	    height: 800px; /* Sign Up을 선택할 때 높이를 증가시킴 */
+	}
+	
+	.login-html {
+	    transition: height 0.4s ease;
+	}
+	
+	.login-html.signup-active {
+	    height: 900px;
+	     
+	}
+    
+    
     .login-html .sign-in,
     .login-html .sign-up,
     .login-form .group .check {
@@ -219,7 +239,7 @@
     }
     
     
-    #idDuplicateCheck{
+    #idDuplicateCheck , #nicknameDuplicateCheck{
             display: inline-block;
             padding: 3px 6px;
             font-size: 12px;
@@ -235,6 +255,31 @@
     #idDuplicateCheck:hover{
         background-color: #134b70;
     }
+    
+    
+
+	select {
+	    width: 70%;
+	    padding: 13px 15px;
+	    border: none;
+	    border-radius: 25px;
+	    background: #E0E0E080;
+	    color: black;
+	    font-size: 15px;
+	    margin-bottom: 15px;
+	    cursor: pointer;
+	}
+	
+	select:focus {
+	    outline: none;
+	    background: #eeeeee;
+	}
+	
+	
+	option {
+	    background: #F5F5F5;
+	    color: black;
+	}
 </style>
 </head>
 <body>
@@ -244,7 +289,6 @@
     
     <section>
            <div class="login-wrap">
-             
               <div class="login-html">
                 <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
                 <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
@@ -252,7 +296,7 @@
                   <div class="sign-in-htm">
                     <div class="group">
                       <label for="member_id" class="label">아이디</label>
-                      <input id="usemember_idrId" type="text" class="input" name="member_id">
+                      <input id="member_id" type="text" class="input" name="member_id">
                     </div>
                     <div class="group">
                         <label for="password" class="label">비밀번호</label>
@@ -271,35 +315,52 @@
                     </div>
                   </div>
                   
-                  
-        
-                   <div class="sign-up-htm">
-			        <div class="group">
-			            <label for="userIdSignUp" class="label">아이디</label>
-			            <input id="userIdSignUp" type="text" class="input">
-			            <button id="idDuplicateCheck" type="button">아이디 중복 체크</button>
-			        </div>
-			        <div class="group">
-			            <label for="pass1" class="label">비밀번호</label>
-			            <input id="pass1" type="password" class="input" data-type="password">
-			        </div>
-			        <div class="group">
-			            <label for="pass2" class="label">비밀번호 재입력</label>
-			            <input id="pass2" type="password" class="input" data-type="password">
-			        </div>
-			        <div class="group">
-			            <label for="email" class="label">이메일</label>
-			            <input id="email" type="text" class="input">
-			        </div>
-			        <div class="group">
-			            <button id="doSave" class="button2" type="button">회원가입</button>
-			        </div>
-			    </div>
-
-                  
-    
+                  <div class="sign-up-htm">
+                    <div class="group">
+                        <label for="nameSignUp" class="label">이름</label>
+                        <input id="nameSignUp" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="nicknameSignUp" class="label">닉네임</label>
+                        <input id="nicknameSignUp" type="text" class="input">
+                        <button id="nicknameDuplicateCheck" type="button">닉네임 중복 체크</button>
+                    </div>
+                    <div class="group">
+                        <label for="userIdSignUp" class="label">아이디</label>
+                        <input id="userIdSignUp" type="text" class="input">
+                        <button id="idDuplicateCheck" type="button">아이디 중복 체크</button>
+                    </div>
+                    <div class="group">
+                        <label for="pass1" class="label">비밀번호</label>
+                        <input id="pass1" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <label for="pass2" class="label">비밀번호 재입력</label>
+                        <input id="pass2" type="password" class="input" data-type="password">
+                    </div>
+                    
+                    <div>
+                        <label  style="display:block; color:#9e9e9e; font-size:15px">위치 설정</label>
+                        <select id="city" name="city">
+                            <option value="">광역시도 선택</option>
+                            <option value="seoul">서울특별시</option>
+                        </select>
+                        
+                        <select id="district" name="district" disabled>
+                            <option value="">시군구 선택</option>
+                        </select>
+                        
+                        <select id="neighborhood" name="neighborhood" disabled>
+                            <option value="">읍면동 선택</option>
+                        </select>
+                    </div>
+                    
+                    <div class="group">
+                        <button id="doSave" class="button2" type="button">회원가입</button>
+                    </div>
                 </div>
-              </div>
+                </div>
+            </div>
             </div>
     </section>
 
@@ -307,23 +368,165 @@
    <script>
    
    document.addEventListener('DOMContentLoaded', (event) => {
-       const signInRadio = document.getElementById('tab-1');
-       const signUpRadio = document.getElementById('tab-2');
-       const loginHtml = document.querySelector('.login-html');
+	    const signInRadio = document.getElementById('tab-1');
+	    const signUpRadio = document.getElementById('tab-2');
+	    const loginWrap = document.querySelector('.login-wrap');
+	    const loginHtml = document.querySelector('.login-html');
 
-       signInRadio.addEventListener('change', () => {
-           loginHtml.classList.remove('white-background');
-       });
+	    signInRadio.addEventListener('change', () => {
+	        loginHtml.classList.remove('white-background', 'signup-active');
+	        loginWrap.classList.remove('signup-active');
+	    });
 
-       signUpRadio.addEventListener('change', () => {
-           loginHtml.classList.add('white-background');
+	    signUpRadio.addEventListener('change', () => {
+	        loginHtml.classList.add('white-background', 'signup-active');
+	        loginWrap.classList.add('signup-active');
+	    });
+	});
+   
+
+   $(document).ready(function(){
+       console.log("document ready!");
+       
+       let idDuplicatedClick = 0; // ID 중복 체크 클릭 여부 (1/0)
+       
+       // 아이디 중복 체크
+       $("#idDuplicateCheck").on("click", function(event){
+            event.preventDefault();
+            console.log("idDuplicateCheck click");      
+            idDuplicateCheck();
        });
+       
+       function idDuplicateCheck(){
+           console.log("idDuplicateCheck()");
+
+           let userIdInput = $("#userIdSignUp").val();
+           
+           if (!userIdInput) {
+               alert("아이디를 입력 하세요.");
+               $("#userIdSignUp").focus();
+               return;
+           }
+           
+           // 비동기 통신
+           let url = "/ehr/signup/idDuplicateCheck.do";
+           let params = { 
+               "userId": userIdInput
+           };
+             
+           $.ajax({
+               url: url,
+               type: "GET",
+               dataType: "json",
+               data: params,
+               success: function(data) {
+                   if (data) {
+                       try {
+                           console.log("message.messagId:" + data.messagId);
+                           console.log("message.messageContents:" + data.messageContents);
+                           
+                           if (data.messagId === 1) { 
+                               alert(data.messageContents); // 사용불가
+                               $("#userIdSignUp").focus();
+                               idDuplicatedClick = 0;
+                           } else { // 사용가능
+                               alert(data.messageContents);
+                               idDuplicatedClick = 1;
+                           }  
+                       } catch (e) {
+                           console.error("data가 null 혹은 undefined 입니다.", e);
+                           alert("data가 null 혹은 undefined 입니다.");     
+                       }           
+                   }
+               }
+           });
+       }
+       
+       // 등록: doSave
+       $("#doSave").on("click", function(event){
+           event.preventDefault();         
+           console.log("doSave click");        
+           doSave();
+       });
+       
+       function doSave(){
+           console.log("doSave()");
+           
+           // 필수 입력 처리
+           if (!$("#userIdSignUp").val()) {
+               alert("아이디를 입력 하세요.");
+               $("#userIdSignUp").focus();
+               return;
+           }
+
+           if (idDuplicatedClick === 0) {
+               alert("아이디 중복 체크를 하세요.");
+               $("#idDuplicateCheck").focus();
+               return;
+           }        
+           
+           if (!$("#nameSignUp").val()) {
+               alert("이름을 입력 하세요.");
+               $("#nameSignUp").focus();
+               return;
+           }
+    
+           if (!$("#pass1").val()) {
+               alert("비밀번호를 입력 하세요.");
+               $("#pass1").focus();
+               return;
+           }        
+           
+           if (!$("#pass2").val()) {
+               alert("확인 비밀번호를 입력 하세요.");
+               $("#pass2").focus();
+               return;
+           }         
+
+           if ($("#pass2").val() !== $("#pass1").val()) {
+               alert("비밀번호가 서로 다릅니다.");
+               $("#pass2").focus();
+               return;
+           } 
+           
+           // 비동기 통신
+           let url = "/ehr/signup/doSave.do";
+           let params = { 
+               "userId": $("#userIdSignUp").val(),
+               "name": $("#nameSignUp").val(),
+               "password": $("#pass1").val()
+           };        
+           
+           if (!confirm("등록 하시겠습니까?")) return;
+           
+           $.ajax({
+               url: url,
+               type: "POST",
+               dataType: "json",
+               data: params,
+               success: function(data) {
+                   if (data) {
+                       try {
+                           if (data.messagId === 1) {
+                               alert(data.messageContents); // 등록 실패
+                           } else { 
+                               alert(data.messageContents); // 등록 성공
+                               location.href = "/ehr/main/index.do";
+                           }  
+                       } catch (e) {
+                           console.error("data가 null 혹은 undefined 입니다.", e);
+                           alert("data가 null 혹은 undefined 입니다.");     
+                       }           
+                   }
+               }
+           });
+       }
    });
-
+   
    
    
    </script>
     
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
