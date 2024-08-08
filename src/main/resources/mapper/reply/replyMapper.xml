@@ -34,7 +34,30 @@
             SYSDATE
         )
     </insert>
-
+    <!-- 댓글 조건 검색 
+    <sql id="whereReplyRetrieve">
+        <choose> 
+           <when test="searchDiv != null  and searchDiv == '10' ">
+               AND  BOARD_NO LIKE #{searchWord} || '%'
+           </when>
+           <when test="searchDiv != null  and searchDiv == '20' ">
+               AND  REG_ID LIKE #{searchWord} || '%'     
+           </when>
+           <when test="searchDiv != null  and searchDiv == '30' ">           
+               AND  title LIKE #{searchWord} || '%'
+           </when>
+           <when test="searchDiv != null  and searchDiv == '40' ">
+               AND  contents LIKE #{searchWord} || '%'
+           </when>    
+           <when test="searchDiv != null  and searchDiv == '50' ">
+              AND  ( title LIKE #{searchWord} || '%'
+               OR 
+               contents LIKE #{searchWord} || '%'
+               )
+           </when>                                  
+        </choose>
+ </sql> -->
+    
     <!-- 특정 댓글 조회 -->
     <select id="doSelectOne" parameterType="Reply" resultType="Reply">
         SELECT
@@ -70,30 +93,35 @@
         WHERE BOARD_NO = #{boardNo}
     </delete>
     
+    <!-- 댓글 전체 조회 -->
     <select id="doRetrieve" parameterType="Search" resultType="Reply">
-    SELECT T1.*,T2.*
+    SELECT T1.*, T2.*
     FROM (
         SELECT ROWNUM AS rnum, A.*
         FROM (
-            SELECT
-                REPLY_NO,
-                BOARD_NO,
-                REG_ID,
-                REPLY_CONTENTS,
-                PARENT_REPLY,
+            SELECT 
+                REPLY_NO as replyNo, 
+                BOARD_NO as boardNo,
+                REPLY_CONTENTS as replyContents, 
+                PARENT_REPLY as parentReply,  
                 TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
-                TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
+                TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt 
             FROM C##NUMBERONE.REPLY
-            ORDER BY REG_DT DESC
+           <!--   <include refid="whereReplyRetrieve"/> -->           
         ) A
         WHERE ROWNUM <![CDATA[ <= ]]> #{pageSize} * (#{pageNo} - 1) + #{pageSize}
+        START WITH parentReply = 0
+        CONNECT BY PRIOR replyNo = parentReply
+        ORDER SIBLINGS BY replyNo
     ) T1
     JOIN (
-        SELECT COUNT(*) totalCnt
+        SELECT COUNT(*) as totalCnt 
         FROM C##NUMBERONE.REPLY
+       <!--  <include refid="whereReplyRetrieve"/> -->
     ) T2 ON 1=1
     WHERE T1.rnum <![CDATA[ >= ]]> #{pageSize} * (#{pageNo} - 1) + 1
-    </select>
+</select>
+
     
     
 </mapper>

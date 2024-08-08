@@ -105,7 +105,7 @@
 
     <!-- 특정 게시물 조회 -->
     <select id="doSelectOne" parameterType="Board" resultType="Board">
-        SELECT
+        SELECT 
             BOARD_NO as boardNo,
             TITLE as title,
             CONTENTS as contents,

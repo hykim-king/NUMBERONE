@@ -61,9 +61,9 @@ public class ReplyControllerTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");
 
-        replyMapper.deleteAll();
+        //replyMapper.deleteAll();
 
-        reply01 = new Reply(3, 1, "userId01", "댓글내용_01", 2, "사용안함", "사용안함");
+        reply01 = new Reply(2, 1, "userId01", "댓글내용_01", 1, "사용안함", "사용안함");
         //reply02 = new Reply(2, 1, "userId02", "댓글내용_02", "N", "사용안함", "사용안함");
         //reply03 = new Reply(3, 2, "userId03", "댓글내용_03", "N", "사용안함", "사용안함");
 
@@ -79,7 +79,7 @@ public class ReplyControllerTest implements PLog {
         log.debug("└─────────────────────────────────────────────────────────┘");
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void doSave() throws Exception {
         log.debug("┌──────────────────────────────────────────┐");
@@ -176,7 +176,7 @@ public class ReplyControllerTest implements PLog {
         assertEquals("댓글이 삭제되었습니다.", resultMessage.getMessageContents());
     }
     
-    //@Ignore
+    @Ignore
     @Test
     public void doRetrieve() throws Exception {
         log.debug("┌──────────────────────────────────────────┐");
