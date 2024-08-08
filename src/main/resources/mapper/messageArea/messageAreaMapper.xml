@@ -14,6 +14,24 @@
     
     </select>
 
+    <insert id="doSave" parameterType="MessageArea">
     
+    		<![CDATA[
+				BEGIN
+				    FOR i IN <foreach item="item" collection="setCollection" open="(" separator="," close=")">
+           					 #{areaSet}
+       						</foreach> LOOP
+				        INSERT INTO message_area (
+				                    message_seq,
+				                    area_code
+				                ) VALUES (
+				                    #{messageSeq},
+				                    i
+				                );
+				    END LOOP;
+				    COMMIT;
+				END;
+    		 ]]>
+    </insert>
 
 </mapper>
