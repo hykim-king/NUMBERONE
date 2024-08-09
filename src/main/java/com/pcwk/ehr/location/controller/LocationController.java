@@ -56,7 +56,7 @@ public class LocationController implements PLog{
 		return viewName;
 	}
 	
-	@RequestMapping(value = "/location_sigungu.do"
+	@RequestMapping(value = "/location_sigungu"
 			         ,method = RequestMethod.GET,
 			         produces = "text/plain;charset=UTF-8")
 	@ResponseBody
@@ -75,7 +75,7 @@ public class LocationController implements PLog{
 		return jsonString;
 	}
 	
-	@RequestMapping(value = "/location_eupmyeondong.do"
+	@RequestMapping(value = "/location_eupmyeondong"
 			         ,method = RequestMethod.GET,
 			         produces = "text/plain;charset=UTF-8")
 	@ResponseBody

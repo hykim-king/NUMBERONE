@@ -65,7 +65,7 @@ function sigunguSet(){
 	$("#eupmyeondong").empty();
     let locCode = $("#sido option:selected").val();
     let type = "GET";
-    let url = "/ehr/location/location_sigungu.do";
+    let url = "/ehr/location/location_sigungu";
     let async = "false";
     let dataType = "html";
     
@@ -101,7 +101,7 @@ function eupmyeondongSet() {
 	$("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
 	let locCode = $("#sigungu option:selected").val();
     let type = "GET";
-    let url = "/ehr/location/location_eupmyeondong.do";
+    let url = "/ehr/location/location_eupmyeondong";
     let async = "false";
     let dataType = "html";
     
