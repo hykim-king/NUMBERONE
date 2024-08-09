@@ -141,7 +141,7 @@
     
     
     <script>
-        function showGraph(statisticcs) {
+        function showGraph(statistics) {
             Highcharts.chart('container', {
                 chart: {
                     type: 'pie'
@@ -151,10 +151,11 @@
                 },
                 series: [{
                     name: '재난 수',
-                    data: statisticcs
+                    data: statistics
                 }]
             });
         }
+        
         class StatisticsCondition {
             constructor(locCode, startDate, endDate) {
                 this.locCode = locCode;
