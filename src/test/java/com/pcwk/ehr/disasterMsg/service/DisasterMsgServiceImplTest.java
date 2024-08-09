@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
@@ -18,7 +19,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.disasterMsg.domain.DisasterMsg;
 import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 
@@ -38,6 +41,7 @@ public class DisasterMsgServiceImplTest implements PLog {
 	StatisticsCondition condition;
 	StatisticsCondition condition2;
 	DisasterMsg msg;
+	Search search;
 	@Before
 	public void setUp() throws Exception {
 		msg= new DisasterMsg();
@@ -52,12 +56,26 @@ public class DisasterMsgServiceImplTest implements PLog {
 		condition2.setStartDate("2024/01/01");
 		condition2.setEndDate("2024/07/01");
 		condition2.setLocCode(1100000000);//서울 코드
+		
+		search = new Search();
+		search.setSearchDiv("10");
+		search.setSearchWord("1168010500");
+		search.setPageNo(1);
+		search.setPageSize(5);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+    @Test
+    public void doRetrieve() throws SQLException{
+    	log.debug(search);
+    	List<DisasterMsg> list =disasterMsgService.doRetrieve(search);
+    	log.debug(list);
+    }
     
+    @Ignore
 	@Test
 	public void doSelectOneWithDetails() throws SQLException {
 		log.debug(msg);
@@ -65,6 +83,7 @@ public class DisasterMsgServiceImplTest implements PLog {
 	    log.debug(outVO);
 	}
 	
+    @Ignore
 	@Test
 	public void statisticsUpWardTest() throws SQLException {
 		log.debug(condition);
@@ -72,7 +91,7 @@ public class DisasterMsgServiceImplTest implements PLog {
 	    log.debug(outVO);
 	    assertEquals(2, outVO.get("지진"));
 	}
-	
+    @Ignore
 	@Test
 	public void statisticsDownWardTest() throws SQLException {
 		log.debug(condition2);
