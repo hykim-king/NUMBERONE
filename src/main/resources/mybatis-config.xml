@@ -9,6 +9,7 @@
     </settings>
   
     <typeAliases>
+        <typeAlias alias="Shelter"  type="com.pcwk.ehr.shelter.domain.Shelter"/>
         <typeAlias alias="Location" type="com.pcwk.ehr.location.domain.Location"/>
         <typeAlias alias="Search" type="com.pcwk.ehr.cmn.Search"/>
         <typeAlias alias="Code"     type="com.pcwk.ehr.code.domain.Code"/>
