@@ -8,27 +8,41 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.disasterMsg.service.DisasterMsgService;
 import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 
 @RestController
-public class DisasterMsgController {
+public class DisasterMsgController implements PLog{
+	
+	  
+
+	public DisasterMsgController() {
+		log.debug("┌──────────────────────────────────────────┐");
+	    log.debug("          disasterMsgController             ");
+	    log.debug("└──────────────────────────────────────────┘");
+	}
 
 	@Autowired
 	DisasterMsgService disasterMsgService;
 
 	@Autowired
 	Gson gson;
-
-	@GetMapping(value = "/statistics/1")
-	public ResponseEntity<Map<String, Integer>> disasterStaticsUpward(@RequestParam StatisticsCondition condition) {
+    
+	@PostMapping(value = "/statistics/1")
+	public ResponseEntity<Map<String, Integer>> disasterStaticsUpward(@RequestBody StatisticsCondition condition) {
+		log.debug("┌──────────────────────────────────────────┐");
+	    log.debug("          disasterStaticsUpward             ");
+	    log.debug("└──────────────────────────────────────────┘");
 		Map<String, Integer> resultMap = null;
 		StatisticsCondition reqCondtion = condition;
-
+        log.debug(reqCondtion);
 		try {
 			resultMap = disasterMsgService.disasterTypeStatisticsUpward(reqCondtion);
 		} catch (SQLException e) {

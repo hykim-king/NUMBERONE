@@ -141,7 +141,7 @@
     
     
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        function showGraph(statisticcs) {
             Highcharts.chart('container', {
                 chart: {
                     type: 'pie'
@@ -151,18 +151,57 @@
                 },
                 series: [{
                     name: '재난 수',
-                    data: [
-                        ['침수', 5],
-                        ['태풍', 3],
-                        ['호우', 8],
-                        ['낙뢰', 2],
-                        ['강풍', 4],
-                        ['풍랑', 1],
-                        ['대설', 6]
-                    ]
+                    data: statisticcs
                 }]
             });
-        });
+        }
+        class StatisticsCondition {
+            constructor(locCode, startDate, endDate) {
+                this.locCode = locCode;
+                this.startDate = startDate;
+                this.endDate = endDate;
+            }
+        }
+        
+        function callServer() {
+        	const condition = new StatisticsCondition(1111010200,"2024/01/01","2024/07/01")
+            fetch('http://localhost:8080/ehr/statistics/1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(condition), 
+            })
+            .then(function(response) { //통신상태 확인
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 좋지 않습니다.');
+                }
+                return response.json();
+            })
+            .then(function(data) { //정상일시 데이터 사용
+            	console.log('data:', data);
+            	const dataMap = new Map(Object.entries(data));
+            	const resultObject = Object.fromEntries(dataMap);
+            	let datasize =dataMap.size; 
+            	const keysArray = [...dataMap.keys()];
+            	const resultArray =[]
+            	for (let i =0;i<datasize; i++) {
+            		 const key = keysArray[i];
+   					 const value = dataMap.get(keysArray[i]);
+   					
+   					 resultArray.push([key,value]); 
+				}
+            	
+            	showGraph(resultArray);
+            	
+                
+            })
+            .catch(function(error) { 
+                console.error('문제가 발생했습니다:', error);
+            });
+        }
+        callServer();
+
     </script>
 </body>
 </html>
