@@ -32,12 +32,41 @@
 <title>Insert title here</title>
 
 <script>
+
+function sidoSet(){
+	
+	
+	
+	let type = "GET";
+	let url = "/ehr/location/location";
+	let async = "false";
+	let dataType = "html";
+	
+	let params = {
+		"locCode" : 0
+	};
+	
+	PClass.pAjax(url,params,dataType,type,async,function(data){
+	
+		   var optionSidoData = JSON.parse(data);
+           
+           optionSidoData.forEach(function(item){
+                $("#sido").append('<option value="' + item.locCode + '">' + item.sido + '</option>');         
+        });
+     
+   }); 
+		
+}
+
+
 function sigunguSet(){
-    
+	$("#sigungu").empty();
+	$("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
+	$("#eupmyeondong").empty();
     let locCode = $("#sido option:selected").val();
     let type = "GET";
     let url = "/ehr/location/location_sigungu.do";
-    let async = "true";
+    let async = "false";
     let dataType = "html";
     
     console.log("locCode:" + locCode);
@@ -46,7 +75,7 @@ function sigunguSet(){
     	 $("#sigungu").empty();
     	 $("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
     	 $("#eupmyeondong").empty();
-         $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
+         $("#eupmyeondong").append('<option value="">' + "" + '</option>');
     	 
     }else{
     
@@ -68,11 +97,12 @@ function sigunguSet(){
 }//--sigunguSet end
 
 function eupmyeondongSet() {
-	
+	$("#eupmyeondong").empty();
+	$("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
 	let locCode = $("#sigungu option:selected").val();
     let type = "GET";
     let url = "/ehr/location/location_eupmyeondong.do";
-    let async = "true";
+    let async = "false";
     let dataType = "html";
     
     console.log("locCode:" + locCode);
@@ -134,7 +164,7 @@ function eupmyeondongSet() {
                     </select>
 
                     <select name="eupmyeondong" class="form-select" id="eupmyeondong">
-                        <option value="">읍면동선택</option>
+                        <option value=""></option>
                     </select>
                 </div>
                 <button type="button" class="btn btn-primary" id="search">검색</button>
@@ -218,7 +248,7 @@ function eupmyeondongSet() {
 $(document).ready(function(){
     console.log("document ready!");
 		
-	function sidoSet(){
+	/* function sidoSet(){
 		
 		var optionSidoData = JSON.parse('${sidoSearch}');
 		
@@ -228,8 +258,8 @@ $(document).ready(function(){
 		});
 		
 	}
-	sidoSet();
-	
+	 */
+	 sidoSet();
 	$("#search").on("click",function(event){
 		//이벤트 버블링 방지
         event.preventDefault();
