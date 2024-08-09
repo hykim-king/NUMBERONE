@@ -141,27 +141,52 @@
     
     
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'pie'
-                },
-                title: {
-                    text: '재난 누적 그래프'
-                },
-                series: [{
-                    name: '재난 수',
-                    data: [
-                        ['침수', 5],
-                        ['태풍', 3],
-                        ['호우', 8],
-                        ['낙뢰', 2],
-                        ['강풍', 4],
-                        ['풍랑', 1],
-                        ['대설', 6]
-                    ]
-                }]
-            });
+    
+        let locCode = "4148010800"
+        let startYear = $("#startYear").val();
+        let startMonth = $('#startMonth').val();
+        let endYear = $('#endYear').val();
+        let endMonth = $('#endMonth').val();
+        
+
+        // 비동기 통신
+        let url = " ";
+        let params = { 
+            "locCode": locCode,
+            "startYear": startYear,
+            "startMonth": startMonth,
+            "endYear": endYear,
+            "endMonth": endMonth
+        };
+          
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            data: params,
+            success: function(data) {
+            	ighcharts.chart('container', {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: '재난 누적 그래프'
+                        
+                        
+                    },
+                    series: [{
+                        name: '재난 수',
+                        data: [
+                            ['침수', 5],
+                            ['태풍', 3],
+                            ['호우', 8],
+                            ['낙뢰', 2],
+                            ['강풍', 4],
+                            ['풍랑', 1],
+                            ['대설', 6]
+                        ]
+                    }]
+                });
         });
     </script>
 </body>
