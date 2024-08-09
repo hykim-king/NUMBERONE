@@ -61,8 +61,7 @@ public class MemberMapperTest implements PLog {
     }
 
     @Test
-    @Ignore
-    public void idDuplicateCheck() throws SQLException {
+     public void idDuplicateCheck() throws SQLException {
 		System.out.println("[̲̅i][̲̅d][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
 
         
@@ -90,7 +89,6 @@ public class MemberMapperTest implements PLog {
     }
 
     @Test
-    @Ignore
     public void nicknameDuplicateCheck() throws SQLException {
 		System.out.println("[̲̅n][̲̅i][̲̅c][̲̅k][̲̅n][̲̅a][̲̅m][̲̅e][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
 
@@ -120,7 +118,6 @@ public class MemberMapperTest implements PLog {
     
     
 	@Test
-	@Ignore
 	public void doSave() throws SQLException {
 		System.out.println("[̲̅d][̲̅o][̲̅s][̲̅a][̲̅v][̲̅e]");
         Member member1 = new Member("user1", 1, "password1", "User One", "nickname1", 'N');
