@@ -90,7 +90,6 @@ public class ReplyMapperTest implements PLog {
         //flag = replyMapper.doDelete(outVO01);
         //assertEquals(1, flag);
     }
-    
     @Ignore
     @Test
     public void doUpdate() throws SQLException {

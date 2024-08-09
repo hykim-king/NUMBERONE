@@ -30,7 +30,7 @@
         AND password = #{password}  
     </select>
 
-    <select id="login" parameterType="Login" resultType="Member">
+    <select id="login" parameterType="Login" resultMap="MemberResultMap">
         SELECT
             member_id,
             loc_code,
@@ -41,5 +41,8 @@
         FROM member
         WHERE member_id = #{memberId}
     </select>
+
+
+
 
 </mapper>

@@ -82,7 +82,7 @@
         }
 
         .date-input-group input[type="number"] {
-            width: 70px;
+            width: 50px;
             padding: 5px;
             margin: 0 5px;
             font-size: 1em;
@@ -137,17 +137,40 @@
         
 	 <div class="date-container">
 	        <p>【날짜 설정】</p>
-                    <div class="date-input-group">
-                        <input type="number" id="startYear" value="2020" min="2000" max="2024">
-                        <label for="startYear">년</label>
-                        <input type="number" id="startMonth" value="1" min="1" max="12">
-                        <label for="startMonth">월</label>
-                        <span>~</span>
-                        <input type="number" id="endYear" value="2024" min="2000" max="2024">
-                        <label for="endYear">년</label>
-                        <input type="number" id="endMonth" value="12" min="1" max="12">
-                        <label for="endMonth">월</label>
-                  </div>
+                   <div class="date-input-group">
+                <!-- 시작 년도 -->
+                <input type="number" id="startYear" value="2020" min="2000" max="2024">
+                <label for="startYear">년</label>
+        
+                <!-- 시작 월 -->
+                <input type="number" id="startMonth" value="1" min="1" max="12">
+                <label for="startMonth">월</label>
+        
+                <!-- 시작 일 -->
+                <input type="number" id="startDay" value="1" min="1" max="31">
+                <label for="startDay">일</label>
+        
+                <span>~</span>
+        
+                <!-- 종료 년도 -->
+                <input type="number" id="endYear" value="2024" min="2000" max="2024">
+                <label for="endYear">년</label>
+        
+                <!-- 종료 월 -->
+                <input type="number" id="endMonth" value="12" min="1" max="12">
+                <label for="endMonth">월</label>
+        
+                <!-- 종료 일 -->
+                <input type="number" id="endDay" value="31" min="1" max="31">
+                <label for="endDay">일</label>
+            </div>
+            
+            <div class="auto-set-buttons">
+                <button onclick="setPeriod(1)">1개월</button>
+                <button onclick="setPeriod(3)">3개월</button>
+                <button onclick="setPeriod(6)">6개월</button>
+                <button onclick="setPeriod(12)">1년</button>
+            </div>
                   
 	        <label for="disasterType">재난 유형:</label>
 	        <select id="disasterType">
@@ -256,6 +279,13 @@
 
         // 초기 차트 생성
         createChart('flood', 2020, 2024);
+        
+        
+        
+        
+        
+        
+        
     </script>
     
     

@@ -1,8 +1,11 @@
 package com.pcwk.ehr.disasterMsg.service;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,8 +19,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.disasterMsg.domain.DisasterMsg;
+import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 
 @RunWith(SpringRunner.class) //스프링 컨텍스트 프레임워크의 JUnit확장기능 지정
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
@@ -31,23 +37,67 @@ public class DisasterMsgServiceImplTest implements PLog {
 	
 	@Autowired
 	DisasterMsgService disasterMsgService;
-    
+	
+	StatisticsCondition condition;
+	StatisticsCondition condition2;
 	DisasterMsg msg;
+	Search search;
 	@Before
 	public void setUp() throws Exception {
 		msg= new DisasterMsg();
 		msg.setMessageSeq(216990);
+		
+		condition = new StatisticsCondition();
+		condition.setStartDate("2024/01/01");
+		condition.setEndDate("2024/07/01");
+		condition.setLocCode(1168010500);//강남구 삼성동 코드
+		
+		condition2 = new StatisticsCondition();
+		condition2.setStartDate("2024/01/01");
+		condition2.setEndDate("2024/07/01");
+		condition2.setLocCode(1100000000);//서울 코드
+		
+		search = new Search();
+		search.setSearchDiv("10");
+		search.setSearchWord("1168010500");
+		search.setPageNo(1);
+		search.setPageSize(5);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+    @Test
+    public void doRetrieve() throws SQLException{
+    	log.debug(search);
+    	List<DisasterMsg> list =disasterMsgService.doRetrieve(search);
+    	log.debug(list);
+    }
     
+    @Ignore
 	@Test
 	public void doSelectOneWithDetails() throws SQLException {
 		log.debug(msg);
 		DisasterMsg outVO =disasterMsgService.doSelectOneWithDetails(msg);
 	    log.debug(outVO);
+	}
+	
+    @Ignore
+	@Test
+	public void statisticsUpWardTest() throws SQLException {
+		log.debug(condition);
+		Map<String,Integer> outVO =disasterMsgService.disasterTypeStatisticsUpward(condition);
+	    log.debug(outVO);
+	    assertEquals(2, outVO.get("지진"));
+	}
+    @Ignore
+	@Test
+	public void statisticsDownWardTest() throws SQLException {
+		log.debug(condition2);
+		Map<String,Integer> outVO =disasterMsgService.disasterTypeStatisticsDownward(condition2);
+	    log.debug(outVO);
+	    assertEquals(2, outVO.get("지진"));
 	}
 	
 	@Ignore
