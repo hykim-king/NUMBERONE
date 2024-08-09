@@ -36,7 +36,7 @@ function sigunguSet(){
     
     let locCode = $("#sido option:selected").val();
     let type = "GET";
-    let url = "/ehr/location/location_sigungu.do";
+    let url = "http://localhost:8080/ehr/location/location_sigungu.do";
     let async = "true";
     let dataType = "html";
     

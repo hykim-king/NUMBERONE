@@ -96,7 +96,7 @@
     
 	    
 	.login-wrap.signup-active {
-	    height: 800px; /* Sign Up을 선택할 때 높이를 증가시킴 */
+	    height: 800px;
 	}
 	
 	.login-html {
@@ -339,21 +339,20 @@
                         <input id="pass2" type="password" class="input" data-type="password">
                     </div>
                     
-                    <div>
-                        <label  style="display:block; color:#9e9e9e; font-size:15px">위치 설정</label>
-                        <select id="city" name="city">
-                            <option value="">광역시도 선택</option>
-                            <option value="seoul">서울특별시</option>
-                        </select>
-                        
-                        <select id="district" name="district" disabled>
-                            <option value="">시군구 선택</option>
-                        </select>
-                        
-                        <select id="neighborhood" name="neighborhood" disabled>
-                            <option value="">읍면동 선택</option>
-                        </select>
-                    </div>
+                     <div>
+                            <label style="display:block; color:#9e9e9e; font-size:15px">위치 설정</label>
+                            <select id="sido" name="sido">
+                                <option value="">광역시도 선택</option>
+                            </select>
+                            
+                            <select id="sigungu" name="sigungu" disabled>
+                                <option value="">시군구 선택</option>
+                            </select>
+                            
+                            <select id="eupmyeondong" name="eupmyeondong" disabled>
+                                <option value="">읍면동 선택</option>
+                            </select>
+                        </div>
                     
                     <div class="group">
                         <button id="doSave" class="button2" type="button">회원가입</button>
@@ -522,6 +521,10 @@
            });
        }
    });
+   
+   
+   
+   
    
    
    

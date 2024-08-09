@@ -1,16 +1,24 @@
 package com.pcwk.ehr.member.controller;
 
 import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.location.domain.Location;
+import com.pcwk.ehr.location.service.LocationService;
 import com.pcwk.ehr.login.domain.Login;
 import com.pcwk.ehr.login.service.LoginService;
 import com.pcwk.ehr.member.domain.Member;
@@ -21,7 +29,6 @@ import com.pcwk.ehr.member.domain.Member;
 public class MemberController implements PLog {
 	@Autowired
 	LoginService loginService;
-	
 	
    public MemberController() {
       log.debug("┌──────────────────────────────────────────┐");
@@ -40,6 +47,7 @@ public class MemberController implements PLog {
       
       return viewName;
    }
+   
    
    @RequestMapping(value="/loginInfo.do"
 			,method = RequestMethod.POST
