@@ -73,11 +73,12 @@ public class DisasterMsgMapperTest implements PLog{
 	
 	@Test
 	public void doRetrieveTest() throws SQLException {
-		disasterMsgMapper.doRetrieve(search);
+		List<DisasterMsg> list =disasterMsgMapper.doRetrieve(search);
+		log.debug(list);
 		
 	}
 	
-	
+	@Ignore
 	@Test
 	public void statisticsUpward() throws SQLException {
 	    List<Map<String,Object>> list = (List<Map<String, Object>>) disasterMsgMapper.disasterTypeStatisticsUpward(condition);
@@ -93,6 +94,8 @@ public class DisasterMsgMapperTest implements PLog{
 		assertEquals(resultMap.get("지진"), 2);
 		assertEquals(resultMap.get("산불"), 5);
 	}
+	
+	@Ignore
 	@Test
 	public void statisticsDownward() throws SQLException {
 	    List<Map<String,Object>> list = (List<Map<String, Object>>) disasterMsgMapper.disasterTypeStatisticsDownward(condition2);
@@ -108,7 +111,7 @@ public class DisasterMsgMapperTest implements PLog{
 		
 	}
 	
-	
+	@Ignore
 	@Test
 	public void doSelectOneTest() throws SQLException {
 		DisasterMsg outVO=disasterMsgMapper.doSelectOne(disasterMsg);

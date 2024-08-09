@@ -69,7 +69,6 @@ public class CodeMapperTest implements PLog{
 		log.debug("└─────────────────────────────────────────────────────────┘");
 		
 	}
-	@Ignore
 	@Test
 	public void doRetrieve() throws SQLException{
 		code.setMstCode("SHELTER_DIV");
@@ -77,7 +76,7 @@ public class CodeMapperTest implements PLog{
 		for(Code vo : codeList) {
 			log.debug(vo);
 		}
-		
+		assertNotNull(codeList);
 	}
 	
 	@Ignore

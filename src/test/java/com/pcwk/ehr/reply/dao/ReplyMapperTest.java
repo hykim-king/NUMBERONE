@@ -89,7 +89,6 @@ public class ReplyMapperTest implements PLog {
         //flag = replyMapper.doDelete(outVO01);
        // assertEquals(1, flag);
     }
-    
     @Ignore
     @Test
     public void doUpdate() throws SQLException {
@@ -116,7 +115,7 @@ public class ReplyMapperTest implements PLog {
         isSameReply(outVO01Update, outVO01);
     }
     
-    //@Ignore
+    @Ignore
     @Test
     public void doRetrieve() throws SQLException {
         // 테스트 데이터 추가

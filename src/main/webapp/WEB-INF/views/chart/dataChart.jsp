@@ -198,8 +198,11 @@
     
     
     <script>
+<<<<<<< HEAD
     
     
+=======
+>>>>>>> bb51dcc9ba7d3e4418847d7dad8b5552f384f149
         function showGraph(statistics) {
             Highcharts.chart('container', {
                 chart: {
@@ -214,7 +217,11 @@
                 }]
             });
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> bb51dcc9ba7d3e4418847d7dad8b5552f384f149
         class StatisticsCondition {
             constructor(locCode, startDate, endDate) {
                 this.locCode = locCode;
@@ -222,23 +229,36 @@
                 this.endDate = endDate;
             }
         }
+<<<<<<< HEAD
 
         function callServer(startDate, endDate) {
             const condition = new StatisticsCondition(1111010200, startDate, endDate);
             
+=======
+        
+        function callServer() {
+        	const condition = new StatisticsCondition(1111010200,"2024/01/01","2024/07/01")
+>>>>>>> bb51dcc9ba7d3e4418847d7dad8b5552f384f149
             fetch('http://localhost:8080/ehr/statistics/1', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+<<<<<<< HEAD
                 body: JSON.stringify(condition),
             })
             .then(function(response) {
+=======
+                body: JSON.stringify(condition), 
+            })
+            .then(function(response) { //통신상태 확인
+>>>>>>> bb51dcc9ba7d3e4418847d7dad8b5552f384f149
                 if (!response.ok) {
                     throw new Error('네트워크 응답이 좋지 않습니다.');
                 }
                 return response.json();
             })
+<<<<<<< HEAD
 		   .then(data => {
 		        // 지역 이름 가져오기
 		        return ;
@@ -303,6 +323,32 @@
         }
 
         
+=======
+            .then(function(data) { //정상일시 데이터 사용
+            	console.log('data:', data);
+            	const dataMap = new Map(Object.entries(data));
+            	const resultObject = Object.fromEntries(dataMap);
+            	let datasize =dataMap.size; 
+            	const keysArray = [...dataMap.keys()];
+            	const resultArray =[]
+            	for (let i =0;i<datasize; i++) {
+            		 const key = keysArray[i];
+   					 const value = dataMap.get(keysArray[i]);
+   					
+   					 resultArray.push([key,value]); 
+				}
+            	
+            	showGraph(resultArray);
+            	
+                
+            })
+            .catch(function(error) { 
+                console.error('문제가 발생했습니다:', error);
+            });
+        }
+        callServer();
+
+>>>>>>> bb51dcc9ba7d3e4418847d7dad8b5552f384f149
     </script>
 </body>
 </html>
