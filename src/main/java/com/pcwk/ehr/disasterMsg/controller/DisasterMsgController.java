@@ -59,7 +59,7 @@ public class DisasterMsgController implements PLog{
 
 	}
 
-	@GetMapping(value = "/statistics/2")
+	@PostMapping(value = "/statistics/2")
 	public ResponseEntity<Map<String, Integer>> disasterStaticsDownward(@RequestParam StatisticsCondition condition) {
 		Map<String, Integer> resultMap = null;
 		StatisticsCondition reqCondtion = condition;
@@ -77,6 +77,14 @@ public class DisasterMsgController implements PLog{
 			return ResponseEntity.ok().body(resultMap);
 		}
 
+	}
+	@GetMapping(value = "/messages")
+	public ResponseEntity<String> disasterMsgRetrieve(@RequestParam long locCode){
+		String result ="";
+		long code = locCode;
+		
+		//disasterMsgService.doRetrieve(search);
+		return ResponseEntity.ok().body(result);
 	}
 
 }
