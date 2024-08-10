@@ -34,8 +34,6 @@ public class ShelterTest implements PLog{
 	@Autowired
 	ShelterMapper shelterMapper;
 	
-	ArrayList<String> list;
-	
 	Shelter shelter;
 	
 	@Before
@@ -47,12 +45,7 @@ public class ShelterTest implements PLog{
 		
 		shelter = new Shelter();
 		
-		list = new ArrayList<String>();
-		
-		list.add("SHELTER_DIV");
-		list.add("LOC_CODE");
-		
-		shelter.setShelterDiv((char) 10);
+		shelter.setShelterDiv("10");
 		shelter.setLocCode(5280036000L);
 	}
 

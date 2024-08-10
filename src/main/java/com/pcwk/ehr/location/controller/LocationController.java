@@ -36,7 +36,7 @@ public class LocationController implements PLog{
 		log.debug("└───────────────────────────────────────┘");
 	}
 	
-	
+	// 동기 통신
 	@RequestMapping(value ="/location.do"
 				,method = RequestMethod.GET)
 	public String sidoRetrieve(Model model, HttpServletRequest req) throws SQLException{
@@ -56,6 +56,7 @@ public class LocationController implements PLog{
 		return viewName;
 	}
 	
+	// 시군구 비동기 통신
 	@RequestMapping(value = "/location_sigungu"
 			         ,method = RequestMethod.GET,
 			         produces = "text/plain;charset=UTF-8")
@@ -75,6 +76,7 @@ public class LocationController implements PLog{
 		return jsonString;
 	}
 	
+	// 읍면동 비동기 통신
 	@RequestMapping(value = "/location_eupmyeondong"
 			         ,method = RequestMethod.GET,
 			         produces = "text/plain;charset=UTF-8")
@@ -95,6 +97,7 @@ public class LocationController implements PLog{
 		
 	}
 	
+	// 시도 비동기 통신
 	@RequestMapping(value = "/location"
 			,method = RequestMethod.GET
 			,produces = "text/plain;charset=UTF-8")
