@@ -18,12 +18,19 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="CP" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>로그인/회원가입</title>
 <link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<%-- common.js --%>
+<script src="${CP}/resources/js/common.js"></script>
+<%-- sha256 --%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
 <style>
     * {
         font-family: "Hahmlet", serif;
@@ -252,7 +259,7 @@
             text-decoration: none;
             transition: background-color 0.3s ease;
     }
-    #idDuplicateCheck:hover{
+    #idDuplicateCheck:hover,  #nicknameDuplicateCheck:hover{
         background-color: #134b70;
     }
     
@@ -281,6 +288,359 @@
 	    color: black;
 	}
 </style>
+
+<script>
+
+class Member {
+    constructor(name, nickname, memberId, password, locCode) {
+        this.name = name;
+        this.nickname = nickname;
+        this.memberId = memberId;
+        this.password = password;
+        this.locCode = locCode;
+    }
+}
+$(document).ready(function(){
+    console.log("document ready!");
+        
+    function sidoSet(){
+        
+    	    let locCode = 0;
+    	    let type = "GET";
+    	    let url = "http://localhost:8080/ehr/location/location";
+    	    let async = "true";
+    	    let dataType = "html";
+    	    
+    	    console.log("locCode:" + locCode);
+    	    
+    	    
+    	    
+    	        let params = {
+    	             "locCode" : locCode
+    	           };
+    	        
+    	             PClass.pAjax(url,params,dataType,type,async,function(data){
+    	                 
+    	               var optionSidoData = JSON.parse(data);
+    	            
+    	               optionSidoData.forEach(function(item){
+    	                    $("#sido").append('<option value="' + item.locCode + '">' + item.sido + '</option>');         
+    	            });
+    	         
+    	       }); 
+    	    
+    	    
+        
+    }
+    sidoSet();
+    
+    $("#search").on("click",function(event){
+        //이벤트 버블링 방지
+        event.preventDefault();
+        console.log("search click");
+        /* doRetrieve(1); */ 
+    });
+    
+});//--document end
+
+
+function sigunguSet(){
+    
+    let locCode = $("#sido option:selected").val();
+    let type = "GET";
+    let url = "http://localhost:8080/ehr/location/location_sigungu";
+    let async = "true";
+    let dataType = "html";
+    
+    console.log("locCode:" + locCode);
+    
+    
+         $("#sigungu").empty();
+         $("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
+         $("#eupmyeondong").empty();
+         $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
+         
+    
+    
+        let params = {
+             "locCode" : locCode
+           };
+        
+             PClass.pAjax(url,params,dataType,type,async,function(data){
+                 
+               var optionSigunguData = JSON.parse(data);
+            
+               optionSigunguData.forEach(function(item){
+                    $("#sigungu").append('<option value="' + item.locCode + '">' + item.sigungu + '</option>');         
+            });
+         
+       }); 
+    
+    
+}//--sigunguSet end
+
+function eupmyeondongSet() {
+    
+    let locCode = $("#sigungu option:selected").val();
+    let type = "GET";
+    let url = "http://localhost:8080/ehr/location/location_eupmyeondong";
+    let async = "true";
+    let dataType = "html";
+    
+    console.log("locCode:" + locCode);
+    
+    if("" === locCode){
+        $("#eupmyeondong").empty();
+        $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
+   }else{
+   
+       let params = {
+            "locCode" : locCode
+          };
+       
+            PClass.pAjax(url,params,dataType,type,async,function(data){
+                
+              var optionEupmyeondongData = JSON.parse(data);
+           
+              optionEupmyeondongData.forEach(function(item){
+                   $("#eupmyeondong").append('<option value="' + item.locCode + '">' + item.eupmyeondong + '</option>');         
+           });
+              
+              
+        
+      }); 
+   
+   }
+    
+}//--eupmyeondongSet end
+
+
+
+
+
+let idDuplicatedClick = 0;
+
+$(document).ready(function() {
+    console.log("document ready!");
+
+    // 아이디 중복 체크
+    $("#idDuplicateCheck").on("click", function(event) {
+        event.preventDefault();
+        console.log("idDuplicateCheck click");
+        idDuplicateCheck();
+    });
+
+    function idDuplicateCheck() {
+        console.log("idDuplicateCheck()");
+
+        let userIdInput = $("#userIdSignUp").val();
+
+        if (!userIdInput) {
+            alert("아이디를 입력 하세요.");
+            $("#userIdSignUp").focus();
+            return;
+        }
+
+       
+        let params = {
+            "userId": userIdInput
+        };
+
+        $.ajax({
+            url: '/ehr/member/idDuplicateCheck.do',
+            type: "GET",
+            dataType: "json",
+            data: params,
+            success: function(data) {
+                if (data) {
+                    try {
+                        if (data.messagId === 1) {
+                            alert(data.messageContents); // 사용불가
+                            $("#userIdSignUp").focus();
+                            idDuplicatedClick = 0;
+                        } else {
+                            alert(data.messageContents); // 사용가능
+                            idDuplicatedClick = 1;
+                        }
+                    } catch (e) {
+                        console.error("data가 null 혹은 undefined 입니다.", e);
+                        alert("data가 null 혹은 undefined 입니다.");
+                    }
+                }
+            }
+        });
+    }
+
+    // 닉네임 중복 체크
+    $("#nicknameDuplicateCheck").on("click", function(event) {
+        event.preventDefault();
+        console.log("nicknameDuplicateCheck click");
+        nicknameDuplicateCheck();
+    });
+
+    function nicknameDuplicateCheck() {
+        console.log("nicknameDuplicateCheck()");
+
+        let nicknameInput = $("#nicknameSignUp").val();
+        console.log("nicknameInput()"+nicknameInput);
+        
+        if (!nicknameInput) {
+            alert("닉네임을 입력 하세요.");
+            $("#nicknameSignUp").focus();
+            return;
+        }
+
+        
+        let params = {
+            "nickname": nicknameInput
+        };
+
+        $.ajax({
+            url:'/ehr/member/nicknameDuplicateCheck.do',
+            type: "GET",
+            dataType: "json",
+            data: params,
+            success: function(data) {
+                if (data) {
+                    try {
+                        if (data.messageId === 1) {
+                            alert(data.messageContents); // 사용불가
+                            $("#nicknameSignUp").focus();
+                        } else {
+                            alert(data.messageContents); // 사용가능
+                        }
+                    } catch (e) {
+                        console.error("data가 null 혹은 undefined 입니다.", e);
+                        alert("data가 null 혹은 undefined 입니다.");
+                    }
+                }
+            }
+        });
+    }
+
+    // 등록: doSave
+    $("#doSave").on("click", function(event) {
+        event.preventDefault();
+        console.log("doSave click");
+        doSave();
+    });
+    
+    
+    
+    function doSave() {
+        console.log("doSave()");
+        
+        
+        if (!$("#nameSignUp").val()) {
+            alert("이름을 입력 하세요.");
+            $("#nameSignUp").focus();
+            return;
+        }
+        
+        if (!$("#nicknameSignUp").val()) {
+            alert("닉네임을 입력 하세요.");
+            $("#nicknameSignUp").focus();
+            return;
+        }
+        // 필수 입력 처리
+        if (!$("#userIdSignUp").val()) {
+            alert("아이디를 입력 하세요.");
+            $("#userIdSignUp").focus();
+            return;
+        }
+
+        if (idDuplicatedClick === 0) {
+            alert("아이디 중복 체크를 하세요.");
+            $("#idDuplicateCheck").focus();
+            return;
+        }
+
+        
+
+        if (!$("#pass1").val()) {
+            alert("비밀번호를 입력 하세요.");
+            $("#pass1").focus();
+            return;
+        }
+
+        if (!$("#pass2").val()) {
+            alert("확인 비밀번호를 입력 하세요.");
+            $("#pass2").focus();
+            return;
+        }
+
+        if ($("#pass2").val() !== $("#pass1").val()) {
+            alert("비밀번호가 서로 다릅니다.");
+            $("#pass2").focus();
+            return;
+        }
+
+        if ($("#locCode").val()) {
+            alert("위치 설정을 해주세요.");
+            $("#locCode").focus();
+            return;
+        }
+
+
+        
+        function callServer() {
+           
+        	// 암호화
+            let pw = $("#pass1").val();
+            let password = sha256(pw);
+        	
+        	const member = new Member(  $("#nameSignUp").val(),
+            	                                  	    $("#nicknameSignUp").val(), 
+            	                                  	    $("#userIdSignUp").val(),
+            	                                  	    password,
+            	                                        $("#eupmyeondong option:selected").val()
+            ); 
+            
+            
+       
+
+        // 비동기 통신
+        console.log($("#nameSignUp").val());
+        console.log($("#nicknameSignUp").val());
+        console.log($("#userIdSignUp").val());
+        console.log(password);
+        console.log($("#eupmyeondong option:selected").val());
+        
+        let url = "/ehr/member/doSave.do";
+
+
+        if (!confirm("등록 하시겠습니까?")) return;
+
+        $.ajax({
+            url: '/ehr/member/doSave.do',
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(member),
+            success: function(data) {
+                if (data && typeof data.messageId !== "undefined") {
+                    if (data.messageId === 1) {
+                        alert(data.messageContents); // 등록 실패
+                    } else {
+                        alert(data.messageContents); // 등록 성공
+                        location.href = "/ehr/main/index.do";
+                    }
+                } else {
+                    console.error("Unexpected data format.", data);
+                    alert("서버에서 예상하지 못한 데이터를 받았습니다.");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX Error:", status, error);
+                alert("서버 요청에 실패했습니다.");
+            }
+        });
+    }
+        callServer();
+    }
+});
+</script>
+
 </head>
 <body>
     <div>
@@ -340,18 +700,23 @@
                     </div>
                     
                      <div>
-                            <label style="display:block; color:#9e9e9e; font-size:15px">위치 설정</label>
-                            <select id="sido" name="sido">
-                                <option value="">광역시도 선택</option>
-                            </select>
-                            
-                            <select id="sigungu" name="sigungu" disabled>
-                                <option value="">시군구 선택</option>
-                            </select>
-                            
-                            <select id="eupmyeondong" name="eupmyeondong" disabled>
-                                <option value="">읍면동 선택</option>
-                            </select>
+				            <form action="#" name="locationForm" class="row g-2 align-items-right" id="locationForm">
+				                <div class="row g-3">
+				                    <p>위치 설정</p>
+				                    <select name="sido" class="form-select" id="sido" onchange="sigunguSet()">
+				                        <option value="">시도선택</option>
+				                    </select>
+				
+				                    <select name="sigungu" class="form-select" id="sigungu" onchange="eupmyeondongSet()">
+				                        <option value="">시군구선택</option>
+				                    </select>
+				
+				                    <select name="eupmyeondong" class="form-select" id="eupmyeondong">
+				                        <option value="">읍면동선택</option>
+				                    </select>
+				                </div>
+				                
+				            </form>
                         </div>
                     
                     <div class="group">
@@ -384,152 +749,10 @@
 	});
    
 
-   $(document).ready(function(){
-       console.log("document ready!");
-       
-       let idDuplicatedClick = 0; // ID 중복 체크 클릭 여부 (1/0)
-       
-       // 아이디 중복 체크
-       $("#idDuplicateCheck").on("click", function(event){
-            event.preventDefault();
-            console.log("idDuplicateCheck click");      
-            idDuplicateCheck();
-       });
-       
-       function idDuplicateCheck(){
-           console.log("idDuplicateCheck()");
-
-           let userIdInput = $("#userIdSignUp").val();
-           
-           if (!userIdInput) {
-               alert("아이디를 입력 하세요.");
-               $("#userIdSignUp").focus();
-               return;
-           }
-           
-           // 비동기 통신
-           let url = "/ehr/signup/idDuplicateCheck.do";
-           let params = { 
-               "userId": userIdInput
-           };
-             
-           $.ajax({
-               url: url,
-               type: "GET",
-               dataType: "json",
-               data: params,
-               success: function(data) {
-                   if (data) {
-                       try {
-                           console.log("message.messagId:" + data.messagId);
-                           console.log("message.messageContents:" + data.messageContents);
-                           
-                           if (data.messagId === 1) { 
-                               alert(data.messageContents); // 사용불가
-                               $("#userIdSignUp").focus();
-                               idDuplicatedClick = 0;
-                           } else { // 사용가능
-                               alert(data.messageContents);
-                               idDuplicatedClick = 1;
-                           }  
-                       } catch (e) {
-                           console.error("data가 null 혹은 undefined 입니다.", e);
-                           alert("data가 null 혹은 undefined 입니다.");     
-                       }           
-                   }
-               }
-           });
-       }
-       
-       // 등록: doSave
-       $("#doSave").on("click", function(event){
-           event.preventDefault();         
-           console.log("doSave click");        
-           doSave();
-       });
-       
-       function doSave(){
-           console.log("doSave()");
-           
-           // 필수 입력 처리
-           if (!$("#userIdSignUp").val()) {
-               alert("아이디를 입력 하세요.");
-               $("#userIdSignUp").focus();
-               return;
-           }
-
-           if (idDuplicatedClick === 0) {
-               alert("아이디 중복 체크를 하세요.");
-               $("#idDuplicateCheck").focus();
-               return;
-           }        
-           
-           if (!$("#nameSignUp").val()) {
-               alert("이름을 입력 하세요.");
-               $("#nameSignUp").focus();
-               return;
-           }
-    
-           if (!$("#pass1").val()) {
-               alert("비밀번호를 입력 하세요.");
-               $("#pass1").focus();
-               return;
-           }        
-           
-           if (!$("#pass2").val()) {
-               alert("확인 비밀번호를 입력 하세요.");
-               $("#pass2").focus();
-               return;
-           }         
-
-           if ($("#pass2").val() !== $("#pass1").val()) {
-               alert("비밀번호가 서로 다릅니다.");
-               $("#pass2").focus();
-               return;
-           } 
-           
-           // 비동기 통신
-           let url = "/ehr/signup/doSave.do";
-           let params = { 
-               "userId": $("#userIdSignUp").val(),
-               "name": $("#nameSignUp").val(),
-               "password": $("#pass1").val()
-           };        
-           
-           if (!confirm("등록 하시겠습니까?")) return;
-           
-           $.ajax({
-               url: url,
-               type: "POST",
-               dataType: "json",
-               data: params,
-               success: function(data) {
-                   if (data) {
-                       try {
-                           if (data.messagId === 1) {
-                               alert(data.messageContents); // 등록 실패
-                           } else { 
-                               alert(data.messageContents); // 등록 성공
-                               location.href = "/ehr/main/index.do";
-                           }  
-                       } catch (e) {
-                           console.error("data가 null 혹은 undefined 입니다.", e);
-                           alert("data가 null 혹은 undefined 입니다.");     
-                       }           
-                   }
-               }
-           });
-       }
-   });
-   
-   
-   
-   
-   
-   
+  
    
    </script>
     
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 </html>

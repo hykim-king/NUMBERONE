@@ -12,4 +12,8 @@ public interface LoginService {
 	Member login(Login inVO)throws SQLException;
 
 	boolean doSave(Member member);
+
+	boolean checkNickname(String nickname);
+
+	boolean checkUserId(String userId);
 }

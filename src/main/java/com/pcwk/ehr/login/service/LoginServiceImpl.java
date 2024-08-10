@@ -58,4 +58,16 @@ public class LoginServiceImpl implements LoginService, PLog {
 		return false;
 	}
 
+	@Override
+	public boolean checkNickname(String nickname) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean checkUserId(String userId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

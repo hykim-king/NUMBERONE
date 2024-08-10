@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -83,12 +85,25 @@ public class MemberController implements PLog {
 		return jsonString;
 	}
    
-   public String doSave(Member member) throws SQLException {
+   
+   @RequestMapping(value="/doSave.do"
+			,method = RequestMethod.POST
+			, produces = "text/plain;charset=UTF-8")
+   @ResponseBody
+   public String doSave(@RequestBody Member member) throws SQLException {
 	    // 회원가입 처리 로직
 	    String jsonString = "";
+	    log.debug("┌──────────────────────────────────────────┐");
+	    log.debug(member.getName());
+	    log.debug(member.getNickname());
+	    log.debug(member.getMemberId());
+	    log.debug(member.getPassword());
+	    log.debug(member.getLocCode());
+	    log.debug("└──────────────────────────────────────────┘");
+	    
 	    
 	    // 서비스 호출하여 회원가입 처리
-	    boolean isSuccess = loginService.doSave(member); // signUp 메서드가 로그인 서비스에 정의되어 있어야 합니다.
+	    boolean isSuccess = loginService.doSave(member); 
 	    String signUpMessage = isSuccess ? "회원가입 완료!" : "회원가입 실패!";
 	    
 	    Message message = new Message(isSuccess ? 0 : 1, signUpMessage);
@@ -97,8 +112,42 @@ public class MemberController implements PLog {
 	    
 	    return jsonString;
 	}
-   
 
+
+   
+   
+   @GetMapping("nicknameDuplicateCheck.do")
+   @ResponseBody
+   public String nicknameDuplicateCheck(@RequestParam("nickname") String nickname) throws SQLException {
+       log.debug("닉네임 중복 체크 요청: " + nickname);
+
+       // 닉네임 중복 체크 로직
+       boolean isDuplicate = loginService.checkNickname(nickname);
+       String message = isDuplicate ? "중복된 닉네임입니다." : "사용 가능한 닉네임입니다.";
+       
+       Message responseMessage = new Message(isDuplicate ? 1 : 0, message);
+       return new GsonBuilder().setPrettyPrinting().create().toJson(responseMessage);
+   }
+
+   @GetMapping("idDuplicateCheck.do")
+   @ResponseBody
+   public String idDuplicateCheck(@RequestParam("userId") String userId) throws SQLException {
+       log.debug("아이디 중복 체크 요청: " + userId);
+
+       // 아이디 중복 체크 로직
+       boolean isDuplicate = loginService.checkUserId(userId);
+       String message = isDuplicate ? "중복된 아이디입니다." : "사용 가능한 아이디입니다.";
+       
+       Message responseMessage = new Message(isDuplicate ? 1 : 0, message);
+       return new GsonBuilder().setPrettyPrinting().create().toJson(responseMessage);
+   }
+   
+   
+   
+   
+   
+   
+   
    @GetMapping("findIdPw.do")
    public String findId() {
       String viewName = "member/findIdPw";
