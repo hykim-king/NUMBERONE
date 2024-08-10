@@ -4,11 +4,11 @@ import com.pcwk.ehr.cmn.DTO;
 
 public class Location extends DTO {
 
-	private long locCode; // 지역코드
-	private String sido; // 시도
-	private String sigungu; // 시군구
+	private long locCode;   	 // 지역코드
+	private String sido;    	 // 시도
+	private String sigungu; 	 // 시군구
 	private String eupmyeondong; // 읍면동
-	private int parentLocCode;// 상위지역코드
+	private int parentLocCode;	 // 상위지역코드
 
 	// defualt 생성자
 	public Location() {

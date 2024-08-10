@@ -63,7 +63,7 @@ public class ReplyControllerTest implements PLog {
 
         //replyMapper.deleteAll();
 
-        reply01 = new Reply(2, 1, "userId01", "댓글내용_01", 1, "사용안함", "사용안함");
+        reply01 = new Reply(5, 2, "USER0002", "댓글내용 0001", 1, "사용안함", "사용안함");
         //reply02 = new Reply(2, 1, "userId02", "댓글내용_02", "N", "사용안함", "사용안함");
         //reply03 = new Reply(3, 2, "userId03", "댓글내용_03", "N", "사용안함", "사용안함");
 
@@ -79,7 +79,7 @@ public class ReplyControllerTest implements PLog {
         log.debug("└─────────────────────────────────────────────────────────┘");
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void doSave() throws Exception {
         log.debug("┌──────────────────────────────────────────┐");
@@ -87,6 +87,7 @@ public class ReplyControllerTest implements PLog {
         log.debug("└──────────────────────────────────────────┘");
 
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/reply/doSave.do")
+        		//.param("boardNo", reply01.getBoardNo())
         		.param("regId", reply01.getRegId())
                 .param("replyContents", reply01.getReplyContents());
 

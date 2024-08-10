@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,12 +51,12 @@ public class LocationController implements PLog{
 		List<Location> sidoSearch = this.locationService.sidoRetrieve();
 		
 		jsonString = new Gson().toJson(sidoSearch);
-		model.addAttribute("sidoSearch",jsonString);
+		/* model.addAttribute("sidoSearch",jsonString); */
 		
 		return viewName;
 	}
 	
-	@RequestMapping(value = "/location_sigungu.do"
+	@RequestMapping(value = "/location_sigungu"
 			         ,method = RequestMethod.GET,
 			         produces = "text/plain;charset=UTF-8")
 	@ResponseBody
@@ -74,7 +75,7 @@ public class LocationController implements PLog{
 		return jsonString;
 	}
 	
-	@RequestMapping(value = "/location_eupmyeondong.do"
+	@RequestMapping(value = "/location_eupmyeondong"
 			         ,method = RequestMethod.GET,
 			         produces = "text/plain;charset=UTF-8")
 	@ResponseBody
@@ -92,6 +93,25 @@ public class LocationController implements PLog{
 		
 		return jsonString;
 		
+	}
+	
+	@RequestMapping(value = "/location"
+			,method = RequestMethod.GET
+			,produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String sido(Long locCode) throws SQLException {
+		log.debug("┌──────────────────────────────────┐");
+		log.debug("│ sido()                           │");
+		log.debug("└──────────────────────────────────┘");
+		
+		String jsonString = "";
+		Location sido = new Location();
+		sido.setLocCode(locCode);
+		List<Location> sidoName = this.locationService.sidoRetrieve();
+		
+		jsonString = new Gson().toJson(sidoName);
+		
+		return jsonString;
 	}
 	
 	
