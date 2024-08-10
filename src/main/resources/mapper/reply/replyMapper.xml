@@ -60,7 +60,7 @@
         WHERE REPLY_NO = #{replyNo}
     </delete>
 
-    
+   
     <select id="doRetrieve" parameterType="Search" resultType="Reply">
         SELECT A.*, B.*
         FROM (

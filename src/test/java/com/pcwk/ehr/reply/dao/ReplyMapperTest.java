@@ -42,13 +42,23 @@ public class ReplyMapperTest implements PLog {
     ArrayList<String> list;
     
     Search search;
+    
+    Reply reply01;
+    Reply reply02;
+    Reply reply03;
+    
 
     @Before
     public void setUp() throws Exception {
         log.debug("┌─────────────────────────────────────────────────────────┐");
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");        
-    
+        
+        reply01 = new Reply(1,1,"chanho","안녕하세요",0,"사용안함","사용안함",1);
+        reply02 = new Reply(2,2,"chanho","안녕하세요",1,"사용안함","사용안함",1);
+        reply03 = new Reply(3,1,"chanho","안녕하세요",1,"사용안함","사용안함",2);
+        
+        
         search = new Search();
     }
    
@@ -59,7 +69,59 @@ public class ReplyMapperTest implements PLog {
         log.debug("│ tearDown()                                              │");
         log.debug("└─────────────────────────────────────────────────────────┘");
     }
+    @Ignore
+    @Test
+    public void doSave() throws Exception{
+        log.debug("┌─────────────────────────────────────────────────────────┐");
+        log.debug("│ doSave()                                                │");
+        log.debug("└─────────────────────────────────────────────────────────┘");    	
+    	
+        int flag = replyMapper.doSave(reply01);
+       
+        log.debug("flag:"+flag);
     
+    }
+    
+    public void isSameReply(Reply replyIn, Reply replyOut) {
+    	assertEquals(replyIn.getReplyNo(), replyOut.getReplyNo());
+    	assertEquals(replyIn.getRegId(), replyOut.getRegId());
+    	assertEquals(replyIn.getReplyContents(), replyOut.getReplyContents());
+    	
+    }
+    @Ignore
+    @Test
+    public void doUpdate() throws Exception{
+        log.debug("┌─────────────────────────────────────────────────────────┐");
+        log.debug("│ doUpdate()                                              │");
+        log.debug("└─────────────────────────────────────────────────────────┘");    	
+    	    	
+    	Reply outVO01 = replyMapper.doSelectOne(reply01);
+    	log.debug("outVO01:"+outVO01);
+        
+    	isSameReply(reply01,outVO01);
+    	
+    	String upStr = "_ss";
+    	outVO01.setReplyContents(outVO01.getReplyContents()+upStr);
+    
+    	int flag = replyMapper.doUpdate(outVO01);
+    	log.debug("flag:"+flag);
+    	
+    	Reply outVO01Update = replyMapper.doSelectOne(outVO01);
+    	log.debug("outVO01Update:"+outVO01Update);
+    }
+    @Ignore
+    @Test
+    public void doDelete() throws Exception{
+        log.debug("┌─────────────────────────────────────────────────────────┐");
+        log.debug("│ doDelete()                                              │");
+        log.debug("└─────────────────────────────────────────────────────────┘");    	
+    	
+        int flag = replyMapper.doDelete(reply01);
+        log.debug("flag:"+flag);
+        
+    }
+    
+    //@Ignore
     @Test
     public void doRetrieve() throws Exception {
         log.debug("┌─────────────────────────────────────────────────────────┐");
