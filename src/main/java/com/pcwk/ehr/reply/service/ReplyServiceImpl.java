@@ -9,51 +9,60 @@ import org.springframework.stereotype.Service;
 import com.pcwk.ehr.reply.domain.Reply;
 import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.code.domain.Code;
 import com.pcwk.ehr.mapper.ReplyMapper;
 
-@Service("replyServiceImpl")
+@Service
 public class ReplyServiceImpl implements ReplyService, PLog {
 
-	
 	@Autowired
 	ReplyMapper replyMapper;
 	
-	public ReplyServiceImpl() {}
+	public ReplyServiceImpl() {
+		log.debug("┌──────────────────────────────────────────┐");
+		log.debug("│ ReplyServiceImpl()                       │");
+		log.debug("└──────────────────────────────────────────┘");
+	}		
 	
 	@Override
-	public int doDelete(Reply inVO) throws SQLException {
-		log.debug("1. param :"+inVO);
-		return this.replyMapper.doDelete(inVO);
+	public int doSave(Reply inVO) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Reply doSelectOne(Reply inVO) throws SQLException {
+		
+		Reply outVO = replyMapper.doSelectOne(inVO);
+		log.debug(outVO);
+		
+		return outVO;
 	}
 
 	@Override
 	public List<Reply> doRetrieve(DTO search) throws SQLException {
-		log.debug("1. param :"+search);
-		return this.replyMapper.doRetrieve(search);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public int doUpdate(Reply inVO) throws SQLException {
-		log.debug("1. param :"+inVO);
-		return replyMapper.doUpdate(inVO);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	public int doSave(Reply inVO) throws SQLException {
-		log.debug("1. param :"+inVO);
-		return replyMapper.doSave(inVO);
+	public int doDelete(Reply inVO) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
-    
-	
+
 	@Override
-	public Reply doSelectOne(Reply inVO) throws SQLException {
-		//단건 조회
-		log.debug("1. param :"+inVO);
-		Reply outVO = replyMapper.doSelectOne(inVO);
-		log.debug("2. outVO :"+outVO);
-		
-		
-		return outVO;
+	public List<Code> doRetrieveIn(List<String> codeList) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
 
 }

@@ -10,11 +10,12 @@ public class Reply extends DTO{
 	private int    parentReply ; //대댓글 번호
 	private String regDt    ; //등록일
 	private String modDt    ; //수정일
+	private int relpyLevel;
 	
 	public Reply() {}
 
 	public Reply(int replyNo, int boardNo, String regId, String replyContents, int parentReply, String regDt,
-			String modDt) {
+			String modDt, int relpyLevel) {
 		super();
 		this.replyNo = replyNo;
 		BoardNo = boardNo;
@@ -23,6 +24,7 @@ public class Reply extends DTO{
 		this.parentReply = parentReply;
 		this.regDt = regDt;
 		this.modDt = modDt;
+		this.relpyLevel = relpyLevel;
 	}
 
 	public int getReplyNo() {
@@ -81,10 +83,21 @@ public class Reply extends DTO{
 		this.modDt = modDt;
 	}
 
+	public int getRelpyLevel() {
+		return relpyLevel;
+	}
+
+	public void setRelpyLevel(int relpyLevel) {
+		this.relpyLevel = relpyLevel;
+	}
+
 	@Override
 	public String toString() {
 		return "Reply [replyNo=" + replyNo + ", BoardNo=" + BoardNo + ", regId=" + regId + ", replyContents="
-				+ replyContents + ", parentReply=" + parentReply + ", regDt=" + regDt + ", modDt=" + modDt + "]";
+				+ replyContents + ", parentReply=" + parentReply + ", regDt=" + regDt + ", modDt=" + modDt
+				+ ", relpyLevel=" + relpyLevel + "]";
 	}
+
+
 
 }

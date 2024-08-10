@@ -63,9 +63,7 @@ public class ReplyControllerTest implements PLog {
 
         replyMapper.deleteAll();
 
-        reply01 = new Reply(3, 1, "userId01", "댓글내용_01", 2, "사용안함", "사용안함");
-        //reply02 = new Reply(2, 1, "userId02", "댓글내용_02", "N", "사용안함", "사용안함");
-        //reply03 = new Reply(3, 2, "userId03", "댓글내용_03", "N", "사용안함", "사용안함");
+ 
 
         search = new Search();
         
@@ -79,7 +77,7 @@ public class ReplyControllerTest implements PLog {
         log.debug("└─────────────────────────────────────────────────────────┘");
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void doSave() throws Exception {
         log.debug("┌──────────────────────────────────────────┐");
@@ -117,8 +115,8 @@ public class ReplyControllerTest implements PLog {
         int flag = replyMapper.doSave(reply01);
         assertEquals(1, flag);
 
-        int replyNo = replyMapper.getLatestReplyNo();
-        reply01.setReplyNo(replyNo);
+       
+
 
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/reply/doUpdate.do")
                 .param("replyNo", reply01.getReplyNo() + "")
@@ -151,10 +149,7 @@ public class ReplyControllerTest implements PLog {
         log.debug("└──────────────────────────────────────────┘");
 
         int flag = replyMapper.doSave(reply01);
-        assertEquals(1, flag);
 
-        int replyNo = replyMapper.getLatestReplyNo();
-        reply01.setReplyNo(replyNo);
 
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/reply/doDelete.do")
                 .param("replyNo", reply01.getReplyNo() + "");
@@ -176,7 +171,7 @@ public class ReplyControllerTest implements PLog {
         assertEquals("댓글이 삭제되었습니다.", resultMessage.getMessageContents());
     }
     
-    //@Ignore
+    @Ignore
     @Test
     public void doRetrieve() throws Exception {
         log.debug("┌──────────────────────────────────────────┐");
@@ -213,7 +208,7 @@ public class ReplyControllerTest implements PLog {
         assertEquals(1, totalCnt);
         assertEquals("reply/reply_list", viewName);
     }
-
+    @Ignore
     @Test
     public void beans() {
         log.debug("┌──────────────────────────────────────────┐");

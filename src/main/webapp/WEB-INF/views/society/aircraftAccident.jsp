@@ -69,7 +69,8 @@ function agobeforeView_onclick() {
         </div>
         
 </div>
-    
+<div ></div>  
+ 
 <!-- <div id="footer_include" data-include="/idsiSFK/neo/sfk/include/work_footer.html"></div> -->
 </body>
 </html>

@@ -3,11 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.ReplyMapper">
     
-    <!-- 최신 댓글 순번순으로 조회 -->
-    <select id="getLatestReplyNo" resultType="int">
-        SELECT NVL(MAX(REPLY_NO), 0) 
-        FROM C##NUMBERONE.REPLY
-    </select> 
+    
     
     <!-- 전체 댓글 삭제(테스트용) -->
     <delete id="deleteAll">
@@ -64,36 +60,31 @@
         WHERE REPLY_NO = #{replyNo}
     </delete>
 
-    <!-- 특정 게시물에 대한 모든 댓글 삭제 -->
-    <delete id="deleteByBoardNo" parameterType="Reply">
-        DELETE FROM C##NUMBERONE.REPLY
-        WHERE BOARD_NO = #{boardNo}
-    </delete>
     
     <select id="doRetrieve" parameterType="Search" resultType="Reply">
-    SELECT T1.*,T2.*
-    FROM (
-        SELECT ROWNUM AS rnum, A.*
+        SELECT A.*, B.*
         FROM (
-            SELECT
-                REPLY_NO,
-                BOARD_NO,
-                REG_ID,
-                REPLY_CONTENTS,
-                PARENT_REPLY,
-                TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
-                TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
-            FROM C##NUMBERONE.REPLY
-            ORDER BY REG_DT DESC
+            SELECT *
+            FROM (
+                SELECT t2.reply_no as replyNo,
+                       t2.parent_reply as parentReply,
+                       t2.reg_id as regId,
+                       LPAD(' ', LEVEL * 2, ' ') || t2.reply_contents AS replyContents,
+                       ROW_NUMBER() OVER (ORDER BY t2.reply_no) AS rnum,
+                       LEVEL AS replyLevel
+                FROM board t1
+                JOIN reply t2 ON t1.board_no = t2.board_no
+                START WITH t2.parent_reply = 0
+                CONNECT BY PRIOR t2.reply_no = t2.parent_reply
+            ) tt2
+            WHERE rnum BETWEEN #{pageSize} * (#{pageNo} - 1) + 1 AND #{pageSize} * #{pageNo}
         ) A
-        WHERE ROWNUM <![CDATA[ <= ]]> #{pageSize} * (#{pageNo} - 1) + #{pageSize}
-    ) T1
-    JOIN (
-        SELECT COUNT(*) totalCnt
-        FROM C##NUMBERONE.REPLY
-    ) T2 ON 1=1
-    WHERE T1.rnum <![CDATA[ >= ]]> #{pageSize} * (#{pageNo} - 1) + 1
+        CROSS JOIN (
+            SELECT COUNT(*) AS totalCnt
+            FROM reply
+        ) B
     </select>
-    
+ 
+ 
     
 </mapper>

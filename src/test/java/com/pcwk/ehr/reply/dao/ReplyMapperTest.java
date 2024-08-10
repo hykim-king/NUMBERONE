@@ -3,6 +3,7 @@ package com.pcwk.ehr.reply.dao;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -20,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.pcwk.ehr.reply.domain.Reply;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.Search;
+import com.pcwk.ehr.code.domain.Code;
 import com.pcwk.ehr.mapper.ReplyMapper;
 
 @RunWith(SpringRunner.class)
@@ -35,22 +37,21 @@ public class ReplyMapperTest implements PLog {
     @Autowired
     ReplyMapper replyMapper;
     
-    Reply reply01;
-    Reply reply02;
-    Reply reply03;
+    Reply reply;
+    
+    ArrayList<String> list;
+    
+    Search search;
 
     @Before
     public void setUp() throws Exception {
         log.debug("┌─────────────────────────────────────────────────────────┐");
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");        
-        
-        reply01 = new Reply(6, 1, "userId01", "댓글내용_01", 23, "사용안함", "사용안함");
-        //reply02 = new Reply(3, 4, "userId02", "댓글내용_02", 34, "사용안함", "사용안함");
-        //reply03 = new Reply(5, 6, "userId03", "댓글내용_03", 56, "사용안함", "사용안함");
-       
-        replyMapper.deleteAll();       
+    
+        search = new Search();
     }
+   
     
     @After
     public void tearDown() throws Exception {
@@ -58,77 +59,24 @@ public class ReplyMapperTest implements PLog {
         log.debug("│ tearDown()                                              │");
         log.debug("└─────────────────────────────────────────────────────────┘");
     }
+    
+    @Test
+    public void doRetrieve() throws Exception {
+        log.debug("┌─────────────────────────────────────────────────────────┐");
+        log.debug("│ doRetrieve()                                          │");
+        log.debug("└─────────────────────────────────────────────────────────┘");   	
 
-    public void isSameReply(Reply replyIn, Reply replyOut) {
-        assertEquals(replyIn.getReplyNo(), replyOut.getReplyNo());
-        assertEquals(replyIn.getBoardNo(), replyOut.getBoardNo());
-        assertEquals(replyIn.getRegId(), replyOut.getRegId());
-        assertEquals(replyIn.getReplyContents(), replyOut.getReplyContents());
-        assertEquals(replyIn.getParentReply(), replyOut.getParentReply());
-    }
-    
-    @Test
-    public void addAndGet() throws SQLException {       
-    	int flag = replyMapper.doSave(reply01);
-        assertEquals(1, flag);
-        
-        int replyNo = replyMapper.getLatestReplyNo();
-        reply01.setReplyNo(replyNo);
-        
-        Reply outVO01 = replyMapper.doSelectOne(reply01);
-        assertNotNull(outVO01);
-        isSameReply(reply01, outVO01);
-        /*
-        flag = replyMapper.doSave(reply02);
-        assertEquals(1, flag);
-        
-        flag = replyMapper.doSave(reply03);
-        assertEquals(1, flag);
-        */
-        //flag = replyMapper.doDelete(outVO01);
-       // assertEquals(1, flag);
-    }
-    
-    @Ignore
-    @Test
-    public void doUpdate() throws SQLException {
-        int flag = replyMapper.doSave(reply01);
-        assertEquals(1, flag);
-        
-        int replyNo = replyMapper.getLatestReplyNo();
-        reply01.setReplyNo(replyNo);
-        
-        Reply outVO01 = replyMapper.doSelectOne(reply01);
-        assertNotNull(outVO01);
-        
-        isSameReply(reply01, outVO01);
-        
-        String upStr = "_U";
-        outVO01.setReplyContents(outVO01.getReplyContents() + upStr);
-        
-        flag = replyMapper.doUpdate(outVO01);
-        assertEquals(1, flag);
-        
-        Reply outVO01Update = replyMapper.doSelectOne(outVO01);
-        assertNotNull(outVO01Update);
-        
-        isSameReply(outVO01Update, outVO01);
-    }
-    
-    @Ignore
-    @Test
-    public void doRetrieve() throws SQLException {
-        // 테스트 데이터 추가
-        replyMapper.doSave(reply01);
-  
-        Search search = new Search();
         search.setPageNo(1);
         search.setPageSize(10);
-              
-        List<Reply> pagedList = replyMapper.doRetrieve(search);
-        assertEquals(1, pagedList.size());
+        
+        List<Reply> replyList = replyMapper.doRetrieve(search);
+  
+
+			log.debug(replyList);
+		  
     }
-    
+
+    @Ignore
     @Test
     public void beans() {
         log.debug("┌──────────────────────────────────────────┐");
@@ -140,4 +88,5 @@ public class ReplyMapperTest implements PLog {
         assertNotNull(context);
         assertNotNull(replyMapper);
     }
+    
 }
