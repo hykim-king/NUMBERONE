@@ -32,53 +32,83 @@
 <title>Insert title here</title>
 
 <script>
+//시도 비동기 통신
+function sidoSet(){
+	$("#eupmyeondong").empty();
+    let type = "GET";
+    let url = "/ehr/location/location";
+    let async = "false";
+    let dataType = "html";
+    
+    let params = {
+        "locCode" : 0
+    };
+    
+    PClass.pAjax(url,params,dataType,type,async,function(data){
+    
+           var optionSidoData = JSON.parse(data);
+           
+           optionSidoData.forEach(function(item){
+                $("#sido").append('<option value="' + item.locCode + '">' + item.sido + '</option>');         
+        });
+     
+   }); 
+        
+}
+// 시군구 비동기 통신
 function sigunguSet(){
+    $("#sigungu").empty();
+    $("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
+    $("#eupmyeondong").empty();
     
     let locCode = $("#sido option:selected").val();
     let type = "GET";
-    let url = "http://localhost:8080/ehr/location/location_sigungu";
-    let async = "true";
+    let url = "/ehr/location/location_sigungu";
+    let async = "false";
     let dataType = "html";
     
     console.log("locCode:" + locCode);
     
     if("" === locCode){
-    	 $("#sigungu").empty();
-    	 $("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
-    	 $("#eupmyeondong").empty();
-         $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
-    	 
+         $("#sigungu").empty();
+         $("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
+         $("#eupmyeondong").empty();
+         $("#eupmyeondong").append('<option value="">' + "" + '</option>');
+         
     }else{
     
-	    let params = {
-	         "locCode" : locCode
-	       };
-	    
-		     PClass.pAjax(url,params,dataType,type,async,function(data){
-		         
-		   	   var optionSigunguData = JSON.parse(data);
-		    
-		       optionSigunguData.forEach(function(item){
-		    	    $("#sigungu").append('<option value="' + item.locCode + '">' + item.sigungu + '</option>');         
-		    });
-	     
-	   }); 
-    
-    }
+        let params = {
+             "locCode" : locCode
+           };
+        
+             PClass.pAjax(url,params,dataType,type,async,function(data){
+                 
+               var optionSigunguData = JSON.parse(data);
+            
+               optionSigunguData.forEach(function(item){
+               $("#sigungu").append('<option value="' + item.locCode + '">' + item.sigungu + '</option>');
+               
+               });
+               
+          });
+       }
 }//--sigunguSet end
 
+// 읍면동 비동기 통신
 function eupmyeondongSet() {
-	
-	let locCode = $("#sigungu option:selected").val();
+    $("#eupmyeondong").empty();
+    $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
+    
+    let locCode = $("#sigungu option:selected").val();
     let type = "GET";
-    let url = "/ehr/location/location_eupmyeondong.do";
-    let async = "true";
+    let url = "/ehr/location/location_eupmyeondong";
+    let async = "false";
     let dataType = "html";
     
     console.log("locCode:" + locCode);
-	
+    
     if("" === locCode){
-    	$("#eupmyeondong").empty();
+        $("#eupmyeondong").empty();
         $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
    }else{
    
@@ -97,9 +127,8 @@ function eupmyeondongSet() {
       }); 
    
    }
-	
+    
 }//--eupmyeondongSet end
-
 
 </script>
 </head>
@@ -217,8 +246,9 @@ function eupmyeondongSet() {
 <script>
 $(document).ready(function(){
     console.log("document ready!");
-		
-	function sidoSet(){
+	
+    // 시도 동기 통신
+	/* function sidoSet(){
 		
 		var optionSidoData = JSON.parse('${sidoSearch}');
 		
@@ -227,15 +257,18 @@ $(document).ready(function(){
 
 		});
 		
-	}
+	} */
+	
 	sidoSet();
 	
 	$("#search").on("click",function(event){
 		//이벤트 버블링 방지
         event.preventDefault();
         console.log("search click");
+        
         /* doRetrieve(1); */ 
 	});
+	
 	
 });//--document end
 

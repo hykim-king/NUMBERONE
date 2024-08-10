@@ -15,7 +15,7 @@ public class Shelter extends DTO {
 	private String  contactInfo;  	//연락처
 	private String  roadAddress;  	//도로명전체주소
 	private String  adminAddress; 	//행정동전체주소
-	private char 	shelterDiv;     //시설분류
+	private String	shelterDiv;     //시설분류
 
 	// default 생성자
 	public Shelter() {
@@ -110,11 +110,11 @@ public class Shelter extends DTO {
 		this.adminAddress = adminAddress;
 	}
 
-	public char getShelterDiv() {
+	public String getShelterDiv() {
 		return shelterDiv;
 	}
 
-	public void setShelterDiv(char shelterDiv) {
+	public void setShelterDiv(String shelterDiv) {
 		this.shelterDiv = shelterDiv;
 	}
 
