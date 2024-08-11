@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.login.domain.Login;
 import com.pcwk.ehr.mapper.LoginMapper;
+import com.pcwk.ehr.mapper.MemberMapper;
 import com.pcwk.ehr.member.domain.Member;
 
 @Service
@@ -14,6 +15,8 @@ public class LoginServiceImpl implements LoginService, PLog {
 
 	@Autowired
 	LoginMapper loginMapper;
+	@Autowired
+	MemberMapper memberMapper;
 	
 	public LoginServiceImpl() {
 
@@ -54,8 +57,19 @@ public class LoginServiceImpl implements LoginService, PLog {
 
 	@Override
 	public boolean doSave(Member member) {
+		log.debug("1. param :" + member);
+		boolean result =false;
+		int flag=0;
+		try {
+			flag = memberMapper.doSave(member);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-		return false;
+		if (flag ==1) {
+			result =true;
+		}
+		return result;
 	}
 
 	@Override

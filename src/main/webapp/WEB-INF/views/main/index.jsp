@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>재난안전포털 No.1</title>
 <link rel="icon" type="image/png" href="/ehr/resources/img/favicon01.ico">
 <style>
@@ -192,7 +193,7 @@
 			            <p>재난문자</p>
 			        </div>
 			        <div class="messages">
-			            <p>재난 문자 내용</p>
+			            <table id ="messageTable"></table>
 			        </div>
 		        </div>
 		        
@@ -215,6 +216,19 @@
     </section>
 
     <%@ include file="footer.jsp" %>
+<script>
+		$("#messageTable").empty();
+		msgList=${disasterMsgList};
+		$.each(msgList, function(index, msg) {
+			let row = $("<tr></tr>");
+            row.append($("<td></td>").text(msg.broadcastOrganization));
+            row.append($("<td></td>").text(msg.msgRegDt));
+            row.append($("<td></td>").text(msg.messageContext));
+            $("#messageTable").append(row);
+		      
+		      
+		});
 
+</script>
 </body>
 </html>

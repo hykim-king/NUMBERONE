@@ -4,7 +4,7 @@ import com.pcwk.ehr.cmn.DTO;
 
 public class Member extends DTO {
     private String memberId;
-    private int locCode;
+    private long locCode;
     private String password;
     private String name;
     private String nickname;
@@ -31,7 +31,7 @@ public class Member extends DTO {
     public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
-    public int getLocCode() {
+    public long getLocCode() {
         return locCode;
     }
     public void setLocCode(int locCode) {

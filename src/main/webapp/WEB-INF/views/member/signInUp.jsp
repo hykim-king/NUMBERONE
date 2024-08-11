@@ -292,12 +292,13 @@
 <script>
 
 class Member {
-    constructor(name, nickname, memberId, password, locCode) {
+    constructor(name, nickname, memberId, password, locCode, isAdmin) {
         this.name = name;
         this.nickname = nickname;
         this.memberId = memberId;
         this.password = password;
         this.locCode = locCode;
+        this.isAdmin = isAdmin;
     }
 }
 $(document).ready(function(){
@@ -590,21 +591,22 @@ $(document).ready(function() {
             let password = sha256(pw);
         	
         	const member = new Member(  $("#nameSignUp").val(),
-            	                                  	    $("#nicknameSignUp").val(), 
-            	                                  	    $("#userIdSignUp").val(),
-            	                                  	    password,
-            	                                        $("#eupmyeondong option:selected").val()
+            	                        $("#nicknameSignUp").val(), 
+            	                        $("#userIdSignUp").val(),
+            	                        password,
+            	                        parseInt($("#eupmyeondong option:selected").val()),
+            	                        "N"
             ); 
             
             
-       
+        console.log(member);
 
         // 비동기 통신
         console.log($("#nameSignUp").val());
         console.log($("#nicknameSignUp").val());
         console.log($("#userIdSignUp").val());
         console.log(password);
-        console.log($("#eupmyeondong option:selected").val());
+        console.log(typeof(parseInt($("#eupmyeondong option:selected").val())));
         
         let url = "/ehr/member/doSave.do";
 

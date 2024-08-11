@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.pcwk.ehr.cmn.PLog;
+import com.pcwk.ehr.cmn.Search;
+import com.pcwk.ehr.disasterMsg.domain.DisasterMsg;
 import com.pcwk.ehr.disasterMsg.service.DisasterMsgService;
 import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 
@@ -79,12 +81,26 @@ public class DisasterMsgController implements PLog{
 
 	}
 	@GetMapping(value = "/messages")
-	public ResponseEntity<String> disasterMsgRetrieve(@RequestParam long locCode){
-		String result ="";
+	public ResponseEntity<List<DisasterMsg>> disasterMsgRetrieve(@RequestParam long locCode,int pageNo){
+		List<DisasterMsg> list = null;
 		long code = locCode;
-		
-		//disasterMsgService.doRetrieve(search);
-		return ResponseEntity.ok().body(result);
+		Search search = new Search();
+		if(0!= locCode) {
+			search.setPageNo(1);
+			search.setPageSize(5);
+			search.setSearchDiv("10");
+			search.setSearchWord(String.valueOf(code));
+		}else {
+			search.setPageNo(pageNo);
+			search.setPageSize(10);
+		}
+		try {
+			list =disasterMsgService.doRetrieve(search);
+		} catch (SQLException e) { 
+			e.printStackTrace();
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(list);
 	}
 
 }
