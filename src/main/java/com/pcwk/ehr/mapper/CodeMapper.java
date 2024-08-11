@@ -9,7 +9,9 @@ import com.pcwk.ehr.code.domain.Code;
 public interface CodeMapper extends WorkDiv<Code> {
 
 	List<Code> doRetrieveIn(List search) throws SQLException;
-		
 	
+	public String getDisasterTypeNameFromCode(String detCode) throws SQLException;
+		
+	public String getDisasterTypeNameEngFromCode(String detCode) throws SQLException;
 	
 }

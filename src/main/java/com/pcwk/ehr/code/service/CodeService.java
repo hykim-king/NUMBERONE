@@ -10,4 +10,8 @@ public interface CodeService extends WorkDiv<Code> {
 
 	public List<Code> doRetrieveIn(List<String> codeList) throws SQLException;
 	
+	public String getDisasterTypeNameFromCode(String detCode) throws SQLException;
+	
+	public String getDisasterTypeNameEngFromCode(String detCode) throws SQLException;
+	
 }

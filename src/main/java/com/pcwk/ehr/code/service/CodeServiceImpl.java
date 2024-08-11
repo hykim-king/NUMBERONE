@@ -14,6 +14,8 @@ import com.pcwk.ehr.mapper.CodeMapper;
 @Service
 public class CodeServiceImpl implements CodeService, PLog {
 
+	
+
 	@Autowired
 	CodeMapper codeMapper;
 	
@@ -22,6 +24,19 @@ public class CodeServiceImpl implements CodeService, PLog {
 		log.debug("│ CodeServiceImpl()                        │");
 		log.debug("└──────────────────────────────────────────┘");
 	}	
+	
+	@Override
+	public String getDisasterTypeNameFromCode(String detCode) throws SQLException {
+		
+		return codeMapper.getDisasterTypeNameFromCode(detCode);
+	}
+
+
+	@Override
+	public String getDisasterTypeNameEngFromCode(String detCode) throws SQLException {
+		
+		return codeMapper.getDisasterTypeNameEngFromCode(detCode);
+	}
 	
 	
 	@Override
@@ -33,7 +48,6 @@ public class CodeServiceImpl implements CodeService, PLog {
 	@Override
 	public Code doSelectOne(Code inVO) throws SQLException {
 	
-		
 		Code outVO = codeMapper.doSelectOne(inVO);
 		log.debug(outVO);
 		return outVO;

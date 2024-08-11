@@ -20,7 +20,25 @@
 	  AND det_code = #{detCode}
     
     </select>
-
+    
+    <select id="getDisasterTypeNameEngFromCode" parameterType ="String" resultMap = "String">
+    select 
+    	DET_CODE_NM_ENG
+    from code 
+    where mst_code ='DISASTER_TYPE' 
+    	  and det_code =#{detCode}
+    
+    </select>
+    
+    <select id="getDisasterTypeNameFromCode" parameterType ="String" resultMap = "String">
+    select 
+    	DET_CODE_NM 
+    from code 
+    where mst_code ='DISASTER_TYPE' 
+    	  and det_code =#{detCode}
+    
+    </select>
+    
     <select id="doRetrieve" parameterType="Code" resultMap ="codeResultMap">
     
         SELECT 
