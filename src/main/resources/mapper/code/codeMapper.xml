@@ -21,7 +21,7 @@
     
     </select>
     
-    <select id="getDisasterTypeNameEngFromCode" parameterType ="String" resultMap = "String">
+    <select id="getDisasterTypeNameEngFromCode" parameterType ="String" resultType = "String">
     select 
     	DET_CODE_NM_ENG
     from code 
@@ -30,7 +30,7 @@
     
     </select>
     
-    <select id="getDisasterTypeNameFromCode" parameterType ="String" resultMap = "String">
+    <select id="getDisasterTypeNameFromCode" parameterType ="String" resultType = "String">
     select 
     	DET_CODE_NM 
     from code 

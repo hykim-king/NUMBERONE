@@ -19,6 +19,8 @@ import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 public class DisasterMsgServiceImpl implements DisasterMsgService,PLog{
     
 
+	
+
 	@Autowired
 	DisasterMsgMapper disasterMsgMapper;
 	
@@ -53,6 +55,15 @@ public class DisasterMsgServiceImpl implements DisasterMsgService,PLog{
         }
 		return resultMap;
 	}
+	
+	@Override
+	public String isNewMessageExist() throws SQLException {
+		log.debug("isNewMessageExist:"+disasterMsgMapper.isNewMessageExist());
+		return disasterMsgMapper.isNewMessageExist();
+	}
+	
+	
+	
 	@Override
 	public int doSave(DisasterMsg inVO) throws SQLException {
 		// TODO Auto-generated method stub

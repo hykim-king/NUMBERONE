@@ -70,6 +70,11 @@ public class DisasterMsgMapperTest implements PLog{
 	@After
 	public void tearDown() throws Exception {
 	}
+	@Test
+	public void isNewMessageExistTest() throws SQLException{
+		String result =disasterMsgMapper.isNewMessageExist();
+		assertEquals(result, "N");
+	}
 	
 	@Test
 	public void doRetrieveTest() throws SQLException {

@@ -50,6 +50,17 @@
       </where> 
  </sql>
  
+ 
+ <select id="isNewMessageExist"	 resultType="String">
+	 SELECT 
+	    CASE 
+	        WHEN (SELECT MAX(message_seq) FROM disasterMSg) = (SELECT MAX(SEQUENCE_NUMBER) FROM SEQUENCE_TRACKER) 
+	        THEN 'N' 
+	        ELSE 'Y' 
+	    END AS result
+	 FROM dual
+ </select>
+ 
  <select id="doRetrieve" parameterType="Search" 
      resultType="DisasterMsg">
      SELECT A.*,B.*
