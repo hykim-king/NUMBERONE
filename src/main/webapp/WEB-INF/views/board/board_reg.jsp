@@ -57,8 +57,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	
 	const titleInput = document.querySelector("#title");
 	const regIdInput = document.querySelector("#regId");
-	const contentsTextArea = document.querySelector("#contents");
-    const divInput = document.querySelector("#div");	
+	const contentsTextArea = document.querySelector("#contents");	
 	//Event감지
 	doSaveBtn.addEventListener("click", function(event){
 	    console.log("doSaveBtn click");		
