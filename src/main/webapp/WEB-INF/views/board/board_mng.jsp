@@ -219,6 +219,8 @@
   <div class="page-header">
       <h2>
         <c:choose>
+            <c:when test="">공지사항-등록</c:when>
+            <c:when test="">자유게시판-등록</c:when>
             <c:otherwise>
                 공지사항/자유게시판
             </c:otherwise>
