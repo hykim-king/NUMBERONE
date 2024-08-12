@@ -100,8 +100,8 @@
         
         function doUpdate(){
             console.log("doUpdate()");
-            if(isEmpty(seqInput.value) == true){
-                alert('seq를 확인 하세요.')
+            if(isEmpty(boardNoInput.value) == true){
+                alert('boardNo를 확인 하세요.')
                 return;
             }           
             
@@ -173,7 +173,7 @@
             let dataType = "html";
             
             let params = { 
-                "seq": seqInput.value
+                "boardNo": boardNoInput.value
             }            
             
             PClass.pAjax(url,params,dataType,type,async,function(data){
@@ -219,8 +219,6 @@
   <div class="page-header">
       <h2>
         <c:choose>
-            <c:when test="${ '10'==board.getDiv() }">공지사항-등록</c:when>
-            <c:when test="${ '20'==board.getDiv() }">자유게시판-등록</c:when>
             <c:otherwise>
                 공지사항/자유게시판
             </c:otherwise>
