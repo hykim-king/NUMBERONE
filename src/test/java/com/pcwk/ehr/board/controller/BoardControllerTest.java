@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -17,8 +19,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -58,7 +62,7 @@ public class BoardControllerTest implements PLog {
         //boardMapper.deleteAll();
 
         // 테스트 데이터를 생성
-        board01 = new Board(205, "ADMIN", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
+        board01 = new Board(213, "ADMIN", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
         //board02 = new Board(2, "ADMIN", "제목_02", "내용_02", 0, 0, "2024-08-03", "2024-08-03");
         //board03 = new Board(3, "ADMIN", "제목_03", "내용_03", 0, 0, "2024-08-03", "2024-08-03");
 
@@ -112,7 +116,7 @@ public class BoardControllerTest implements PLog {
 				assertEquals(board01.getTitle()+" 이 수정되었습니다.",resultMessage.getMessageContents());
     }
     
-    
+    //@Ignore
     @Test
     public void doRetrieve() throws Exception {
         // 테스트 데이터 저장
@@ -120,11 +124,36 @@ public class BoardControllerTest implements PLog {
         //boardMapper.doSave(board02);
         //boardMapper.doSave(board03);
 
-        // 조회 요청
-        MockHttpServletRequestBuilder requestBuilder = get("/board/doRetrieve.do");
-
-        mockMvc.perform(requestBuilder)
-            .andExpect(status().isOk());
+        search.setPageNo(1);
+		search.setPageSize(10);
+		
+		MockHttpServletRequestBuilder requestBuilder
+						= MockMvcRequestBuilders.get("/board/doRetrieve.do")
+								.param("searchDiv", search.getSearchDiv())
+								.param("searchWord", search.getSearchWord())
+								.param("pageSize", search.getPageSize()+"")
+								.param("pageNo", search.getPageNo()+"")
+								;
+		//2. 호출
+		//호출 및 결과 
+		ResultActions resultActions = mockMvc.perform(requestBuilder)
+				.andExpect(status().is2xxSuccessful());		
+		//Model
+		MvcResult mvcResult = resultActions.andDo(print()).andReturn();
+		
+		Map<String, Object> modelMap = mvcResult.getModelAndView().getModel();
+		
+		List<Board> list = (List<Board>) modelMap.get("list");
+		for(Board vo   :list) {
+			log.debug(vo);
+		}
+		
+		int totalCnt =(Integer)modelMap.get("totalCnt");
+		String viewName = mvcResult.getModelAndView().getViewName();
+		
+		// user/user_list
+		assertEquals(213, totalCnt);
+		assertEquals("board/board_list", viewName);
     }
     
     @Ignore

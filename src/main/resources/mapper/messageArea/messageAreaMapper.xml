@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.ehr.mapper.MessageAreaMapper">
+
+    
+
+    <select id="getMessageAreas" parameterType ="Integer" resultType = "String">
+     select LISTAGG(tt1.messageAreaNm,', ') WITHIN GROUP (ORDER BY tt1.messageAreaNm) AS messageareanm  
+       from   (select t1.area_code,
+               Trim(t2.sido || ' ' ||NVL(t2.sigungu,'') || ' ' ||  NVL(t2.eupmyeondong,'')) as messageAreaNm
+          from message_area t1, location t2
+         where message_seq = #{messageSeq}
+           and t1.area_code = t2.loc_code)tt1
+    
+    </select>
+
+    <insert id="doSaveMessageArea" parameterType="MessageArea">
+    
+    		<![CDATA[
+				BEGIN
+				    FOR i IN <foreach item="item" collection="setCollection" open="(" separator="," close=")">
+           					 #{areaSet}
+       						</foreach> LOOP
+				        INSERT INTO message_area (
+				                    message_seq,
+				                    area_code
+				                ) VALUES (
+				                    #{messageSeq},
+				                    i
+				                );
+				    END LOOP;
+				    COMMIT;
+				END;
+    		 ]]>
+    </insert>
+
+</mapper>

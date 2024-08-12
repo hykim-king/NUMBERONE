@@ -26,11 +26,114 @@
 <link rel="stylesheet" href="${CP}/resources/css/bootstrap.css">
 <%-- jquery --%>
 <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
 <%-- common.js --%>
 <script src="${CP}/resources/js/common.js"></script>
 <title>Insert title here</title>
+
+<script>
+//시도 비동기 통신
+function sidoSet(){
+	$("#eupmyeondong").empty();
+    let type = "GET";
+    let url = "/ehr/location/location";
+    let async = "false";
+    let dataType = "html";
+    
+    let params = {
+        "locCode" : 0
+    };
+    
+    PClass.pAjax(url,params,dataType,type,async,function(data){
+    
+           var optionSidoData = JSON.parse(data);
+           
+           optionSidoData.forEach(function(item){
+                $("#sido").append('<option value="' + item.locCode + '">' + item.sido + '</option>');         
+        });
+     
+   }); 
+        
+}
+// 시군구 비동기 통신
+function sigunguSet(){
+    $("#sigungu").empty();
+    $("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
+    $("#eupmyeondong").empty();
+    
+    let locCode = $("#sido option:selected").val();
+    let type = "GET";
+    let url = "/ehr/location/location_sigungu";
+    let async = "false";
+    let dataType = "html";
+    
+    console.log("locCode:" + locCode);
+    
+    if("" === locCode){
+         $("#sigungu").empty();
+         $("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
+         $("#eupmyeondong").empty();
+         $("#eupmyeondong").append('<option value="">' + "" + '</option>');
+         
+    }else{
+    
+        let params = {
+             "locCode" : locCode
+           };
+        
+             PClass.pAjax(url,params,dataType,type,async,function(data){
+                 
+               var optionSigunguData = JSON.parse(data);
+            
+               optionSigunguData.forEach(function(item){
+               $("#sigungu").append('<option value="' + item.locCode + '">' + item.sigungu + '</option>');
+               
+               });
+               
+          });
+       }
+}//--sigunguSet end
+
+// 읍면동 비동기 통신
+function eupmyeondongSet() {
+    $("#eupmyeondong").empty();
+    $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
+    
+    let locCode = $("#sigungu option:selected").val();
+    let type = "GET";
+    let url = "/ehr/location/location_eupmyeondong";
+    let async = "false";
+    let dataType = "html";
+    
+    console.log("locCode:" + locCode);
+    
+    if("" === locCode){
+        $("#eupmyeondong").empty();
+        $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
+   }else{
+   
+       let params = {
+            "locCode" : locCode
+          };
+       
+            PClass.pAjax(url,params,dataType,type,async,function(data){
+                
+              var optionEupmyeondongData = JSON.parse(data);
+           
+              optionEupmyeondongData.forEach(function(item){
+                   $("#eupmyeondong").append('<option value="' + item.locCode + '">' + item.eupmyeondong + '</option>');         
+           });
+        
+      }); 
+   
+   }
+    
+}//--eupmyeondongSet end
+
+</script>
 </head>
 <body>
+    
     <div class="container-sm" id="content" style="display: block;">
         <div class="level1_titleWrap">
           <h2 class="level1_title">대피시설</h2>
@@ -49,21 +152,21 @@
         </div>
         
         <div class="container-sm">
-            <form class="">
+            <form action="#" name="locationForm" class="row g-2 align-items-right" id="locationForm">
                 <div class="row g-3">
-                    <select id="sido" class="form-select" title="시도선택" readonly="readonly" >
-                        <option value>시도선택</option>
+                    <select name="sido" class="form-select" id="sido" onchange="sigunguSet()">
+                        <option value="">시도선택</option>
                     </select>
 
-                    <select id="sigungu" class="form-select" title="시군구선택" readonly="readonly">
-                        <option value>시군구선택</option>
+                    <select name="sigungu" class="form-select" id="sigungu" onchange="eupmyeondongSet()">
+                        <option value="">시군구선택</option>
                     </select>
 
-                    <select id="sbLawArea3" class="form-select" title="읍면동선택" readonly="readonly">
-                        <option value>읍면동선택</option>
+                    <select name="eupmyeondong" class="form-select" id="eupmyeondong">
+                        <option value="">읍면동선택</option>
                     </select>
                 </div>
-                <button type="button" class="btn btn-primary">검색</button>
+                <button type="button" class="btn btn-primary" id="search">검색</button>
             </form>
         </div>
         
@@ -139,5 +242,36 @@
 
     </div>
 <script src="${CP}/resources/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    console.log("document ready!");
+	
+    // 시도 동기 통신
+	/* function sidoSet(){
+		
+		var optionSidoData = JSON.parse('${sidoSearch}');
+		
+		optionSidoData.forEach(function(item){
+			$("#sido").append('<option value="' + item.locCode + '">' + item.sido + '</option>');
+
+		});
+		
+	} */
+	
+	sidoSet();
+	
+	$("#search").on("click",function(event){
+		//이벤트 버블링 방지
+        event.preventDefault();
+        console.log("search click");
+        
+        /* doRetrieve(1); */ 
+	});
+	
+	
+});//--document end
+
+</script>
 </body>
 </html>

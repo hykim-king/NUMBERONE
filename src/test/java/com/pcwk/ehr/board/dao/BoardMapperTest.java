@@ -47,9 +47,9 @@ public class BoardMapperTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");
     
-        board01 = new Board(203, "user0203", "제목 0000203", "내용 0000203", 0, 0, "사용안함", "사용안함");
-        //board02 = new Board(2, "userId02", "제목_02", "내용_02", 0, 0, "사용안함", "사용안함");
-        //board03 = new Board(3, "userId03", "제목_03", "내용_03", 0, 0, "사용안함", "사용안함");
+        board01 = new Board(1, "userId01", "제목_01", "내용_01", 0, 0, "사용안함", "사용안함");
+        board02 = new Board(2, "userId02", "제목_02", "내용_02", 0, 0, "사용안함", "사용안함");
+        board03 = new Board(3, "userId03", "제목_03", "내용_03", 0, 0, "사용안함", "사용안함");
         //boardMapper.deleteAll();
         
         search = new Search();
@@ -70,11 +70,10 @@ public class BoardMapperTest implements PLog {
         assertEquals(boardIn.getAskCnt(), boardOut.getAskCnt());
         assertEquals(boardIn.getReadCnt(), boardOut.getReadCnt());
     }
-    
-    @Ignore
+    	
     @Test
     public void doRetrieve() throws SQLException {
-        boardMapper.multipleSave();
+        //boardMapper.multipleSave();
         
         search.setPageNo(1);
         search.setPageSize(10);
@@ -110,7 +109,7 @@ public class BoardMapperTest implements PLog {
         
         isSameBoard(outVO01Update, outVO01);
     }
-    
+    @Ignore
     @Test
     public void addAndGet() throws SQLException {
         int flag = boardMapper.doSave(board01);
@@ -143,7 +142,6 @@ public class BoardMapperTest implements PLog {
  //       flag = boardMapper.doDelete(outVO01);
 //        assertEquals(1, flag);    
     }
-    
     @Ignore
     @Test
     public void readCntUpdate() throws SQLException {

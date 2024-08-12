@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.ehr.mapper.DisasterMsgMapper">
+
+	<resultMap type="DisasterMsg" id="DisasterMsgResultMap">
+		<result column="message_Seq" property="messageSeq" />
+		<result column="disaster_type" property="disasterType" />
+		<result column="emergency_level" property="emergencyLevel" />
+		<result column="message_context" property="messageContext" />
+		<result column="msg_reg_dt" property="msgRegDt" />
+		<result column="broadcast_organization"
+			property="broadcastOrganization" />
+	</resultMap>
+	
+
+	<select id="doSelectOne" parameterType="DisasterMsg"
+		resultMap="DisasterMsgResultMap">
+		SELECT
+		t1.message_Seq,
+		t2.det_code_nm as disaster_type,
+		t3.det_code_nm as emergency_level,
+		message_context,
+		msg_reg_dt,
+		broadcast_organization
+		FROM
+		disasterMsg t1, code t2, code t3
+		WHERE
+		message_Seq = #{messageSeq}
+		and t3.mst_code ='EMERGENCY_LEVEL' and
+		t3.det_code =t1.emergency_level
+		and t2.mst_code ='DISASTER_TYPE' and
+		t2.det_code=t1.disaster_type
+
+	</select>
+
+	<sql id="whereDoRetrieve">
+      <where>
+         <choose>
+            <when test ="searchDiv !=null">
+            message_seq In (SELECT DISTINCT message_seq 
+    FROM message_area 
+    WHERE area_code IN (
+        SELECT loc_code 
+        FROM location 
+        START WITH loc_code = TO_NUMBER(#{searchWord}) 
+        CONNECT BY PRIOR parent_loc_code =loc_code
+    ))
+            </when>
+         </choose>       
+      </where> 
+ </sql>
+ 
+ 
+ <select id="isNewMessageExist"	 resultType="String">
+	 SELECT 
+	    CASE 
+	        WHEN (SELECT MAX(message_seq) FROM disasterMSg) = (SELECT MAX(SEQUENCE_NUMBER) FROM SEQUENCE_TRACKER) 
+	        THEN 'N' 
+	        ELSE 'Y' 
+	    END AS result
+	 FROM dual
+ </select>
+ 
+ <select id="doRetrieve" parameterType="Search" 
+     resultType="DisasterMsg">
+     SELECT A.*,B.*
+     FROM(
+	 SELECT TT1.RNUM AS no,
+	        TT1.message_seq as messageSeq,
+	        --(SELECT DET_CODE_NM from code where mst_code ='DISASTER_TYPE' and DET_CODE = TT1.disaster_type) as disasterType,
+	        TT1.disaster_type as disasterType,
+	        TT1.emergency_level as emergencyLevel,
+	        TT1.message_context as messageContext,
+	        TT1.broadcast_organization as broadcastOrganization,
+	        DECODE( TO_CHAR(TT1.msg_reg_dt,'YYYYMMDD'), TO_CHAR(SYSDATE,'YYYYMMDD'),      
+	                 TO_CHAR(TT1.msg_reg_dt,'HH24:MI'),TO_CHAR(TT1.msg_reg_dt,'YYYY/MM/DD')   
+	        ) AS msgRegDt    
+	 FROM (
+	     SELECT ROWNUM AS RNUM, T1.*
+	     FROM (
+	         SELECT *
+	           FROM disasterMSG
+	          --WHERE default : all, not null : locCode
+              <include refid="whereDoRetrieve"></include>
+	          ORDER BY message_seq DESC
+	     ) T1
+	   WHERE ROWNUM<![CDATA[ <= ( #{pageSize}*(#{pageNo} -1) + #{pageSize} )     
+	 )TT1
+	WHERE tt1.rnum >=( #{pageSize}*(#{pageNo} -1) + 1 )   ]]>
+   )A	
+   CROSS JOIN(
+	   SELECT COUNT(*) totalCnt
+	   FROM disasterMSG    
+	   <include refid="whereDoRetrieve"></include>  
+   )B
+ </select>
+
+	<select id="disasterTypeStatisticsUpward"
+		parameterType="StatisticsCondition" resultType="java.util.HashMap">
+      <![CDATA[
+		SELECT t3.det_code_nm AS disaster_type, COUNT(*) AS cnt
+			FROM disasterMsg t1
+			JOIN (
+			    SELECT DISTINCT message_seq 
+			    FROM message_area 
+			    WHERE area_code IN (
+			        SELECT loc_code 
+			        FROM location 
+			        START WITH loc_code = #{locCode}
+			        CONNECT BY PRIOR parent_loc_code = loc_code
+			    )
+			) t2 ON t1.message_seq = t2.message_seq
+			JOIN code t3 ON t3.det_code = t1.disaster_type
+			WHERE t1.msg_reg_dt > TO_DATE(#{startDate}, 'YYYY/MM/DD')
+			  AND t1.msg_reg_dt <= TO_DATE(#{endDate}, 'YYYY/MM/DD')
+			  AND t3.mst_code = 'DISASTER_TYPE'
+			GROUP BY t3.det_code_nm
+      ]]>
+	</select>
+
+	<select id="disasterTypeStatisticsDownward"
+		parameterType="StatisticsCondition" resultType="java.util.HashMap">
+      <![CDATA[
+		SELECT t3.det_code_nm AS disaster_type, COUNT(*) AS cnt
+			FROM disasterMsg t1
+			JOIN (
+			    SELECT DISTINCT message_seq 
+			    FROM message_area 
+			    WHERE area_code IN (
+			        SELECT loc_code 
+			        FROM location 
+			        START WITH loc_code = #{locCode}
+			        CONNECT BY parent_loc_code = PRIOR loc_code
+			    )
+			) t2 ON t1.message_seq = t2.message_seq
+			JOIN code t3 ON t3.det_code = t1.disaster_type
+			WHERE t1.msg_reg_dt > TO_DATE(#{startDate}, 'YYYY/MM/DD')
+			  AND t1.msg_reg_dt <= TO_DATE(#{endDate}, 'YYYY/MM/DD')
+			  AND t3.mst_code = 'DISASTER_TYPE'
+			GROUP BY t3.det_code_nm
+      ]]>
+	</select>
+
+
+
+
+
+</mapper>

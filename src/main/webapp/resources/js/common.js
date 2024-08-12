@@ -7,6 +7,46 @@ var jdata1;
 
 var commonFlag = true;
 
+ PClass = {
+   pAjax : function(url,params,dataType="html",type="GET",async=true,_callback){
+          //code
+          console.log("┌───────────────────┐");
+          console.log("│ ajaxCall()        │");
+          console.log("└───────────────────┘");
+          
+          console.log("1. url:"+url);
+          console.log("2. dataType:"+dataType);
+          console.log("3. type:"+type);
+          
+          
+          params.url = url;
+          
+          let paramArray = Object.keys(params);
+          if(paramArray.length > 0){
+              console.log("4. params --------");
+              for(let i =0; i<paramArray.length; i++){
+                  console.log(paramArray[i] + ": " + params[paramArray[i]]);
+              }
+              console.log("params end --------");
+          }
+          
+          return $.ajax({
+                    type: type, 
+                    url: url,
+                    async: async,
+                    dataType:dataType,
+                    data:params,
+                    success:function(response){//통신 성공
+                        console.log("success response:",response);
+                        _callback(response)
+                    },
+                    error:function(response){//실패시 처리
+                        console.error("error:"+response);
+                    }
+             });
+      }
+    }
+
 function userModify1(){
 	
 	 $('strong:contains("소관부서")').each(function() {

@@ -1,9 +1,18 @@
 package com.pcwk.ehr.disasterMsg.domain;
 
-public class DisasterMsg {
+import com.pcwk.ehr.cmn.DTO;
+
+public class DisasterMsg extends DTO{
 	
 	public DisasterMsg() {
 		
+	}
+	@Override
+	public String toString() {
+		return "DisasterMsg [messageSeq=" + messageSeq + ", disasterType=" + disasterType + ", emergencyLevel="
+				+ emergencyLevel + ", messageContext=" + messageContext + ", msgRegDt=" + msgRegDt + ", broadcastArea="
+				+ broadcastArea + ", broadcastOrganization=" + broadcastOrganization + ", toString()="
+				+ super.toString() + "]";
 	}
 	private int messageSeq;
 	private String disasterType;

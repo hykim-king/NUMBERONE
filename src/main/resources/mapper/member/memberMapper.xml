@@ -12,34 +12,97 @@
         <result column="is_admin" property="isAdmin"/>
     </resultMap>
 
-    <!-- ID 중복 체크 쿼리 -->
+	  <sql id="doRetrieveWhere">
+	        <where>
+	            <choose>
+	                <when test="searchDiv != null and searchDiv == '10'">
+	                    MEMBER_ID LIKE CONCAT(#{searchWord}, '%')
+	                </when>
+	                <when test="searchDiv != null and searchDiv == '20'">
+	                    NAME LIKE CONCAT(#{searchWord}, '%')
+	                </when>
+	                <when test="searchDiv != null and searchDiv == '30'">
+	                    NICKNAME LIKE CONCAT(#{searchWord}, '%')
+	                </when>
+	            </choose>
+	        </where>
+	    </sql> 
+
+
+
+    <!--중복 체크 쿼리 -->
     <select id="idDuplicateCheck" parameterType="String" resultType="int">
         SELECT COUNT(*)
         FROM member
-        WHERE member_id = #{memberId}
+        WHERE member_id = #{memberId} 
     </select>
 
+	<select id="nicknameDuplicateCheck" resultType="int" parameterType="string">
+	        SELECT COUNT(*) 
+	        FROM member
+	        WHERE nickname = #{nickname}
+	</select>
+	
+	
+	
+	
+    <!-- 회원 등록 -->
+    <insert id="doSave" parameterType="com.pcwk.ehr.member.domain.Member">
+        INSERT INTO member (
+            member_id, loc_code, password, name, nickname, is_admin
+        ) VALUES (
+            #{memberId}, #{locCode}, #{password}, #{name}, #{nickname}, #{isAdmin}
+        )
+    </insert>
+
+
+   <!-- 로그인 쿼리 -->
+	<select id="idCheck" parameterType="com.pcwk.ehr.member.domain.Member" resultType="int">
+	    SELECT COUNT(*)
+	    FROM member
+	    WHERE member_id = #{memberId}
+	</select>
+	
+	<select id="passwordCheck" parameterType="com.pcwk.ehr.member.domain.Member" resultType="int">
+	    SELECT COUNT(*)
+	    FROM member
+	    WHERE member_id = #{memberId}
+	      AND password = #{password}
+	</select>
+
+	
+
+	<select id="login" parameterType="com.pcwk.ehr.member.domain.Member" resultType="com.pcwk.ehr.member.domain.Member">
+	    SELECT * FROM member
+	    WHERE member_id = #{memberId} AND password = #{password}
+	</select>
+	
+	
+	
+	
+	
+	
     <!-- 단건 조회 쿼리 -->
-    <select id="doSelectOne" parameterType="String" resultMap="MemberResultMap">
-        SELECT
-            member_id AS memberId,
-            loc_code AS locCode,
-            password,
-            name,
-            nickname,
-            is_admin AS isAdmin
-        FROM member
-        WHERE member_id = #{memberId}
-    </select>
+	<select id="doSelectOne" parameterType="String" resultMap="MemberResultMap">
+	    SELECT
+	        member_id,
+	        loc_code,
+	        password,
+	        name,
+	        nickname,
+	        is_admin
+	    FROM member
+	    WHERE member_id = #{memberId}
+	</select>
 
     <!-- 전체 조회 쿼리 -->
     <select id="getAll" resultMap="MemberResultMap">
         SELECT
             member_id AS memberId,
             loc_code AS locCode,
-            password,
-            name,
-            nickname,
+            password AS password,
+            name AS name,
+            nickname AS nickname,
             is_admin AS isAdmin
         FROM member
     </select>
@@ -55,35 +118,18 @@
         DELETE FROM member
     </delete>
 
-    <!-- 단건 저장 쿼리 -->
-    <insert id="doSave" parameterType="com.pcwk.ehr.member.domain.Member">
-        INSERT INTO member (
-            member_id,
-            loc_code,
-            password,
-            name,
-            nickname,
-            is_admin
-        ) VALUES (
-            #{memberId},
-            #{locCode},
-            #{password},
-            #{name},
-            #{nickname},
-            #{isAdmin}
-        )
-    </insert>
+
 
     <!-- 데이터 업데이트 쿼리 -->
     <update id="doUpdate" parameterType="com.pcwk.ehr.member.domain.Member">
         UPDATE member
         SET
-            loc_code = #{locCode},
+            loc_code = #{locCode}, 
             password = #{password},
             name = #{name},
             nickname = #{nickname},
-            is_admin = #{isAdmin}
-        WHERE member_id = #{memberId}
+            is_admin = #{isAdmin} 
+        WHERE member_id = #{memberId} 
     </update>
 
     <!-- 다건 저장 쿼리 -->
@@ -102,28 +148,45 @@
             #{member.password},
             #{member.name},
             #{member.nickname},
-            #{member.isAdmin})
+            #{member.isAdmin}) 
         </foreach>
     </insert>
 
-    <!-- 데이터 조회 쿼리 -->
-    <select id="doRetrieve" parameterType="com.pcwk.ehr.cmn.Search" resultType="Member">
-        SELECT
-            member_id AS memberId,
-            loc_code AS locCode,
-            password,
-            name,
-            nickname,
-            is_admin AS isAdmin
-        FROM member
-        WHERE
-            <if test="searchCondition != null">
-                ${searchCondition} LIKE CONCAT('%', #{searchKeyword}, '%')
-            </if>
-        ORDER BY
-            <if test="sortField != null">
-                ${sortField} ${sortOrder}
-            </if>
-    </select>
+
+
+
+
+
+<!--     데이터 조회 쿼리
+    <select id="doRetrieve" parameterType="com.pcwk.ehr.member.domain.Member" resultType="Member">
+        SELECT A.*, B.totalCnt
+        FROM (
+            SELECT TT1.rnum AS no,
+                   TT1.MEMBER_ID AS memberId,
+                   TT1.LOC_CODE AS locCode,
+                   TT1.PASSWORD AS password,
+                   TT1.NAME AS name,
+                   TT1.NICKNAME AS nickname,
+                   TT1.IS_ADMIN AS isAdmin
+            FROM (
+                SELECT ROWNUM AS rnum, T1.*
+                FROM (
+                    SELECT *
+                    FROM MEMBER
+                    <include refid="doRetrieveWhere"/>
+                    ORDER BY MEMBER_ID DESC
+                ) T1
+                WHERE ROWNUM <![CDATA[ <= (#{pageSize} * #{pageNo})]]>
+            ) TT1
+            WHERE TT1.rnum <![CDATA[ >= (#{pageSize} * (#{pageNo} - 1) + 1)]]>
+        ) A
+        CROSS JOIN (
+            SELECT COUNT(*) AS totalCnt
+            FROM MEMBER
+            <include refid="doRetrieveWhere"/>
+        ) B
+    </select> -->
+
+
 
 </mapper>

@@ -1,8 +1,10 @@
 package com.pcwk.ehr.member;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.sql.SQLException;
-import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -16,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.Search;
+import com.pcwk.ehr.login.domain.Login;
 import com.pcwk.ehr.member.domain.Member;
 import com.pcwk.ehr.mapper.MemberMapper;
 
@@ -37,6 +40,7 @@ public class MemberMapperTest implements PLog {
      Member member1;
      Member member2;
      Member member3;
+     Login login01;
      Search search;
 
     @Before
@@ -49,123 +53,122 @@ public class MemberMapperTest implements PLog {
         memberMapper.deleteAll();
 
         member1 = new Member("user1", 1, "password1", "User One", "nickname1", 'N');
-        member2 = new Member("user2", 2, "password2", "User Two", "nickname2", 'Y');
-        member3 = new Member("user3", 3, "password3", "User Three", "nickname3", 'N');
-
+        //member2 = new Member("user2", 2, "password2", "User Two", "nickname2", 'Y');
+        //member3 = new Member("user3", 3, "password3", "User Three", "nickname3", 'N');
+        login01 = new Login("user1", "password1");
+        
         search = new Search();
     }
 
     @Test
-    @Ignore
-    public void idDuplicateCheck() throws SQLException {
-        // 데이터 입력 전 개수 확인
-        assertEquals(0, memberMapper.getCount());
+     public void idDuplicateCheck() throws SQLException {
+		System.out.println("[̲̅i][̲̅d][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
 
-        // 데이터 등록
-        assertEquals(1, memberMapper.doSave(member1));
-        assertEquals(1, memberMapper.getCount());
-
-        // 단건 조회 및 중복 체크
-        Member outMember = memberMapper.doSelectOne(member1.getMemberId());
-        assertNotNull(outMember);
-        assertMembersEqual(member1, outMember);
-
-        assertEquals(1, memberMapper.idDuplicateCheck(member1.getMemberId()));
-        assertEquals(0, memberMapper.idDuplicateCheck(member2.getMemberId()));
-    }
-
-    @Test
-    @Ignore
-    public void doUpdate() throws SQLException {
-        // 데이터 등록 및 확인
-        assertEquals(1, memberMapper.doSave(member1));
-        assertEquals(1, memberMapper.getCount());
-
-        Member outMember = memberMapper.doSelectOne(member1.getMemberId());
-        assertNotNull(outMember);
-        assertMembersEqual(member1, outMember);
-
-        // 데이터 수정 및 업데이트
-        outMember.setName(outMember.getName() + "_updated");
-        outMember.setPassword(outMember.getPassword() + "_updated");
-        outMember.setNickname(outMember.getNickname() + "_updated");
-        outMember.setIsAdmin('Y');
-
-        assertEquals(1, memberMapper.doUpdate(outMember));
-
-        Member updatedMember = memberMapper.doSelectOne(outMember.getMemberId());
-        assertMembersEqual(updatedMember, outMember);
-    }
-
-    @Test
-    public void doRetrieve() throws SQLException {
-    	
-        System.out.println("┌─────────────────────────────────────────┐");
-        System.out.println("│ doRetrieve()                            │");
-        System.out.println("└─────────────────────────────────────────┘");
-    	memberMapper.deleteAll();		
-    	// 데이터 등록
-    	memberMapper.doSave(member1);
+        
+        //데이터 확인
         int count = memberMapper.getCount();
-        assertEquals(1,count);
+        assertEquals(0, count);
 
-        // 검색 설정 및 테스트
-        search.setPageNo(1);
-        search.setPageSize(10);
-        search.setSearchDiv("10");
-        search.setSearchWord("user1");
+        //등록
+        int flag = memberMapper.doSave(member1);
+        assertEquals(1, flag);
+        assertEquals(1, memberMapper.getCount());
 
-        List<Member> list = memberMapper.doRetrieve(search);
-        assertEquals(0, list.size());
+        //단건 조회 및 비교
+        Member outVO = memberMapper.doSelectOne(member1);
+        assertNotNull(outVO);
+        assertMembersEqual(member1, outVO);
+
+        //중복 체크
+        flag = memberMapper.idDuplicateCheck(member1.getMemberId()); 
+        assertEquals(1, flag);
+
+        //존재하지 않는 ID 체크
+        flag = memberMapper.idDuplicateCheck("nonExistentID"); // 존재하지 않는 ID를 체크
+        assertEquals(0, flag);
     }
 
     @Test
-    @Ignore
-    public void addAndGet() throws SQLException {
-        // 데이터 등록 및 조회
-        assertEquals(1, memberMapper.doSave(member1));
+    public void nicknameDuplicateCheck() throws SQLException {
+		System.out.println("[̲̅n][̲̅i][̲̅c][̲̅k][̲̅n][̲̅a][̲̅m][̲̅e][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
+
+        // 데이터 확인
+        int count = memberMapper.getCount();
+        assertEquals(0, count);
+
+        // 등록
+        int flag = memberMapper.doSave(member1);
+        assertEquals(1, flag);
         assertEquals(1, memberMapper.getCount());
 
-        Member outMember1 = memberMapper.doSelectOne(member1.getMemberId());
-        assertNotNull(outMember1);
-        assertMembersEqual(member1, outMember1);
+        // 단건 조회 및 비교
+        Member outVO = memberMapper.doSelectOne(member1);
+        assertNotNull(outVO);
+        assertMembersEqual(member1, outVO);
 
-        assertEquals(1, memberMapper.doSave(member2));
-        assertEquals(2, memberMapper.getCount());
+        // 닉네임 중복 체크
+        flag = memberMapper.nicknameDuplicateCheck(member1.getNickname());
+        assertEquals(1, flag);
 
-        Member outMember2 = memberMapper.doSelectOne(member2.getMemberId());
-        assertNotNull(outMember2);
-        assertMembersEqual(member2, outMember2);
-
-        assertEquals(1, memberMapper.doSave(member3));
-        assertEquals(3, memberMapper.getCount());
-
-        Member outMember3 = memberMapper.doSelectOne(member3.getMemberId());
-        assertNotNull(outMember3);
-        assertMembersEqual(member3, outMember3);
+        // 존재하지 않는 닉네임 체크
+        flag = memberMapper.nicknameDuplicateCheck("nonExistentNickname"); // 존재하지 않는 닉네임을 체크
+        assertEquals(0, flag);
     }
 
+    
+    
+	@Test
+	public void doSave() throws SQLException {
+		System.out.println("[̲̅d][̲̅o][̲̅s][̲̅a][̲̅v][̲̅e]");
+        Member member1 = new Member("user1", 1, "password1", "User One", "nickname1", 'N');
+        
+        // 아이디 중복 체크
+        if (memberMapper.idDuplicateCheck(member1.getMemberId()) > 0) {
+            throw new SQLException("ID가 중복되었습니다.");
+        }
+
+        // 닉네임 중복 체크
+        if (memberMapper.nicknameDuplicateCheck(member1.getNickname()) > 0) {
+            throw new SQLException("닉네임이 중복되었습니다.");
+        }
+
+        // 중복이 없으면 저장
+        int result = memberMapper.doSave(member1);
+        assertEquals(1, result);
+        
+        // 데이터베이스에서 데이터 조회 및 검증
+        Member savedMember = memberMapper.doSelectOne(member1.getMemberId());
+        assertNotNull(savedMember);
+        assertMembersEqual(member1, savedMember);
+    }
+	
+	
+    
+
+	
+	
     private void assertMembersEqual(Member expected, Member actual) {
-        assertEquals(expected.getMemberId(), actual.getMemberId());
-        assertEquals(expected.getLocCode(), actual.getLocCode());
-        assertEquals(expected.getPassword(), actual.getPassword());
-        assertEquals(expected.getName(), actual.getName());
-        assertEquals(expected.getNickname(), actual.getNickname());
-        assertEquals(expected.getIsAdmin(), actual.getIsAdmin());
+        if (expected == null) {
+            assertNull(actual);
+        } else {
+            assertNotNull(actual);
+            assertEquals(expected.getMemberId(), actual.getMemberId());
+            assertEquals(expected.getLocCode(), actual.getLocCode());
+            assertEquals(expected.getPassword(), actual.getPassword());
+            assertEquals(expected.getName(), actual.getName());
+            assertEquals(expected.getNickname(), actual.getNickname());
+            assertEquals(expected.getIsAdmin(), actual.getIsAdmin());
+        }
     }
 
     @After
     public void tearDown() throws Exception {
-        System.out.println("┌─────────────────────────────────────────┐");
-        System.out.println("│ tearDown()                              │");
-        System.out.println("└─────────────────────────────────────────┘");
+    	System.out.println("[̲̅t][̲̅e][̲̅a][̲̅r][̲̅D][̲̅o][̲̅w][̲̅n]");
     }
 
     @Test
     public void beans() {
-        System.out.println("┌─────────────────────────────────────────┐");
-        System.out.println("│ testBeans()                             │");
-        System.out.println("└─────────────────────────────────────────┘");
+    	System.out.println("[̲̅B][̲̅e][̲̅a][̲̅n][̲̅s]");
         System.out.println("context: " + context);
         System.out.println("memberMapper: " + memberMapper);
 

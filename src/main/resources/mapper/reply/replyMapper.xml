@@ -28,7 +28,23 @@
             SYSDATE
         )
     </insert>
-
+    <!-- 댓글 조건 검색 -->
+	    <sql id="whereReplyRetrieve">
+        <where>
+        <choose> 
+           <when test="searchDiv != null  and searchDiv == '10' ">
+               AND BOARD_NO = #{searchWord} 
+           </when>
+           <when test="searchDiv != null  and searchDiv == '20' ">
+               AND REG_ID LIKE #{searchWord} || '%'     
+           </when>
+           <when test="searchDiv != null  and searchDiv == '30' ">           
+               AND replyContents LIKE #{searchWord} || '%'
+           </when>  
+        </choose>
+        </where>
+    </sql>
+    
     <!-- 특정 댓글 조회 -->
     <select id="doSelectOne" parameterType="Reply" resultType="Reply">
         SELECT
@@ -89,7 +105,6 @@
             FROM reply
         ) B
     </select>
- 
  
     
 </mapper>
