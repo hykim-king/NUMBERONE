@@ -13,7 +13,6 @@
     <!-- 댓글 저장 -->
     <insert id="doSave" parameterType="Reply">
         INSERT INTO C##NUMBERONE.REPLY (
-            REPLY_NO,
             BOARD_NO,
             REG_ID,
             REPLY_CONTENTS,
@@ -21,7 +20,6 @@
             REG_DT,
             MOD_DT
         ) VALUES (
-            #{replyNo},
             #{boardNo},
             #{regId},
             #{replyContents},
@@ -45,21 +43,28 @@
         WHERE REPLY_NO = #{replyNo}
     </select>
 
+
+
     <!-- 댓글 수정 -->
     <update id="doUpdate" parameterType="Reply">
         UPDATE C##NUMBERONE.REPLY
         SET REPLY_CONTENTS = #{replyContents},
             PARENT_REPLY = #{parentReply},
             MOD_DT = SYSDATE
-        WHERE REPLY_NO = #{replyNo}
+        WHERE seq = #{seq}
     </update>
 
     <!-- 댓글 삭제 -->
     <delete id="doDelete" parameterType="Reply">
         DELETE FROM C##NUMBERONE.REPLY
-        WHERE REPLY_NO = #{replyNo}
+        WHERE seq = #{seq}
     </delete>
 
+
+<select id="getSequence" resultType="int">
+    SELECT MAX(reply_no) AS replyNo 
+    FROM reply
+</select>
    
     <select id="doRetrieve" parameterType="Search" resultType="Reply">
         SELECT A.*, B.*

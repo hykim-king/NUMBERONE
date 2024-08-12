@@ -23,6 +23,6 @@ public interface ReplyMapper extends WorkDiv<Reply> {
 	
 	int deleteAll() throws SQLException;
 	
-	
+	int getSequence() throws SQLException;
 	
 } 

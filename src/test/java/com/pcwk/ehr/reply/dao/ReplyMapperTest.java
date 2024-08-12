@@ -54,10 +54,10 @@ public class ReplyMapperTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");        
         
-        reply01 = new Reply(1,1,"chanho","안녕하세요",0,"사용안함","사용안함",1);
-        reply02 = new Reply(2,2,"chanho","안녕하세요",1,"사용안함","사용안함",1);
-        reply03 = new Reply(3,1,"chanho","안녕하세요",1,"사용안함","사용안함",2);
-        
+        reply01 = new Reply(1,1,"chanho","안녕하세요",15,"사용안함","사용안함",1);
+        reply02 = new Reply(2,2,"chanho","안녕하세요",15,"사용안함","사용안함",1);
+        reply03 = new Reply(3,1,"chanho","안녕하세요",13,"사용안함","사용안함",2);
+        //replyMapper.deleteAll();
         
         search = new Search();
     }
@@ -69,6 +69,7 @@ public class ReplyMapperTest implements PLog {
         log.debug("│ tearDown()                                              │");
         log.debug("└─────────────────────────────────────────────────────────┘");
     }
+    
     @Ignore
     @Test
     public void doSave() throws Exception{
@@ -77,8 +78,19 @@ public class ReplyMapperTest implements PLog {
         log.debug("└─────────────────────────────────────────────────────────┘");    	
     	
         int flag = replyMapper.doSave(reply01);
-       
         log.debug("flag:"+flag);
+        
+        int seq = replyMapper.getSequence();
+        log.debug("seq:"+seq);
+        reply01.setReplyNo(seq);
+        
+        
+        flag = replyMapper.doSave(reply02);
+        
+        seq = replyMapper.getSequence();
+        
+        flag = replyMapper.doSave(reply03);
+        seq = replyMapper.getSequence();
     
     }
     
@@ -88,6 +100,19 @@ public class ReplyMapperTest implements PLog {
     	assertEquals(replyIn.getReplyContents(), replyOut.getReplyContents());
     	
     }
+    //@Ignore
+    @Test
+    public void doSelectOne() throws Exception{
+        log.debug("┌─────────────────────────────────────────────────────────┐");
+        log.debug("│ doSelectOne()                                           │");
+        log.debug("└─────────────────────────────────────────────────────────┘");    	
+    	  
+        Reply outVO01 = replyMapper.doSelectOne(reply01);
+        log.debug("outVO01:"+outVO01);
+        
+    	
+    }
+    
     @Ignore
     @Test
     public void doUpdate() throws Exception{
@@ -121,7 +146,7 @@ public class ReplyMapperTest implements PLog {
         
     }
     
-    //@Ignore
+    @Ignore
     @Test
     public void doRetrieve() throws Exception {
         log.debug("┌─────────────────────────────────────────────────────────┐");
