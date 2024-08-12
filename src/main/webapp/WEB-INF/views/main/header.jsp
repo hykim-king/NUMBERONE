@@ -216,7 +216,7 @@
                        
                         <ul>
                             <li><a href="#">재난 문자</a></li>
-                            <li><a href="#">전국 통계 그래프</a></li>
+                            <li><a href="http://localhost:8080/ehr/chart/dataChartMap.do">전국 통계 그래프</a></li>
                             <li><a href="#">지역 재난 그래프</a></li>
                         </ul>
                     </li>

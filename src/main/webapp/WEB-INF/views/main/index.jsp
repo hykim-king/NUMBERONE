@@ -28,12 +28,12 @@
         position: relative;
     
     }
-    .disaster-status {
+    .myPageZone {
         position: absolute;
         top: 20px;
-        left: 20px;
+        left: 715px;
         width: 430px;
-        height: 140px;
+        height: 138px;
         background-color: #CFD8DC;
         display: flex;
         justify-content: space-around;
@@ -78,7 +78,7 @@
     .emergency-info {
         position: absolute;
         top: 20px;
-        left: 485px;
+        left: 20px;
         right:30px;
         width : 680px;
         height: 160px;
@@ -160,10 +160,11 @@
         <div id= "divWrap">
         
         
-		        <div class="disaster-status">
-		            <div id="disaster-img01">그림</div>
-		            <div id="disaster-img02">그림</div>
-		            <div id="disaster-img03">그림</div>
+		        <div class="myPageZone">
+		            <p>로그인해주세요</p>
+		            <p>현재 설정 위치</p>
+		            <p>ㅇㅇ시 ㅇㅇ동</p>
+		            <a><p>위치 재설정</p></a>
 		        </div>
 		        
 		        
