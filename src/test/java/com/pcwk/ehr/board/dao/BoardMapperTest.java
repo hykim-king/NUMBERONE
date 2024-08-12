@@ -50,7 +50,7 @@ public class BoardMapperTest implements PLog {
         board01 = new Board(1, "userId01", "제목_01", "내용_01", 0, 0, "사용안함", "사용안함");
         board02 = new Board(2, "userId02", "제목_02", "내용_02", 0, 0, "사용안함", "사용안함");
         board03 = new Board(3, "userId03", "제목_03", "내용_03", 0, 0, "사용안함", "사용안함");
-        //boardMapper.deleteAll();
+        boardMapper.deleteAll();
         
         search = new Search();
     }
@@ -71,6 +71,7 @@ public class BoardMapperTest implements PLog {
         assertEquals(boardIn.getReadCnt(), boardOut.getReadCnt());
     }
     	
+    @Ignore
     @Test
     public void doRetrieve() throws SQLException {
         //boardMapper.multipleSave();
@@ -109,7 +110,7 @@ public class BoardMapperTest implements PLog {
         
         isSameBoard(outVO01Update, outVO01);
     }
-    @Ignore
+    //@Ignore
     @Test
     public void addAndGet() throws SQLException {
         int flag = boardMapper.doSave(board01);

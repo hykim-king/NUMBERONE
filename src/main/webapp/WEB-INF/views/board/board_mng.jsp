@@ -128,7 +128,7 @@
             let dataType = "html";
             
             let params = {  
-                "seq": seqInput.value,
+                "boardNo": boardNoInput.value,
                 "title": titleInput.value,
                 "contents": simplemde.value()      
             }
@@ -160,8 +160,8 @@
         
         function doDelete(){
             console.log("doDelete()");
-            if(isEmpty(seqInput.value) == true){
-                alert('seq를 확인 하세요.')
+            if(isEmpty(boardNoInput.value) == true){
+                alert('boardNo를 확인 하세요.')
                 return;
             }
             if(confirm('삭제 하시겠습니까?') === false)return;
@@ -238,9 +238,9 @@
   <!-- form -->
   <form action="#" class="form-horizontal"  name="regForm" id="regForm">
     <div class="row mb-2">
-        <label for="seq" class="col-sm-2 col-form-label">SEQ</label>
+        <label for="boardNo" class="col-sm-2 col-form-label">boardNo</label>
         <div class="col-sm-10">
-          <input type="text"  value="<c:out value='${board.boardNo }'/>" class="form-control readonly-input" readonly="readonly" name="seq" id="seq"  >        
+          <input type="text"  value="<c:out value='${board.boardNo }'/>" class="form-control readonly-input" readonly="readonly" name="boardNo" id="boardNo"  >        
         </div>      
     </div>  
     <div class="row mb-2">

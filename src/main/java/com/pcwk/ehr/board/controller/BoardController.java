@@ -172,9 +172,20 @@ public class BoardController implements PLog {
         String markdownContents = markdownService.convertMarkdownToHtml(outVO.getContents());
 
         log.debug("2. outVO: " + outVO);
-
-        model.addAttribute("markdownContents", markdownContents);
+        
+        String message = "";
+		int flag = 0;
+		if (null != outVO) {
+			message = outVO.getTitle() + " 이 조회 되었습니다.";
+			flag = 1;
+		} else {
+			message = inVO.getTitle() + " 조회 실패!";
+		}
+		
+		Message messageObj = new Message(flag, message);
+		model.addAttribute("markdownContents", markdownContents);
         model.addAttribute("board", outVO);
+        model.addAttribute("message", messageObj);
 
         return viewName;
     }

@@ -85,9 +85,9 @@ public class BoardServiceImplTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");
         
-        // 전체 삭제
-        //boardMapper.deleteAll();
-        board01 = new Board(207, "user0207", "제목_01", "내용_01", 0, 0, "사용안함", "사용안함");
+        // 전체 삭제       
+        boardMapper.deleteAll();
+        board01 = new Board(1, "user0207", "제목_01", "내용_01", 0, 0, "사용안함", "사용안함");
     }
 
     @After
@@ -97,7 +97,7 @@ public class BoardServiceImplTest implements PLog {
         log.debug("└─────────────────────────────────────────────────────────┘");
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void beans() {
         log.debug("┌──────────────────────────────────────────┐");

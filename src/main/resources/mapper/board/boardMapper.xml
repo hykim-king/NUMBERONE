@@ -71,6 +71,7 @@
             SELECT TT1.RNUM AS no,
                    TT1.TITLE,
                    TT1.READ_CNT as readCnt,
+                   TT1.ASK_CNT as askCnt,
                    TT1.REG_ID as regId,
                    TO_CHAR(TT1.REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
                    TO_CHAR(TT1.MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
@@ -109,10 +110,11 @@
     <select id="doSelectOne" parameterType="Board" resultType="Board">
         SELECT 
             BOARD_NO as boardNo,
-            TITLE as title,
-            CONTENTS as contents,
+            TITLE,
+            CONTENTS,
             READ_CNT as readCnt,
-            REG_ID as regId,
+            ASK_CNT as askCnt,
+            REG_ID as regId,           
             TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
             TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
         FROM C##NUMBERONE.BOARD

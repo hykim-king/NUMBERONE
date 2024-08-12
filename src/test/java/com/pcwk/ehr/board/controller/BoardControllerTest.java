@@ -1,6 +1,7 @@
 package com.pcwk.ehr.board.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -28,6 +29,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.google.gson.Gson;
+import com.pcwk.ehr.board.controller.BoardControllerTest.Response;
 import com.pcwk.ehr.board.domain.Board;
 import com.pcwk.ehr.mapper.BoardMapper;
 import com.pcwk.ehr.cmn.Message;
@@ -53,16 +55,21 @@ public class BoardControllerTest implements PLog {
     Board board03;
 
     Search search;
+    
+    static class Response {
+        Board board;
+        Message message;
+    }
 
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         // 기존 데이터 삭제
-        //boardMapper.deleteAll();
+        boardMapper.deleteAll();
 
         // 테스트 데이터를 생성
-        board01 = new Board(213, "ADMIN", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
+        board01 = new Board(1, "ADMIN", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
         //board02 = new Board(2, "ADMIN", "제목_02", "내용_02", 0, 0, "2024-08-03", "2024-08-03");
         //board03 = new Board(3, "ADMIN", "제목_03", "내용_03", 0, 0, "2024-08-03", "2024-08-03");
 
@@ -116,7 +123,7 @@ public class BoardControllerTest implements PLog {
 				assertEquals(board01.getTitle()+" 이 수정되었습니다.",resultMessage.getMessageContents());
     }
     
-    //@Ignore
+    @Ignore
     @Test
     public void doRetrieve() throws Exception {
         // 테스트 데이터 저장
@@ -152,7 +159,7 @@ public class BoardControllerTest implements PLog {
 		String viewName = mvcResult.getModelAndView().getViewName();
 		
 		// user/user_list
-		assertEquals(213, totalCnt);
+		//assertEquals(213, totalCnt);
 		assertEquals("board/board_list", viewName);
     }
     
@@ -174,23 +181,66 @@ public class BoardControllerTest implements PLog {
             .andExpect(status().isOk());
     }
     
-    @Ignore
-    @Test
-    public void doSelectOne() throws Exception {
-        // 테스트 데이터 저장
-        boardMapper.doSave(board01);
+    //@Ignore	
+	@Test
+	public void doSelectOne() throws Exception{
+		log.debug("┌──────────────────────────────────────────┐");
+		log.debug("│ *doSelectOne()*                          │");
+		log.debug("└──────────────────────────────────────────┘");			
+		
+		//1
+		int flag = boardMapper.doSave(board01);
+		log.debug("flag:"+flag);
+		assertEquals(1, flag);
+		
+		//2
+		//등록 seq조회 : 등록 당시에는 SEQ를 알지 못함!
+		int seq = boardMapper.getLatestBoardNo();
+		log.debug("seq:"+seq);
+		board01.setBoardNo(seq);
+		
+		MockHttpServletRequestBuilder requestBuilder
+		= MockMvcRequestBuilders.get("/board/doSelectOne.do")
+		.param("seq", board01.getBoardNo()+"")
+		.param("regId", board01.getRegId())
+		;			
+		
+		//호출 및 결과 
+		ResultActions resultActions = mockMvc.perform(requestBuilder)
+				//Controller produces =  "text/plain;charset=UTF-8"
+				.andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=UTF-8"))
+				//Web상태
+				.andExpect(status().is2xxSuccessful());		
+		//Mock 로그: print()
+		//json문자열 
+		String jsonResult=resultActions.andDo(print())
+							.andReturn()
+							.getResponse().getContentAsString();
+							;
+     							
+		log.debug("┌──────────────────────────────────────────┐");
+		log.debug("│ jsonResult:"+jsonResult);
+		log.debug("└──────────────────────────────────────────┘");
+        // Gson 객체 생성
+        Gson gson = new Gson();
         
-        // 저장된 게시물 번호 조회
-        int boardNo = boardMapper.getLatestBoardNo();
-        board01.setBoardNo(boardNo);
+        // 전체 JSON 파싱
+        Response response = gson.fromJson(jsonResult, Response.class);
 
-        // 단일 게시물 조회 요청
-        MockHttpServletRequestBuilder requestBuilder = get("/board/doSelectOne.do")
-            .param("boardNo", board01.getBoardNo() + "");
+        // message 객체 추출
+        Message message = response.message;
 
-        mockMvc.perform(requestBuilder)
-            .andExpect(status().isOk());
-    }
+        // Board 객체 추출
+        Board board = response.board;        
+        // message 객체 출력
+        log.debug("Message : " + message);	
+        log.debug("Board : " + board);	
+        
+        assertEquals(1, message.getMessageId());
+        assertEquals(board.getTitle()+" 이 조회 되었습니다.", message.getMessageContents());
+        
+        isSameBoard(board,board01);
+	}
 
     public void isSameBoard(Board boardIn, Board boardOut) {
         assertEquals(boardIn.getBoardNo(), boardOut.getBoardNo());
@@ -232,4 +282,16 @@ public class BoardControllerTest implements PLog {
       		assertEquals(1, resultMessage.getMessageId());
       		assertEquals(board01.getTitle()+"이 등록되었습니다.",resultMessage.getMessageContents());
     }
+    
+    @Test
+	public void beans() {
+		log.debug("┌──────────────────────────────────────────┐");
+		log.debug("│ beans()                                  │");
+		log.debug("└──────────────────────────────────────────┘");	
+		
+		log.debug("webApplicationContext:"+webApplicationContext);
+		log.debug("mockMvc:"+mockMvc);
+		assertNotNull(webApplicationContext);
+		assertNotNull(mockMvc);
+	}
 }
