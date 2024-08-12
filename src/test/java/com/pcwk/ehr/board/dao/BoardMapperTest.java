@@ -70,7 +70,7 @@ public class BoardMapperTest implements PLog {
         assertEquals(boardIn.getAskCnt(), boardOut.getAskCnt());
         assertEquals(boardIn.getReadCnt(), boardOut.getReadCnt());
     }
-    
+    	
     @Test
     public void doRetrieve() throws SQLException {
         //boardMapper.multipleSave();
