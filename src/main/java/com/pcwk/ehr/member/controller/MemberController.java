@@ -40,7 +40,7 @@ public class MemberController implements PLog {
    
    
    @GetMapping("signInUp.do")
-   public String login() {
+   public String signInUp() {
       String viewName = "member/signInUp";
       
       log.debug("┌──────────────────────────────────────────┐");
@@ -51,11 +51,11 @@ public class MemberController implements PLog {
    }
    
    
-   @RequestMapping(value="/loginInfo.do"
+   @RequestMapping(value="/login.do"
 			,method = RequestMethod.POST
 			, produces = "text/plain;charset=UTF-8")
    @ResponseBody
-	public String loginInfo(Login inVO, HttpSession  httpSession ) throws SQLException {
+	public String login(Login inVO, HttpSession  httpSession ) throws SQLException {
 		String  jsonString = "";
 		
 		log.debug("1 param:" + inVO);	

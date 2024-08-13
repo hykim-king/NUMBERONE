@@ -19,6 +19,8 @@ import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.cmn.StringUtil;
+import com.pcwk.ehr.code.domain.Code;
+import com.pcwk.ehr.code.service.CodeService;
 import com.pcwk.ehr.markdown.service.MarkdownService;
 
 @Controller
@@ -27,6 +29,9 @@ public class BoardController implements PLog {
 
     @Autowired
     BoardService boardService;
+    
+    @Autowired
+    CodeService codeService;
 
     @Autowired
     MarkdownService markdownService;
@@ -73,38 +78,65 @@ public class BoardController implements PLog {
     }
 
     // 게시물 목록 조회
-    @RequestMapping(value = "/doRetrieve.do", method = RequestMethod.GET)
-    public String doRetrieve(Model model, HttpServletRequest req) throws SQLException {
-        String viewName = "board/board_list";
-        log.debug("┌──────────────────────────────────────────┐");
-        log.debug("│ doRetrieve()                             │");
-        log.debug("└──────────────────────────────────────────┘");
+    @RequestMapping( value ="/doRetrieve.do"
+			, method = RequestMethod.GET)	
+	public String doRetrieve(Model model, HttpServletRequest req) throws SQLException{
+		String viewName = "board/board_list";
+		log.debug("┌──────────────────────────────────────────┐");
+		log.debug("│ doRetrieve()                             │");
+		log.debug("└──────────────────────────────────────────┘");		
+		
+		Search search =new Search();
+		
+		//div값이 없으면 전체
+		//String  div  = StringUtil.nvl(req.getParameter("div"),"");
+		//search.setDiv(div);
+		
+		//검색구분
+		String  searchDiv  = StringUtil.nvl(req.getParameter("searchDiv"),"");
+		String  searchWord = StringUtil.nvl(req.getParameter("searchWord"),"");
+		
+		search.setSearchDiv(searchDiv);
+		search.setSearchWord(searchWord);
+		
+		//브라우저에서 숫자 : 문자로 들어 온다.	
+		String pageSize = StringUtil.nvl(req.getParameter("pageSize"),"10");
+		String pageNo = StringUtil.nvl(req.getParameter("pageNo"),"1");
+		
+		search.setPageSize(Integer.parseInt(pageSize));
+		search.setPageNo(Integer.parseInt(pageNo));
+		
+		// 1.
+		log.debug("1.param search:" + search);		
+		List<Board> list = this.boardService.doRetrieve(search);
+		
+		//2. 화면 전송 데이터
+		model.addAttribute("list", list);//조회 데이터
+		model.addAttribute("search", search); //검색조건
+		
+		int totalCnt = 0;
+		//페이징:totalcnt
+		if(null != list && list.size() > 0) {
+			Board firstVO = list.get(0);
+			totalCnt = firstVO.getTotalCnt();
+		}
+		model.addAttribute("totalCnt", totalCnt); //검색조건
+		
+		//----------------------------------------------------------------------
+		Code code =new Code();
+		code.setMstCode("BOARD_SEARCH");//회원검색 조건
+		List<Code> memberSearch = this.codeService.doRetrieve(code);
+		model.addAttribute("BOARD_SEARCH", memberSearch); //검색조건
+		
+        code.setMstCode("COM_PAGE_SIZE");//회원검색 조건
+		List<Code> pageSizeSearch = this.codeService.doRetrieve(code);
+		model.addAttribute("COM_PAGE_SIZE", pageSizeSearch); //페이지 사이즈
 
-        // 기본 페이징 설정
-        int pageSize = Integer.parseInt(StringUtil.nvl(req.getParameter("pageSize"), "10"));
-        int pageNo = Integer.parseInt(StringUtil.nvl(req.getParameter("pageNo"), "1"));
-
-        // 검색 조건
-        String searchWord = StringUtil.nvl(req.getParameter("searchWord"), "");
-
-        // 검색 및 페이징 처리를 위한 객체 생성
-        Search search = new Search();
-
-        log.debug("1. param search: " + search);
-
-        // 게시물 목록 조회
-        List<Board> list = boardService.doRetrieve(search);
-
-        model.addAttribute("list", list); // 조회 결과를 모델에 추가
-
-        int totalCnt = 0;
-        if (list != null && list.size() > 0) {
-            totalCnt = list.get(0).getTotalCnt();
-        }
-        model.addAttribute("totalCnt", totalCnt); // 총 게시물 수를 모델에 추가
-
-        return viewName;
-    }
+		//----------------------------------------------------------------------
+		
+		//model
+		return viewName;
+	}
 
     // 게시물 삭제
     @RequestMapping(value = "/doDelete.do", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
@@ -140,9 +172,20 @@ public class BoardController implements PLog {
         String markdownContents = markdownService.convertMarkdownToHtml(outVO.getContents());
 
         log.debug("2. outVO: " + outVO);
-
-        model.addAttribute("markdownContents", markdownContents);
+        
+        String message = "";
+		int flag = 0;
+		if (null != outVO) {
+			message = outVO.getTitle() + " 이 조회 되었습니다.";
+			flag = 1;
+		} else {
+			message = inVO.getTitle() + " 조회 실패!";
+		}
+		
+		Message messageObj = new Message(flag, message);
+		model.addAttribute("markdownContents", markdownContents);
         model.addAttribute("board", outVO);
+        model.addAttribute("message", messageObj);
 
         return viewName;
     }

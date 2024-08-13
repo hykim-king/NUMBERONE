@@ -7,6 +7,7 @@ package com.pcwk.ehr.cmn;
  */
 public class DTO {
 	
+	public static final int BOTTOM_COUNT = 10;//바닥글수
 	private int totalCnt; //총 글수
 	
 	private int no;       //글 번호

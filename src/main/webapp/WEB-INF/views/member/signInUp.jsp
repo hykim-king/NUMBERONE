@@ -23,6 +23,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>로그인/회원가입</title>
 <link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
@@ -641,6 +642,89 @@ $(document).ready(function() {
         callServer();
     }
 });
+
+
+function isEmpty(value) {
+    return (value === undefined || value === null || value.trim().length === 0);
+}
+
+
+$(document).ready(function() {
+    // 로그인 버튼 클릭 이벤트
+    $('#loginInfoBtn').on('click', function(event) {
+        event.preventDefault(); // 기본 폼 제출 동작 방지
+        
+        // 로그인 처리 함수 호출
+        login();
+    });
+
+    function login() {
+        // 입력 필드에서 값 가져오기
+        var memberId = $('#member_id').val().trim();
+        var password = $('#password').val().trim();
+
+        // 필드 검증
+        if (isEmpty(memberId)) {
+            alert('아이디를 입력 하세요.');
+            $('#member_id').focus();
+            return;
+        }
+
+        if (isEmpty(password)) {
+            alert('비밀번호를 입력 하세요.');
+            $('#password').focus();
+            return;
+        }
+
+        // AJAX 요청 보내기
+        $.ajax({
+            url: '/ehr/member/login.do', // 요청할 URL
+            type: 'POST', // 요청 방식
+            dataType: 'json', // 응답 데이터 형식
+            contentType: 'application/json; charset=UTF-8', // 요청 데이터 형식
+            data: JSON.stringify({
+                memberid: memberId,
+                password: password
+            }), // 요청 데이터
+            success: function(response) {
+                // 서버 응답 성공 시 처리
+                console.log('서버 응답:', response);
+                
+                if (response && response.messageId) {
+                    switch (response.messageId) {
+                        case 10:
+                            alert(response.messageContents);
+                            $('#member_id').focus();
+                            break;
+                        case 20:
+                            alert(response.messageContents);
+                            $('#password').focus();
+                            break;
+                        case 30:
+                            alert(response.messageContents);
+                            window.location.href = "/ehr/main/main.do";
+                            break;
+                        default:
+                            alert(response.messageContents);
+                    }
+                } else {
+                    alert('알 수 없는 오류가 발생했습니다.');
+                }
+            },
+            error: function(xhr, status, error) {
+                // 서버 응답 오류 시 처리
+                console.error('로그인 처리 중 오류 발생:', error);
+                alert('서버 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        });
+    }
+
+    // 빈 값 검사 함수
+    function isEmpty(value) {
+        return value === undefined || value === null || value.trim() === '';
+    }
+});
+
 </script>
 
 </head>

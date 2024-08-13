@@ -241,7 +241,7 @@
             })
             .then(function(response) {
 
-                body: JSON.stringify(condition), 
+                body: JSON.stringify(condition) 
             })
             .then(function(response) { //통신상태 확인
 
@@ -279,7 +279,7 @@
 
         
         
-         function setPeriod(months) {
+        function setPeriod(months) {
             const today = new Date();
             const endYear = today.getFullYear();
             const endMonth = today.getMonth() + 1;
@@ -298,49 +298,37 @@
             $('#endYear').val(endYear);
             $('#endMonth').val(endMonth);
             $('#endDay').val(endDay);
+
+            // 날짜가 설정된 후 화면을 갱신
+            updateMap();
         }
 
-        function updateMap() {
-            const startYear = $('#startYear').val();
-            const startMonth = $('#startMonth').val();
-            const startDay = $('#startDay').val();
-            const endYear = $('#endYear').val();
-            const endMonth = $('#endMonth').val();
-            const endDay = $('#endDay').val();
+         function updateMap() {
+        	    const startYear = $('#startYear').val();
+        	    const startMonth = $('#startMonth').val();
+        	    const startDay = $('#startDay').val();
+        	    const endYear = $('#endYear').val();
+        	    const endMonth = $('#endMonth').val();
+        	    const endDay = $('#endDay').val();
 
-            const startDate = `${startYear}/${startMonth.toString().padStart(2, '0')}/${startDay.toString().padStart(2, '0')}`;
-            const endDate = `${endYear}/${endMonth.toString().padStart(2, '0')}/${endDay.toString().padStart(2, '0')}`;
+        	    const startDate = `${startYear}/${startMonth.toString().padStart(2, '0')}/${startDay.toString().padStart(2, '0')}`;
+        	    const endDate = `${endYear}/${endMonth.toString().padStart(2, '0')}/${endDay.toString().padStart(2, '0')}`;
 
-            callServer(startDate, endDate);
-        }
+        	    console.log("Start Date:", startDate);
+        	    console.log("End Date:", endDate);
+
+        	    callServer(startDate, endDate);
+        	}
 
         
 
-            .then(function(data) { //정상일시 데이터 사용
-            	console.log('data:', data);
-            	const dataMap = new Map(Object.entries(data));
-            	const resultObject = Object.fromEntries(dataMap);
-            	let datasize =dataMap.size; 
-            	const keysArray = [...dataMap.keys()];
-            	const resultArray =[]
-            	for (let i =0;i<datasize; i++) {
-            		 const key = keysArray[i];
-   					 const value = dataMap.get(keysArray[i]);
-   					
-   					 resultArray.push([key,value]); 
-				}
-            	
-            	showGraph(resultArray);
-            	
-                
-            })
-            .catch(function(error) { 
-                console.error('문제가 발생했습니다:', error);
-            });
-        }
+         
+            };
+        
         callServer();
 
 
     </script>
+    
 </body>
 </html>
