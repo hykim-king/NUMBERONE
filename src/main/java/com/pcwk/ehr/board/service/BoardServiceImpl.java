@@ -56,17 +56,13 @@ public class BoardServiceImpl implements BoardService, PLog {
 		int flag = 0;
 		//조회 count증가
 		if(null != outVO) {
-            flag = boardMapper.readCntUpdate(outVO);
+            flag = boardMapper.readCntUpdate(inVO);
             log.debug("3. 조회 count증가 :" + flag);
             
             if(1 == flag) {
                 outVO.setReadCnt(outVO.getReadCnt() + 1);
             }
-        } else {
-            log.debug("Board not found for boardNo: " + inVO.getBoardNo());
-        }
-		
-		
+        } 
 		return outVO;
 	}
 

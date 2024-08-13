@@ -89,8 +89,8 @@ public class BoardController implements PLog {
 		Search search =new Search();
 		
 		//div값이 없으면 전체
-		//String  div  = StringUtil.nvl(req.getParameter("div"),"");
-		//search.setDiv(div);
+		String  div  = StringUtil.nvl(req.getParameter("div"),"");
+		search.setDiv(div);
 		
 		//검색구분
 		String  searchDiv  = StringUtil.nvl(req.getParameter("searchDiv"),"");
@@ -194,9 +194,11 @@ public class BoardController implements PLog {
     @RequestMapping(value = "/doSave.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String doSave(Board inVO) throws SQLException {
-        log.debug("1. param inVO: " + inVO);
-
+    	String jsonString = "";
+    	log.debug("1. param inVO: " + inVO);
         int flag = boardService.doSave(inVO);
+        
+        log.debug("2.flag:" + flag);
         String message = "";
 
         if (1 == flag) {
@@ -206,7 +208,7 @@ public class BoardController implements PLog {
         }
 
         Message messageObj = new Message(flag, message);
-        String jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(messageObj);
+        jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(messageObj);
         log.debug("2. jsonString: " + jsonString);
 
         return jsonString;

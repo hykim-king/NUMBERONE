@@ -28,6 +28,7 @@
     <insert id="multipleSave" parameterType="Board">
         INSERT INTO C##NUMBERONE.BOARD (
             BOARD_NO,
+            DIV,
             REG_ID,
             TITLE,
             CONTENTS,
@@ -47,7 +48,15 @@
         FROM DUAL
         CONNECT BY LEVEL <![CDATA[ <= 202 ]]>
     </insert>
-
+    
+    <sql id="divDoRetrieve">
+     <choose> <!-- AND 대문사 사용 금지 -->
+       <when test="div != null  and div != '' ">
+         AND  div = #{div}
+       </when>
+     </choose>  
+    </sql>
+    
     <!-- 검색 조건에 따른 게시물 조회 -->
     <sql id="whereDoRetrieve">
         <choose>
@@ -70,9 +79,9 @@
         FROM (
             SELECT TT1.RNUM AS no,
                    TT1.TITLE,
-                   TT1.READ_CNT as readCnt,
-                   TT1.ASK_CNT as askCnt,
                    TT1.REG_ID as regId,
+                   TT1.READ_CNT as readCnt,
+                   TT1.ASK_CNT as askCnt,                 
                    TO_CHAR(TT1.REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
                    TO_CHAR(TT1.MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
                    TT1.BOARD_NO as boardNo
@@ -83,6 +92,7 @@
                     FROM C##NUMBERONE.BOARD
                     WHERE 1=1
                     <include refid="whereDoRetrieve"/>
+                    <include refid="divDoRetrieve"/>
                     ORDER BY MOD_DT DESC
                 ) T1
                 WHERE ROWNUM <![CDATA[ <= (#{pageSize} * (#{pageNo} - 1) + #{pageSize}) ]]>
@@ -94,13 +104,15 @@
             FROM C##NUMBERONE.BOARD
             WHERE 1=1
             <include refid="whereDoRetrieve"/>
+            <include refid="divDoRetrieve"/>
         ) B
     </select>
 
     <!-- 게시물 수정 -->
     <update id="doUpdate" parameterType="Board">
         UPDATE C##NUMBERONE.BOARD
-        SET TITLE = #{title},
+        SET DIV = #{div},
+            TITLE = #{title},
             CONTENTS = #{contents},
             MOD_DT = SYSDATE
         WHERE BOARD_NO = #{boardNo}
@@ -109,12 +121,13 @@
     <!-- 특정 게시물 조회 -->
     <select id="doSelectOne" parameterType="Board" resultType="Board">
         SELECT 
-            BOARD_NO as boardNo,
-            TITLE,
+            BOARD_NO AS boardNo,
+            DIV,
+            REG_ID AS regId,
+            TITLE,            
             CONTENTS,
-            READ_CNT as readCnt,
-            ASK_CNT as askCnt,
-            REG_ID as regId,           
+            READ_CNT AS readCnt,
+            ASK_CNT AS askCnt,                       
             TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
             TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
         FROM C##NUMBERONE.BOARD
@@ -135,21 +148,21 @@
     <!-- 게시물 저장 -->
     <insert id="doSave" parameterType="Board">
         INSERT INTO C##NUMBERONE.BOARD (
-            BOARD_NO,
-            REG_ID,
+            DIV,
             TITLE,
+            REG_ID,
             CONTENTS,
             ASK_CNT,
-            READ_CNT,
+            READ_CNT,            
             REG_DT,
             MOD_DT
         ) VALUES (
-            #{boardNo},
-            #{regId},
+            #{div},
             #{title},
+            #{regId},
             #{contents},
             0,
-            0,
+            0,           
             SYSDATE,
             SYSDATE
         )

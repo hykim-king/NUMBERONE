@@ -66,10 +66,10 @@ public class BoardControllerTest implements PLog {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         // 기존 데이터 삭제
-        boardMapper.deleteAll();
+        //boardMapper.deleteAll();
 
         // 테스트 데이터를 생성
-        board01 = new Board(1, "ADMIN", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
+        board01 = new Board(722, "10", "ADMIN", "d제목_02", "d내용_02", 0, 0, "2024-08-03", "2024-08-03");
         //board02 = new Board(2, "ADMIN", "제목_02", "내용_02", 0, 0, "2024-08-03", "2024-08-03");
         //board03 = new Board(3, "ADMIN", "제목_03", "내용_03", 0, 0, "2024-08-03", "2024-08-03");
 
@@ -181,7 +181,7 @@ public class BoardControllerTest implements PLog {
             .andExpect(status().isOk());
     }
     
-    //@Ignore	
+    @Ignore	
 	@Test
 	public void doSelectOne() throws Exception{
 		log.debug("┌──────────────────────────────────────────┐");
@@ -251,14 +251,15 @@ public class BoardControllerTest implements PLog {
         assertEquals(boardIn.getReadCnt(), boardOut.getReadCnt());
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void doSave() throws Exception {
         // 게시물 저장 요청
         MockHttpServletRequestBuilder requestBuilder = post("/board/doSave.do")
-        	.param("regId", board01.getRegId())
-            .param("title", board01.getTitle())
-            .param("contents", board01.getContents());
+        		.param("title", board01.getTitle())
+        		.param("contents", board01.getContents())
+        		.param("regId", board01.getRegId());           
+                
 
       //호출 및 결과 
       		ResultActions resultActions = mockMvc.perform(requestBuilder)

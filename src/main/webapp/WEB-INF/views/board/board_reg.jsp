@@ -48,6 +48,74 @@
 <script src="${CP}/resources/js/simplemde.min.js"></script>
 
 <title>오늘 사람 프로그램</title>
+<style>
+    body {
+            font-family: "Hahmlet", serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+    }
+    .container {
+
+        border-radius: 8px;
+        padding: 20px;
+        width : 900px;
+        margin-top:30px;
+       
+    }
+    .page-header {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        border-bottom: 2px solid #508c9b;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+    .btn-primary {
+        background-color: #134b70;
+        border-color: #134b70;
+    }
+    .btn-primary:hover {
+        background-color: #508c9b;
+        border-color: #508c9b;
+    }
+    .form-control {
+        border-radius: 4px;
+        box-shadow: none;
+    }
+    .readonly-input {
+        background-color: #e9ecef;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .reply {
+        border-bottom: 1px solid #dee2e6;
+        padding: 10px 0;
+    }
+    .reply button {
+        border: none;
+        background: none;
+        color: #dc3545;
+        cursor: pointer;
+    }
+    .reply button:hover {
+        text-decoration: underline;
+    }
+    .reply p {
+        margin: 0;
+    }
+    .reply p small {
+        color: #6c757d;
+    }
+    .btn-primary.mt-2 {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary.mt-2:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+</style>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 	console.log("DOMContentLoaded");
@@ -57,7 +125,8 @@ document.addEventListener("DOMContentLoaded", function(){
 	
 	const titleInput = document.querySelector("#title");
 	const regIdInput = document.querySelector("#regId");
-	const contentsTextArea = document.querySelector("#contents");	
+	const contentsTextArea = document.querySelector("#contents");
+	const divInput = document.querySelector("#div");
 	//Event감지
 	doSaveBtn.addEventListener("click", function(event){
 	    console.log("doSaveBtn click");		
@@ -101,7 +170,8 @@ document.addEventListener("DOMContentLoaded", function(){
         let params = { 
         	"title": titleInput.value,
         	"regId": regIdInput.value,	
-        	"contents": simplemde.value()
+        	"contents": simplemde.value(),
+        	"div": divInput.value
         }
         
         PClass.pAjax(url,params,dataType,type,async,function(data){
@@ -111,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function(){
         			const message = JSON.parse(data);
         			if(isEmpty(message) === false && 1 === message.messageId){
         				alert(message.messageContents);
-        				window.location.href ="/ehr/board/doRetrieve.do"
+        				window.location.href ="/ehr/board/doRetrieve.do?div="+divInput.value;
         			}else{
         				alert(message.messageContents);
         				
@@ -133,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </script>
 </head>
 <body>
+<%@ include file="/WEB-INF/views/main/header.jsp" %>
 <!-- container -->
 <div class="container">
   
@@ -183,6 +254,7 @@ document.addEventListener("DOMContentLoaded", function(){
   <!--// form end -->
 </div>
 <!--// container end ---------------------------------------------------------->
+<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 <script>
     var simplemde = new SimpleMDE({ element: document.getElementById("contents") })
 </script>

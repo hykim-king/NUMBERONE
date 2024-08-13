@@ -17,6 +17,7 @@
     <!-- 댓글 저장 -->
     <insert id="doSave" parameterType="Reply">
         INSERT INTO C##NUMBERONE.REPLY (
+            REPLY_NO,
             BOARD_NO,
             REG_ID,
             REPLY_CONTENTS,
@@ -24,6 +25,7 @@
             REG_DT,
             MOD_DT
         ) VALUES (
+            #{replyNo},
             #{boardNo},
             #{regId},
             #{replyContents},

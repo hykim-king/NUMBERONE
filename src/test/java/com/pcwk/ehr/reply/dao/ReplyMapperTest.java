@@ -45,7 +45,7 @@ public class ReplyMapperTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");        
         
-        reply01 = new Reply(1, 2, "USER0002", "댓글내용 0005", 1, "사용안함", "사용안함");
+        reply01 = new Reply(1, 582, "USER0002", "댓글내용 0005", 1, "사용안함", "사용안함");
         //reply02 = new Reply(3, 4, "userId02", "댓글내용_02", 34, "사용안함", "사용안함");
         //reply03 = new Reply(5, 6, "userId03", "댓글내용_03", 56, "사용안함", "사용안함");
        
@@ -67,7 +67,7 @@ public class ReplyMapperTest implements PLog {
         assertEquals(replyIn.getParentReply(), replyOut.getParentReply());
     }
       
-    @Ignore
+    //@Ignore
     @Test
     public void addAndGet() throws SQLException {       
     	int flag = replyMapper.doSave(reply01);
@@ -76,7 +76,6 @@ public class ReplyMapperTest implements PLog {
         int replyNo = replyMapper.getLatestReplyNo();
         reply01.setReplyNo(replyNo);
         
-        /*
         Reply outVO01 = replyMapper.doSelectOne(reply01);
         assertNotNull(outVO01);
         isSameReply(reply01, outVO01);

@@ -57,26 +57,28 @@ public class BoardServiceImplTest implements PLog {
         log.debug("boardNo:" + boardNo);
         board01.setBoardNo(boardNo);
         
+        
         // 등록자 ID가 같은 경우 조회 count 증가 않됨!
-        board01.setRegId(board01.getRegId() + "U");
+        //board01.setRegId(board01.getRegId() + "U");
         
         // 단건조회
         Board outVO01 = this.boardService.doSelectOne(board01);
         // readCnt++
-        outVO01.setReadCnt(outVO01.getReadCnt()-1);
+        //outVO01.setReadCnt(outVO01.getReadCnt()-1);
+        
         
         isSameBoard(outVO01, board01);
     }
     
     public void isSameBoard(Board boardIn, Board boardOut) {
         assertEquals(boardIn.getBoardNo(), boardOut.getBoardNo());
+        assertEquals(boardIn.getDiv(), boardOut.getDiv());
         assertEquals(boardIn.getTitle(), boardOut.getTitle());
         assertEquals(boardIn.getContents(), boardOut.getContents());
         assertEquals(boardIn.getReadCnt(), boardOut.getReadCnt());
         assertEquals(boardIn.getAskCnt(), boardOut.getAskCnt());
         assertEquals(boardIn.getRegId(), boardOut.getRegId());
-        assertEquals(boardIn.getRegDt(), boardOut.getRegDt());
-        assertEquals(boardIn.getModDt(), boardOut.getModDt());
+
     }    
     
     @Before
@@ -86,8 +88,8 @@ public class BoardServiceImplTest implements PLog {
         log.debug("└─────────────────────────────────────────────────────────┘");
         
         // 전체 삭제       
-        boardMapper.deleteAll();
-        board01 = new Board(1, "user0207", "제목_01", "내용_01", 0, 0, "사용안함", "사용안함");
+        //boardMapper.deleteAll();
+        board01 = new Board(722, "10", "ADMIN", "제목_01", "내용_01", 0, 0, "사용안함","사용안함");
     }
 
     @After

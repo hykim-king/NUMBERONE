@@ -28,6 +28,130 @@
    }
 </style>
 <title>재난 커뮤니티</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    text-align: center;
+    color: #134b70;
+}
+body {
+        font-family: "Hahmlet", serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        
+}      
+
+
+.container{
+    margin-top :30px;
+    margin-bottom :30px;
+
+}
+/* 페이지 제목 스타일 */
+.page-header h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #508c9b;
+    padding-bottom: 10px;
+}
+
+/* 버튼 스타일 */
+.btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #134b70;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #508c9b;
+    color:white;
+    
+}
+
+/* 읽기 전용 입력 필드 스타일 */
+.readonly-input {
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+}
+
+/* 폼 레이블 스타일 */
+.form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* 텍스트 영역 스타일 */
+textarea.form-control {
+    resize: vertical;
+}
+
+/* 댓글 섹션 스타일 */
+#replyList .reply {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+#replyList .reply p {
+    margin: 0;
+}
+
+#replyList .reply button {
+    background-color: #e74c3c;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#replyList .reply button:hover {
+    background-color: #c0392b;
+}
+
+/* 댓글 입력 폼 스타일 */
+#replyForm .form-group {
+    margin-bottom: 10px;
+}
+
+#replyForm textarea {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+}
+
+#replyForm button {
+    background-color: #508c9b;
+    border: none;
+    color: #fff;
+}
+
+#replyForm button:hover {
+    background-color: #134b70;
+}
+
+/* 폼 전체 스타일 */
+.form-horizontal .form-control {
+    border-radius: 4px;
+}
+
+.row.mb-2 {
+    margin-bottom: 1rem;
+}
+
+</style>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
     console.log("DOMContentLoaded");
@@ -274,6 +398,7 @@ function loadReplies(){
 </script>
 </head>
 <body>
+<%@ include file="/WEB-INF/views/main/header.jsp" %>
 <!-- container -->
 <div class="container">
   
@@ -346,6 +471,7 @@ function loadReplies(){
   <!-- 댓글 섹션 끝 -->
   
 </div>
+<%@ include file="/WEB-INF/views/main/footer.jsp" %>
 <!--// container end ---------------------------------------------------------->
 <script>
     var simplemde = new SimpleMDE({ element: document.getElementById("contents") })

@@ -207,7 +207,8 @@ body {
    function doSelectOne(boardNo){
        console.log("doSelectOne boardNo:"+boardNo);
        const frm      = document.querySelector("#boardForm");
-       window.location.href = "/ehr/board/doSelectOne.do?boardNo="+boardNo;
+       let div        = frm.div.value;
+       window.location.href = "/ehr/board/doSelectOne.do?boardNo="+boardNo+"&div="+div;
    }
    
    function moveToReg(){
@@ -222,11 +223,13 @@ body {
        let searchDiv = frm.searchDiv.value;
        let searchWord = frm.searchWord.value;
        let pageSize = frm.pageSize.value;
+       let div  = frm.div.value;
        frm.pageNo.value = pageNo;
        console.log("searchDiv:"+searchDiv);
        console.log("searchWord:"+searchWord);
        console.log("pageSize:"+pageSize);
        console.log("pageNo:"+pageNo);
+       console.log("div:"+div);
        console.log("url:"+url);
        
        frm.action = url;
@@ -239,11 +242,13 @@ body {
        let searchDiv = frm.searchDiv.value;
        let searchWord = frm.searchWord.value;
        let pageSize = frm.pageSize.value;
+       let div  = frm.div.value;
        frm.pageNo.value = pageNo;
        console.log("searchDiv:"+searchDiv);
        console.log("searchWord:"+searchWord);
        console.log("pageSize:"+pageSize);
        console.log("pageNo:"+pageNo);
+       console.log("div:"+div);
        
        frm.action = "/ehr/board/doRetrieve.do";
        frm.submit();
@@ -256,7 +261,15 @@ body {
 <div class="container">
   <!-- 제목 -->
   <div class="page-header mb-4">
-    <h2>게시판 목록</h2>
+    <h2>
+        <c:choose>
+            <c:when test="${ '10'==search.getDiv() }">공지사항-목록</c:when>
+            <c:when test="${ '20'==search.getDiv() }">자유게시판-목록</c:when>
+            <c:otherwise>
+                                  게시판 목록
+            </c:otherwise>
+        </c:choose>
+    </h2>
   </div>
   <!--// 제목 end ------------------------------------------------------------->
   
@@ -269,6 +282,7 @@ body {
   
   <!-- 검색 -->
     <form action="#" name="boardForm" class="row g-2 align-items-center" id="boardForm">
+        <input type="hidden" name="div"    id="div" value="${search.getDiv() }">
         <input type="hidden" name="pageNo" id="pageNo" value="${search.pageNo}">
         <div class="col-sm-3"></div>
         <div class="col-sm-2 text-end g-2">
