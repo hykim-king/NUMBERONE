@@ -17,4 +17,6 @@ public interface DisasterMsgService extends WorkDiv<DisasterMsg> {
 	public Map<String, Integer> disasterTypeStatisticsDownward(StatisticsCondition condition) throws SQLException;
     
 	public String isNewMessageExist() throws SQLException;
+	
+	public int updateSequence() throws SQLException;
 }

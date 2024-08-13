@@ -141,7 +141,10 @@
       ]]>
 	</select>
 
+    <insert id ="updateSequence" >
+        Insert into sequence_tracker (sequence_number) select max(message_seq) from disasterMsg
 
+    </insert>
 
 
 

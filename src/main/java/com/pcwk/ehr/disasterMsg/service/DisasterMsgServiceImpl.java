@@ -65,6 +65,13 @@ public class DisasterMsgServiceImpl implements DisasterMsgService,PLog{
 	
 	
 	@Override
+	public int updateSequence() throws SQLException {
+		int flag= disasterMsgMapper.updateSequence();
+		log.debug(flag);
+		return flag;
+	}
+
+	@Override
 	public int doSave(DisasterMsg inVO) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
