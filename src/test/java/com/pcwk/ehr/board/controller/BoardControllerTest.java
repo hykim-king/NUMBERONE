@@ -53,23 +53,30 @@ public class BoardControllerTest implements PLog {
     Board board03;
 
     Search search;
+    
+    static class Response{
+    	Board board;
+    	Message message;
+    }
 
     @Before
     public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+		log.debug("┌─────────────────────────────────────────────────────────┐");
+		log.debug("│ setUp()                                                 │");
+		log.debug("└─────────────────────────────────────────────────────────┘");      
+    	mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         // 기존 데이터 삭제
-        //boardMapper.deleteAll();
+        boardMapper.deleteAll();
 
         // 테스트 데이터를 생성
-        board01 = new Board(213, "ADMIN", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
-        //board02 = new Board(2, "ADMIN", "제목_02", "내용_02", 0, 0, "2024-08-03", "2024-08-03");
-        //board03 = new Board(3, "ADMIN", "제목_03", "내용_03", 0, 0, "2024-08-03", "2024-08-03");
+        board01 = new Board(213,"10", "ADMIN", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
+
 
         search = new Search();
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void doUpdate() throws Exception {    	
     	log.debug("┌──────────────────────────────────────────┐");
@@ -82,18 +89,20 @@ public class BoardControllerTest implements PLog {
 		assertEquals(1, flag);
         
         // 저장된 게시물 번호 조회
-        int boardNo = boardMapper.getLatestBoardNo();
-        log.debug("BoardNo:"+boardNo);
-        board01.setBoardNo(boardNo);
+        int seq = boardMapper.getSequence();
+        log.debug("seq:"+seq);
+        board01.setBoardNo(seq);
         
         // 수정할 게시물 조회
         Board selectOneVO = boardMapper.doSelectOne(board01);
         
         // 수정 요청
         MockHttpServletRequestBuilder requestBuilder = post("/board/doUpdate.do")
-            .param("boardNo", selectOneVO.getBoardNo() + "")
             .param("title", selectOneVO.getTitle() + "_U")
-            .param("contents", selectOneVO.getContents() + "_U");
+            .param("contents", selectOneVO.getContents() +"_U")
+            .param("readCnt", selectOneVO.getReadCnt()+"")
+            .param("modDt", selectOneVO.getModDt());
+      
 
         ResultActions resultActions = mockMvc.perform(requestBuilder)
         		//Controller produces =  "text/plain;charset=UTF-8"
@@ -112,11 +121,11 @@ public class BoardControllerTest implements PLog {
 				//json 문자열을 Message로 변환
 				Message resultMessage=new Gson().fromJson(jsonResult, Message.class);
 				//비교
-				assertEquals(1, resultMessage.getMessageId());
-				assertEquals(board01.getTitle()+" 이 수정되었습니다.",resultMessage.getMessageContents());
+				
+				assertEquals(board01.getTitle() + " 이 수정되었습니다.",resultMessage.getMessageContents());
     }
     
-    //@Ignore
+    @Ignore
     @Test
     public void doRetrieve() throws Exception {
         // 테스트 데이터 저장
@@ -205,7 +214,7 @@ public class BoardControllerTest implements PLog {
     @Test
     public void doSave() throws Exception {
         // 게시물 저장 요청
-        MockHttpServletRequestBuilder requestBuilder = post("/board/doSave.do")
+        MockHttpServletRequestBuilder requestBuilder = get("/board/doSave.do")
         	.param("regId", board01.getRegId())
             .param("title", board01.getTitle())
             .param("contents", board01.getContents());

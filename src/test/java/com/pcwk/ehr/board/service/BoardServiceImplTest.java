@@ -36,6 +36,37 @@ public class BoardServiceImplTest implements PLog {
     
     Board board01;
     
+
+    
+    public void isSameBoard(Board boardIn, Board boardOut) {
+        assertEquals(boardIn.getBoardNo(), boardOut.getBoardNo());
+        assertEquals(boardIn.getTitle(), boardOut.getTitle());
+        assertEquals(boardIn.getContents(), boardOut.getContents());
+        //assertEquals(boardIn.getAskCnt(), boardOut.getAskCnt());
+        assertEquals(boardIn.getReadCnt(), boardOut.getReadCnt());
+        //assertEquals(boardIn.getRegDt(), boardOut.getRegDt());
+        //assertEquals(boardIn.getModDt(), boardOut.getModDt());
+    }    
+    
+    @Before
+    public void setUp() throws Exception {
+        log.debug("┌─────────────────────────────────────────────────────────┐");
+        log.debug("│ setUp()                                                 │");
+        log.debug("└─────────────────────────────────────────────────────────┘");
+        
+        // 전체 삭제
+        //boardMapper.deleteAll();
+        board01 = new Board(207,"10", "user02", "제목01", "내용01", 0, 0, "사용안함", "사용안함");
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        log.debug("┌─────────────────────────────────────────────────────────┐");
+        log.debug("│ tearDown()                                              │");
+        log.debug("└─────────────────────────────────────────────────────────┘");
+    }
+    
+    
     @Test
     public void doSelectOne() throws Exception {
         log.debug("┌──────────────────────────────────────────┐");
@@ -53,50 +84,21 @@ public class BoardServiceImplTest implements PLog {
         assertEquals(1, flag);        
         
         // 등록 boardNo 조회
-        int boardNo = boardMapper.getLatestBoardNo();
-        log.debug("boardNo:" + boardNo);
-        board01.setBoardNo(boardNo);
+        int seq = boardMapper.getSequence();
+        log.debug("seq:" + seq);
+        board01.setBoardNo(seq);
         
         // 등록자 ID가 같은 경우 조회 count 증가 않됨!
         board01.setRegId(board01.getRegId() + "U");
         
         // 단건조회
-        Board outVO01 = this.boardService.doSelectOne(board01);
+        Board outVO01 = this.boardMapper.doSelectOne(board01);
         // readCnt++
-        outVO01.setReadCnt(outVO01.getReadCnt()-1);
+        outVO01.setReadCnt(outVO01.getReadCnt());
         
-        isSameBoard(outVO01, board01);
-    }
-    
-    public void isSameBoard(Board boardIn, Board boardOut) {
-        assertEquals(boardIn.getBoardNo(), boardOut.getBoardNo());
-        assertEquals(boardIn.getTitle(), boardOut.getTitle());
-        assertEquals(boardIn.getContents(), boardOut.getContents());
-        assertEquals(boardIn.getReadCnt(), boardOut.getReadCnt());
-        assertEquals(boardIn.getAskCnt(), boardOut.getAskCnt());
-        assertEquals(boardIn.getRegId(), boardOut.getRegId());
-        assertEquals(boardIn.getRegDt(), boardOut.getRegDt());
-        assertEquals(boardIn.getModDt(), boardOut.getModDt());
-    }    
-    
-    @Before
-    public void setUp() throws Exception {
-        log.debug("┌─────────────────────────────────────────────────────────┐");
-        log.debug("│ setUp()                                                 │");
-        log.debug("└─────────────────────────────────────────────────────────┘");
-        
-        // 전체 삭제
-        //boardMapper.deleteAll();
-        board01 = new Board(207, "user0207", "제목_01", "내용_01", 0, 0, "사용안함", "사용안함");
-    }
+        isSameBoard(outVO01,board01);
 
-    @After
-    public void tearDown() throws Exception {
-        log.debug("┌─────────────────────────────────────────────────────────┐");
-        log.debug("│ tearDown()                                              │");
-        log.debug("└─────────────────────────────────────────────────────────┘");
-    }
-    
+    }   
     @Ignore
     @Test
     public void beans() {

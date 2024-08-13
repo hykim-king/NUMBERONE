@@ -43,15 +43,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
-<%-- simplemde --%>
-<link rel="stylesheet" href="${CP}/resources/css/simplemde.min.css">
-<script src="${CP}/resources/js/simplemde.min.js"></script>
 <style>
    .readonly-input {
      background-color: #e9ecef;
    }
 </style>
-<title>오늘 사람 프로그램</title>
+<title>재난 게시판</title>
 <script>
    //doDelete:삭제
     document.addEventListener("DOMContentLoaded", function(){
@@ -77,7 +74,7 @@
         const contentsTextArea = document.querySelector("#contents");
         
         
-        moveToListBtn.addEventListener("click",function(event){
+        moveToList.addEventListener("click",function(event){
             console.log("moveToListBtn click",event);
             event.stopPropagation();
             if(confirm('목록으로 이동 하시겠습니까?') === false)return;
@@ -154,8 +151,11 @@
            
         }
         
+  
         function moveToList(){
-            window.location.href ="/ehr/board/doRetrieve.do";
+            const frm = document.querySelector("#boardForm");
+            frm.action = "/ehr/board/doRetrieve.do";
+            frm.submit();
         }
         
         function doDelete(){
@@ -220,7 +220,7 @@
       <h2>
         <c:choose>
             <c:otherwise>
-                공지사항/자유게시판
+                게시판 작성
             </c:otherwise>
         </c:choose>
       </h2>  
@@ -229,7 +229,7 @@
 
   <!-- 버튼 -->
   <div class="mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
-      <input type="button" value="목록"  id="moveToList"    class="btn btn-primary">
+      <input type="button" value="목록"  id="moveToList" class="btn btn-primary">
       <input type="button" value="수정"  id="doUpdate" class="btn btn-primary">
       <input type="button" value="삭제"  id="doDelete" class="btn btn-primary">
   </div>
@@ -279,9 +279,9 @@
   <!--// form end -->
 </div>
 <!--// container end ---------------------------------------------------------->
-<script>
+<!-- <script>
     var simplemde = new SimpleMDE({ element: document.getElementById("contents") })
-</script>
+</script> -->
 <%-- bootstrap js --%>
 <script src="${CP}/resources/js/bootstrap.bundle.js"></script> 
 </body>

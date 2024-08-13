@@ -6,9 +6,9 @@
     <!-- 조회 수 증가 -->
     <update id="readCntUpdate" parameterType="Board">
         UPDATE C##NUMBERONE.BOARD
-        SET READ_CNT = NVL(READ_CNT, 0) + 1
-        WHERE BOARD_NO = #{boardNo}
-        AND   REG_ID <![CDATA[ <>  #{regId} ]]>  
+           SET READ_CNT = NVL(READ_CNT,0)+1
+         WHERE BOARD_NO = #{boardNo}
+           AND REG_ID <![CDATA[ <>  #{regId} ]]>  
     </update>
     
     <!-- ASK_CNT 증가 -->
@@ -26,26 +26,25 @@
     
     <!-- 게시물 대량 저장 -->
     <insert id="multipleSave" parameterType="Board">
-        INSERT INTO C##NUMBERONE.BOARD (
-            BOARD_NO,
-            REG_ID,
-            TITLE,
-            CONTENTS,
-            ASK_CNT,
-            READ_CNT,
-            REG_DT,
-            MOD_DT
-        )
-        SELECT ROWNUM,
-               'USER' || LPAD(ROWNUM, 4, '0'),
-               '제목 ' || LPAD(ROWNUM, 7, '0'),
-               '내용 ' || LPAD(ROWNUM, 7, '0'),
-               0,
-               0,
-               SYSDATE - ROWNUM / 24,
-               SYSDATE - ROWNUM / 24
+    INSERT INTO board (
+        reg_id,
+        title,
+        contents,
+        ask_cnt,
+        read_cnt,
+        reg_dt,
+        mod_dt
+    )
+    SELECT 
+        DECODE(MOD(ROWNUM, 2), 1, '10', '20'),
+        '제목' || LPAD(ROWNUM, 7, '0'),
+        '내용' || LPAD(ROWNUM, 7, '0'),
+        MOD(ROWNUM, 10),
+        0,
+        SYSDATE - ROWNUM / 24,
+        SYSDATE - ROWNUM / 24 + 1
         FROM DUAL
-        CONNECT BY LEVEL <![CDATA[ <= 202 ]]>
+        CONNECT BY LEVEL <![CDATA[ <= 101 ]]>
     </insert>
 
     <!-- 검색 조건에 따른 게시물 조회 -->
@@ -96,11 +95,28 @@
         ) B
     </select>
 
+<!--
+  <sql id="divDoRetrieve">
+        <choose>
+           <when test="div != null and div != ' ' ">
+              AND div = #{div}
+           </when>
+        </choose>
+    </sql>
+-->
+
+ <select id="getSequence" resultType="int">
+    SELECT MAX(BOARD_NO) boardNo 
+      FROM board
+ </select>
+ 
     <!-- 게시물 수정 -->
     <update id="doUpdate" parameterType="Board">
         UPDATE C##NUMBERONE.BOARD
-        SET TITLE = #{title},
+        SET reg_id = #{regId},
+            TITLE = #{title},
             CONTENTS = #{contents},
+            read_cnt = #{readCnt},
             MOD_DT = SYSDATE
         WHERE BOARD_NO = #{boardNo}
     </update>
@@ -109,10 +125,11 @@
     <select id="doSelectOne" parameterType="Board" resultType="Board">
         SELECT 
             BOARD_NO as boardNo,
+            REG_ID as regId,
             TITLE as title,
             CONTENTS as contents,
+            ask_cnt as askCnt,
             READ_CNT as readCnt,
-            REG_ID as regId,
             TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
             TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
         FROM C##NUMBERONE.BOARD
@@ -132,8 +149,7 @@
 
     <!-- 게시물 저장 -->
     <insert id="doSave" parameterType="Board">
-        INSERT INTO C##NUMBERONE.BOARD (
-            BOARD_NO,
+        INSERT INTO C##NUMBERONE.BOARD (  
             REG_ID,
             TITLE,
             CONTENTS,
@@ -142,7 +158,6 @@
             REG_DT,
             MOD_DT
         ) VALUES (
-            #{boardNo},
             #{regId},
             #{title},
             #{contents},

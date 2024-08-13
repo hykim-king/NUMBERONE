@@ -18,14 +18,16 @@
             REPLY_CONTENTS,
             PARENT_REPLY,
             REG_DT,
-            MOD_DT
+            MOD_DT,
+            REPLY_LEVEL
         ) VALUES (
             #{boardNo},
             #{regId},
             #{replyContents},
             #{parentReply},
             SYSDATE,
-            SYSDATE
+            SYSDATE,
+            #{replyLevel}
         )
     </insert>
     <!-- 댓글 조건 검색 -->
@@ -77,11 +79,13 @@
     </delete>
 
 
+
 <select id="getSequence" resultType="int">
     SELECT MAX(reply_no) AS replyNo 
     FROM reply
 </select>
-   
+  
+ <!--   
     <select id="doRetrieve" parameterType="Search" resultType="Reply">
         SELECT A.*, B.*
         FROM (
@@ -105,6 +109,39 @@
             FROM reply
         ) B
     </select>
+ --> 
  
+
+    
+    <!-- 댓글 전체 조회 -->
+    <select id="doRetrieve" parameterType="Search" resultType="Reply">
+    SELECT T1.*, T2.*
+    FROM (
+        SELECT ROWNUM AS rnum, A.*,level as replyLevel
+        FROM (
+            SELECT 
+                REPLY_NO as replyNo, 
+                BOARD_NO as boardNo,
+                REG_ID as regId,
+                REPLY_CONTENTS as replyContents, 
+                PARENT_REPLY as parentReply,  
+                TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
+                TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
+            FROM C##NUMBERONE.REPLY
+           <include refid="whereReplyRetrieve"/>
+        ) A
+        WHERE ROWNUM <![CDATA[ <= ]]> #{pageSize} * (#{pageNo} - 1) + #{pageSize}
+        START WITH parentReply = 0
+        CONNECT BY PRIOR replyNo = parentReply
+        ORDER SIBLINGS BY replyNo
+    ) T1
+    JOIN (
+        SELECT COUNT(*) as totalCnt 
+        FROM C##NUMBERONE.REPLY
+       <include refid="whereReplyRetrieve"/>
+    ) T2 ON 1=1
+    WHERE T1.rnum <![CDATA[ >= ]]> #{pageSize} * (#{pageNo} - 1) + 1
+</select>
+
     
 </mapper>

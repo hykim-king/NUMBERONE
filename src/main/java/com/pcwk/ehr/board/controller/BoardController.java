@@ -43,7 +43,9 @@ public class BoardController implements PLog {
     }
 
     // 게시물 등록 화면으로 이동
-    @RequestMapping(value = "/moveToReg.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/moveToReg.do", 
+    				method = RequestMethod.GET,
+    				produces = "text/plain;charset=UTF-8")
     public String moveToReg(Board inVO, Model model) throws SQLException {
         String viewName = "board/board_reg";
         log.debug("1. param inVO: " + inVO);
@@ -53,25 +55,29 @@ public class BoardController implements PLog {
     }
 
     // 게시물 수정
-    @RequestMapping(value = "/doUpdate.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/doUpdate.do", 
+    			   method = RequestMethod.POST, 
+    			   produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String doUpdate(Board inVO) throws SQLException {
+        String jsonString ="";
+    	
         log.debug("1. param inVO: " + inVO);
-
+        
         // 실제 수정자 ID 및 수정일 설정 (수정일은 현재 날짜로 설정)
-        inVO.setModDt(StringUtil.nvl(inVO.getModDt(), "2024-08-03"));
+//        inVO.setModDt(StringUtil.nvl(inVO.getModDt(), "2024-08-03"));
 
         int flag = boardService.doUpdate(inVO);
         String message = "";
 
         if (1 == flag) {
-            message = inVO.getTitle() + "이 수정되었습니다.";
+            message = inVO.getTitle() + " 이 수정되었습니다.";
         } else {
             message = inVO.getTitle() + " 수정 실패!";
         }
 
         Message messageObj = new Message(flag, message);
-        String jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(messageObj);
+        jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(messageObj);
         log.debug("2. jsonString: " + jsonString);
 
         return jsonString;
@@ -89,8 +95,8 @@ public class BoardController implements PLog {
 		Search search =new Search();
 		
 		//div값이 없으면 전체
-		//String  div  = StringUtil.nvl(req.getParameter("div"),"");
-		//search.setDiv(div);
+		String  div  = StringUtil.nvl(req.getParameter("div"),"");
+		
 		
 		//검색구분
 		String  searchDiv  = StringUtil.nvl(req.getParameter("searchDiv"),"");
@@ -123,14 +129,14 @@ public class BoardController implements PLog {
 		model.addAttribute("totalCnt", totalCnt); //검색조건
 		
 		//----------------------------------------------------------------------
-		Code code =new Code();
-		code.setMstCode("BOARD_SEARCH");//회원검색 조건
-		List<Code> memberSearch = this.codeService.doRetrieve(code);
-		model.addAttribute("BOARD_SEARCH", memberSearch); //검색조건
-		
-        code.setMstCode("COM_PAGE_SIZE");//회원검색 조건
-		List<Code> pageSizeSearch = this.codeService.doRetrieve(code);
-		model.addAttribute("COM_PAGE_SIZE", pageSizeSearch); //페이지 사이즈
+//		Code code =new Code();
+//		code.setMstCode("BOARD_SEARCH");//회원검색 조건
+//		List<Code> memberSearch = this.codeService.doRetrieve(code);
+//		model.addAttribute("BOARD_SEARCH", memberSearch); //검색조건
+//		
+//      code.setMstCode("COM_PAGE_SIZE");//회원검색 조건
+//		List<Code> pageSizeSearch = this.codeService.doRetrieve(code);
+//		model.addAttribute("COM_PAGE_SIZE", pageSizeSearch); //페이지 사이즈
 
 		//----------------------------------------------------------------------
 		
@@ -148,7 +154,7 @@ public class BoardController implements PLog {
         String message = "";
 
         if (1 == flag) {
-            message = inVO.getBoardNo() + " 이(가) 삭제되었습니다.";
+            message = inVO.getBoardNo() + " 이 삭제되었습니다.";
         } else {
             message = inVO.getBoardNo() + " 삭제 실패!";
         }
@@ -161,26 +167,50 @@ public class BoardController implements PLog {
     }
 
     // 단일 게시물 조회
-    @RequestMapping(value = "/doSelectOne.do", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/doSelectOne.do", 
+    			    method = RequestMethod.GET, 
+    			    produces = "text/plain;charset=UTF-8")
+    @ResponseBody
     public String doSelectOne(Board inVO, Model model) throws SQLException {
-        String viewName = "board/board_mng";
+        String jsonString = "";
+    	
         log.debug("1. param inVO: " + inVO);
 
         Board outVO = boardService.doSelectOne(inVO);
 
         // markdown을 HTML로 변환
-        String markdownContents = markdownService.convertMarkdownToHtml(outVO.getContents());
-
+        outVO.setContents(this.markdownService.convertMarkdownToHtml(outVO.getContents()));
+        
         log.debug("2. outVO: " + outVO);
 
-        model.addAttribute("markdownContents", markdownContents);
-        model.addAttribute("board", outVO);
-
-        return viewName;
+        String message ="";
+        int flag = 0;
+        if(null != outVO) {
+        	message = outVO.getTitle() + " 이 조회 되었습니다.";
+        	flag = 1;
+        
+        }else {
+        	message = inVO.getTitle() + " 조회 실패!";
+        }
+        
+        Message messageObj = new Message(flag, message);
+        jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(messageObj);
+        log.debug("jsonString:"+jsonString);
+        
+        String jsonBoard = new GsonBuilder().setPrettyPrinting().create().toJson(outVO);
+        log.debug("jsonBoard:"+jsonBoard);
+        
+        String jsonAll = "{\"board\":"+jsonBoard+",\"message\":"+ jsonString+"}";
+        log.debug("jsonAll:"+jsonAll);
+       
+        
+        return jsonAll;
     }
 
     // 게시물 등록
-    @RequestMapping(value = "/doSave.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/doSave.do", 
+    		method = RequestMethod.GET, 
+    		produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String doSave(Board inVO) throws SQLException {
         log.debug("1. param inVO: " + inVO);

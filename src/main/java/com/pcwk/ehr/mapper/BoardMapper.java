@@ -47,6 +47,7 @@ public interface BoardMapper extends WorkDiv<Board> {
      * @throws SQLException
      */
     int askCntUpdate(Board inVO) throws SQLException;
-    
+ 
+    int getSequence() throws SQLException;
    
 }

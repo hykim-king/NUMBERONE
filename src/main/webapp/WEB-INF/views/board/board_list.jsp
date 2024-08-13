@@ -43,7 +43,7 @@
 <%-- FontAwesome for icons --%>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-<title>재난 커뮤니티</title>
+<title>재난 게시판</title>
 <script>
    document.addEventListener("DOMContentLoaded", function(){
        console.log("DOMContentLoaded");
@@ -58,6 +58,16 @@
            console.log("moveToRegBtn click");
            moveToReg();
        });
+       
+       searchDivSelect.addEventListener("change", function(event){
+    	   if("" === searchDivSelect.value){
+    		   searchWordInput.value = "";
+    		   pageSizeSelect.value = 10;
+    	   }   
+      
+    	   
+       });
+       
        
        searchWordInput.addEventListener("keydown",function(event){
            console.log("searchWordInput keydown");
@@ -110,10 +120,12 @@
        let searchWord = frm.searchWord.value;
        let pageSize = frm.pageSize.value;
        frm.pageNo.value = pageNo;
+       let div = frm.div.value;
        console.log("searchDiv:"+searchDiv);
        console.log("searchWord:"+searchWord);
        console.log("pageSize:"+pageSize);
        console.log("pageNo:"+pageNo);
+       console.log("div:"+div);
        
        frm.action = "/ehr/board/doRetrieve.do";
        frm.submit();
