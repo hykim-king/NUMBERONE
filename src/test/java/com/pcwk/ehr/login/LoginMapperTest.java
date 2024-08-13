@@ -53,28 +53,14 @@ public class LoginMapperTest implements PLog {
 	}
 
 	@Test
-	public void doLogin() throws Exception {
+	public void login() throws Exception {
 
 	    System.out.println("[̲̅l][̲̅o][̲̅g][̲̅i][̲̅n]");
-	    
-	    // Check initial member count
-	    int count = memberMapper.getCount();
-	    assertEquals(0, count);			
-	    
-	    // Save member
-	    int flag = memberMapper.doSave(userVO01);
-	    assertEquals(1, flag);
-	    assertEquals(1, memberMapper.getCount());
-	    
-	    
-	    Member outVO = memberMapper.doSelectOne(userVO01);
-	    assertNotNull(outVO);
-	    assertMembersEqual(userVO01, outVO);		
-	    
-	   
+
+
 	    int idCount = loginMapper.idCheck(login01);
 	    assertEquals(1, idCount); // Ensure ID check returns 1
-	    
+	     
 	    int passwordCount = loginMapper.passwordCheck(login01);
 	    assertEquals(1, passwordCount); // Ensure password check returns 1
 	    

@@ -218,41 +218,18 @@
         <div id="container"></div>
     </section>
 
-    <script>
-    
-    
-	    class StatisticsCondition {
-	        constructor(locCode, startDate, endDate) {
-	            this.locCode = locCode;
-	            this.startDate = startDate;
-	            this.endDate = endDate;
-	        }
-	    }
-	    
-	    
+<script>
+        class StatisticsCondition {
+            constructor(locCode, startDate, endDate) {
+                this.locCode = locCode;
+                this.startDate = startDate;
+                this.endDate = endDate;
+            }
+        }
+        
         let chart;
 
-        function createChart(disasterType, startYear, endYear) {
-        	
-            // 예시 데이터: 각 지역 코드와 재난 데이터 값
-            const data = {
-                'flood': [
-                    ['KR-11', 10],
-                    ['KR-26', 20],
-                    ['KR-27', 30],
-                    ['KR-28', 40],
-                    ['KR-29', 50]
-                ],
-                'typhoon': [
-                    ['KR-11', 15],
-                    ['KR-26', 25],
-                    ['KR-27', 35],
-                    ['KR-28', 45],
-                    ['KR-29', 55]
-                ],
-                // 다른 재난 데이터 추가...
-            };
-
+        function createChart(disasterType, startDate, endDate, data) {
             if (chart) {
                 chart.destroy();
             }
@@ -265,13 +242,7 @@
                     text: '대한민국 재난 통계'
                 },
                 subtitle: {
-                    text: `연도: ${startYear} ~ ${endYear}, 재난: ${disasterType}`
-                },
-                mapNavigation: {
-                    enabled: true,
-                    buttonOptions: {
-                        verticalAlign: 'bottom'
-                    }
+                    text: `기간: ${startDate} ~ ${endDate}, 재난: ${disasterType}`
                 },
                 colorAxis: {
                     min: 0,
@@ -279,7 +250,7 @@
                     maxColor: '#003399'
                 },
                 series: [{
-                    data: data[disasterType] || [],
+                    data: data,
                     name: '재난 통계',
                     dataLabels: {
                         enabled: true,
@@ -290,14 +261,26 @@
         }
 
         function updateMap() {
-            const startYear = $('#startYear').val();
-            const startMonth = $('#startMonth').val();
-            const startDay = $('#startDay').val();
-            const endYear = $('#endYear').val();
-            const endMonth = $('#endMonth').val();
-            const endDay = $('#endDay').val();
+            const startDate = `${$('#startYear').val()}-${$('#startMonth').val()}-${$('#startDay').val()}`;
+            const endDate = `${$('#endYear').val()}-${$('#endMonth').val()}-${$('#endDay').val()}`;
+            const disasterType = $('#disasterType').val();
 
-            createChart($('#disasterType').val(), startYear, endYear);
+            $.ajax({
+                url: '/getDisasterData', // 서블릿 경로
+                method: 'GET',
+                data: {
+                    startDate: startDate,
+                    endDate: endDate,
+                    disasterType: disasterType
+                },
+                success: function(responseData) {
+                    const data = JSON.parse(responseData);
+                    createChart(disasterType, startDate, endDate, data);
+                },
+                error: function() {
+                    alert('데이터를 불러오는데 실패했습니다.');
+                }
+            });
         }
 
         function setPeriod(months) {
@@ -321,9 +304,8 @@
         }
 
         // 초기 차트 생성
-        createChart('flood', 2020, 2024);
+        createChart('flood', '2020-01-01', '2024-12-31', []);
     </script>
-
     <%@ include file="/WEB-INF/views/main/footer.jsp" %>
 </body>
 </html>

@@ -9,11 +9,21 @@ public interface LoginService {
 
 	int idPasswordCheck(Login inVO)throws SQLException;
 
-	Member login(Login inVO)throws SQLException;
+
 
 	boolean doSave(Member member);
 
+
+
+	Member login(Login inVO) throws SQLException;
+
+
+
 	boolean checkNickname(String nickname);
 
-	boolean checkUserId(String userId);
+
+
+	boolean checkUserId(String memberId);
+
+
 }

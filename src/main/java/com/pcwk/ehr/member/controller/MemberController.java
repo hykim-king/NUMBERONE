@@ -37,8 +37,6 @@ public class MemberController implements PLog {
       log.debug("                 𝑪𝒐𝒏𝒕𝒓𝒐𝒍𝒍𝒆𝒓                                                 ");
       log.debug("└──────────────────────────────────────────┘");   
    }
-   
-   
    @GetMapping("signInUp.do")
    public String signInUp() {
       String viewName = "member/signInUp";
@@ -84,7 +82,6 @@ public class MemberController implements PLog {
 		
 		return jsonString;
 	}
-   
    
    @RequestMapping(value="/doSave.do"
 			,method = RequestMethod.POST

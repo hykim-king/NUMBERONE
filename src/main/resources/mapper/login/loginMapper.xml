@@ -31,7 +31,7 @@
     </select>
 
     <select id="login" parameterType="Login" resultMap="MemberResultMap">
-        SELECT
+        SELECT  
             member_id AS memberId,
             loc_code AS locCode,
             password AS password,

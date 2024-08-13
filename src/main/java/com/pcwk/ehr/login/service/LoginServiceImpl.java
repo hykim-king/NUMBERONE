@@ -49,10 +49,16 @@ public class LoginServiceImpl implements LoginService, PLog {
 
 	@Override
 	public Member login(Login inVO) throws SQLException {
-		log.debug("1. param :"+inVO);
-		Member login = loginMapper.login(inVO);
-		log.debug("2. login :"+login);
-		return login;
+	    log.debug("1. param :" + inVO);
+	    Member login = loginMapper.login(inVO);
+	    log.debug("2. login :" + login);
+	    
+	    if (login == null) {
+	        log.debug("Login failed: No member found with provided credentials.");
+	        // 추가 처리가 필요할 경우 여기에 코드를 작성
+	    }
+	    
+	    return login;
 	}
 
 	@Override
@@ -79,7 +85,7 @@ public class LoginServiceImpl implements LoginService, PLog {
 	}
 
 	@Override
-	public boolean checkUserId(String userId) {
+	public boolean checkUserId(String memberId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
