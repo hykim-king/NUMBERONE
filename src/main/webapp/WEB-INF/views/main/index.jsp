@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>재난안전포털 No.1</title>
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon01.ico">
 <style>
     section {
 

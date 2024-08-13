@@ -21,9 +21,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
 <title>지역 재난 그래프</title>
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon01.ico">
-<meta charset="UTF-8">
+
 
 <!-- jQuery 로드 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

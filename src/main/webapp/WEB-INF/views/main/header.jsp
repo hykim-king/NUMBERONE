@@ -207,7 +207,7 @@
                 <li><a id="navMenu1" href="#">재난상황</a></li>
                 <li><a id="navMenu2" href="#">재난뉴스</a></li>
                 <li><a id="navMenu3" href="#">재난대비</a></li>
-                <li><a id="navMenu4" href="#">커뮤니티</a></li>
+                <li><a id="navMenu4" href="http://localhost:8080/ehr/board/doRetrieve.do">커뮤니티</a></li>
             </ul>
 
             <div class="gnbWrap">
@@ -240,7 +240,7 @@
                     <li id="gnbWrap4">
                        
                         <ul>
-                            <li><a href="#">정보공유</a></li>
+                            <li><a href="http://localhost:8080/ehr/board/doRetrieve.do">정보공유</a></li>
                         </ul>
                     </li>
                 </ul>

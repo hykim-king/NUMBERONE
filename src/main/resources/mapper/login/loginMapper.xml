@@ -32,12 +32,12 @@
 
     <select id="login" parameterType="Login" resultMap="MemberResultMap">
         SELECT
-            member_id AS memberId ,
+            member_id AS memberId,
             loc_code AS locCode,
             password AS password,
             name AS name,
             nickname AS nickname,
-            is_admin As isAdmin
+            is_admin AS isAdmin
         FROM member
         WHERE member_id = #{memberId}
     </select>

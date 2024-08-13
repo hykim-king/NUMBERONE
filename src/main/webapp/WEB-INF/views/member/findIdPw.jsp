@@ -21,8 +21,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이디찾기/비밀번호찾기</title>
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon01.ico">
+<title>find</title>
+<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
 <style>
     * {
         font-family: "Hahmlet", serif;
@@ -222,7 +222,7 @@
              
               <div class="find-html">
                 <input id="tab-1" type="radio" name="tab" class="findId" checked><label for="tab-1" class="tab">아이디 찾기</label>
-                <input id="tab-2" type="radio" name="tab" class="findPw"><label for="tab-2" class="tab">비밀번호 찾기</label>
+                <input id="tab-2" type="radio" name="tab" class="findPw"><label for="tab-2" class="tab">비밀번호 초기화</label>
                 <div class="findId-form">
                   <div class="find-id-htm">
                     <div class="group">
@@ -244,11 +244,11 @@
                       <input id="user" type="text" class="input">
                     </div>
                     <div class="group">
-                      <label for="pass" class="label">이메일</label>
+                      <label for="pass" class="label">아이디</label>
                       <input id="pass" type="text" class="input">
                     </div>
                     <div class="group">
-                      <button class="button2" type="button" value="비밀번호찾기">비밀번호 찾기</button>
+                      <button class="button2" type="button" value="비밀번호초기화">비밀번호 초기화</button>
                     </div>
                     
                    

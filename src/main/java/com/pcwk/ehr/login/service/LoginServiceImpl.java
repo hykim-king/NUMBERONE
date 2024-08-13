@@ -51,7 +51,7 @@ public class LoginServiceImpl implements LoginService, PLog {
 	public Member login(Login inVO) throws SQLException {
 		log.debug("1. param :"+inVO);
 		Member login = loginMapper.login(inVO);
-		log.debug("2. loginInfo :"+login);
+		log.debug("2. login :"+login);
 		return login;
 	}
 

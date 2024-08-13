@@ -44,6 +44,136 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <title>재난 커뮤니티</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    text-align: center;
+    color: #134b70;
+}
+body {
+        font-family: "Hahmlet", serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+}
+
+.container {
+   width: 900px; 
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Button Styles */
+.btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #508c9b;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #134b70;
+}
+
+/* Form Styles */
+.form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-select, .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+.form-select:focus, .form-control:focus {
+    border-color: #508c9b;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    padding: 11px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #eeeeee;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #E0E0E0;
+}
+
+.table thead th {
+    background-color: #134b70;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Pagination Styles */
+.pagination {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    display: block;
+    padding: 8px 12px;
+    background-color: #fff;
+    color: #616161;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-link:hover, .page-item.active .page-link {
+    background-color: #134b70;
+    color: white;
+}
+
+</style>
 <script>
    document.addEventListener("DOMContentLoaded", function(){
        console.log("DOMContentLoaded");
@@ -121,6 +251,7 @@
 </script>
 </head>
 <body>
+<%@ include file="/WEB-INF/views/main/header.jsp" %>
 <!-- container -->
 <div class="container">
   <!-- 제목 -->
@@ -207,11 +338,11 @@
      <div id="page-selection" class="text-center page">    
       <c:if test="${totalCnt > 0 }"> 
             <c:if test="${totalCnt > 0 && totalCnt < search.pageSize }">
-            Showing <strong><c:out value="${totalCnt }" /></strong> of <strong><c:out value="${totalCnt }" /></strong> entries
+                        총 <strong><c:out value="${totalCnt }" /></strong><strong><c:out value="${totalCnt }" /></strong> 개의 게시글이 있습니다.
             </c:if>
             
             <c:if test="${totalCnt > search.pageSize }">
-            Showing <strong><c:out value="${firstCnt }" /></strong> to <strong><c:out value="${lastCnt }" /></strong> of <strong><c:out value="${totalCnt }" /></strong> entries
+           <strong><c:out value="${firstCnt }" /></strong>총<strong><c:out value="${lastCnt }" /></strong> <strong><c:out value="${totalCnt }" /></strong>개의 게시글이 있습니다.
             </c:if>
           <ul class="pagination justify-content-center">
              <c:forEach var="item" items="${PAGE_DATA }">
@@ -253,5 +384,7 @@
     
 </div>
 <!--// container end ------------------------------------------------------------->
+
+     <%@ include file="/WEB-INF/views/main/footer.jsp" %>
 </body>
 </html>

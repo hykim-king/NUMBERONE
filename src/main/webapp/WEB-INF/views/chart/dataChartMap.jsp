@@ -22,6 +22,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
 <title>전국통계그래프</title>
 
 
@@ -146,6 +147,8 @@
             color : #eeeeee;
             
         }
+        
+        
     </style>
 </head>
 <body>
@@ -216,9 +219,21 @@
     </section>
 
     <script>
+    
+    
+	    class StatisticsCondition {
+	        constructor(locCode, startDate, endDate) {
+	            this.locCode = locCode;
+	            this.startDate = startDate;
+	            this.endDate = endDate;
+	        }
+	    }
+	    
+	    
         let chart;
 
         function createChart(disasterType, startYear, endYear) {
+        	
             // 예시 데이터: 각 지역 코드와 재난 데이터 값
             const data = {
                 'flood': [

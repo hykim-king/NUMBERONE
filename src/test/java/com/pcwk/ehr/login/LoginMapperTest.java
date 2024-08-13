@@ -47,7 +47,7 @@ public class LoginMapperTest implements PLog {
 		
 		memberMapper.deleteAll();
 		
-		login01 =new Login("user1", "password1");
+		login01 =new Login("fd", "fd");
 		userVO01= new Member("user1", 1, "password1", "User One", "nickname1", 'N');
 		
 	}
@@ -55,37 +55,33 @@ public class LoginMapperTest implements PLog {
 	@Test
 	public void doLogin() throws Exception {
 
-		System.out.println("[̲̅l][̲̅o][̲̅g][̲̅i][̲̅n]");
-		
-		int count = memberMapper.getCount();
-		assertEquals(0,count);			
-		
-
-		int flag = memberMapper.doSave(userVO01);
-		assertEquals(1, flag);
-		assertEquals(memberMapper.getCount(), 1);		
-		
-		
-		Member outVO = memberMapper.doSelectOne(userVO01);
-		assertNotNull(outVO);//return User Null check
-		
-		assertMembersEqual(userVO01, outVO);		
-		
-		//id 확인
-		int idCount = loginMapper.idCheck(login01);
-		assertEquals(1, idCount);
-		
-		//비밀번호 확인
-		int passwordCount = loginMapper.passwordCheck(login01);
-		assertEquals(1, passwordCount);		
-		
-		
-		Member loginVO = loginMapper.login(login01);
-		log.debug(loginVO);
-		
-		assertMembersEqual(loginVO,userVO01);
-
-		
+	    System.out.println("[̲̅l][̲̅o][̲̅g][̲̅i][̲̅n]");
+	    
+	    // Check initial member count
+	    int count = memberMapper.getCount();
+	    assertEquals(0, count);			
+	    
+	    // Save member
+	    int flag = memberMapper.doSave(userVO01);
+	    assertEquals(1, flag);
+	    assertEquals(1, memberMapper.getCount());
+	    
+	    
+	    Member outVO = memberMapper.doSelectOne(userVO01);
+	    assertNotNull(outVO);
+	    assertMembersEqual(userVO01, outVO);		
+	    
+	   
+	    int idCount = loginMapper.idCheck(login01);
+	    assertEquals(1, idCount); // Ensure ID check returns 1
+	    
+	    int passwordCount = loginMapper.passwordCheck(login01);
+	    assertEquals(1, passwordCount); // Ensure password check returns 1
+	    
+	    // Perform login
+	    Member loginVO = loginMapper.login(login01);
+	    log.debug(loginVO);
+	    assertMembersEqual(loginVO, userVO01);
 	}
 	
 	public void assertMembersEqual(Member userVO01, Member actual) {
