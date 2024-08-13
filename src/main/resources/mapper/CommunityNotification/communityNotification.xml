@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.ehr.mapper.DisasterMsgMapper">
+
+	<resultMap type="CommunityNotification" id="CommunityNotificationMap">
+		<result column="noti_seq" property="notiSeq" />
+		<result column="noti_msg" property="notiMsg" />
+		<result column="noti_target_user" property="notiTargetUser" />
+		<result column="noti_type" property="notiType" />
+		<result column="noti_target_seq" property="notiTargetSeq" />
+		<result column="is_notified" property="isNotified" />
+	</resultMap>
+	
+
+    <insert id ="doSave" parameterType="CommunityNotification">
+				    INSERT INTO notification (
+				    noti_msg,
+				    noti_to_user,
+				    noti_type,
+				    noti_target_seq,
+				    is_notified
+				) VALUES (
+				    #{notiMsg},
+				    #{notiTargetUser},
+				    #{notiType},
+				    #{notiTargetSeq},
+				    'N'
+				)
+    </insert>
+    
+    <update id="checkNotified" parameterType="CommunityNotification">
+                   UPDATE notification
+						SET
+						    is_notified = 'Y'
+						WHERE
+						    noti_seq=#{notiSeq}
+    </update>
+    
+    <delete id="doDelete" parameterType="CommunityNotification">
+                    Delete
+                      from notification
+                     where 
+                     	noti_seq=#{notiSeq}
+    </delete>
+    
+    
+    <sql id="whereDoRetrieveNoti">
+        <choose>
+            <when test="searchDiv != null and searchDiv == '10'">
+                and notiTargetUser = #{searchWord} 
+            </when>
+            <when test="searchDiv != null and searchDiv == '20'">
+                and notiTargetUser = #{searchWord} and isNotified ='N'
+            </when>
+        </choose>
+    </sql>
+    
+    <select id ="doRetrieveNoti" parameterType ="CommunityNotification" resultMap ="CommunityNotificationMap">
+    
+        SELECT A.*, B.*
+        FROM (
+            SELECT TT1.RNUM AS no,
+                   TT1.notiMsg,
+                   TT1.notiTargetUser ,
+                   TT1.notiType,
+                   TT1.notiTargetSeq ,
+                   TT1.isNotified,
+                   TO_CHAR(TT1.NOTI_REG_DT, 'YYYY/MM/DD HH24:MI:SS'),
+                   TT1.notiSeq 
+            FROM (
+                SELECT ROWNUM AS RNUM, T1.*
+                FROM (
+                    SELECT *
+                    FROM notification
+                    WHERE 1=1
+                    --<include refid="whereDoRetrieveNoti"/>
+                    ORDER BY MOD_DT DESC
+                ) T1
+                WHERE ROWNUM <![CDATA[ <= (#{pageSize} * (#{pageNo} - 1) + #{pageSize}) ]]>
+            ) TT1
+            WHERE TT1.RNUM >= (#{pageSize} * (#{pageNo} - 1) + 1)
+        ) A
+        CROSS JOIN (
+            SELECT COUNT(*) totalCnt
+            FROM notification
+            WHERE 1=1
+            --<include refid="whereDoRetrieveNoti"/>
+        ) B
+    </select>
+   
+
+
+
+</mapper>

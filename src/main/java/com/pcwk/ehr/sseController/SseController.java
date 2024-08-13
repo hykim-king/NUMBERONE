@@ -54,8 +54,8 @@ public class SseController implements PLog{
 				} // SQL 쿼리 실행
                 
 				//수정해야함!
-				if (true) {
-                //if ("Y".equals(result)) {
+				
+                if ("Y".equals(result)) {
 					emitter.send(gson.toJson(message));
                     log.debug(message);
                     try {
@@ -64,8 +64,8 @@ public class SseController implements PLog{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+                
                 }
-
             } catch (IOException e) {
                 emitter.completeWithError(e);
             }
