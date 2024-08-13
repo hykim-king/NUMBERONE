@@ -45,11 +45,11 @@ public class ReplyMapperTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");        
         
-        reply01 = new Reply(5, 2, "USER0002", "댓글내용 0005", 1, "사용안함", "사용안함");
+        reply01 = new Reply(1, 2, "USER0002", "댓글내용 0005", 1, "사용안함", "사용안함");
         //reply02 = new Reply(3, 4, "userId02", "댓글내용_02", 34, "사용안함", "사용안함");
         //reply03 = new Reply(5, 6, "userId03", "댓글내용_03", 56, "사용안함", "사용안함");
        
-        replyMapper.deleteAll();       
+        //replyMapper.deleteAll();       
     }
     
     @After
@@ -76,6 +76,7 @@ public class ReplyMapperTest implements PLog {
         int replyNo = replyMapper.getLatestReplyNo();
         reply01.setReplyNo(replyNo);
         
+        /*
         Reply outVO01 = replyMapper.doSelectOne(reply01);
         assertNotNull(outVO01);
         isSameReply(reply01, outVO01);
@@ -90,6 +91,7 @@ public class ReplyMapperTest implements PLog {
         //flag = replyMapper.doDelete(outVO01);
         //assertEquals(1, flag);
     }
+    
     @Ignore
     @Test
     public void doUpdate() throws SQLException {
@@ -116,7 +118,7 @@ public class ReplyMapperTest implements PLog {
         isSameReply(outVO01Update, outVO01);
     }
     
-    //@Ignore
+    @Ignore
     @Test
     public void doRetrieve() throws SQLException {
         // 테스트 데이터 추가

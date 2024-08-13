@@ -102,7 +102,7 @@ public class ReplyController implements PLog {
     
     @RequestMapping(value = "/doRetrieve.do", method = RequestMethod.GET)
     public String doRetrieve(Model model, HttpServletRequest req) throws SQLException {
-        String viewName = "reply/reply_list";
+        String viewName = "board/board_mng";
         log.debug("┌──────────────────────────────────────────┐");
         log.debug("│ doRetrieve()                             │");
         log.debug("└──────────────────────────────────────────┘");
