@@ -40,6 +40,7 @@ public class DisasterMsgServiceImplTest implements PLog {
 	
 	StatisticsCondition condition;
 	StatisticsCondition condition2;
+	StatisticsCondition condition3;
 	DisasterMsg msg;
 	Search search;
 	@Before
@@ -57,6 +58,11 @@ public class DisasterMsgServiceImplTest implements PLog {
 		condition2.setEndDate("2024/07/01");
 		condition2.setLocCode(1100000000);//서울 코드
 		
+		condition3 = new StatisticsCondition();
+		condition3.setStartDate("2024/01/01");
+		condition3.setEndDate("2024/08/01");
+		condition3.setDisasterType("heavyRain");
+		
 		search = new Search();
 		search.setSearchDiv("10");
 		search.setSearchWord("1168010500");
@@ -68,6 +74,18 @@ public class DisasterMsgServiceImplTest implements PLog {
 	public void tearDown() throws Exception {
 	}
 	
+	@Test
+	public void disasterTypeStatisticsBySidoTest() throws SQLException{
+		log.debug(condition3);
+		Map<String,Integer> resultMap=disasterMsgService.disasterTypeStatisticsBySido(condition3);
+		
+		 for (Map.Entry<String, Integer> entry : resultMap.entrySet()) {
+	            log.debug("키: " + entry.getKey() + ", 값: " + entry.getValue());
+	    }
+		
+	}
+	
+	@Ignore
     @Test
     public void doRetrieve() throws SQLException{
     	log.debug(search);

@@ -62,7 +62,7 @@ public class DisasterMsgController implements PLog{
 	}
 
 	@PostMapping(value = "/statistics/2")
-	public ResponseEntity<Map<String, Integer>> disasterStaticsDownward(@RequestParam StatisticsCondition condition) {
+	public ResponseEntity<Map<String, Integer>> disasterStaticsDownward(@RequestBody StatisticsCondition condition) {
 		Map<String, Integer> resultMap = null;
 		StatisticsCondition reqCondtion = condition;
 
@@ -80,6 +80,55 @@ public class DisasterMsgController implements PLog{
 		}
 
 	}
+	
+	@PostMapping(value = "/statistics/3")
+	public ResponseEntity<Map<String, Integer>> disasterStaticsAll(@RequestBody StatisticsCondition condition) {
+		log.debug("┌──────────────────────────────────────────┐");
+	    log.debug("          disasterStaticsUpward             ");
+	    log.debug("└──────────────────────────────────────────┘");
+		Map<String, Integer> resultMap = null;
+		StatisticsCondition reqCondtion = condition;
+        log.debug(reqCondtion);
+		try {
+			resultMap = disasterMsgService.disasterTypeStatisticsAll(reqCondtion);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return ResponseEntity.notFound().build();
+		}
+		if (null == resultMap) {
+			return ResponseEntity.notFound().build();
+
+		} else {
+			return ResponseEntity.ok().body(resultMap);
+		}
+
+	}
+	
+	@PostMapping(value = "/statistics/4")
+	public ResponseEntity<Map<String, Integer>> disasterStaticsBySido(@RequestBody StatisticsCondition condition) {
+		log.debug("┌──────────────────────────────────────────┐");
+	    log.debug("          disasterStaticsBySido             ");
+	    log.debug("└──────────────────────────────────────────┘");
+		Map<String, Integer> resultMap = null;
+		StatisticsCondition reqCondtion = condition;
+        log.debug(reqCondtion);
+		try {
+			resultMap = disasterMsgService.disasterTypeStatisticsBySido(reqCondtion);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return ResponseEntity.notFound().build();
+		}
+		if (null == resultMap) {
+			return ResponseEntity.notFound().build();
+
+		} else {
+			return ResponseEntity.ok().body(resultMap);
+		}
+
+	}
+	
 	@GetMapping(value = "/messages")
 	public ResponseEntity<List<DisasterMsg>> disasterMsgRetrieve(@RequestParam long locCode,int pageNo){
 		List<DisasterMsg> list = null;

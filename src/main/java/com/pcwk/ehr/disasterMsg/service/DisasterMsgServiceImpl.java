@@ -11,15 +11,17 @@ import org.springframework.stereotype.Service;
 import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.disasterMsg.domain.DisasterMsg;
+import com.pcwk.ehr.location.domain.Location;
 import com.pcwk.ehr.mapper.DisasterMsgMapper;
+import com.pcwk.ehr.mapper.LocationMapper;
 import com.pcwk.ehr.mapper.MessageAreaMapper;
 import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 
 @Service
 public class DisasterMsgServiceImpl implements DisasterMsgService,PLog{
     
-
-	
+    @Autowired
+	LocationMapper locationMapper;
 
 	@Autowired
 	DisasterMsgMapper disasterMsgMapper;
@@ -45,7 +47,12 @@ public class DisasterMsgServiceImpl implements DisasterMsgService,PLog{
 	public Map<String, Integer> disasterTypeStatisticsBySido(StatisticsCondition condition) throws SQLException {
 		log.debug("condition:"+condition);
 		Map<String, Integer> resultMap= new HashMap<>();
-		return null;
+		List<Location> list =locationMapper.sidoRetrieve();
+		for(Location location :list) {
+			condition.setLocCode(location.getLocCode());
+			resultMap.put(location.getSido(),disasterMsgMapper.disasterTypeStaticsBySido(condition));
+		}
+		return resultMap;
 	}
 
 	@Override
