@@ -68,13 +68,16 @@ public class BoardMapperTest implements PLog {
         assertEquals(boardIn.getContents(), boardOut.getContents());
     }
     	
-    @Ignore
+    //@Ignore
     @Test
     public void doRetrieve() throws SQLException {
         //boardMapper.multipleSave();
         
         search.setPageNo(1);
         search.setPageSize(10);
+        
+        search.setSearchDiv("40");
+        search.setSearchWord("5");
         
         List<Board> list = boardMapper.doRetrieve(search);
         //assertEquals(10, list.size());        
@@ -97,7 +100,6 @@ public class BoardMapperTest implements PLog {
         String upStr = "_U";
         outVO01.setTitle(outVO01.getTitle() + upStr);
         outVO01.setContents(outVO01.getContents() + upStr);
-        outVO01.setReadCnt(1);
         
         flag = boardMapper.doUpdate(outVO01);
         assertEquals(1, flag);
@@ -142,7 +144,7 @@ public class BoardMapperTest implements PLog {
 //        assertEquals(1, flag);    
     }
     
-    //@Ignore
+    @Ignore
     @Test
     public void readCntUpdate() throws SQLException {
         boardMapper.doSave(board01);
