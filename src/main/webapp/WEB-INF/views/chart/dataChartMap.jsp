@@ -37,6 +37,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <style>
+    
+    
         
        *{
             margin : 0;
@@ -150,6 +152,202 @@
         
         
     </style>
+    
+    <script>
+    const disasterTypeMap = {
+    	    "flood": "침수",
+    	    "typhoon": "태풍",
+    	    "heavyRain": "호우",
+    	    "lightning": "낙뢰",
+    	    "strongWind": "강풍",
+    	    "waves": "풍랑",
+    	    "heavySnow": "대설",
+    	    "coldWave": "한파",
+    	    "heatWave": "폭염",
+    	    "yellowDust": "황사",
+    	    "earthQuake": "지진",
+    	    "tsunami": "해일",
+    	    "quakeTsunami": "지진해일",
+    	    "volcano": "화산폭발",
+    	    "drought": "가뭄",
+    	    "tide": "조수",
+    	    "landslide": "산사태",
+    	    "spaceObject": "자연우주물체추락",
+    	    "spaceRadio": "우주전파재난",
+    	    "greenTide": "조류대발생(녹조)",
+    	    "redTide": "적조",
+    	    "fire": "화재",
+    	    "forestFires": "산불",
+    	    "collapse": "건축물붕괴",
+    	    "explosion": "폭발",
+    	    "trafficAccident": "교통사고",
+    	    "electricGas": "전기가스사고",
+    	    "railway": "철도사고",
+    	    "guideWire": "유도선사고",
+    	    "shipAccident": "해양선박사고",
+    	    "edibleWater": "식용수",
+    	    "nuclear": "원전사고",
+    	    "commonDisaster": "공동구재난",
+    	    "largeWaterPollution": "대규모수질오염",
+    	    "livestockDisease": "가축질병",
+    	    "damCollapse": "댐붕괴",
+    	    "powerShortage": "정전 및 전력부족",
+    	    "preventionInfectious": "감염병예방",
+    	    "marinePollution": "해양오염사고",
+    	    "chemicals": "화학물질사고",
+    	    "aircraftAccident": "항공기사고",
+    	    "artificialSpace": "인공우주물체추락",
+    	    "fineDust": "미세먼지",
+    	    "information": "정보통신사고",
+    	    "gpsRadio": "gps전파혼신재난",
+    	    "healthCare": "보건의료재난",
+    	    "personal": "사업장대규모인적사고",
+    	    "concert": "공연장안전",
+    	    "tunnel": "도로터널사고",
+    	    "stadium": "경기장안전",
+    	    "crudeOil": "원유수급위기",
+    	    "summerWater": "여름철물놀이",
+    	    "mountainSafety": "산행안전사고",
+    	    "firstAid": "응급처치",
+    	    "jellyfish": "해파리피해",
+    	    "cpr": "심폐소생술",
+    	    "fireAnt": "붉은불개미",
+    	    "elevator": "승강기안전사고",
+    	    "childFacilities": "어린이놀이시설",
+    	    "foodPoisoning": "식중독",
+    	    "missing": "실종유괴예방",
+    	    "schoolViolence": "학교폭력예방",
+    	    "familyViolence": "가정폭력예방",
+    	    "petroleum": "석유제품사고",
+    	    "terrorism": "테러",
+    	    "emergency": "비상사태",
+    	    "defenseWarning": "민방공경보",
+    	    "preparation": "비상대비물자준비"
+    	};  
+        
+       
+
+    let chart;
+
+    function createChart(disasterType, startDate, endDate, data) {
+        if (chart) {
+            chart.destroy();
+        }
+
+        const disasterTypeInKorean = disasterTypeMap[disasterType] || "알 수 없는 재난 유형";
+        
+        chart = Highcharts.mapChart('container', {
+            chart: {
+                map: 'countries/kr/kr-all'
+            },
+            title: {
+                text: '대한민국 재난 통계'
+            },
+            subtitle: {
+            	text: '기간: ' + startDate + ' ~ ' + endDate + ", 재난: " + disasterTypeInKorean
+            },
+            colorAxis: {
+                min: 0,
+                max: 1000, 
+                minColor: '#EFEFFF',
+                maxColor: '#003399'
+            },
+            series: [{
+                data: data,
+                name: '재난 통계',
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }]
+        });
+    }
+
+        
+        class StatisticsCondition {
+            constructor(locCode, startDate, endDate,disasterType) {
+                this.locCode = locCode;
+                this.startDate = startDate;
+                this.endDate = endDate;
+                this.disasterType = disasterType;
+            }
+        }
+        
+        
+        function callServer(startDate, endDate, disasterType) {
+            const condition = new StatisticsCondition(1000000000, startDate, endDate, disasterType);
+            fetch('http://localhost:8080/ehr/statistics/4', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(condition), 
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 좋지 않습니다.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('data:', data);
+
+
+                const formattedData = Object.keys(data).map(key => ({
+                    name: key,
+                    value: data[key]
+                }));
+
+                createChart(disasterType, startDate, endDate, formattedData);
+            })
+            .catch(error => {
+                console.error('문제가 발생했습니다:', error);
+            });
+        }
+        
+        function setPeriod(months) {
+            const today = new Date();
+            const endYear = today.getFullYear();
+            const endMonth = today.getMonth() + 1;
+            const endDay = today.getDate();
+
+            const startDate = new Date(today);
+            startDate.setMonth(startDate.getMonth() - months);
+            const startYear = startDate.getFullYear();
+            const startMonth = startDate.getMonth() + 1;
+            const startDay = startDate.getDate();
+
+            $('#startYear').val(startYear);
+            $('#startMonth').val(startMonth);
+            $('#startDay').val(startDay);
+            $('#endYear').val(endYear);
+            $('#endMonth').val(endMonth);
+            $('#endDay').val(endDay);
+        }
+        
+        function updateMap() {
+        	 const startYear = $('#startYear').val();
+             const startMonth = $('#startMonth').val();
+             const startDay = $('#startDay').val();
+             const endYear = $('#endYear').val();
+             const endMonth = $('#endMonth').val();
+             const endDay = $('#endDay').val();
+
+             const startDate = startYear+'/'+startMonth+'/'+startDay ;
+             const endDate = endYear+'/'+endMonth+'/'+endDay ;
+             const disasterType = $('#disasterType').val();
+
+             console.log("Start Date:", startDate);
+             console.log("End Date:", endDate);
+             console.log("Disaster Type:", disasterType);
+             
+             callServer(startDate, endDate, disasterType);
+        }
+
+        
+
+        
+    </script>
 </head>
 <body>
 
@@ -189,28 +387,75 @@
                   
             <label for="disasterType">재난 유형:</label>
             <select id="disasterType">
-                <option value="flood">침수</option>
-                <option value="typhoon">태풍</option>
-                <option value="heavyRain">호우</option>
-                <option value="lightning">낙뢰</option>
-                <option value="strongWind">강풍</option>
-                <option value="storm">풍랑</option>
-                <option value="heavySnow">대설</option>
-                <option value="coldWave">한파</option>
-                <option value="heatWave">폭염</option>
-                <option value="dust">황사</option>
-                <option value="earthquake">지진</option>
-                <option value="tsunami">해일</option>
-                <option value="quakeTsunami">지진해일</option>
-                <option value="volcano">화산폭발</option>
-                <option value="drought">가뭄</option>
-                <option value="flooding">홍수</option>
-                <option value="tide">조수</option>
-                <option value="landslide">산사태</option>
-                <option value="spaceObject">자연우주물체추락</option>
-                <option value="spaceRadiation">우주전파재난</option>
-                <option value="algaeBloom">조류대발생(녹조)</option>
-                <option value="redTide">적조</option>
+                    <option value="flood">침수</option>
+				    <option value="typhoon">태풍</option>
+				    <option value="heavyRain">호우</option>
+				    <option value="lightning">낙뢰</option>
+				    <option value="strongWind">강풍</option>
+				    <option value="waves">풍랑</option>
+				    <option value="heavySnow">대설</option>
+				    <option value="coldWave">한파</option>
+				    <option value="heatWave">폭염</option>
+				    <option value="yellowDust">황사</option>
+				    <option value="earthQuake">지진</option>
+				    <option value="tsunami">해일</option>
+				    <option value="quakeTsunami">지진해일</option>
+				    <option value="volcano">화산폭발</option>
+				    <option value="drought">가뭄</option>
+				    <option value="flood">홍수</option>
+				    <option value="tide">조수</option>
+				    <option value="landslide">산사태</option>
+				    <option value="spaceObject">자연우주물체추락</option>
+				    <option value="spaceRadio">우주전파재난</option>
+				    <option value="greenTide">조류대발생(녹조)</option>
+				    <option value="redTide">적조</option>
+				    <option value="fire">화재</option>
+				    <option value="forestFires">산불</option>
+				    <option value="collapse">건축물붕괴</option>
+				    <option value="explosion">폭발</option>
+				    <option value="trafficAccident">교통사고</option>
+				    <option value="electricGas">전기가스사고</option>
+				    <option value="railway">철도사고</option>
+				    <option value="guideWire">유도선사고</option>
+				    <option value="shipAccident">해양선박사고</option>
+				    <option value="edibleWater">식용수</option>
+				    <option value="nuclear">원전사고</option>
+				    <option value="commonDisaster">공동구재난</option>
+				    <option value="largeWaterPollution">대규모수질오염</option>
+				    <option value="livestockDisease">가축질병</option>
+				    <option value="damCollapse">댐붕괴</option>
+				    <option value="powerShortage">정전 및 전력부족</option>
+				    <option value="preventionInfectious">감염병예방</option>
+				    <option value="marinePollution">해양오염사고</option>
+				    <option value="chemicals">화학물질사고</option>
+				    <option value="aircraftAccident">항공기사고</option>
+				    <option value="artificialSpace">인공우주물체추락</option>
+				    <option value="fineDust">미세먼지</option>
+				    <option value="information">정보통신사고</option>
+				    <option value="gpsRadio">gps전파혼신재난</option>
+				    <option value="healthCare">보건의료재난</option>
+				    <option value="personal">사업장대규모인적사고</option>
+				    <option value="concert">공연장안전</option>
+				    <option value="tunnel">도로터널사고</option>
+				    <option value="stadium">경기장안전</option>
+				    <option value="crudeOil">원유수급위기</option>
+				    <option value="summerWater">여름철물놀이</option>
+				    <option value="mountainSafety">산행안전사고</option>
+				    <option value="firstAid">응급처치</option>
+				    <option value="jellyfish">해파리피해</option>
+				    <option value="cpr">심폐소생술</option>
+				    <option value="fireAnt">붉은불개미</option>
+				    <option value="elevator">승강기안전사고</option>
+				    <option value="childFacilities">어린이놀이시설</option>
+				    <option value="foodPoisoning">식중독</option>
+				    <option value="missing">실종유괴예방</option>
+				    <option value="schoolViolence">학교폭력예방</option>
+				    <option value="familyViolence">가정폭력예방</option>
+				    <option value="petroleum">석유제품사고</option>
+				    <option value="terrorism">테러</option>
+				    <option value="emergency">비상사태</option>
+				    <option value="defenseWarning">민방공경보</option>
+				    <option value="preparation">비상대비물자준비</option>
             </select>
             <button onclick="updateMap()">조회</button>
         </div>
@@ -218,94 +463,7 @@
         <div id="container"></div>
     </section>
 
-<script>
-        class StatisticsCondition {
-            constructor(locCode, startDate, endDate) {
-                this.locCode = locCode;
-                this.startDate = startDate;
-                this.endDate = endDate;
-            }
-        }
-        
-        let chart;
 
-        function createChart(disasterType, startDate, endDate, data) {
-            if (chart) {
-                chart.destroy();
-            }
-
-            chart = Highcharts.mapChart('container', {
-                chart: {
-                    map: 'countries/kr/kr-all'
-                },
-                title: {
-                    text: '대한민국 재난 통계'
-                },
-                subtitle: {
-                    text: `기간: ${startDate} ~ ${endDate}, 재난: ${disasterType}`
-                },
-                colorAxis: {
-                    min: 0,
-                    minColor: '#EFEFFF',
-                    maxColor: '#003399'
-                },
-                series: [{
-                    data: data,
-                    name: '재난 통계',
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.name}'
-                    }
-                }]
-            });
-        }
-
-        function updateMap() {
-            const startDate = `${$('#startYear').val()}-${$('#startMonth').val()}-${$('#startDay').val()}`;
-            const endDate = `${$('#endYear').val()}-${$('#endMonth').val()}-${$('#endDay').val()}`;
-            const disasterType = $('#disasterType').val();
-
-            $.ajax({
-                url: '/getDisasterData', // 서블릿 경로
-                method: 'GET',
-                data: {
-                    startDate: startDate,
-                    endDate: endDate,
-                    disasterType: disasterType
-                },
-                success: function(responseData) {
-                    const data = JSON.parse(responseData);
-                    createChart(disasterType, startDate, endDate, data);
-                },
-                error: function() {
-                    alert('데이터를 불러오는데 실패했습니다.');
-                }
-            });
-        }
-
-        function setPeriod(months) {
-            const today = new Date();
-            const endYear = today.getFullYear();
-            const endMonth = today.getMonth() + 1;
-            const endDay = today.getDate();
-
-            const startDate = new Date(today);
-            startDate.setMonth(startDate.getMonth() - months);
-            const startYear = startDate.getFullYear();
-            const startMonth = startDate.getMonth() + 1;
-            const startDay = startDate.getDate();
-
-            $('#startYear').val(startYear);
-            $('#startMonth').val(startMonth);
-            $('#startDay').val(startDay);
-            $('#endYear').val(endYear);
-            $('#endMonth').val(endMonth);
-            $('#endDay').val(endDay);
-        }
-
-        // 초기 차트 생성
-        createChart('flood', '2020-01-01', '2024-12-31', []);
-    </script>
     <%@ include file="/WEB-INF/views/main/footer.jsp" %>
 </body>
 </html>
