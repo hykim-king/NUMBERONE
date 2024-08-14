@@ -1,42 +1,39 @@
-package com.pcwk.ehr.login.service;
+package com.pcwk.ehr.member.service;
 
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.pcwk.ehr.cmn.PLog;
-import com.pcwk.ehr.login.domain.Login;
-import com.pcwk.ehr.mapper.LoginMapper;
 import com.pcwk.ehr.mapper.MemberMapper;
 import com.pcwk.ehr.member.domain.Member;
 
 @Service
-public class LoginServiceImpl implements LoginService, PLog {
+public class MemberServiceImpl implements MemberService, PLog {
 
-	@Autowired
-	LoginMapper loginMapper;
+
 	@Autowired
 	MemberMapper memberMapper;
 	
-	public LoginServiceImpl() {
+	public MemberServiceImpl() {
 
 	}
 
 	@Override
-	public int idPasswordCheck(Login inVO) throws SQLException {
+	public int idPasswordCheck(Member inVO) throws SQLException {
 		log.debug("1. param :"+inVO);
 		int status = 0;
 		
 		
 		
-		int loginCnt = loginMapper.idCheck(inVO);
+		int loginCnt = memberMapper.idCheck(inVO);
 		if(0 == loginCnt) {
 			status = 10;
 			return status;
 		}
 		
 		
-		int passwordCnt = loginMapper.passwordCheck(inVO);
+		int passwordCnt = memberMapper.passwordCheck(inVO);
 		if(0 == passwordCnt) {
 			status = 20;
 			return status;
@@ -48,9 +45,9 @@ public class LoginServiceImpl implements LoginService, PLog {
 	}
 
 	@Override
-	public Member login(Login inVO) throws SQLException {
+	public Member login(Member inVO) throws SQLException {
 	    log.debug("1. param :" + inVO);
-	    Member login = loginMapper.login(inVO);
+	    Member login = memberMapper.login(inVO);
 	    log.debug("2. login :" + login);
 	    
 	    if (login == null) {
@@ -89,5 +86,7 @@ public class LoginServiceImpl implements LoginService, PLog {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 
 }

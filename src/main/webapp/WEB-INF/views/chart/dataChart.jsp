@@ -138,6 +138,120 @@
     }
 
 </style>
+    
+    <script>
+
+        function showGraph(statistics) {
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: '재난 누적 그래프'
+                },
+                series: [{
+                    name: '재난 수',
+                    data: statistics
+                }]
+            });
+        }
+
+        class StatisticsCondition {
+            constructor(locCode, startDate, endDate) {
+                this.locCode = locCode;
+                this.startDate = startDate;
+                this.endDate = endDate;
+            }
+        }
+
+
+        function callServer(startDate, endDate) {
+            const condition = new StatisticsCondition(2811010100, startDate, endDate);
+            fetch('http://localhost:8080/ehr/statistics/1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(condition), 
+            })
+            .then(function(response) { //통신상태 확인
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 좋지 않습니다.');
+                }
+                return response.json();
+            })
+            .then(function(data) { //정상일시 데이터 사용
+                console.log('data:', data);
+                const dataMap = new Map(Object.entries(data));
+                const resultObject = Object.fromEntries(dataMap);
+                let datasize =dataMap.size; 
+                const keysArray = [...dataMap.keys()];
+                const resultArray =[]
+                for (let i =0;i<datasize; i++) {
+                     const key = keysArray[i];
+                     const value = dataMap.get(keysArray[i]);
+                    
+                     resultArray.push([key,value]); 
+                }
+                
+                showGraph(resultArray);
+                
+                
+            })
+            .catch(function(error) { 
+                console.error('문제가 발생했습니다:', error);
+            });
+        }
+
+        
+        
+        function setPeriod(months) {
+            const today = new Date();
+            const endYear = today.getFullYear();
+            const endMonth = today.getMonth() + 1;
+            const endDay = today.getDate();
+
+            const startDate = new Date(today);
+            startDate.setMonth(startDate.getMonth() - months);
+            const startYear = startDate.getFullYear();
+            const startMonth = startDate.getMonth() + 1;
+            const startDay = startDate.getDate();
+
+            $('#startYear').val(startYear);
+            $('#startMonth').val(startMonth);
+            $('#startDay').val(startDay);
+
+            $('#endYear').val(endYear);
+            $('#endMonth').val(endMonth);
+            $('#endDay').val(endDay);
+
+            
+        }
+
+         function updateMap() {
+                const startYear = $('#startYear').val();
+                const startMonth = $('#startMonth').val();
+                const startDay = $('#startDay').val();
+                const endYear = $('#endYear').val();
+                const endMonth = $('#endMonth').val();
+                const endDay = $('#endDay').val();
+
+                const startDate = startYear+'/'+startMonth+'/'+startDay ;
+                const endDate = endYear+'/'+endMonth+'/'+endDay ;
+
+                console.log("Start Date:", startDate);
+                console.log("End Date:", endDate);
+
+                callServer(startDate, endDate);
+            }
+
+        
+
+         
+        
+
+    </script>
+    
 </head>
 <body>
       <%@ include file="/WEB-INF/views/main/header.jsp" %>
@@ -196,139 +310,6 @@
     
     
     
-    
-    <script>
 
-        function showGraph(statistics) {
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'pie'
-                },
-                title: {
-                    text: '재난 누적 그래프'
-                },
-                series: [{
-                    name: '재난 수',
-                    data: statistics
-                }]
-            });
-        }
-
-        class StatisticsCondition {
-            constructor(locCode, startDate, endDate) {
-                this.locCode = locCode;
-                this.startDate = startDate;
-                this.endDate = endDate;
-            }
-        }
-
-
-        function callServer(startDate, endDate) {
-            const condition = new StatisticsCondition(1111010200, startDate, endDate);
-            
-
-        
-        function callServer() {
-        	const condition = new StatisticsCondition(1111010200,"2024/01/01","2024/07/01")
-
-            fetch('http://localhost:8080/ehr/statistics/1', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-
-                body: JSON.stringify(condition),
-            })
-            .then(function(response) {
-
-                body: JSON.stringify(condition) 
-            })
-            .then(function(response) { //통신상태 확인
-
-                if (!response.ok) {
-                    throw new Error('네트워크 응답이 좋지 않습니다.');
-                }
-                return response.json();
-            })
-
-		   .then(data => {
-		        // 지역 이름 가져오기
-		        return ;
-		    })
-		    .then(response => {
-		        if (!response.ok) {
-		            throw new Error('지역 이름 요청 실패');
-		        }
-		        return response.text();
-		    })
-		    .then(locationName => {
-		        // 지역 이름 업데이트
-		        document.getElementById('locationMessage').innerText = `지역: ${locationName}`;
-                
-                const dataMap = new Map(Object.entries(data));
-                const resultArray = [];
-                for (const [key, value] of dataMap) {
-                    resultArray.push([key, value]);
-                }
-                showGraph(resultArray);
-            })
-            .catch(function(error) {
-                console.error('문제가 발생했습니다:', error);
-            });
-        }
-
-        
-        
-        function setPeriod(months) {
-            const today = new Date();
-            const endYear = today.getFullYear();
-            const endMonth = today.getMonth() + 1;
-            const endDay = today.getDate();
-
-            const startDate = new Date(today);
-            startDate.setMonth(startDate.getMonth() - months);
-            const startYear = startDate.getFullYear();
-            const startMonth = startDate.getMonth() + 1;
-            const startDay = startDate.getDate();
-
-            $('#startYear').val(startYear);
-            $('#startMonth').val(startMonth);
-            $('#startDay').val(startDay);
-
-            $('#endYear').val(endYear);
-            $('#endMonth').val(endMonth);
-            $('#endDay').val(endDay);
-
-            // 날짜가 설정된 후 화면을 갱신
-            updateMap();
-        }
-
-         function updateMap() {
-        	    const startYear = $('#startYear').val();
-        	    const startMonth = $('#startMonth').val();
-        	    const startDay = $('#startDay').val();
-        	    const endYear = $('#endYear').val();
-        	    const endMonth = $('#endMonth').val();
-        	    const endDay = $('#endDay').val();
-
-        	    const startDate = `${startYear}/${startMonth.toString().padStart(2, '0')}/${startDay.toString().padStart(2, '0')}`;
-        	    const endDate = `${endYear}/${endMonth.toString().padStart(2, '0')}/${endDay.toString().padStart(2, '0')}`;
-
-        	    console.log("Start Date:", startDate);
-        	    console.log("End Date:", endDate);
-
-        	    callServer(startDate, endDate);
-        	}
-
-        
-
-         
-            };
-        
-        callServer();
-
-
-    </script>
-    
 </body>
 </html>

@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.cmn.WorkDiv;
-import com.pcwk.ehr.login.domain.Login;
 import com.pcwk.ehr.member.domain.Member;
 
 
@@ -26,11 +25,11 @@ public interface MemberMapper extends WorkDiv<Member> {
 
     
     
-    int passwordCheck(Login login01);
+    int passwordCheck(Member login01);
     
-	int idCheck(Login login01);
+	int idCheck(Member login01);
 	
-    Member login(Login login);
+	Member login(Member login01);
 
     
     
@@ -48,6 +47,12 @@ public interface MemberMapper extends WorkDiv<Member> {
     
     int multipleSave() throws SQLException;
     int doUpdate(Member user) throws SQLException;
+
+
+	
+
+
+	
 
 
 

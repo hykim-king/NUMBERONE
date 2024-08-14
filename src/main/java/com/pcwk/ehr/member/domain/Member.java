@@ -10,7 +10,7 @@ public class Member extends DTO {
     private String nickname;
     private char isAdmin;
 
-    public Member() {}
+    public Member(String memberId, String password) {}
 
 
 

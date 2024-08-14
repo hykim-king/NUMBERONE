@@ -11,6 +11,8 @@
         <result column="nickname" property="nickname"/>
         <result column="is_admin" property="isAdmin"/>
     </resultMap>
+    
+
 
 	  <sql id="doRetrieveWhere">
 	        <where>
@@ -56,28 +58,34 @@
     </insert>
 
 
-   <!-- 로그인 쿼리 -->
-	<select id="idCheck" parameterType="com.pcwk.ehr.member.domain.Member" resultType="int">
-	    SELECT COUNT(*)
-	    FROM member
-	    WHERE member_id = #{memberId}
-	</select>
-	
-	<select id="passwordCheck" parameterType="com.pcwk.ehr.member.domain.Member" resultType="int">
-	    SELECT COUNT(*)
-	    FROM member
-	    WHERE member_id = #{memberId}
-	      AND password = #{password}
-	</select>
 
-	
 
-	<select id="login" parameterType="com.pcwk.ehr.member.domain.Member" resultType="com.pcwk.ehr.member.domain.Member">
-	    SELECT * FROM member
-	    WHERE member_id = #{memberId} AND password = #{password}
-	</select>
-	
-	
+
+    <select id="idCheck" parameterType="Member" resultType="int">
+        SELECT COUNT(*)
+        FROM member
+        WHERE member_id = #{memberId}   
+    </select> 
+
+    <select id="passwordCheck" parameterType="Member" resultType="int">
+        SELECT COUNT(*)
+        FROM member
+        WHERE member_id = #{memberId}
+        AND password = #{password}  
+    </select>
+
+    <select id="login" parameterType="Member" resultMap="MemberResultMap">
+        SELECT  
+            member_id AS memberId,
+            loc_code AS locCode,
+            password AS password,
+            name AS name,
+            nickname AS nickname,
+            is_admin AS isAdmin
+        FROM member
+        WHERE member_id = #{memberId}
+    </select>
+
 	
 	
 	

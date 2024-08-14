@@ -302,6 +302,8 @@ class Member {
         this.isAdmin = isAdmin;
     }
 }
+
+
 $(document).ready(function(){
     console.log("document ready!");
         
@@ -702,7 +704,7 @@ $(document).ready(function() {
                             break;
                         case 30:
                             alert(response.messageContents);
-                            window.location.href = "/ehr/main/main.do";
+                            window.location.href = "/ehr/main/index.do";
                             break;
                         default:
                             alert(response.messageContents);

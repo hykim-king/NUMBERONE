@@ -14,7 +14,6 @@
         <typeAlias alias="Search" type="com.pcwk.ehr.cmn.Search"/>
         <typeAlias alias="Code"     type="com.pcwk.ehr.code.domain.Code"/>
         <typeAlias alias="Member"   type="com.pcwk.ehr.member.domain.Member"/>
-        <typeAlias alias="Login"    type="com.pcwk.ehr.login.domain.Login"/>
         <typeAlias alias="Reply" type="com.pcwk.ehr.reply.domain.Reply"/>
         <typeAlias alias="Board" type="com.pcwk.ehr.board.domain.Board" />
         <typeAlias alias="DisasterMsg" type="com.pcwk.ehr.disasterMsg.domain.DisasterMsg"/>

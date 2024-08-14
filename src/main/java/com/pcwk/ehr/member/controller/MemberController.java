@@ -2,7 +2,6 @@ package com.pcwk.ehr.member.controller;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,23 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.location.domain.Location;
 import com.pcwk.ehr.location.service.LocationService;
-import com.pcwk.ehr.login.domain.Login;
-import com.pcwk.ehr.login.service.LoginService;
 import com.pcwk.ehr.member.domain.Member;
+import com.pcwk.ehr.member.service.MemberService;
 
 @Controller
 @RequestMapping("member")
 
-public class MemberController implements PLog {
+public class MemberController<Login> implements PLog {
 	@Autowired
-	LoginService loginService;
+	MemberService memberService;
 	
    public MemberController() {
       log.debug("┌──────────────────────────────────────────┐");
@@ -53,11 +50,11 @@ public class MemberController implements PLog {
 			,method = RequestMethod.POST
 			, produces = "text/plain;charset=UTF-8")
    @ResponseBody
-	public String login(Login inVO, HttpSession  httpSession ) throws SQLException {
+	public String login(Member inVO, HttpSession  httpSession ) throws SQLException {
 		String  jsonString = "";
 		
 		log.debug("1 param:" + inVO);	
-		int checkCount = loginService.idPasswordCheck(inVO);
+		int checkCount = memberService.idPasswordCheck(inVO);
 		
 		String loginMessage = "";
 		if(10 == checkCount) {//아이디를 확인 하세요.
@@ -68,7 +65,7 @@ public class MemberController implements PLog {
 			loginMessage = "아이디 비번 일치!!";
 			
 			//회원정보 
-			Member member = loginService.login(inVO);
+			Member member = memberService.login(inVO);
 			if(null !=member) {
 				httpSession.setAttribute("member", member);
 			}
@@ -100,7 +97,7 @@ public class MemberController implements PLog {
 	    
 	    
 	    // 서비스 호출하여 회원가입 처리
-	    boolean isSuccess = loginService.doSave(member); 
+	    boolean isSuccess = memberService.doSave(member); 
 	    String signUpMessage = isSuccess ? "회원가입 완료!" : "회원가입 실패!";
 	    
 	    Message message = new Message(isSuccess ? 0 : 1, signUpMessage);
@@ -119,7 +116,7 @@ public class MemberController implements PLog {
        log.debug("닉네임 중복 체크 요청: " + nickname);
 
        // 닉네임 중복 체크 로직
-       boolean isDuplicate = loginService.checkNickname(nickname);
+       boolean isDuplicate = memberService.checkNickname(nickname);
        String message = isDuplicate ? "중복된 닉네임입니다." : "사용 가능한 닉네임입니다.";
        
        Message responseMessage = new Message(isDuplicate ? 1 : 0, message);
@@ -132,7 +129,7 @@ public class MemberController implements PLog {
        log.debug("아이디 중복 체크 요청: " + userId);
 
        // 아이디 중복 체크 로직
-       boolean isDuplicate = loginService.checkUserId(userId);
+       boolean isDuplicate = memberService.checkUserId(userId);
        String message = isDuplicate ? "중복된 아이디입니다." : "사용 가능한 아이디입니다.";
        
        Message responseMessage = new Message(isDuplicate ? 1 : 0, message);
