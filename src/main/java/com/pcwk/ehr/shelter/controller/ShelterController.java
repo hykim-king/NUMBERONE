@@ -3,10 +3,14 @@ package com.pcwk.ehr.shelter.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.pcwk.ehr.cmn.PLog;
@@ -27,21 +31,44 @@ public class ShelterController implements PLog {
 		log.debug("└───────────────────────────────────────┘");
 	}
 	
-	@RequestMapping(value = "/shelter.do"
+	@RequestMapping(value = "/shelter"
 			,method = RequestMethod.GET
 			,produces = "text/plain;charset=UTF-8")
-	public String doRetrieve(Location location) throws SQLException {
+	@ResponseBody
+	public String doRetrieve(Shelter shelter) throws SQLException {
 		log.debug("┌────────────────────────────────────────┐");
 		log.debug("│ doRetrieve()                           │");
 		log.debug("└────────────────────────────────────────┘");
 		
 		String jsonString = "";
 		
-		List<Shelter> shelterSearch = this.shelterService.doRetrieve(location);
+		List<Shelter> shelterSearch = this.shelterService.doRetrieve(shelter);
 		
 		jsonString = new Gson().toJson(shelterSearch);
 		
 		return jsonString;
 	}
+	
+	@RequestMapping(value = "/shelter_map"
+			,method = RequestMethod.GET)
+	public String moveToMap(HttpServletRequest req, Model model) throws SQLException {
+		log.debug("┌────────────────────────────────────────┐");
+		log.debug("│ moveToMap()                            │");
+		log.debug("└────────────────────────────────────────┘");
+		
+		String viewName = "openMap/openMap";
+		
+		double lat = Double.parseDouble((String)req.getParameter("lat"));
+		log.debug("lat"+lat);
+		double lon = Double.parseDouble((String)req.getParameter("lon"));
+		log.debug("lon"+lon);
+		
+		model.addAttribute("LAT",lat);
+		model.addAttribute("LON",lon);
+		
+		return viewName;
+	}
+	
+	
 	
 }

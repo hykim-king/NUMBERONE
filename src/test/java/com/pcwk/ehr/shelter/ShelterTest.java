@@ -46,7 +46,7 @@ public class ShelterTest implements PLog{
 		shelter = new Shelter();
 		
 		shelter.setShelterDiv("10");
-		shelter.setLocCode(5280036000L);
+		shelter.setLocCode(1111010200L);
 	}
 
 	@After

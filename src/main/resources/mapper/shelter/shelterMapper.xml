@@ -2,11 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.ShelterMapper">
     
+     <sql id="whereShelterRetrieve">
+       <where>
+        <choose>
+          <when test="locCode != null">
+              shelter_div = #{shelterDiv}
+               AND loc_code IN (SELECT DISTINCT loc_code
+                  FROM location
+                  START WITH loc_code = #{locCode}
+                  CONNECT BY parent_loc_code = PRIOR loc_code
+                )         
+          </when>        
+        </choose> 
+       </where>
+    </sql>
+    
     <select id="doRetrieve" parameterType="Shelter" resultType="Shelter">
-        SELECT *
-	    FROM shelter
-	    WHERE shelter_div = #{shelterDiv}
-	    AND loc_code = #{locCode}
+        SELECT A.*,B.*
+			FROM (
+			SELECT TT1.rnum              as no,
+			       TT1.road_address      as roadAddress,
+			       TT1.admin_address     as adminAddress,
+			       TT1.facility_name     as facilityName,
+			       TT1.scale             as scale,
+			       TT1.max_capacity      as maxCapacity,
+			       TT1.accessibility     as accessibility,
+			       TT1.lat               as lat,
+			       TT1.lon               as lon
+			 FROM (    
+			  SELECT ROWNUM as rnum, T1.*
+			    FROM(
+			        SELECT * 
+			        FROM shelter
+			        
+			        <include refid="whereShelterRetrieve"></include>
+			        )T1
+			     WHERE rownum <![CDATA[ <= ( #{pageSize} * (#{pageNo} -1) + #{pageSize}) ]]>
+			    )TT1
+			  WHERE TT1.rnum <![CDATA[ >=( #{pageSize}*(#{pageNo} -1) + 1)   ]]>
+			)A
+			CROSS JOIN(
+			 SELECT COUNT(*) totalCnt
+			   FROM shelter
+			   
+			   <include refid="whereShelterRetrieve"></include>
+            )B
     </select>
 
 
