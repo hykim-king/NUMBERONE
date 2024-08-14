@@ -44,8 +44,7 @@ public class BoardController implements PLog {
 
     // 게시물 등록 화면으로 이동
     @RequestMapping(value = "/moveToReg.do", 
-    				method = RequestMethod.GET,
-    				produces = "text/plain;charset=UTF-8")
+    				method = RequestMethod.GET)			
     public String moveToReg(Board inVO, Model model) throws SQLException {
         String viewName = "board/board_reg";
         log.debug("1. param inVO: " + inVO);
@@ -94,10 +93,6 @@ public class BoardController implements PLog {
 		
 		Search search =new Search();
 		
-		//div값이 없으면 전체
-		String  div  = StringUtil.nvl(req.getParameter("div"),"");
-		
-		
 		//검색구분
 		String  searchDiv  = StringUtil.nvl(req.getParameter("searchDiv"),"");
 		String  searchWord = StringUtil.nvl(req.getParameter("searchWord"),"");
@@ -128,17 +123,13 @@ public class BoardController implements PLog {
 		}
 		model.addAttribute("totalCnt", totalCnt); //검색조건
 		
-		//----------------------------------------------------------------------
-//		Code code =new Code();
-//		code.setMstCode("BOARD_SEARCH");//회원검색 조건
-//		List<Code> memberSearch = this.codeService.doRetrieve(code);
-//		model.addAttribute("BOARD_SEARCH", memberSearch); //검색조건
-//		
-//      code.setMstCode("COM_PAGE_SIZE");//회원검색 조건
-//		List<Code> pageSizeSearch = this.codeService.doRetrieve(code);
-//		model.addAttribute("COM_PAGE_SIZE", pageSizeSearch); //페이지 사이즈
+		
+		Code code =new Code();
+		code.setMstCode("BOARD_SEARCH");//회원검색 조건
+		List<Code> memberSearch = this.codeService.doRetrieve(code);
+		model.addAttribute("BOARD_SEARCH", memberSearch); //검색조건
 
-		//----------------------------------------------------------------------
+		
 		
 		//model
 		return viewName;
@@ -179,18 +170,18 @@ public class BoardController implements PLog {
         Board outVO = boardService.doSelectOne(inVO);
 
         // markdown을 HTML로 변환
-        outVO.setContents(this.markdownService.convertMarkdownToHtml(outVO.getContents()));
+        outVO.setContents(MarkdownService.convertMarkdownToHtml(outVO.getContents()));
         
         log.debug("2. outVO: " + outVO);
 
-        String message ="";
+        String message =" ";
         int flag = 0;
         if(null != outVO) {
         	message = outVO.getTitle() + " 이 조회 되었습니다.";
         	flag = 1;
         
         }else {
-        	message = inVO.getTitle() + " 조회 실패!";
+        	message = inVO.getTitle()+ " 조회 실패!";
         }
         
         Message messageObj = new Message(flag, message);
@@ -209,7 +200,7 @@ public class BoardController implements PLog {
 
     // 게시물 등록
     @RequestMapping(value = "/doSave.do", 
-    		method = RequestMethod.GET, 
+    		method = RequestMethod.POST, 
     		produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String doSave(Board inVO) throws SQLException {

@@ -54,12 +54,23 @@ document.addEventListener("DOMContentLoaded", function(){
      
      
     const doSaveBtn = document.querySelector("#doSave");
-    
+    const moveToListBtn = document.querySelector("#moveToList");
     const titleInput = document.querySelector("#title");
     const regIdInput = document.querySelector("#regId");
     const contentsTextArea = document.querySelector("#contents");
     const divInput = document.querySelector("#div");    
     //Event감지
+    moveToListBtn.addEventListener("click", function(event){
+    	console.log("moveToListBtn click");
+    	moveToList();
+    });
+    
+    function moveToList(){
+    	const frm = document.querySelector("#regForm");
+    	frm.action = "/ehr/board/";
+    	frm.submit();
+    }
+    
     doSaveBtn.addEventListener("click", function(event){
         console.log("doSaveBtn click");     
         doSave();
@@ -69,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function(){
         console.log("doSave()");
         
         if(isEmpty(titleInput.value) == true){
-            alert('아이디를 입력 하세요.')
+            alert('제목을 입력 하세요.')
             titleInput.focus();
             return;
             
@@ -154,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function(){
   
   <!-- 버튼 -->
   <div class="mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
-      <input type="button" value="목록" class="btn btn-primary">
+      <input type="button" value="목록" id="moveToList" class="btn btn-primary">
       <input type="button" value="등록"  id="doSave" class="btn btn-primary">
   </div>
   <!--// 버튼 ----------------------------------------------------------------->

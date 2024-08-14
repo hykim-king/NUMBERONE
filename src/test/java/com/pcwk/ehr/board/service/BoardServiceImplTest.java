@@ -56,7 +56,7 @@ public class BoardServiceImplTest implements PLog {
         
         // 전체 삭제
         //boardMapper.deleteAll();
-        board01 = new Board(207,"10", "user02", "제목01", "내용01", 0, 0, "사용안함", "사용안함");
+        board01 = new Board(213, "10", "ADMIN","chanho", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
     }
 
     @After

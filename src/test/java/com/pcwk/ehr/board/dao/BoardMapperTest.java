@@ -47,11 +47,11 @@ public class BoardMapperTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");
         
-        board01 = new Board(1,"10", "chanhos", "제목01", "내용01", 0, 0, "사용안함", "사용안함");
-        board02 = new Board(2,"20", "userId02", "제목_02", "내용_02", 0, 0, "사용안함", "사용안함");
-        board03 = new Board(3,"10", "userId03", "제목_03", "내용_03", 0, 0, "사용안함", "사용안함");
+        board01 = new Board(213, "10", "ADMIN","chanho", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
+        board02 = new Board(213, "20", "ADMIN","chanho", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
+        board03 = new Board(213, "30", "ADMIN","chanho", "d제목_01", "d내용_01", 0, 0, "2024-08-03", "2024-08-03");
         
-        //boardMapper.deleteAll();
+        boardMapper.deleteAll();
         search = new Search();
     }
 
@@ -81,7 +81,7 @@ public class BoardMapperTest implements PLog {
         assertEquals(10, list.size());        
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void doUpdate() throws SQLException {
         int flag = boardMapper.doSave(board01);

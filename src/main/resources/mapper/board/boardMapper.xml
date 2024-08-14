@@ -28,6 +28,8 @@
     <insert id="multipleSave" parameterType="Board">
     INSERT INTO board (
         reg_id,
+        nick_name,
+        div, 
         title,
         contents,
         ask_cnt,
@@ -37,6 +39,8 @@
     )
     SELECT 
         DECODE(MOD(ROWNUM, 2), 1, '10', '20'),
+        '닉네임'|| LPAD(ROWNUM, 7, '0'),
+        DECODE(MOD(ROWNUM, 3), 0, '10', 1, '20', '30'),
         '제목' || LPAD(ROWNUM, 7, '0'),
         '내용' || LPAD(ROWNUM, 7, '0'),
         MOD(ROWNUM, 10),
@@ -51,14 +55,20 @@
     <sql id="whereDoRetrieve">
         <choose>
             <when test="searchDiv != null and searchDiv == '10'">
-                AND TITLE LIKE #{searchWord} || '%'
+                AND TITLE LIKE '%' || #{searchWord} || '%'
             </when>
             <when test="searchDiv != null and searchDiv == '20'">
-                AND CONTENTS LIKE #{searchWord} || '%'
+                AND CONTENTS LIKE '%' || #{searchWord} || '%'
             </when>
             <when test="searchDiv != null and searchDiv == '30'">
-                AND (TITLE LIKE #{searchWord} || '%'
-                OR CONTENTS LIKE #{searchWord} || '%')
+                AND (TITLE LIKE '%' || #{searchWord} || '%'
+                OR CONTENTS LIKE '%' ||  #{searchWord} || '%')
+            </when>
+            <when test ="searchDiv != null and searchDiv == '40'">
+                AND REG_ID = #{searchWord} 
+            </when>
+            <when test ="searchDiv != null and searchDiv == '50'">
+                AND NICK_NAME = #{searchWord}
             </when>
         </choose>
     </sql>
@@ -71,6 +81,7 @@
                    TT1.TITLE,
                    TT1.READ_CNT as readCnt,
                    TT1.REG_ID as regId,
+                   TT1.NICK_NAME as nickName,
                    TO_CHAR(TT1.REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
                    TO_CHAR(TT1.MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
                    TT1.BOARD_NO as boardNo
@@ -95,7 +106,7 @@
         ) B
     </select>
 
-<!--
+<!--  
   <sql id="divDoRetrieve">
         <choose>
            <when test="div != null and div != ' ' ">
@@ -125,13 +136,15 @@
     <select id="doSelectOne" parameterType="Board" resultType="Board">
         SELECT 
             BOARD_NO as boardNo,
+            div,
             REG_ID as regId,
             TITLE as title,
             CONTENTS as contents,
             ask_cnt as askCnt,
             READ_CNT as readCnt,
             TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
-            TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
+            TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
+            NICK_NAME as nickName
         FROM C##NUMBERONE.BOARD
         WHERE BOARD_NO = #{boardNo}
     </select>
@@ -151,20 +164,24 @@
     <insert id="doSave" parameterType="Board">
         INSERT INTO C##NUMBERONE.BOARD (  
             REG_ID,
+            div,
             TITLE,
             CONTENTS,
             ASK_CNT,
             READ_CNT,
             REG_DT,
-            MOD_DT
+            MOD_DT,
+            NICK_NAME
         ) VALUES (
             #{regId},
+            #{div},
             #{title},
             #{contents},
             0,
             0,
             SYSDATE,
-            SYSDATE
+            SYSDATE,
+            #{nickName}
         )
     </insert>
 
