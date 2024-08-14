@@ -6,6 +6,13 @@ public class StatisticsCondition extends DTO {
 	private long locCode;
 	private String startDate;
 	private String endDate;
+	private String disasterType;
+	public String getDisasterType() {
+		return disasterType;
+	}
+	public void setDisasterType(String disasterType) {
+		this.disasterType = disasterType;
+	}
 	public long getLocCode() {
 		return locCode;
 	}
@@ -24,10 +31,11 @@ public class StatisticsCondition extends DTO {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+	
 	@Override
 	public String toString() {
-		return "Statistics [locCode=" + locCode + ", startDate=" + startDate + ", endDate=" + endDate + ", toString()="
-				+ super.toString() + "]";
+		return "StatisticsCondition [locCode=" + locCode + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", disasterType=" + disasterType + "]";
 	}
 	public StatisticsCondition() {
 	}

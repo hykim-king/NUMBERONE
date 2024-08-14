@@ -35,5 +35,9 @@ public interface DisasterMsgMapper extends WorkDiv<DisasterMsg> {
 	public String isNewMessageExist() throws SQLException;
 	
 	public int updateSequence() throws SQLException;
+
+	public int disasterTypeStaticsBySido (StatisticsCondition condition) throws SQLException;
+
+	public List<Map<String, Object>> disasterTypeStatisticsAll(StatisticsCondition condition);
 	
 }

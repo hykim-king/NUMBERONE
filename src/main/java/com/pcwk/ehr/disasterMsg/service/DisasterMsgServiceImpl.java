@@ -27,6 +27,26 @@ public class DisasterMsgServiceImpl implements DisasterMsgService,PLog{
 	@Autowired
 	MessageAreaMapper messageAreaMapper;
 	
+	@Override
+	public Map<String, Integer> disasterTypeStatisticsAll(StatisticsCondition condition) throws SQLException {
+		log.debug("condition:"+condition);
+		List<Map<String,Object>> list = (List<Map<String, Object>>) disasterMsgMapper.disasterTypeStatisticsAll(condition);
+		log.debug("list:"+list);
+		Map<String, Integer> resultMap = new HashMap<>();
+        for (Map<String, Object> row : list) {
+        	String key =(String) row.get("DISASTER_TYPE");
+        	int value =Integer.parseInt(String.valueOf(row.get("CNT")));
+            resultMap.put(key, value);
+        }
+		return resultMap;
+	}
+
+	@Override
+	public Map<String, Integer> disasterTypeStatisticsBySido(StatisticsCondition condition) throws SQLException {
+		log.debug("condition:"+condition);
+		Map<String, Integer> resultMap= new HashMap<>();
+		return null;
+	}
 
 	@Override
 	public Map<String, Integer> disasterTypeStatisticsUpward(StatisticsCondition condition) throws SQLException {

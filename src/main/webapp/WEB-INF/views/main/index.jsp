@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Highcharts 로드 -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <title>재난안전포털 No.1</title>
 <style>
     section {
@@ -205,7 +207,7 @@
 			        </div>
 			            
 		  
-			        <div class="graph">
+			        <div class="graph" id="graphContainer">
 			            <p>로그인 시 확인 가능합니다. </p> 
 			            <br>
 			            <a href="login.jsp"><img src="/ehr/resources/img/loginIcon.png"></a>
@@ -230,6 +232,72 @@
 		      
 		});
 
+		
+		function showGraph(statistics) {
+		    $("#graphContainer").empty();
+            Highcharts.chart('graphContainer', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: '최근 한달 재난 문자 누적 통계'
+                },
+                series: [{
+                    name: '문자 수',
+                    data: statistics
+                }]
+            });
+        }
+
+        class StatisticsCondition {
+            constructor(locCode, startDate, endDate) {
+                this.locCode = locCode;
+                this.startDate = startDate;
+                this.endDate = endDate;
+            }
+        }
+        
+        
+        
+        function callServer(startDate, endDate) {
+        	const condition = new StatisticsCondition(1000000000, startDate, endDate);
+            fetch('http://localhost:8080/ehr/statistics/3', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(condition), 
+            })
+            .then(function(response) { //통신상태 확인
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 좋지 않습니다.');
+                }
+                return response.json();
+            })
+            .then(function(data) { //정상일시 데이터 사용
+            	console.log('data:', data);
+            	const dataMap = new Map(Object.entries(data));
+            	const resultObject = Object.fromEntries(dataMap);
+            	let datasize =dataMap.size; 
+            	const keysArray = [...dataMap.keys()];
+            	const resultArray =[]
+            	for (let i =0;i<datasize; i++) {
+            		 const key = keysArray[i];
+   					 const value = dataMap.get(keysArray[i]);
+   					
+   					 resultArray.push([key,value]); 
+				}
+            	
+            	showGraph(resultArray);
+            	
+                
+            })
+            .catch(function(error) { 
+                console.error('문제가 발생했습니다:', error);
+            });
+        }
+        
+        callServer("2024/07/13","2024/08/13");
 </script>
 </body>
 </html>

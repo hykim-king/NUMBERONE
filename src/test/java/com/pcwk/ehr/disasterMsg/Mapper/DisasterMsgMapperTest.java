@@ -45,6 +45,7 @@ public class DisasterMsgMapperTest implements PLog{
 	DisasterMsg disasterMsg;
 	StatisticsCondition condition;
     StatisticsCondition condition2;
+    StatisticsCondition condition3;
     Search search;
 	@Before
 	public void setUp() throws Exception {
@@ -60,6 +61,13 @@ public class DisasterMsgMapperTest implements PLog{
 		condition2.setStartDate("2024/01/01");
 		condition2.setEndDate("2024/07/01");
 		condition2.setLocCode(1100000000);//서울 코드
+		
+		condition3 = new StatisticsCondition();
+		condition3.setStartDate("2024/01/01");
+		condition3.setEndDate("2024/07/01");
+		condition3.setLocCode(1100000000);//서울 코드
+		condition3.setDisasterType("heatWave");
+		
 		search = new Search();
 		search.setPageNo(1);
         search.setPageSize(100);
@@ -70,12 +78,22 @@ public class DisasterMsgMapperTest implements PLog{
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+	@Test
+	public void disasterTypeStaticsBySido() throws SQLException{
+		int result =disasterMsgMapper.disasterTypeStaticsBySido(condition3);
+		log.debug(result);
+	}
+	
+	
+	@Ignore
 	@Test
 	public void isNewMessageExistTest() throws SQLException{
 		String result =disasterMsgMapper.isNewMessageExist();
 		assertEquals(result, "N");
 	}
 	
+	@Ignore
 	@Test
 	public void doRetrieveTest() throws SQLException {
 		List<DisasterMsg> list =disasterMsgMapper.doRetrieve(search);
@@ -115,6 +133,21 @@ public class DisasterMsgMapperTest implements PLog{
 		//assertEquals(map.get(0).get("지진"), 6);
 		
 	}
+	@Ignore
+	@Test
+	public void disasterTypeStatisticsAll() throws SQLException{
+		List<Map<String,Object>> list = (List<Map<String, Object>>) disasterMsgMapper.disasterTypeStatisticsAll(condition);
+	    Map<String, Integer> resultMap = new HashMap<>();
+        for (Map<String, Object> row : list) {
+        	String key =(String) row.get("DISASTER_TYPE");
+        	int value =Integer.parseInt(String.valueOf(row.get("CNT")));
+            resultMap.put(key, value);
+        }
+        log.debug("-----------------------------");
+		log.debug(resultMap);
+		//assertEquals(map.get(0).get("지진"), 6);
+	}
+	
 	
 	@Ignore
 	@Test
