@@ -161,34 +161,31 @@ public class BoardController implements PLog {
     }
 
     // 단일 게시물 조회
-    @RequestMapping(value = "/doSelectOne.do", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/doSelectOne.do", method = RequestMethod.GET)
     public String doSelectOne(Board inVO, Model model) throws SQLException {
-        String viewName = "board/board_mng";
         log.debug("1. param inVO: " + inVO);
-
+        
         Board outVO = boardService.doSelectOne(inVO);
-
-        // markdown을 HTML로 변환
-        String markdownContents = markdownService.convertMarkdownToHtml(outVO.getContents());
-
+        
         log.debug("2. outVO: " + outVO);
         
         String message = "";
-		int flag = 0;
-		if (null != outVO) {
-			message = outVO.getTitle() + " 이 조회 되었습니다.";
-			flag = 1;
-		} else {
-			message = inVO.getTitle() + " 조회 실패!";
-		}
-		
-		Message messageObj = new Message(flag, message);
-		model.addAttribute("markdownContents", markdownContents);
+        int flag = 0;
+        if(null != outVO) {
+            message = outVO.getTitle() + " 이 조회 되었습니다.";
+            flag = 1;
+        } else {
+            message = inVO.getTitle() + " 조회 실패!";
+        }
+        
+        Message messageObj = new Message(flag, message);
+        
         model.addAttribute("board", outVO);
         model.addAttribute("message", messageObj);
-
-        return viewName;
+        
+        return "board/board_mng";  // JSP 페이지 이름
     }
+
 
     // 게시물 등록
     @RequestMapping(value = "/doSave.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")

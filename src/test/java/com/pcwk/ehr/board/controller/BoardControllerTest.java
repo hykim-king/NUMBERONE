@@ -200,7 +200,7 @@ public class BoardControllerTest implements PLog {
 		
 		MockHttpServletRequestBuilder requestBuilder
 		= MockMvcRequestBuilders.get("/board/doSelectOne.do")
-		.param("boardNo", String.valueOf(boardNo))
+		.param("boardNo", board01.getBoardNo()+"")
 		.param("regId", board01.getRegId())
 		;			
 		

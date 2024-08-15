@@ -81,6 +81,7 @@
         SELECT A.*, B.*
         FROM (
             SELECT TT1.RNUM AS no,
+                   TT1.DIV,
                    TT1.TITLE,
                    TT1.REG_ID as regId,
                    TT1.READ_CNT as readCnt,
