@@ -39,7 +39,7 @@
         WHERE member_id = #{memberId} 
     </select>
 
-	<select id="nicknameDuplicateCheck" resultType="int" parameterType="string">
+	<select id="nicknameDuplicateCheck" resultType="int" parameterType="String">
 	        SELECT COUNT(*) 
 	        FROM member
 	        WHERE nickname = #{nickname}
@@ -61,30 +61,27 @@
 
 
 
-    <select id="idCheck" parameterType="Member" resultType="int">
+    <select id="idCheck" parameterType="com.pcwk.ehr.member.domain.Member" resultType="int">
         SELECT COUNT(*)
         FROM member
         WHERE member_id = #{memberId}   
     </select> 
 
-    <select id="passwordCheck" parameterType="Member" resultType="int">
+    <select id="passwordCheck" parameterType="com.pcwk.ehr.member.domain.Member" resultType="int">
         SELECT COUNT(*)
         FROM member
         WHERE member_id = #{memberId}
         AND password = #{password}  
     </select>
 
-    <select id="login" parameterType="Member" resultMap="MemberResultMap">
-        SELECT  
-            member_id AS memberId,
-            loc_code AS locCode,
-            password AS password,
-            name AS name,
-            nickname AS nickname,
-            is_admin AS isAdmin
-        FROM member
-        WHERE member_id = #{memberId}
-    </select>
+    <select id="login" parameterType="com.pcwk.ehr.member.domain.Member" resultMap="MemberResultMap">
+	    SELECT 
+	        member_id AS memberId,
+	        password AS password    
+	    FROM member 
+	    WHERE member_id = #{memberId} 
+	    AND password = #{password}
+</select>
 
 	
 	

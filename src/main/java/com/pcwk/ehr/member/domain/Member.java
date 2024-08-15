@@ -4,15 +4,18 @@ import com.pcwk.ehr.cmn.DTO;
 
 public class Member extends DTO {
     private String memberId;
-    private long locCode;
+    private int locCode;
     private String password;
     private String name;
     private String nickname;
     private char isAdmin;
 
-    public Member(String memberId, String password) {}
-
-
+    public Member(String memberId, String password) {
+    	super();
+        this.memberId = memberId;
+        this.password = password;
+    	
+    }
 
 
 	public Member(String memberId, int locCode, String password, String name, String nickname, char isAdmin) {
@@ -62,9 +65,12 @@ public class Member extends DTO {
         this.isAdmin = isAdmin;
     }
 
-    @Override
-    public String toString() {
-        return "Member [memberId=" + memberId + ", locCode=" + locCode + ", password=" + password + ", name=" + name
-                + ", nickname=" + nickname + ", isAdmin=" + isAdmin + "]";
-    }
+
+	@Override
+	public String toString() {
+		return "Member [memberId=" + memberId + ", locCode=" + locCode + ", password=" + password + ", name=" + name
+				+ ", nickname=" + nickname + ", isAdmin=" + isAdmin + ", toString()=" + super.toString() + "]";
+	}
+
+   
 }

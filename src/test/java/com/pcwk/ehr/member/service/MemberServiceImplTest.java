@@ -40,9 +40,9 @@ public class MemberServiceImplTest implements PLog{
 		System.out.println("[̲̅s][̲̅e][̲̅t][̲̅U][̲̅p]");
 
 		
-		memberMapper.deleteAll();
+		//memberMapper.deleteAll();
 		
-		login01 =new Member("f", "f");
+		login01 =new Member("user1", "password1");
 		memVO01= new Member("user1", 1, "password1", "User One", "nickname1", 'N');
 				
 	}

@@ -172,10 +172,10 @@
 		        
 		        <div class="emergency-info">
 		            <div>
-		                <a><img src="/ehr/resources/img/info_image01.png" alt="info_banner01"></a>
+		                <a><img src="/ehr/resources/img/typhoon.png" alt="typhoon"></a>
 		            </div>
 		        </div>
-		        
+		          
 		        
 		
 		            <div>
