@@ -161,6 +161,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const doDeleteBtn = document.querySelector("#doDelete");
     const boardNoInput = document.querySelector("#boardNo");
     const titleInput = document.querySelector("#title");
+    const divInput = document.querySelector("#div");
     const contentsTextArea = document.querySelector("#contents");
     const doSaveReplyBtn = document.querySelector("#doSaveReply");
     const replyContentsInput = document.querySelector("#replyContents");
@@ -227,6 +228,7 @@ function doUpdate(){
     
     let params = {  
         "boardNo": boardNoInput.value,
+        "div": divInput.value,
         "title": titleInput.value,
         "contents": simplemde.value()      
     }
@@ -287,6 +289,7 @@ function doDelete(){
         }
     });            
 }
+
 
 function doSaveReply(){
     console.log("doSaveReply()");
