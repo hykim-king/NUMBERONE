@@ -55,7 +55,8 @@
         #container {
             width: 1000px;
             height: 600px;
-            margin-bottom :20px;
+            margin:0 auto;
+            margin-bottom : 10px;
         }
 
         .date-container {
@@ -153,127 +154,130 @@
         
     </style>
     
-    <script>
-    const disasterTypeMap = {
-    	    "flood": "침수",
-    	    "typhoon": "태풍",
-    	    "heavyRain": "호우",
-    	    "lightning": "낙뢰",
-    	    "strongWind": "강풍",
-    	    "waves": "풍랑",
-    	    "heavySnow": "대설",
-    	    "coldWave": "한파",
-    	    "heatWave": "폭염",
-    	    "yellowDust": "황사",
-    	    "earthQuake": "지진",
-    	    "tsunami": "해일",
-    	    "quakeTsunami": "지진해일",
-    	    "volcano": "화산폭발",
-    	    "drought": "가뭄",
-    	    "tide": "조수",
-    	    "landslide": "산사태",
-    	    "spaceObject": "자연우주물체추락",
-    	    "spaceRadio": "우주전파재난",
-    	    "greenTide": "조류대발생(녹조)",
-    	    "redTide": "적조",
-    	    "fire": "화재",
-    	    "forestFires": "산불",
-    	    "collapse": "건축물붕괴",
-    	    "explosion": "폭발",
-    	    "trafficAccident": "교통사고",
-    	    "electricGas": "전기가스사고",
-    	    "railway": "철도사고",
-    	    "guideWire": "유도선사고",
-    	    "shipAccident": "해양선박사고",
-    	    "edibleWater": "식용수",
-    	    "nuclear": "원전사고",
-    	    "commonDisaster": "공동구재난",
-    	    "largeWaterPollution": "대규모수질오염",
-    	    "livestockDisease": "가축질병",
-    	    "damCollapse": "댐붕괴",
-    	    "powerShortage": "정전 및 전력부족",
-    	    "preventionInfectious": "감염병예방",
-    	    "marinePollution": "해양오염사고",
-    	    "chemicals": "화학물질사고",
-    	    "aircraftAccident": "항공기사고",
-    	    "artificialSpace": "인공우주물체추락",
-    	    "fineDust": "미세먼지",
-    	    "information": "정보통신사고",
-    	    "gpsRadio": "gps전파혼신재난",
-    	    "healthCare": "보건의료재난",
-    	    "personal": "사업장대규모인적사고",
-    	    "concert": "공연장안전",
-    	    "tunnel": "도로터널사고",
-    	    "stadium": "경기장안전",
-    	    "crudeOil": "원유수급위기",
-    	    "summerWater": "여름철물놀이",
-    	    "mountainSafety": "산행안전사고",
-    	    "firstAid": "응급처치",
-    	    "jellyfish": "해파리피해",
-    	    "cpr": "심폐소생술",
-    	    "fireAnt": "붉은불개미",
-    	    "elevator": "승강기안전사고",
-    	    "childFacilities": "어린이놀이시설",
-    	    "foodPoisoning": "식중독",
-    	    "missing": "실종유괴예방",
-    	    "schoolViolence": "학교폭력예방",
-    	    "familyViolence": "가정폭력예방",
-    	    "petroleum": "석유제품사고",
-    	    "terrorism": "테러",
-    	    "emergency": "비상사태",
-    	    "defenseWarning": "민방공경보",
-    	    "preparation": "비상대비물자준비"
-    	};  
-        
-       
+   <script>
+        const disasterTypeMap = {
+            "flood": "침수",
+            "typhoon": "태풍",
+            "heavyRain": "호우",
+            "lightning": "낙뢰",
+            "strongWind": "강풍",
+            "waves": "풍랑",
+            "heavySnow": "대설",
+            "coldWave": "한파",
+            "heatWave": "폭염",
+            "yellowDust": "황사",
+            "earthQuake": "지진",
+            "tsunami": "해일",
+            "quakeTsunami": "지진해일",
+            "volcano": "화산폭발",
+            "drought": "가뭄",
+            "tide": "조수",
+            "landslide": "산사태",
+            "spaceObject": "자연우주물체추락",
+            "spaceRadio": "우주전파재난",
+            "greenTide": "조류대발생(녹조)",
+            "redTide": "적조",
+            "fire": "화재",
+            "forestFires": "산불",
+            "collapse": "건축물붕괴",
+            "explosion": "폭발",
+            "trafficAccident": "교통사고",
+            "electricGas": "전기가스사고",
+            "railway": "철도사고",
+            "guideWire": "유도선사고",
+            "shipAccident": "해양선박사고",
+            "edibleWater": "식용수",
+            "nuclear": "원전사고",
+            "commonDisaster": "공동구재난",
+            "largeWaterPollution": "대규모수질오염",
+            "livestockDisease": "가축질병",
+            "damCollapse": "댐붕괴",
+            "powerShortage": "정전 및 전력부족",
+            "preventionInfectious": "감염병예방",
+            "marinePollution": "해양오염사고",
+            "chemicals": "화학물질사고",
+            "aircraftAccident": "항공기사고",
+            "artificialSpace": "인공우주물체추락",
+            "fineDust": "미세먼지",
+            "information": "정보통신사고",
+            "gpsRadio": "gps전파혼신재난",
+            "healthCare": "보건의료재난",
+            "personal": "사업장대규모인적사고",
+            "concert": "공연장안전",
+            "tunnel": "도로터널사고",
+            "stadium": "경기장안전",
+            "crudeOil": "원유수급위기",
+            "summerWater": "여름철물놀이",
+            "mountainSafety": "산행안전사고",
+            "firstAid": "응급처치",
+            "jellyfish": "해파리피해",
+            "cpr": "심폐소생술",
+            "fireAnt": "붉은불개미",
+            "elevator": "승강기안전사고",
+            "childFacilities": "어린이놀이시설",
+            "foodPoisoning": "식중독",
+            "missing": "실종유괴예방",
+            "schoolViolence": "학교폭력예방",
+            "familyViolence": "가정폭력예방",
+            "petroleum": "석유제품사고",
+            "terrorism": "테러",
+            "emergency": "비상사태",
+            "defenseWarning": "민방공경보",
+            "preparation": "비상대비물자준비"
+        };
 
-    let chart;
+        let chart;
 
-    function createChart(disasterType, startDate, endDate, data) {
-        if (chart) {
-            chart.destroy();
+        function createChart(disasterType, startDate, endDate, data) {
+            if (chart) {
+                chart.destroy();
+            }
+
+            const disasterTypeInKorean = disasterTypeMap[disasterType] || "알 수 없는 재난 유형";
+
+            const maxValue = Math.max(...data.map(item => item.value)); // 최대값 설정
+
+            chart = Highcharts.mapChart('container', {
+                chart: {
+                    map: 'countries/kr/kr-all',
+                    	zoomType: 'xy', // 확대/축소 가능
+                        panning: true, // 드래그로 이동 가능
+                        panKey: 'shift' // 쉬프트 키를 눌러서 이동 가능
+                },
+                title: {
+                    text: '대한민국 재난 통계'
+                },
+                subtitle: {
+                    text: '기간: ' + startDate + ' ~ ' + endDate + ', 재난: ' + disasterTypeInKorean
+                },
+                colorAxis: {
+                    min: 0,
+                    max: maxValue || 1, // 데이터가 없을 경우를 대비해 1로 설정
+                    minColor: '#EFEFFF',
+                    maxColor: '#003399'
+                },
+                series: [{
+                    data: data,
+                    name: '재난 통계',
+                    mapData: Highcharts.maps['countries/kr/kr-all'],
+                    joinBy: ['name', 'name'], // 데이터와 지역명을 매핑
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}'
+                    }
+                }]
+            });
         }
 
-        const disasterTypeInKorean = disasterTypeMap[disasterType] || "알 수 없는 재난 유형";
-        
-        chart = Highcharts.mapChart('container', {
-            chart: {
-                map: 'countries/kr/kr-all'
-            },
-            title: {
-                text: '대한민국 재난 통계'
-            },
-            subtitle: {
-            	text: '기간: ' + startDate + ' ~ ' + endDate + ", 재난: " + disasterTypeInKorean
-            },
-            colorAxis: {
-                min: 0,
-                max: 1000, 
-                minColor: '#EFEFFF',
-                maxColor: '#003399'
-            },
-            series: [{
-                data: data,
-                name: '재난 통계',
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.name}'
-                }
-            }]
-        });
-    }
-
-        
         class StatisticsCondition {
-            constructor(locCode, startDate, endDate,disasterType) {
+            constructor(locCode, startDate, endDate, disasterType) {
                 this.locCode = locCode;
                 this.startDate = startDate;
                 this.endDate = endDate;
                 this.disasterType = disasterType;
             }
         }
-        
-        
+
         function callServer(startDate, endDate, disasterType) {
             const condition = new StatisticsCondition(1000000000, startDate, endDate, disasterType);
             fetch('http://localhost:8080/ehr/statistics/4', {
@@ -281,7 +285,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(condition), 
+                body: JSON.stringify(condition),
             })
             .then(response => {
                 if (!response.ok) {
@@ -292,19 +296,38 @@
             .then(data => {
                 console.log('data:', data);
 
+                // 데이터 포맷 수정: 영어 지역명과 'value'를 포함
+                const formattedData = {
+                    'Seoul': data['서울특별시'] || 0,
+                    'Busan': data['부산광역시'] || 0,
+                    'Daegu': data['대구광역시'] || 0,
+                    'Incheon': data['인천광역시'] || 0,
+                    'Gwangju': data['광주광역시'] || 0,
+                    'Daejeon': data['대전광역시'] || 0,
+                    'Ulsan': data['울산광역시'] || 0,
+                    'Gyeonggi': data['경기도'] || 0,
+                    'Gangwon': data['강원특별자치도'] || 0,
+                    'North Chungcheong': data['충청북도'] || 0,
+                    'South Chungcheong': data['충청남도'] || 0,
+                    'North Jeolla': data['전북특별자치도'] || 0,
+                    'South Jeolla': data['전라남도'] || 0,
+                    'North Gyeongsang': data['경상북도'] || 0,
+                    'South Gyeongsang': data['경상남도'] || 0,
+                    'Jeju': data['제주특별자치도'] || 0
+                };
 
-                const formattedData = Object.keys(data).map(key => ({
+                const formattedDataArray = Object.keys(formattedData).map(key => ({
                     name: key,
-                    value: data[key]
+                    value: formattedData[key]
                 }));
 
-                createChart(disasterType, startDate, endDate, formattedData);
+                createChart(disasterType, startDate, endDate, formattedDataArray);
             })
             .catch(error => {
                 console.error('문제가 발생했습니다:', error);
             });
         }
-        
+
         function setPeriod(months) {
             const today = new Date();
             const endYear = today.getFullYear();
@@ -324,30 +347,27 @@
             $('#endMonth').val(endMonth);
             $('#endDay').val(endDay);
         }
-        
+
         function updateMap() {
-        	 const startYear = $('#startYear').val();
-             const startMonth = $('#startMonth').val();
-             const startDay = $('#startDay').val();
-             const endYear = $('#endYear').val();
-             const endMonth = $('#endMonth').val();
-             const endDay = $('#endDay').val();
+            const startYear = $('#startYear').val();
+            const startMonth = $('#startMonth').val();
+            const startDay = $('#startDay').val();
+            const endYear = $('#endYear').val();
+            const endMonth = $('#endMonth').val();
+            const endDay = $('#endDay').val();
 
-             const startDate = startYear+'/'+startMonth+'/'+startDay ;
-             const endDate = endYear+'/'+endMonth+'/'+endDay ;
-             const disasterType = $('#disasterType').val();
+            const startDate = startYear + '/' + startMonth + '/' + startDay;
+            const endDate = endYear + '/' + endMonth + '/' + endDay;
+            const disasterType = $('#disasterType').val();
 
-             console.log("Start Date:", startDate);
-             console.log("End Date:", endDate);
-             console.log("Disaster Type:", disasterType);
-             
-             callServer(startDate, endDate, disasterType);
+            console.log("Start Date:", startDate);
+            console.log("End Date:", endDate);
+            console.log("Disaster Type:", disasterType);
+
+            callServer(startDate, endDate, disasterType);
         }
-
-        
-
-        
     </script>
+
 </head>
 <body>
 

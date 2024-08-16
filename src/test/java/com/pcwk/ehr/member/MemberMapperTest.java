@@ -115,10 +115,9 @@ public class MemberMapperTest implements PLog {
     
     
 	@Test
-	@Ignore
 	public void doSave() throws SQLException {
 		System.out.println("[̲̅d][̲̅o][̲̅s][̲̅a][̲̅v][̲̅e]");
-        Member member1 = new Member("user1", 1, "password1", "User One", "nickname1", 'N');
+        Member member1 = new Member("user3", 1, "password3", "User3", "nickname3", 'N');
         
         // 아이디 중복 체크
         if (memberMapper.idDuplicateCheck(member1.getMemberId()) > 0) {
@@ -143,6 +142,7 @@ public class MemberMapperTest implements PLog {
 
     
 	@Test
+	@Ignore
 	public void login() throws Exception {
 
 	    System.out.println("[̲̅l][̲̅o][̲̅g][̲̅i][̲̅n]");

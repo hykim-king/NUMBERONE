@@ -74,13 +74,14 @@
         AND password = #{password}  
     </select>
 
-    <select id="login" parameterType="com.pcwk.ehr.member.domain.Member" resultMap="MemberResultMap">
-	    SELECT 
-	        member_id AS memberId,
-	        password AS password    
-	    FROM member 
-	    WHERE member_id = #{memberId} 
-	    AND password = #{password}
+    <select id="login" parameterType="Member" resultType="Member">
+    SELECT 
+        member_id AS memberId,
+        password AS password    
+    FROM member 
+    WHERE member_id = #{memberId}
+    AND password = #{password}
+
 </select>
 
 	

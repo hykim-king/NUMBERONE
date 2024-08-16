@@ -25,9 +25,9 @@ public interface MemberMapper extends WorkDiv<Member> {
 
     
     
-    int passwordCheck(Member login01);
+    int passwordCheck(String string);
     
-	int idCheck(Member login01);
+    int idCheck(String memberId, String password);
 	
 	Member login(Member login01);
 
