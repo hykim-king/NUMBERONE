@@ -51,6 +51,9 @@ public class MemberController<Login> implements PLog {
 			, produces = "text/plain;charset=UTF-8")
    @ResponseBody
 	public String login(Member inVO, HttpSession  httpSession ) throws SQLException {
+	   log.debug("---------------------");
+       log.debug("login()");
+       log.debug("---------------------");
 		String  jsonString = "";
 		
 		log.debug("1 param:" + inVO);	
@@ -136,12 +139,7 @@ public class MemberController<Login> implements PLog {
        return new GsonBuilder().setPrettyPrinting().create().toJson(responseMessage);
    }
    
-   
-   
-   
-   
-   
-   
+
    @GetMapping("findIdPw.do")
    public String findId() {
       String viewName = "member/findIdPw";

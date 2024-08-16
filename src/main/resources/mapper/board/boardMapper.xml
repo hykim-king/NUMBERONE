@@ -118,6 +118,7 @@
         SET DIV = #{div},
             TITLE = #{title},
             CONTENTS = #{contents},
+            REG_ID = #{regId},
             MOD_DT = SYSDATE
         WHERE BOARD_NO = #{boardNo}
     </update>

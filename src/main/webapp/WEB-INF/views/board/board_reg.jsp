@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	 
 	 
 	const doSaveBtn = document.querySelector("#doSave");
-	
+	const moveToListBtn = document.querySelector("#moveToList");
 	const titleInput = document.querySelector("#title");
 	const regIdInput = document.querySelector("#regId");
 	const contentsTextArea = document.querySelector("#contents");
@@ -132,6 +132,24 @@ document.addEventListener("DOMContentLoaded", function(){
 	    console.log("doSaveBtn click");		
 	    doSave();
 	});
+	
+	moveToListBtn.addEventListener("click", function(event){
+        console.log("moveToListBtn click", event);
+        event.stopPropagation();
+        if(confirm('목록으로 이동 하시겠습니까?') === false) return;
+        moveToList();
+    });
+	
+	function isEmpty(value) {
+        if (value == null || typeof value !== 'string') {
+            return true; // value가 null, undefined, 혹은 문자열이 아닌 경우
+        }
+        return value.trim() === '';
+    }
+	
+	function moveToList(){
+        window.location.href = "/ehr/board/doRetrieve.do";
+    }
 	
 	function doSave(){
 		console.log("doSave()");
@@ -211,8 +229,8 @@ document.addEventListener("DOMContentLoaded", function(){
   <div class="page-header">
       <h2>
         <c:choose>
-            <c:when test="">공지사항-등록</c:when>
-            <c:when test="">자유게시판-등록</c:when>
+            <c:when test="${ '10'==board.getDiv() }">공지사항-등록</c:when>
+            <c:when test="${ '20'==board.getDiv() }">자유게시판-등록</c:when>
             <c:otherwise>
                                  공지사항/자유게시판
             </c:otherwise>
@@ -223,14 +241,15 @@ document.addEventListener("DOMContentLoaded", function(){
   
   <!-- 버튼 -->
   <div class="mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
-      <input type="button" value="목록" class="btn btn-primary">
+      <input type="button" value="목록" id="moveToList" class="btn btn-primary">
       <input type="button" value="등록"  id="doSave" class="btn btn-primary">
   </div>
   <!--// 버튼 ----------------------------------------------------------------->
   
   <!-- form -->  
   <form action="#" class="form-horizontal"  name="regForm" id="regForm">
-    <div class="row mb-2">
+    <input type="hidden" name="div"    id="div" value="${board.getDiv() }">
+    <div class="row mb-2">   
         <label for="title" class="col-sm-2 col-form-label">제목</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name="title" id="title"  maxlength="75" required="required">

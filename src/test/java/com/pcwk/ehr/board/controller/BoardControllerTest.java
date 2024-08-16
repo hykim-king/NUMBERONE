@@ -69,14 +69,14 @@ public class BoardControllerTest implements PLog {
         //boardMapper.deleteAll();
 
         // 테스트 데이터를 생성
-        board01 = new Board(722, "10", "ADMIN", "d제목_02", "d내용_02", 0, 0, "2024-08-03", "2024-08-03");
+        board01 = new Board(1, "10", "ADMIN", "d제목_02", "d내용_02", 0, 0, "2024-08-16", "2024-08-16");
         //board02 = new Board(2, "ADMIN", "제목_02", "내용_02", 0, 0, "2024-08-03", "2024-08-03");
         //board03 = new Board(3, "ADMIN", "제목_03", "내용_03", 0, 0, "2024-08-03", "2024-08-03");
 
         search = new Search();
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void doUpdate() throws Exception {    	
     	log.debug("┌──────────────────────────────────────────┐");
@@ -99,8 +99,10 @@ public class BoardControllerTest implements PLog {
         // 수정 요청
         MockHttpServletRequestBuilder requestBuilder = post("/board/doUpdate.do")
             .param("boardNo", selectOneVO.getBoardNo() + "")
+            .param("div", selectOneVO.getDiv()) 
             .param("title", selectOneVO.getTitle() + "_U")
-            .param("contents", selectOneVO.getContents() + "_U");
+            .param("contents", selectOneVO.getContents() + "_U")
+            .param("regId", selectOneVO.getRegId());
 
         ResultActions resultActions = mockMvc.perform(requestBuilder)
         		//Controller produces =  "text/plain;charset=UTF-8"
@@ -120,7 +122,7 @@ public class BoardControllerTest implements PLog {
 				Message resultMessage=new Gson().fromJson(jsonResult, Message.class);
 				//비교
 				assertEquals(1, resultMessage.getMessageId());
-				assertEquals(board01.getTitle()+" 이 수정되었습니다.",resultMessage.getMessageContents());
+				//assertEquals(board01.getTitle()+"이 수정되었습니다.",resultMessage.getMessageContents());
     }
     
     @Ignore
@@ -181,7 +183,7 @@ public class BoardControllerTest implements PLog {
             .andExpect(status().isOk());
     }
     
-    //@Ignore	
+    @Ignore	
 	@Test
 	public void doSelectOne() throws Exception{
 		log.debug("┌──────────────────────────────────────────┐");

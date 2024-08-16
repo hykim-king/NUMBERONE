@@ -58,7 +58,7 @@ public class MemberMapperTest implements PLog {
     @Test
     @Ignore
      public void idDuplicateCheck() throws SQLException {
-		System.out.println("[̲̅i][̲̅d][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
+		System.out.println("[̲̅i][̲̅d][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
 
         
         //데이터 확인
@@ -87,7 +87,7 @@ public class MemberMapperTest implements PLog {
     @Test
     @Ignore
     public void nicknameDuplicateCheck() throws SQLException {
-		System.out.println("[̲̅n][̲̅i][̲̅c][̲̅k][̲̅n][̲̅a][̲̅m][̲̅e][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
+		System.out.println("[̲̅n][̲̅i][̲̅c][̲̅k][̲̅n][̲̅a][̲̅m][̲̅e][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
 
         // 데이터 확인
         int count = memberMapper.getCount();
@@ -115,10 +115,9 @@ public class MemberMapperTest implements PLog {
     
     
 	@Test
-	@Ignore
 	public void doSave() throws SQLException {
-		System.out.println("[̲̅d][̲̅o][̲̅s][̲̅a][̲̅v][̲̅e]");
-        Member member1 = new Member("user1", 1, "password1", "User One", "nickname1", 'N');
+		System.out.println("[̲̅d][̲̅o][̲̅s][̲̅a][̲̅v][̲̅e]");
+        Member member1 = new Member("user3", 1, "password3", "User3", "nickname3", 'N');
         
         // 아이디 중복 체크
         if (memberMapper.idDuplicateCheck(member1.getMemberId()) > 0) {
@@ -143,9 +142,10 @@ public class MemberMapperTest implements PLog {
 
     
 	@Test
+	@Ignore
 	public void login() throws Exception {
 
-	    System.out.println("[̲̅l][̲̅o][̲̅g][̲̅i][̲̅n]");
+	    System.out.println("[̲̅l][̲̅o][̲̅g][̲̅i][̲̅n]");
 
 
 	  
@@ -170,12 +170,12 @@ public class MemberMapperTest implements PLog {
 
     @After
     public void tearDown() throws Exception {
-    	System.out.println("[̲̅t][̲̅e][̲̅a][̲̅r][̲̅D][̲̅o][̲̅w][̲̅n]");
+    	System.out.println("[̲̅t][̲̅e][̲̅a][̲̅r][̲̅D][̲̅o][̲̅w][̲̅n]");
     }
 
     @Test
     public void beans() {
-    	System.out.println("[̲̅B][̲̅e][̲̅a][̲̅n][̲̅s]");
+    	System.out.println("[̲̅B][̲̅e][̲̅a][̲̅n][̲̅s]");
         System.out.println("context: " + context);
         System.out.println("memberMapper: " + memberMapper);
 

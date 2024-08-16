@@ -204,6 +204,13 @@ body {
        });
    });
    
+   function isEmpty(value) {
+       if (value == null || typeof value !== 'string') {
+           return true; // value가 null, undefined, 혹은 문자열이 아닌 경우
+       }
+       return value.trim() === '';
+   }
+   
    function doSelectOne(boardNo){
        console.log("doSelectOne boardNo:"+boardNo);
        const frm      = document.querySelector("#boardForm");
@@ -219,6 +226,7 @@ body {
    
    function pageRetrieve(url, pageNo){
        console.log("pageRetrieve()");
+       
        const frm = document.querySelector("#boardForm");
        let searchDiv = frm.searchDiv.value;
        let searchWord = frm.searchWord.value;

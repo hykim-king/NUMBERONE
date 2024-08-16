@@ -97,6 +97,8 @@ body {
 /* 텍스트 영역 스타일 */
 textarea.form-control {
     resize: vertical;
+    background-color: #e9ecef;
+    pointer-events: none;
 }
 
 /* 댓글 섹션 스타일 */
@@ -157,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function(){
     console.log("DOMContentLoaded");
     
     const moveToListBtn = document.querySelector("#moveToList");
-    const doUpdateBtn = document.querySelector("#doUpdate");
+    const moveToEditBtn = document.querySelector("#moveToEdit");
     const doDeleteBtn = document.querySelector("#doDelete");
     const boardNoInput = document.querySelector("#boardNo");
     const titleInput = document.querySelector("#title");
@@ -175,10 +177,11 @@ document.addEventListener("DOMContentLoaded", function(){
         moveToList();
     });
     
-    doUpdateBtn.addEventListener("click", function(event){
-        console.log("doUpdateBtn click", event);
+    moveToEditBtn.addEventListener("click", function(event){
+        console.log("moveToEditBtn click", event);
         event.stopPropagation();
-        doUpdate();
+        if(confirm('수정 페이지로 이동합니다.') === false) return;
+        moveToEdit();
     });
     
     doDeleteBtn.addEventListener("click", function(event){
@@ -196,208 +199,170 @@ document.addEventListener("DOMContentLoaded", function(){
     loadReplies();
 });
 
-function doUpdate(){
-    console.log("doUpdate()");
-    const boardNoInput = document.querySelector("#boardNo");
-    const titleInput = document.querySelector("#title");
-    const contentsTextArea = document.querySelector("#contents");
-
-    if(isEmpty(boardNoInput.value)){
-        alert('boardNo를 확인 하세요.')
-        return;
-    }           
-    
-    if(isEmpty(titleInput.value)){
-        alert('제목을 입력 하세요.')
-        titleInput.focus();
-        return;
-    }
-
-    if(isEmpty(simplemde.value())){
-        alert('내용을 입력 하세요.')
-        contentsTextArea.focus();
-        return;
-    } 
-    
-    if(confirm('수정 하시겠습니까?') === false) return;
-    
-    let type = "POST";  
-    let url = "/ehr/board/doUpdate.do";
-    let async = "true";
-    let dataType = "html";
-    
-    let params = {  
-        "boardNo": boardNoInput.value,
-        "div": divInput.value,
-        "title": titleInput.value,
-        "contents": simplemde.value()      
-    }
-    
-    PClass.pAjax(url, params, dataType, type, async, function(data){
-        if(data){
-            try{
-                const message = JSON.parse(data);
-                if(!isEmpty(message) && 1 === message.msgId){
-                    alert(message.msgContents);
-                    moveToList();
-                }else{
-                    alert(message.msgContents);
-                }
-            }catch(e){
-                 alert("data를 확인 하세요.");     
-            }
-        }
-    });           
-}
-
-function moveToList(){
-    window.location.href = "/ehr/board/doRetrieve.do";
-}
-
-function doDelete(){
-    console.log("doDelete()");
-    const boardNoInput = document.querySelector("#boardNo");
-
-    if(isEmpty(boardNoInput.value)){
-        alert('boardNo를 확인 하세요.')
-        return;
-    }
-    if(confirm('삭제 하시겠습니까?') === false) return;
-    
-    let type = "GET";  
-    let url = "/ehr/board/doDelete.do";
-    let async = "true";
-    let dataType = "html";
-    
-    let params = { 
-        "boardNo": boardNoInput.value
-    }            
-    
-    PClass.pAjax(url, params, dataType, type, async, function(data){
-        if(data){
-            try{
-                const message = JSON.parse(data);
-                if(!isEmpty(message) && 1 === message.msgId){
-                    alert(message.msgContents);
-                    moveToList();
-                }else{
-                    alert(message.msgContents);
-                }
-            }catch(e){
-                 alert("data를 확인 하세요.");     
-            }
-        }
-    });            
-}
+	function isEmpty(value) {
+	    if (value == null || typeof value !== 'string') {
+	        return true; // value가 null, undefined, 혹은 문자열이 아닌 경우
+	    }
+	    return value.trim() === '';
+	}
+	
+	
+	function moveToEdit() {
+		const moveToEditBtn = document.querySelector("#moveToEdit");
+	    const boardNo = moveToEditBtn.getAttribute('data-board-no');
+	    console.log("moveToEdit boardNo:" + boardNo);
+	    window.location.href = "/ehr/board/moveToEdit.do?boardNo=" + boardNo;
+	}
+	
+	function moveToList(){
+	    window.location.href = "/ehr/board/doRetrieve.do";
+	}
+	
+	function doDelete(){
+	    console.log("doDelete()");
+	    const boardNoInput = document.querySelector("#boardNo");
+	
+	    if(isEmpty(boardNoInput.value)){
+	        alert('boardNo를 확인 하세요.')
+	        return;
+	    }
+	    if(confirm('삭제 하시겠습니까?') === false) return;
+	    
+	    let type = "GET";  
+	    let url = "/ehr/board/doDelete.do";
+	    let async = "true";
+	    let dataType = "html";
+	    
+	    let params = { 
+	        "boardNo": boardNoInput.value
+	    }            
+	    
+	    PClass.pAjax(url, params, dataType, type, async, function(data){
+	        if(data){
+	            try{
+	                const message = JSON.parse(data);
+	                if(!isEmpty(message) && 1 === message.messageId){
+	                    alert(message.messageContents);
+	                    moveToList();
+	                }else{
+	                    alert(message.messageContents);
+	                }
+	            }catch(e){
+	                 alert("data를 확인 하세요.");     
+	            }
+	        }
+	    });            
+	}
 
 
-function doSaveReply(){
-    console.log("doSaveReply()");
-    const replyContentsInput = document.querySelector("#replyContents");
-    const boardNoInput = document.querySelector("#boardNo");
+	function doSaveReply(){
+	    console.log("doSaveReply()");
+	    const replyContentsInput = document.querySelector("#replyContents");
+	    const boardNoInput = document.querySelector("#boardNo");
+	
+	    if(isEmpty(replyContentsInput.value)){
+	        alert('댓글 내용을 입력하세요.')
+	        replyContentsInput.focus();
+	        return;
+	    }
+	    
+	    if(confirm('댓글을 작성하시겠습니까?') === false) return;
+	    
+	    let type = "POST";
+	    let url = "/ehr/reply/doSave.do";
+	    let async = "true";
+	    let dataType = "html";
+	    
+	    let params = {
+	        "boardNo": boardNoInput.value,
+	        "replyContents": replyContentsInput.value
+	    }
+	    
+	    PClass.pAjax(url, params, dataType, type, async, function(data){
+	        if(data){
+	            try{
+	                const message = JSON.parse(data);
+	                if(!isEmpty(message) && 1 === message.msgId){
+	                    alert(message.msgContents);
+	                    replyContentsInput.value = '';
+	                    loadReplies();
+	                } else {
+	                    alert(message.msgContents);
+	                }
+	            } catch(e) {
+	                alert("데이터를 확인하세요.");
+	            }
+	        }
+	    });
+	}
+	
+	function doDeleteReply(replyNo){
+	    console.log("doDeleteReply()");
+	    if(isEmpty(replyNo)){
+	        alert('댓글 번호를 확인하세요.')
+	        return;
+	    }
+	    if(confirm('댓글을 삭제하시겠습니까?') === false) return;
+	    
+	    let type = "GET";
+	    let url = "/ehr/reply/doDelete.do";
+	    let async = "true";
+	    let dataType = "html";
+	    
+	    let params = { 
+	        "replyNo": replyNo
+	    }
+	    
+	    PClass.pAjax(url, params, dataType, type, async, function(data){
+	        if(data){
+	            try{
+	                const message = JSON.parse(data);
+	                if(!isEmpty(message) && 1 === message.msgId){
+	                    alert(message.msgContents);
+	                    loadReplies();
+	                } else {
+	                    alert(message.msgContents);
+	                }
+	            } catch(e) {
+	                alert("데이터를 확인하세요.");
+	            }
+	        }
+	    });
+	}
+	
+	function loadReplies(){
+	    console.log("loadReplies()");
+	    const boardNoInput = document.querySelector("#boardNo");
+	    
+	    let type = "GET";
+	    let url = "/ehr/reply/doRetrieve.do";
+	    let async = "true";
+	    let dataType = "html";
+	    
+	    let params = { 
+	        "boardNo": boardNoInput.value
+	    }
+	    
+	    PClass.pAjax(url, params, dataType, type, async, function(data){
+	        if(data){
+	            try{
+	                const replies = JSON.parse(data);
+	                let replyHtml = '';
+	                replies.forEach(function(reply){
+	                    replyHtml += '<div class="reply">';
+	                    replyHtml += '<p><strong>' + reply.regId + '</strong>: ' + reply.replyContents + '</p>';
+	                    replyHtml += '<p><small>' + reply.regDt + '</small></p>';
+	                    replyHtml += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
+	                    replyHtml += '</div>';
+	                });
+	                document.querySelector("#replyList").innerHTML = replyHtml;
+	            } catch(e) {
+	                console.error("댓글 로딩 실패:", e);
+	            }
+	        }
+	    });
+	}
 
-    if(isEmpty(replyContentsInput.value)){
-        alert('댓글 내용을 입력하세요.')
-        replyContentsInput.focus();
-        return;
-    }
-    
-    if(confirm('댓글을 작성하시겠습니까?') === false) return;
-    
-    let type = "POST";
-    let url = "/ehr/reply/doSave.do";
-    let async = "true";
-    let dataType = "html";
-    
-    let params = {
-        "boardNo": boardNoInput.value,
-        "replyContents": replyContentsInput.value
-    }
-    
-    PClass.pAjax(url, params, dataType, type, async, function(data){
-        if(data){
-            try{
-                const message = JSON.parse(data);
-                if(!isEmpty(message) && 1 === message.msgId){
-                    alert(message.msgContents);
-                    replyContentsInput.value = '';
-                    loadReplies();
-                } else {
-                    alert(message.msgContents);
-                }
-            } catch(e) {
-                alert("데이터를 확인하세요.");
-            }
-        }
-    });
-}
-
-function doDeleteReply(replyNo){
-    console.log("doDeleteReply()");
-    if(isEmpty(replyNo)){
-        alert('댓글 번호를 확인하세요.')
-        return;
-    }
-    if(confirm('댓글을 삭제하시겠습니까?') === false) return;
-    
-    let type = "GET";
-    let url = "/ehr/reply/doDelete.do";
-    let async = "true";
-    let dataType = "html";
-    
-    let params = { 
-        "replyNo": replyNo
-    }
-    
-    PClass.pAjax(url, params, dataType, type, async, function(data){
-        if(data){
-            try{
-                const message = JSON.parse(data);
-                if(!isEmpty(message) && 1 === message.msgId){
-                    alert(message.msgContents);
-                    loadReplies();
-                } else {
-                    alert(message.msgContents);
-                }
-            } catch(e) {
-                alert("데이터를 확인하세요.");
-            }
-        }
-    });
-}
-
-function loadReplies(){
-    console.log("loadReplies()");
-    const boardNoInput = document.querySelector("#boardNo");
-    
-    let type = "GET";
-    let url = "/ehr/reply/doRetrieve.do";
-    let async = "true";
-    let dataType = "html";
-    
-    let params = { 
-        "boardNo": boardNoInput.value
-    }
-    
-    PClass.pAjax(url, params, dataType, type, async, function(data){
-        if(data){
-            try{
-                const replies = JSON.parse(data);
-                let replyHtml = '';
-                replies.forEach(function(reply){
-                    replyHtml += '<div class="reply">';
-                    replyHtml += '<p><strong>' + reply.regId + '</strong>: ' + reply.replyContents + '</p>';
-                    replyHtml += '<p><small>' + reply.regDt + '</small></p>';
-                    replyHtml += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
-                    replyHtml += '</div>';
-                });
-                document.querySelector("#replyList").innerHTML = replyHtml;
-            } catch(e) {
-                console.error("댓글 로딩 실패:", e);
-            }
-        }
-    });
-}
 </script>
 </head>
 <body>
@@ -414,7 +379,7 @@ function loadReplies(){
   <!-- 버튼 -->
   <div class="mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
       <input type="button" value="목록"  id="moveToList"    class="btn btn-primary">
-      <input type="button" value="수정"  id="doUpdate" class="btn btn-primary">
+      <input type="button" value="수정" id="moveToEdit" class="btn btn-primary" data-board-no="${board.boardNo}">
       <input type="button" value="삭제"  id="doDelete" class="btn btn-primary">
   </div>
   <!--// 버튼 ----------------------------------------------------------------->
@@ -442,13 +407,13 @@ function loadReplies(){
     <div class="row mb-2">
         <label for="title" class="col-sm-2 col-form-label">제목</label>
         <div class="col-sm-10">
-          <input type="text" value="<c:out value='${board.title }'/>" class="form-control" name="title" id="title"  maxlength="75" required="required">
+          <input type="text" value="<c:out value='${board.title }'/>" class="form-control readonly-input" readonly="readonly" name="title" id="title"  maxlength="75" required="required">
         </div>      
     </div>
     <div class="row mb-2">
         <label for="contents" class="col-sm-2 col-form-label">내용</label>
         <div class="col-sm-10">    
-         <textarea style="height: 200px"  class="form-control" id="contents" name="contents"><c:out value='${board.contents }'/></textarea>
+         <textarea style="height: 200px" class="form-control"  id="contents" name="contents"><c:out value='${board.contents }'/></textarea>
         </div> 
     </div>    
   </form>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
@@ -51,6 +52,25 @@ public class BoardController implements PLog {
 
         return viewName;
     }
+    
+    //수정 페이지 이동
+    @RequestMapping(value = "/moveToEdit.do", method = RequestMethod.GET)
+    public String moveToEdit(@RequestParam("boardNo") int boardNo, Model model) throws SQLException {
+        log.debug("1. param boardNo: " + boardNo);
+        
+        Board board = new Board();
+        board.setBoardNo(boardNo);
+        
+        Board outVO = boardService.doSelectOne(board);
+        
+        if(outVO != null) {
+            model.addAttribute("board", outVO);
+            return "board/board_edit";
+        } else {
+            model.addAttribute("message", "게시글을 찾을 수 없습니다.");
+            return "redirect:/board/doRetrieve.do";
+        }
+    }
 
     // 게시물 수정
     @RequestMapping(value = "/doUpdate.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
@@ -59,7 +79,7 @@ public class BoardController implements PLog {
         log.debug("1. param inVO: " + inVO);
 
         // 실제 수정자 ID 및 수정일 설정 (수정일은 현재 날짜로 설정)
-        inVO.setModDt(StringUtil.nvl(inVO.getModDt(), "2024-08-03"));
+        inVO.setModDt(StringUtil.nvl(inVO.getModDt(), "2024-08-16"));
 
         int flag = boardService.doUpdate(inVO);
         String message = "";
