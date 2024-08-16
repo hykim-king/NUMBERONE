@@ -48,24 +48,11 @@ public class mainController implements PLog{
 	   @GetMapping("/index.do")
 	   public String index(Model model) {
 	      String viewName = "main/index";
-	      Search msgSearch=new Search();
-	      msgSearch.setPageNo(1);
-	      msgSearch.setPageSize(5);
-	      Gson gson = new Gson();
-	      List<DisasterMsg> disasterMsgList;
-	      String jsonDisasterMsgList="";
-	      try {
-			disasterMsgList= disasterMsgService.doRetrieve(msgSearch);
-		} catch (SQLException e) {
-			disasterMsgList=null;
-			e.printStackTrace();
-		}
+	      
 	      log.debug("┌──────────────────────────────────────────┐");
 	      log.debug("│ viewName:"+viewName);                                 
 	      log.debug("└──────────────────────────────────────────┘");
-	      jsonDisasterMsgList=gson.toJson(disasterMsgList);
 	      
-	      model.addAttribute("disasterMsgList", jsonDisasterMsgList);
 	      return viewName;
 	   }
 	   

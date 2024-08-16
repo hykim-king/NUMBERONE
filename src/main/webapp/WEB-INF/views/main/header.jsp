@@ -194,7 +194,7 @@
 <body>
     <div id="headerMenu">
         <ul>
-            <li><a href="http://localhost:8080/ehr/member/signInUp.do">로그인 / 회원가입</a></li>
+            <li><a href="http://localhost:8080/ehr/member/signInUp.do" id ="loginBtn">로그인 / 회원가입</a></li>
         </ul>
     </div>
     <div>
