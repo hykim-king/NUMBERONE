@@ -30,7 +30,7 @@
 <%-- common.js --%>
 <script src="${CP}/resources/js/common.js"></script>
 <%-- kakao Map --%>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=caeb693362f61c09ef1fc4e0b640aaf4"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=caeb693362f61c09ef1fc4e0b640aaf4"></script>
 <title>Insert title here</title>
 
 <script>
@@ -223,20 +223,6 @@ function eupmyeondongSet() {
 $(document).ready(function(){
     console.log("document ready!");
 	
-    
-    
-    // 시도 동기 통신
-	/* function sidoSet(){
-		
-		var optionSidoData = JSON.parse('${sidoSearch}');
-		
-		optionSidoData.forEach(function(item){
-			$("#sido").append('<option value="' + item.locCode + '">' + item.sido + '</option>');
-
-		});
-		
-	} */
-	
 	sidoSet();
 	
 	$("#search").on("click",function(event){
@@ -291,7 +277,7 @@ function shelterRetrieve() {
 	              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
 	              roadAddressElement.on("click", function(event) {
 	            	  console.log("roadAddressElement click")
-	            	  openKakaoMap(item.lat,item.lon);
+	            	  openKakaoMap(item.lat,item.lon,item.facilityName);
 		          });
 	        	  
 	        	  $("#shelterList").append(roadAddressElement);
@@ -309,16 +295,13 @@ function shelterRetrieve() {
 	
 });//--document end
 
-function openKakaoMap(lat,lon){
+function openKakaoMap(lat,lon,facilityName){
     //팝업창 생성
-    var popup = window.open("http://localhost:8080/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon, "Kakao Map", "width=700,height=500");
-    popup.document.body.appendChild(mapContainer);
+    var popup = window.open("http://localhost:8080/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
+    /* popup.document.body.appendChild(mapContainer);
     popup.document.body.style.margin = "0";
     popup.document.body.style.padding = "0";
-    popup.document.body.style.overflow = "hidden";
-   
-    
-    
+    popup.document.body.style.overflow = "hidden"; */
 }//-- openKakaoMap end  
 
 </script>

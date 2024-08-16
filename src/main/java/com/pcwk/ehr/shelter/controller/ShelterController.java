@@ -62,9 +62,11 @@ public class ShelterController implements PLog {
 		log.debug("lat"+lat);
 		double lon = Double.parseDouble((String)req.getParameter("lon"));
 		log.debug("lon"+lon);
-		
+		String facilityName = req.getParameter("FacilityName");
+		log.debug("facilityName"+facilityName);
 		model.addAttribute("LAT",lat);
 		model.addAttribute("LON",lon);
+		model.addAttribute("FacilityName", facilityName);
 		
 		return viewName;
 	}

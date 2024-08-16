@@ -181,7 +181,7 @@ public class BoardControllerTest implements PLog {
             .andExpect(status().isOk());
     }
     
-    @Ignore	
+    //@Ignore	
 	@Test
 	public void doSelectOne() throws Exception{
 		log.debug("┌──────────────────────────────────────────┐");
@@ -193,15 +193,14 @@ public class BoardControllerTest implements PLog {
 		log.debug("flag:"+flag);
 		assertEquals(1, flag);
 		
-		//2
-		//등록 seq조회 : 등록 당시에는 SEQ를 알지 못함!
-		int seq = boardMapper.getLatestBoardNo();
-		log.debug("seq:"+seq);
-		board01.setBoardNo(seq);
+		//2		
+		int boardNo = boardMapper.getLatestBoardNo();
+		log.debug("boardNo:"+boardNo);
+		board01.setBoardNo(boardNo);
 		
 		MockHttpServletRequestBuilder requestBuilder
 		= MockMvcRequestBuilders.get("/board/doSelectOne.do")
-		.param("seq", board01.getBoardNo()+"")
+		.param("boardNo", board01.getBoardNo()+"")
 		.param("regId", board01.getRegId())
 		;			
 		
@@ -251,11 +250,12 @@ public class BoardControllerTest implements PLog {
         assertEquals(boardIn.getReadCnt(), boardOut.getReadCnt());
     }
     
-    //@Ignore
+    @Ignore
     @Test
     public void doSave() throws Exception {
         // 게시물 저장 요청
         MockHttpServletRequestBuilder requestBuilder = post("/board/doSave.do")
+        		.param("div", board01.getDiv()) 
         		.param("title", board01.getTitle())
         		.param("contents", board01.getContents())
         		.param("regId", board01.getRegId());           

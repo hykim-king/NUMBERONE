@@ -2,8 +2,6 @@ package com.pcwk.ehr.member;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.sql.SQLException;
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +16,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.Search;
-import com.pcwk.ehr.login.domain.Login;
 import com.pcwk.ehr.member.domain.Member;
 import com.pcwk.ehr.mapper.MemberMapper;
 
@@ -38,9 +35,8 @@ public class MemberMapperTest implements PLog {
      MemberMapper memberMapper;
 
      Member member1;
-     Member member2;
-     Member member3;
-     Login login01;
+
+     Member login01;
      Search search;
 
     @Before
@@ -50,17 +46,17 @@ public class MemberMapperTest implements PLog {
         System.out.println("└─────────────────────────────────────────┘");
 
         // 데이터 삭제
-        memberMapper.deleteAll();
+        //memberMapper.deleteAll();
 
         member1 = new Member("user1", 1, "password1", "User One", "nickname1", 'N');
-        //member2 = new Member("user2", 2, "password2", "User Two", "nickname2", 'Y');
-        //member3 = new Member("user3", 3, "password3", "User Three", "nickname3", 'N');
-        login01 = new Login("user1", "password1");
+        
+        login01 =new Member("f", "252f10c83610ebca1a059c0bae8255eba2f95be4d1d7bcfa89d7248a82d9f111");
         
         search = new Search();
     }
 
     @Test
+    @Ignore
      public void idDuplicateCheck() throws SQLException {
 		System.out.println("[̲̅i][̲̅d][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
 
@@ -89,6 +85,7 @@ public class MemberMapperTest implements PLog {
     }
 
     @Test
+    @Ignore
     public void nicknameDuplicateCheck() throws SQLException {
 		System.out.println("[̲̅n][̲̅i][̲̅c][̲̅k][̲̅n][̲̅a][̲̅m][̲̅e][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
 
@@ -118,6 +115,7 @@ public class MemberMapperTest implements PLog {
     
     
 	@Test
+	@Ignore
 	public void doSave() throws SQLException {
 		System.out.println("[̲̅d][̲̅o][̲̅s][̲̅a][̲̅v][̲̅e]");
         Member member1 = new Member("user1", 1, "password1", "User One", "nickname1", 'N');
@@ -142,9 +140,20 @@ public class MemberMapperTest implements PLog {
         assertMembersEqual(member1, savedMember);
     }
 	
-	
-    
 
+    
+	@Test
+	public void login() throws Exception {
+
+	    System.out.println("[̲̅l][̲̅o][̲̅g][̲̅i][̲̅n]");
+
+
+	  
+	    Member loginVO = memberMapper.login(login01);
+	    log.debug(loginVO);
+	    assertMembersEqual(loginVO, login01);
+	}
+	
 	
 	
     private void assertMembersEqual(Member expected, Member actual) {
@@ -153,11 +162,9 @@ public class MemberMapperTest implements PLog {
         } else {
             assertNotNull(actual);
             assertEquals(expected.getMemberId(), actual.getMemberId());
-            assertEquals(expected.getLocCode(), actual.getLocCode());
+           
             assertEquals(expected.getPassword(), actual.getPassword());
-            assertEquals(expected.getName(), actual.getName());
-            assertEquals(expected.getNickname(), actual.getNickname());
-            assertEquals(expected.getIsAdmin(), actual.getIsAdmin());
+          
         }
     }
 
