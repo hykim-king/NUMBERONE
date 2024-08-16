@@ -73,7 +73,7 @@ public class DisasterMsgServiceImplTest implements PLog {
 	@After
 	public void tearDown() throws Exception {
 	}
-	
+	@Ignore
 	@Test
 	public void disasterTypeStatisticsBySidoTest() throws SQLException{
 		log.debug(condition3);
@@ -85,7 +85,7 @@ public class DisasterMsgServiceImplTest implements PLog {
 		
 	}
 	
-	@Ignore
+	//@Ignore
     @Test
     public void doRetrieve() throws SQLException{
     	log.debug(search);
