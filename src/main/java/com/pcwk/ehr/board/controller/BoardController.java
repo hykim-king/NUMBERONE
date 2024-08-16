@@ -52,7 +52,18 @@ public class BoardController implements PLog {
 
         return viewName;
     }
-
+    
+    @RequestMapping(value ="/moveToList.do",
+    				method = RequestMethod.GET)
+    public String moveToList(Board inVO, Model model) throws SQLException{
+    	String viewName = "board/board_list";
+    	log.debug("1.param inVO:"+inVO);
+    	model.addAttribute("board",inVO);
+    	
+    	return viewName;
+    		
+    }
+    
     // 게시물 수정
     @RequestMapping(value = "/doUpdate.do", 
     			   method = RequestMethod.POST, 

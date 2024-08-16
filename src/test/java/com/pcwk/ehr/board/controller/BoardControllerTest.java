@@ -75,7 +75,7 @@ public class BoardControllerTest implements PLog {
 		search = new Search();
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void doUpdate() throws Exception {
 		log.debug("┌──────────────────────────────────────────┐");
@@ -180,7 +180,7 @@ public class BoardControllerTest implements PLog {
 
 	}
 
-	//@Ignore
+	@Ignore
 	@Test
 	public void doSelectOne() throws Exception {
 		// 테스트 데이터 저장
@@ -223,13 +223,16 @@ public class BoardControllerTest implements PLog {
 		assertEquals(boardIn.getReadCnt(), boardOut.getReadCnt());
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void doSave() throws Exception {
 		// 게시물 저장 요청
 		MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/board/doSave.do")
-				.param("title", board01.getTitle()).param("regId", board01.getRegId()).param("div", board01.getDiv())
-				.param("contents", board01.getContents());
+				.param("regId", board01.getRegId())
+				.param("div", board01.getDiv())
+				.param("title", board01.getTitle())
+				.param("contents", board01.getContents())
+				.param("nickName", board01.getNickName());
 
 		// 호출 및 결과
 		ResultActions resultActions = mockMvc.perform(requestBuilder)

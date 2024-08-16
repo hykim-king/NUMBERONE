@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
     function moveToList(){
     	const frm = document.querySelector("#regForm");
-    	frm.action = "/ehr/board/";
+    	frm.action = "/ehr/board/moveToList.do";
     	frm.submit();
     }
     
