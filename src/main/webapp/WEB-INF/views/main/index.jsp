@@ -221,6 +221,7 @@
     <%@ include file="footer.jsp" %>
 <script>
 		$("#messageTable").empty();
+		/*
 		msgList=${disasterMsgList};
 		$.each(msgList, function(index, msg) {
 			let row = $("<tr></tr>");
@@ -230,7 +231,7 @@
             $("#messageTable").append(row);
 		      
 		      
-		});
+		});*/
 
 		
 		function showGraph(statistics) {
