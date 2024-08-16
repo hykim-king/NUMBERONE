@@ -21,14 +21,12 @@ import com.pcwk.ehr.disasterMsg.service.DisasterMsgService;
 import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 
 @RestController
-public class DisasterMsgController implements PLog{
-	
-	  
+public class DisasterMsgController implements PLog {
 
 	public DisasterMsgController() {
 		log.debug("┌──────────────────────────────────────────┐");
-	    log.debug("          disasterMsgController             ");
-	    log.debug("└──────────────────────────────────────────┘");
+		log.debug("          disasterMsgController             ");
+		log.debug("└──────────────────────────────────────────┘");
 	}
 
 	@Autowired
@@ -36,19 +34,19 @@ public class DisasterMsgController implements PLog{
 
 	@Autowired
 	Gson gson;
-    
+
 	@PostMapping(value = "/statistics/1")
 	public ResponseEntity<Map<String, Integer>> disasterStaticsUpward(@RequestBody StatisticsCondition condition) {
 		log.debug("┌──────────────────────────────────────────┐");
-	    log.debug("          disasterStaticsUpward             ");
-	    log.debug("└──────────────────────────────────────────┘");
+		log.debug("          disasterStaticsUpward             ");
+		log.debug("└──────────────────────────────────────────┘");
 		Map<String, Integer> resultMap = null;
 		StatisticsCondition reqCondtion = condition;
-        log.debug(reqCondtion);
+		log.debug(reqCondtion);
 		try {
 			resultMap = disasterMsgService.disasterTypeStatisticsUpward(reqCondtion);
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 			return ResponseEntity.notFound().build();
 		}
@@ -80,19 +78,19 @@ public class DisasterMsgController implements PLog{
 		}
 
 	}
-	
+
 	@PostMapping(value = "/statistics/3")
 	public ResponseEntity<Map<String, Integer>> disasterStaticsAll(@RequestBody StatisticsCondition condition) {
 		log.debug("┌──────────────────────────────────────────┐");
-	    log.debug("          disasterStaticsUpward             ");
-	    log.debug("└──────────────────────────────────────────┘");
+		log.debug("          disasterStaticsUpward             ");
+		log.debug("└──────────────────────────────────────────┘");
 		Map<String, Integer> resultMap = null;
 		StatisticsCondition reqCondtion = condition;
-        log.debug(reqCondtion);
+		log.debug(reqCondtion);
 		try {
 			resultMap = disasterMsgService.disasterTypeStatisticsAll(reqCondtion);
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 			return ResponseEntity.notFound().build();
 		}
@@ -104,19 +102,19 @@ public class DisasterMsgController implements PLog{
 		}
 
 	}
-	
+
 	@PostMapping(value = "/statistics/4")
 	public ResponseEntity<Map<String, Integer>> disasterStaticsBySido(@RequestBody StatisticsCondition condition) {
 		log.debug("┌──────────────────────────────────────────┐");
-	    log.debug("          disasterStaticsBySido             ");
-	    log.debug("└──────────────────────────────────────────┘");
+		log.debug("          disasterStaticsBySido             ");
+		log.debug("└──────────────────────────────────────────┘");
 		Map<String, Integer> resultMap = null;
 		StatisticsCondition reqCondtion = condition;
-        log.debug(reqCondtion);
+		log.debug(reqCondtion);
 		try {
 			resultMap = disasterMsgService.disasterTypeStatisticsBySido(reqCondtion);
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 			return ResponseEntity.notFound().build();
 		}
@@ -128,24 +126,17 @@ public class DisasterMsgController implements PLog{
 		}
 
 	}
-	
-	@GetMapping(value = "/messages")
-	public ResponseEntity<List<DisasterMsg>> disasterMsgRetrieve(@RequestParam long locCode,int pageNo){
+
+	@PostMapping(value = "/messages")
+	public ResponseEntity<List<DisasterMsg>> disasterMsgRetrieve() {
 		List<DisasterMsg> list = null;
-		long code = locCode;
 		Search search = new Search();
-		if(0!= locCode) {
-			search.setPageNo(1);
-			search.setPageSize(5);
-			search.setSearchDiv("10");
-			search.setSearchWord(String.valueOf(code));
-		}else {
-			search.setPageNo(pageNo);
-			search.setPageSize(10);
-		}
+    
+		search.setPageNo(1);
+		search.setPageSize(5);
 		try {
-			list =disasterMsgService.doRetrieve(search);
-		} catch (SQLException e) { 
+			list = disasterMsgService.doRetrieve(search);
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return ResponseEntity.notFound().build();
 		}

@@ -36,6 +36,10 @@
 	<sql id="whereDoRetrieve">
       <where>
          <choose>
+            <when test ="searchDiv == null">
+             1=1
+            </when>
+            
             <when test ="searchDiv !=null and searchDiv = '10'">
             message_seq In (SELECT DISTINCT message_seq 
     FROM message_area 
@@ -74,9 +78,10 @@
      FROM(
 	 SELECT TT1.RNUM AS no,
 	        TT1.message_seq as messageSeq,
-	        --(SELECT DET_CODE_NM from code where mst_code ='DISASTER_TYPE' and DET_CODE = TT1.disaster_type) as disasterType,
-	        TT1.disaster_type as disasterType,
-	        TT1.emergency_level as emergencyLevel,
+	        (SELECT DET_CODE_NM from code where mst_code ='DISASTER_TYPE' and DET_CODE = TT1.disaster_type) as disasterType,
+	        --TT1.disaster_type as disasterType,
+	        (SELECT DET_CODE_NM from code where mst_code ='EMERGENCY_LEVEL' and DET_CODE = TT1.emergency_level) as emergencyLevel,
+	        --TT1.emergency_level as emergencyLevel,
 	        TT1.message_context as messageContext,
 	        TT1.broadcast_organization as broadcastOrganization,
 	        DECODE( TO_CHAR(TT1.msg_reg_dt,'YYYYMMDD'), TO_CHAR(SYSDATE,'YYYYMMDD'),      

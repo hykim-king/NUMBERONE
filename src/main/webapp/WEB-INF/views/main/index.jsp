@@ -220,20 +220,48 @@
 
     <%@ include file="footer.jsp" %>
 <script>
-		$("#messageTable").empty();
-		/*
-		msgList=${disasterMsgList};
-		$.each(msgList, function(index, msg) {
-			let row = $("<tr></tr>");
-            row.append($("<td></td>").text(msg.broadcastOrganization));
-            row.append($("<td></td>").text(msg.msgRegDt));
-            row.append($("<td></td>").text(msg.messageContext));
-            $("#messageTable").append(row);
-		      
-		      
-		});*/
-
 		
+        const disasterTypeSet = new Set();
+		function getDisasterMsgList(){
+			
+            fetch('http://localhost:8080/ehr/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: null, 
+            })
+            .then(function(response) { //통신상태 확인
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 좋지 않습니다.');
+                }
+                return response.json();
+            })
+            .then(function(data) { 
+            	$("#messageTable").empty();
+            	msgList=data;
+        		$.each(msgList, function(index, msg) {
+        			let row = $("<tr></tr>");
+                    row.append($("<td></td>").text(msg.broadcastOrganization));
+                    row.append($("<td></td>").text(msg.msgRegDt));
+                    row.append($("<td></td>").text(msg.messageContext));
+                    $("#messageTable").append(row);
+                    if(msg.disasterType != "기타"){
+                    	disasterTypeSet.add(msg.disasterType);
+                    }
+                    
+        		});
+                
+            })
+            .catch(function(error) { 
+                console.error('문제가 발생했습니다:', error);
+            });
+		}
+		getDisasterMsgList();
+		
+		console.log(disasterTypeSet);
+		
+				
 		function showGraph(statistics) {
 		    $("#graphContainer").empty();
             Highcharts.chart('graphContainer', {
@@ -278,16 +306,27 @@
             .then(function(data) { //정상일시 데이터 사용
             	console.log('data:', data);
             	const dataMap = new Map(Object.entries(data));
-            	const resultObject = Object.fromEntries(dataMap);
             	let datasize =dataMap.size; 
             	const keysArray = [...dataMap.keys()];
-            	const resultArray =[]
+            	const resultArray =[];
             	for (let i =0;i<datasize; i++) {
             		 const key = keysArray[i];
    					 const value = dataMap.get(keysArray[i]);
    					
    					 resultArray.push([key,value]); 
 				}
+            	resultArray.sort(([, valueA], [, valueB]) => valueB - valueA);
+                
+            	let num = 4-disasterTypeSet.size;
+            	if(resultArray.find(([key]) => key === '기타')){
+            		num++;
+            	}
+            	resultArray.slice(0, num).forEach(([key]) => {
+            		if (key !== '기타') {
+            		disasterTypeSet.add(key); // Set에 key 추가
+            		}
+            	});
+            	
             	
             	showGraph(resultArray);
             	
