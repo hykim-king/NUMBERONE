@@ -17,7 +17,7 @@ public class LivingController implements PLog {
 	}
 	
 	@GetMapping("livingMain.do")
-	public String natureMain() {
+	public String livingMain() {
 		return "living/livingMain";
 	}
 

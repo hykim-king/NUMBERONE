@@ -5,6 +5,7 @@
 <html lang ="ko">
 <head>
 <meta charset="UTF-8">
+
 <link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
 <title>사회재난행동요령</title>
 

@@ -5,11 +5,17 @@
 <html lang ="ko">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
 <title>생활안전행동요령</title>
 <link href="/ehr/resources/css/common.css"  rel="stylesheet"/>
 <link href="/ehr/resources/css/layout2.css" rel="stylesheet" />
 <link href="/ehr/resources/css/content.css" rel="stylesheet" />
 <link href="/ehr/resources/css/dp_sub.min.css" rel="stylesheet" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">
+<link href="/ehr/resources/css/behavior.css" rel="stylesheet" />
 
 <!-- Header -->
 <script src="/ehr/resources/js/jquery-1.11.1.min.js"></script>

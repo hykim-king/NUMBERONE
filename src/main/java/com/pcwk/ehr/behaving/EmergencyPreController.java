@@ -16,7 +16,7 @@ public class EmergencyPreController implements PLog {
 	}
 	
 	@GetMapping("emergencyPreMain.do")
-	public String natureMain() {
+	public String EmergencyPreMain() {
 		return "emergencyPre/emergencyPreMain";
 	}	
 

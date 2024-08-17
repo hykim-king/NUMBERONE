@@ -5,16 +5,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.pcwk.ehr.cmn.PLog;
+
 @Controller
 @RequestMapping("society")
-public class SocietyController {
+public class SocietyController implements PLog {
 
 	public SocietyController() {
-		
+		log.debug("SocietyController");
 	}
 	
 	@GetMapping("societyMain.do")
-	public String natureMain() {
+	public String societyMain() {
 		return "society/societyMain";
 	}
 	
