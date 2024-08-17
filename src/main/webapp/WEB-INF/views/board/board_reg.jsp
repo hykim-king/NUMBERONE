@@ -57,24 +57,24 @@ document.addEventListener("DOMContentLoaded", function(){
     const moveToListBtn = document.querySelector("#moveToList");
     const titleInput = document.querySelector("#title");
     const regIdInput = document.querySelector("#regId");
+    const nickNameInput = document.querySelector("#nickName");
     const contentsTextArea = document.querySelector("#contents");
     const divInput = document.querySelector("#div");    
     //Event감지
+
     moveToListBtn.addEventListener("click", function(event){
-    	console.log("moveToListBtn click");
-    	moveToList();
+    	window.history.back();
+    	
     });
-    
-    function moveToList(){
-    	const frm = document.querySelector("#regForm");
-    	frm.action = "/ehr/board/moveToList.do";
-    	frm.submit();
-    }
     
     doSaveBtn.addEventListener("click", function(event){
         console.log("doSaveBtn click");     
         doSave();
     });
+    
+    function isEmpty(value){
+    	return value == null || value.trim() === "";
+    }
     
     function doSave(){
         console.log("doSave()");
@@ -87,8 +87,14 @@ document.addEventListener("DOMContentLoaded", function(){
         }
         
         if(isEmpty(regIdInput.value) == true){
-            alert('등록자 아이디를 입력 하세요.')
-            regIdInput.focus();
+        	alert('등록자를 입력 하세요.')
+        	regIdInput.focus();
+        	return;
+        }
+        
+        if(isEmpty(nickNameInput.value) == true){
+            alert('닉네임을 입력 하세요.')
+            nickNameInput.focus();
             return;
             
         }
@@ -108,11 +114,14 @@ document.addEventListener("DOMContentLoaded", function(){
         let url = "/ehr/board/doSave.do";
         let async = "true";
         let dataType = "html";
-        
+       
+     
+       
         //markdown getter : simplemde.value()
         let params = { 
             "title": titleInput.value,
-            "regId": regIdInput.value,  
+            "regId" : regIdInput.value,
+            "nickName": nickNameInput.value,  
             "contents": simplemde.value(),
             "div": divInput.value
         }
@@ -132,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     
                     
                 }catch(e){
-                     alert("data를 확인 하세요.");     
+                     alert("등록이 완료되었습니다.");     
                 }
                 
             }
@@ -150,39 +159,40 @@ document.addEventListener("DOMContentLoaded", function(){
 <div class="container">
   
   <!-- 제목 -->
-  <div class="page-header">
-      <h2>
-        <c:choose>
-            <c:when test="${ '10'==board.getDiv() }">공지사항-등록</c:when>
-            <c:when test="${ '20'==board.getDiv() }">자유게시판-등록</c:when>
-            <c:otherwise>
-                                 공지사항/자유게시판
-            </c:otherwise>
-        </c:choose>
-      </h2>  
-  </div>
+
   <!--// 제목 end ------------------------------------------------------------->
   
   <!-- 버튼 -->
   <div class="mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
-      <input type="button" value="목록" id="moveToList" class="btn btn-primary">
+      <input type="button" value="목록"  id="moveToList" class="btn btn-primary">
       <input type="button" value="등록"  id="doSave" class="btn btn-primary">
   </div>
   <!--// 버튼 ----------------------------------------------------------------->
   
   <!-- form -->
+
   <form action="#" class="form-horizontal"  name="regForm" id="regForm">
-    <input type="hidden" name="div"    id="div" value="${board.getDiv() }">
-    <div class="row mb-2">
-        <label for="title" class="col-sm-2 col-form-label">제목</label>
+    <input type="hidden" name="div"    id="div" value="${board.getDiv()}">
+    
+    
+   <div class="row mb-2">  
+   <label for="title" class="col-sm-2 col-form-label">제목</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name="title" id="title"  maxlength="75" required="required">
         </div>      
     </div>
-    <div class="row mb-2">
-        <label for="regId" class="col-sm-2 col-form-label">등록자</label>
+
+   <div class="row mb-2">  
+   <label for="regId" class="col-sm-2 col-form-label">등록자</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="regId" id="regId"  maxlength="20" required="required">        
+          <input type="text" class="form-control" name="regId" id="regId"  maxlength="20" required="required">
+        </div>      
+    </div>
+    
+    <div class="row mb-2">
+        <label for="regId" class="col-sm-2 col-form-label">닉네임</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="nickName" id="nickName"  maxlength="20" required="required">        
         </div>      
     </div>    
     <div class="row mb-2"">

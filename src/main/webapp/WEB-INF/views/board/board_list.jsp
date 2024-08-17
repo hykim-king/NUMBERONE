@@ -143,7 +143,11 @@
 	<div class="container">
 		<!-- 제목 -->
 		<div class="page-header mb-4">
-			<h2>재난 게시판</h2>
+			<h2>재난 게시판</h2 
+			
+			
+			
+			>
 		</div>
 		<!--// 제목 end ------------------------------------------------------------->
 
@@ -158,7 +162,8 @@
 		<form action="#" name="boardForm" class="row g-2 align-items-center"
 			id="boardForm">
 			<input type="hidden" name="div" id="div"
-				value="${search.getSearchDiv()}"> <input type="hidden"
+				value="${search.getSearchDiv()}"> 
+			<input type="hidden"
 				name="pageNo" id="pageNo" value="${search.pageNo}">
 			<div class="col-sm-3"></div>
 			<div class="col-sm-2 text-end g-2">

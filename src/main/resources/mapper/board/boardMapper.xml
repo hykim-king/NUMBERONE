@@ -164,7 +164,7 @@
     <insert id="doSave" parameterType="Board">
         INSERT INTO C##NUMBERONE.BOARD (  
             REG_ID,
-            div,
+            DIV,
             TITLE,
             CONTENTS,
             ASK_CNT,
