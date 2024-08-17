@@ -94,6 +94,7 @@ public class ReplyControllerTest implements PLog {
         log.debug("└──────────────────────────────────────────┘");
 
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/reply/doSave.do")
+        		.param("boardNo",  String.valueOf(reply01.getBoardNo()))
         		.param("regId", reply01.getRegId())
                 .param("replyContents", reply01.getReplyContents())
         		.param("nickName", reply01.getNickName());
