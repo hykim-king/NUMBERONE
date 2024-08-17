@@ -173,10 +173,10 @@
         
         
 		        <div class="myPageZone">
-		            <p>로그인해주세요</p>
+		            
 		            <p>현재 설정 위치</p>
 		            <p>ㅇㅇ시 ㅇㅇ동</p>
-		            <a><p>위치 재설정</p></a>
+		            <a href="http://localhost:8080/ehr/member/locCodeUpdate.do"><button>위치 재설정</button></a>
 		        </div>
 		        
 		        

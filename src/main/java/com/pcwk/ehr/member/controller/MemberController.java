@@ -75,6 +75,30 @@ public class MemberController implements PLog {
 		return jsonString;
 	}
 
+    @RequestMapping(value = "/logout.do", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String logout(HttpSession httpSession) {
+		String jsonString = "";
+		log.debug("logout()");
+		
+		String loginOutMessage = "^^";
+		int    flag = 0;
+		if( null != httpSession.getAttribute("user")) {
+			httpSession.invalidate();
+			
+			loginOutMessage = "로그아웃 되었습니다.";
+			flag = 1;
+		}
+		
+		Message message=new Message(flag, loginOutMessage);
+		jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(message);
+		log.debug("3.jsonString:" + jsonString);		
+		
+		return jsonString;
+	}
+
+    
+    
     @RequestMapping(value="/doSave.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String doSave(@RequestBody Member member) throws SQLException {
@@ -129,4 +153,14 @@ public class MemberController implements PLog {
         log.debug("└──────────────────────────────────────────┘");
         return viewName;
     }
+    
+    @GetMapping("locCodeUpdate.do")
+    public String locCodeUpdate() {
+        String viewName = "member/locCodeUpdate";
+        log.debug("┌──────────────────────────────────────────┐");
+        log.debug("│ viewName:"+viewName);                                 
+        log.debug("└──────────────────────────────────────────┘");
+        return viewName;
+    }
+    
 }

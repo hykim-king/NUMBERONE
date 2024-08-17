@@ -47,6 +47,19 @@ function prBtn_3_onclick() {
     var url = "/idsiSFK/neo/sfk/cs/csc/bbs_conf.jsp?menuSeq=593&bbs_no=9&viewtype=read&bbs_ordr=2616";
     location.href = url;
 }
+
+
+
+//이동
+function agocontentView_onclick() {
+    var selectedView = $("#selMenugo option:selected").val().replace("jsp", "html");
+    location.href = "/idsiSFK/neo/sfk/cs/contents/prevent/"+selectedView+"?menuSeq=126";
+}
+//이전화면
+function agobeforeView_onclick() {
+     window.history.back();
+};
+
 </script>
 </head>
 <body>
@@ -57,6 +70,9 @@ function prBtn_3_onclick() {
     <div class="level2_border_titleWrap">
         <h3 class="level2_title">테러</h3>
     </div>
+    <div class="infoTop_btn_w">
+            <a class="prevView_btn" onclick="agobeforeView_onclick()" id="agobeforeView">이전화면<i class="arrow_left_imgSet_icon"></i></a>
+        </div>
     <div class="tabContent_boxWrap">
             <h4 class="title_01">테러발생 시</h4>
             <h5 class="title_02">테러는 우리나라와 상관없지 않나요?</h5>

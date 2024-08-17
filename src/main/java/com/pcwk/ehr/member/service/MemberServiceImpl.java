@@ -16,23 +16,27 @@ public class MemberServiceImpl implements MemberService, PLog {
     public MemberServiceImpl() {}
 
     @Override
-    public int idPasswordCheck(Member inVO) throws SQLException {
-        log.debug("1. param :" + inVO);
+    public int idPasswordCheck(Member member) throws SQLException {
+    	log.debug("1. param :" + member);
         int status = 0;
 
-        int loginCnt = memberMapper.idCheck(inVO.getMemberId(), inVO.getPassword());
+        // 아이디 존재 여부 확인
+        int loginCnt = memberMapper.idCheck(member);
         if (loginCnt == 0) {
-            status = 10;
+            status = 10; // 아이디가 존재하지 않음
             return status;
         }
 
-        int passwordCnt = memberMapper.passwordCheck(inVO.getPassword());
+        // 비밀번호 확인
+        // 아이디가 존재하면 비밀번호를 체크합니다.
+        int passwordCnt = memberMapper.passwordCheck(member);
         if (passwordCnt == 0) {
-            status = 20;
+            status = 20; // 비밀번호가 일치하지 않음
             return status;
         }
 
-        status = 30;
+        // 아이디와 비밀번호가 모두 일치
+        status = 30; // 아이디와 비밀번호가 일치
         log.debug("2. status :" + status);
         return status;
     }

@@ -24,12 +24,12 @@ public interface MemberMapper extends WorkDiv<Member> {
     int doSave(Member member) throws SQLException;
 
     
+
+    int passwordCheck(Member member);
     
-    int passwordCheck(String string);
-    
-    int idCheck(String memberId, String password);
+    int idCheck(Member member);
 	
-	Member login(Member login01);
+	Member login(Member member);
 
     
     

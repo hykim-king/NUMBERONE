@@ -67,6 +67,17 @@
         $("#img02").attr("src", "/idsiSFK/neo/ext/img/civil/img_leaflet_02.jpg").addClass("unload_rsc");
     }
 
+    
+  //이동
+    function agocontentView_onclick() {
+        var selectedView = $("#selMenugo option:selected").val().replace("jsp", "html");
+        location.href = "/idsiSFK/neo/sfk/cs/contents/prevent/"+selectedView+"?menuSeq=126";
+    }
+    //이전화면
+    function agobeforeView_onclick() {
+         window.history.back();
+    };
+
 </script>
 </head>
 <body>
@@ -80,6 +91,9 @@
     </div>
     
     <h3 class="level2_title">민방공 경보(경계·공습)시 국민행동요령</h3>
+    <div class="infoTop_btn_w">
+            <a class="prevView_btn" onclick="agobeforeView_onclick()" id="agobeforeView">이전화면<i class="arrow_left_imgSet_icon"></i></a>
+        </div>
     <ul class="contextIndent_oneDepList">
         <img id="img01" class="unload_rsc" margin="auto;" src="" style="width:100%" alt="민방공 경보(경계·공습)시 국민행동요령1 대체 텍스트 제공">
         </img>

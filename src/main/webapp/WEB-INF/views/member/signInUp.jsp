@@ -715,6 +715,10 @@
 	                                $("#password").focus();
 	                            } else if (data.messageId === 30) {
 	                                alert(data.messageContents);
+	                                
+	                                //로그인 성공시 
+	                                 $("#loginBtn").text("로그아웃");
+	                                 $("#loginBtn").attr("href", "/ehr/member/logout.do");
 	                                window.location.href = "/ehr/main/index.do";
 	                            } else {
 	                                alert(data.messageContents);

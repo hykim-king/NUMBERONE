@@ -48,13 +48,29 @@
         location.href = url;
     }
 
+    
+  //이동
+    function agocontentView_onclick() {
+        var selectedView = $("#selMenugo option:selected").val().replace("jsp", "html");
+        location.href = "/idsiSFK/neo/sfk/cs/contents/prevent/"+selectedView+"?menuSeq=126";
+    }
+    //이전화면
+    function agobeforeView_onclick() {
+         window.history.back();
+    };
+
 </script>
 </head>
 <body>
 <div class="content">
     <div class="level1_titleWrap">
         <h2 class="level1_title">비상사태</h2>
+        
     </div>
+    
+    <div class="infoTop_btn_w">
+            <a class="prevView_btn" onclick="agobeforeView_onclick()" id="agobeforeView">이전화면<i class="arrow_left_imgSet_icon"></i></a>
+        </div>
     <div class="tabContent_boxWrap">
                 <div class="section01">
                     <div class="tabarea">

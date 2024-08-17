@@ -23,6 +23,11 @@
 <meta charset="UTF-8">
 <title>find</title>
 <link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">  
+
 <style>
     * {
         font-family: "Hahmlet", serif;

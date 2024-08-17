@@ -75,6 +75,18 @@
         $("#img05").attr("src", "/idsiSFK/neo/ext/img/prevent/eEmergencySafety_icon_Emer_20200907_02.png").addClass("unload_rsc");
         $("#img06").attr("src", "/idsiSFK/neo/ext/img/prevent/eEmergencySafety_icon_Emer_20200907_03.png").addClass("unload_rsc");
     }
+    
+    
+  //이동
+    function agocontentView_onclick() {
+        var selectedView = $("#selMenugo option:selected").val().replace("jsp", "html");
+        location.href = "/idsiSFK/neo/sfk/cs/contents/prevent/"+selectedView+"?menuSeq=126";
+    }
+    //이전화면
+    function agobeforeView_onclick() {
+         window.history.back();
+    };
+
 </script>
 </head>
 <body>
@@ -82,6 +94,10 @@
     <div class="level1_titleWrap">
         <h2 class="level1_title">비상대비물자</h2>
     </div>
+    
+    <div class="infoTop_btn_w">
+            <a class="prevView_btn" onclick="agobeforeView_onclick()" id="agobeforeView">이전화면<i class="arrow_left_imgSet_icon"></i></a>
+        </div>
     <div class="tabContent_boxWrap">
     
             <h3 class="title_01">비상대비 물자 준비요령</h3>

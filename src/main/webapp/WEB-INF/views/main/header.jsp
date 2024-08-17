@@ -242,14 +242,14 @@
                         <ul>
                            
                             <li><a href="#">훈련영상</a></li>
-                            <li><a href="#">안전시설</a></li>
+                            <li><a href="http://localhost:8080/ehr/location/location.do">대피시설</a></li>
                         </ul>
                     </li>
                     
                     <li id="gnbWrap4">
                         
                         <ul>
-                            <li><a href="http://localhost:8080/ehr/nature/natureMain.do#">자연재난행동요령</a></li>
+                            <li><a href="http://localhost:8080/ehr/nature/natureMain.do">자연재난행동요령</a></li>
                             <li><a href="http://localhost:8080/ehr/society/societyMain.do">사회재난행동요령</a></li>
                             <li><a href="http://localhost:8080/ehr/living/livingMain.do">생활안전행동요령</a></li>
                             <li><a href="http://localhost:8080/ehr/emergencyPre/emergencyPreMain.do">비상대비행동요령</a></li>
