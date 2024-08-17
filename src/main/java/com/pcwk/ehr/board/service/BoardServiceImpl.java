@@ -55,7 +55,7 @@ public class BoardServiceImpl implements BoardService, PLog {
 		
 		int flag = 0;
 		//조회 count증가
-		if(null != outVO && inVO.getRegId() != null) {
+		if(null != outVO) {
             flag = boardMapper.readCntUpdate(inVO);
             log.debug("3. 조회 count증가 :" + flag);
             

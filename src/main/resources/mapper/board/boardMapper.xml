@@ -8,7 +8,7 @@
         UPDATE C##NUMBERONE.BOARD
         SET READ_CNT = NVL(READ_CNT, 0) + 1
         WHERE BOARD_NO = #{boardNo}
-        AND   REG_ID <![CDATA[ <>  #{regId} ]]>  
+        <!--AND   REG_ID <![CDATA[ <>  #{regId} ]]> --> 
     </update>
     
     <!-- ASK_CNT 증가 -->
@@ -59,20 +59,20 @@
     
     <!-- 검색 조건에 따른 게시물 조회 -->
     <sql id="whereDoRetrieve">
-        <choose>
+        <choose>              
             <when test="searchDiv != null and searchDiv == '10'">
-                AND REG_ID = #{searchWord}
-            </when>       
-            <when test="searchDiv != null and searchDiv == '20'">
                 AND TITLE LIKE '%'|| #{searchWord} || '%'
             </when>
-            <when test="searchDiv != null and searchDiv == '30'">
+            <when test="searchDiv != null and searchDiv == '20'">
                 AND CONTENTS LIKE '%'|| #{searchWord} || '%'
             </when>
-            <when test="searchDiv != null and searchDiv == '40'">
+            <when test="searchDiv != null and searchDiv == '30'">
                 AND (TITLE LIKE '%'|| #{searchWord} || '%'
                 OR CONTENTS LIKE '%'|| #{searchWord} || '%')
             </when>
+            <when test="searchDiv != null and searchDiv == '40'">
+                AND REG_ID = #{searchWord}
+            </when>  
         </choose>
     </sql>
 

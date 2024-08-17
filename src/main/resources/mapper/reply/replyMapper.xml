@@ -23,7 +23,9 @@
             REPLY_CONTENTS,
             PARENT_REPLY,
             REG_DT,
-            MOD_DT
+            MOD_DT,
+            REPLY_LEVEL,
+            NICK_NAME
         ) VALUES (
             #{replyNo},
             #{boardNo},
@@ -31,21 +33,24 @@
             #{replyContents},
             #{parentReply},
             SYSDATE,
-            SYSDATE
+            SYSDATE,
+            #{replyLevel},
+            #{nickname}
         )
     </insert>
+
     <!-- 댓글 조건 검색 -->
-	    <sql id="whereReplyRetrieve">
+    <sql id="whereReplyRetrieve">
         <where>
         <choose> 
            <when test="searchDiv != null  and searchDiv == '10' ">
                AND BOARD_NO = #{searchWord} 
            </when>
            <when test="searchDiv != null  and searchDiv == '20' ">
-               AND REG_ID LIKE #{searchWord} || '%'     
+               AND (REG_ID LIKE '%' || #{searchWord} || '%' OR NICK_NAME LIKE '%' || #{searchWord} || '%')
            </when>
            <when test="searchDiv != null  and searchDiv == '30' ">           
-               AND replyContents LIKE #{searchWord} || '%'
+               AND REPLY_CONTENTS LIKE '%' || #{searchWord} || '%'
            </when>  
         </choose>
         </where>
@@ -60,7 +65,9 @@
             REPLY_CONTENTS as replyContents,
             PARENT_REPLY as parentReply,
             TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
-            TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
+            TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
+            REPLY_LEVEL as replyLevel,
+            NICK_NAME as nickname
         FROM C##NUMBERONE.REPLY
         WHERE REPLY_NO = #{replyNo}
     </select>
@@ -70,7 +77,9 @@
         UPDATE C##NUMBERONE.REPLY
         SET REPLY_CONTENTS = #{replyContents},
             PARENT_REPLY = #{parentReply},
-            MOD_DT = SYSDATE
+            MOD_DT = SYSDATE,
+            REPLY_LEVEL = #{replyLevel},
+            NICK_NAME = #{nickname}
         WHERE REPLY_NO = #{replyNo}
     </update>
 
@@ -81,7 +90,7 @@
     </delete>
     
     <!-- 댓글 전체 조회 -->
-    <select id="doRetrieve" parameterType="Search" resultType="Reply">
+    <select id="doRetrieve" resultType="Reply">
     SELECT T1.*, T2.*
     FROM (
         SELECT ROWNUM AS rnum, A.*
@@ -93,9 +102,11 @@
                 REPLY_CONTENTS as replyContents, 
                 PARENT_REPLY as parentReply,  
                 TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
-                TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt 
+                TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
+                REPLY_LEVEL as replyLevel,
+                NICK_NAME as nickname
             FROM C##NUMBERONE.REPLY
-           <include refid="whereReplyRetrieve"/>
+            WHERE BOARD_NO = #{boardNo}
         ) A
         WHERE ROWNUM <![CDATA[ <= ]]> #{pageSize} * (#{pageNo} - 1) + #{pageSize}
         START WITH parentReply = 0
@@ -105,7 +116,7 @@
     JOIN (
         SELECT COUNT(*) as totalCnt 
         FROM C##NUMBERONE.REPLY
-       <include refid="whereReplyRetrieve"/>
+        WHERE BOARD_NO = #{boardNo}
     ) T2 ON 1=1
     WHERE T1.rnum <![CDATA[ >= ]]> #{pageSize} * (#{pageNo} - 1) + 1
 </select>

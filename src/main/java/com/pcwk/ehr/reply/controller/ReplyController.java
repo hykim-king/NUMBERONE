@@ -1,7 +1,9 @@
 package com.pcwk.ehr.reply.controller;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pcwk.ehr.reply.domain.Reply;
 import com.pcwk.ehr.reply.service.ReplyService;
@@ -100,9 +103,9 @@ public class ReplyController implements PLog {
         return jsonString;
     }
     
-    @RequestMapping(value = "/doRetrieve.do", method = RequestMethod.GET)
-    public String doRetrieve(Model model, HttpServletRequest req) throws SQLException {
-        String viewName = "board/board_mng";
+    @RequestMapping(value = "/doRetrieve.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String doRetrieve(HttpServletRequest req) throws SQLException {
         log.debug("┌──────────────────────────────────────────┐");
         log.debug("│ doRetrieve()                             │");
         log.debug("└──────────────────────────────────────────┘");
@@ -110,29 +113,39 @@ public class ReplyController implements PLog {
         // 기본 페이징 설정
         int pageSize = Integer.parseInt(StringUtil.nvl(req.getParameter("pageSize"), "10"));
         int pageNo = Integer.parseInt(StringUtil.nvl(req.getParameter("pageNo"), "1"));
-
-        // 검색 조건
-        String searchWord = StringUtil.nvl(req.getParameter("searchWord"), "");
+        
+        // boardNo 가져오기
+        String boardNo = StringUtil.nvl(req.getParameter("boardNo"), "");
 
         // 검색 및 페이징 처리를 위한 객체 생성
         Search search = new Search();
         search.setPageSize(pageSize);
         search.setPageNo(pageNo);
-        search.setSearchWord(searchWord);
+        search.setSearchDiv("10"); // boardNo로 검색
+        search.setSearchWord(boardNo); // boardNo 값 설정
         
         log.debug("1. param search: " + search);
 
         // 댓글 목록 조회
         List<Reply> list = replyService.doRetrieve(search);
 
-        model.addAttribute("list", list); // 조회 결과를 모델에 추가
-
+        // 총 댓글 수 계산
         int totalCnt = 0;
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             totalCnt = list.get(0).getTotalCnt();
         }
-        model.addAttribute("totalCnt", totalCnt); // 총 댓글 수를 모델에 추가
 
-        return viewName;
+        // 결과를 Map에 담아 JSON으로 변환
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("list", list);
+        resultMap.put("totalCnt", totalCnt);
+
+        // Gson 라이브러리를 사용하여 Map을 JSON 문자열로 변환
+        Gson gson = new Gson();
+        String jsonResult = gson.toJson(resultMap);
+
+        log.debug("2. jsonResult: " + jsonResult);
+
+        return jsonResult;
     }
 }

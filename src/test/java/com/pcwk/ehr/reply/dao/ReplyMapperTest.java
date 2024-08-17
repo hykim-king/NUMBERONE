@@ -45,7 +45,7 @@ public class ReplyMapperTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");        
         
-        reply01 = new Reply(1, 582, "USER0002", "댓글내용 0005", 1, "사용안함", "사용안함");
+        reply01 = new Reply(1, 2022, "USER0002", "댓글내용 0005", 1, "사용안함", "사용안함", 1, "abc");
         //reply02 = new Reply(3, 4, "userId02", "댓글내용_02", 34, "사용안함", "사용안함");
         //reply03 = new Reply(5, 6, "userId03", "댓글내용_03", 56, "사용안함", "사용안함");
        
@@ -67,7 +67,7 @@ public class ReplyMapperTest implements PLog {
         assertEquals(replyIn.getParentReply(), replyOut.getParentReply());
     }
       
-    //@Ignore
+    @Ignore
     @Test
     public void addAndGet() throws SQLException {       
     	int flag = replyMapper.doSave(reply01);
@@ -117,7 +117,7 @@ public class ReplyMapperTest implements PLog {
         isSameReply(outVO01Update, outVO01);
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void doRetrieve() throws SQLException {
         // 테스트 데이터 추가
@@ -127,8 +127,8 @@ public class ReplyMapperTest implements PLog {
         search.setPageNo(1);
         search.setPageSize(10);
         
-        //search.setSearchDiv("10");
-        //search.setSearchWord("2");
+        search.setSearchDiv("10");
+        search.setSearchWord("2");
         
         log.debug("-----------------------------");
         log.debug("-----------------------------");

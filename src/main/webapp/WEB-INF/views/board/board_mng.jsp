@@ -7,26 +7,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<%-- favicon  --%>
+
 <link rel="shortcut icon" href="${CP}/resources/img/favicon.ico" type="image/x-icon">
-<%-- bootstrap css --%>
+
 <link rel="stylesheet" href="${CP}/resources/css/bootstrap.css">
-<%-- jquery --%>
+
 <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
-<%-- common js --%>
+
 <script src="${CP}/resources/js/common.js"></script> 
-<%-- google Nanum+Gothic --%>
+
 <link rel="stylesheet"  href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap">
-<%-- FontAwesome for icons --%>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<%-- simplemde --%>
+
 <link rel="stylesheet" href="${CP}/resources/css/simplemde.min.css">
 <script src="${CP}/resources/js/simplemde.min.js"></script>
-<style>
-   .readonly-input {
-     background-color: #e9ecef;
-   }
-</style>
 <title>재난 커뮤니티</title>
 <style>
 * {
@@ -94,11 +89,18 @@ body {
     color: #333;
 }
 
-/* 텍스트 영역 스타일 */
+/* 내용 텍스트칸 스타일 */
 textarea.form-control {
     resize: vertical;
     background-color: #e9ecef;
-    pointer-events: none;
+    /*pointer-events: none; */
+}
+
+textarea.content-area {
+    resize: vertical;
+    background-color: #e9ecef;
+    pointer-events: none; !important; /* 사용자 입력 비활성화 */
+    border: 1px solid #ced4da; 
 }
 
 /* 댓글 섹션 스타일 */
@@ -234,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	    let dataType = "html";
 	    
 	    let params = { 
-	        "boardNo": boardNoInput.value
+	        "boardNo": boardNoInput.val()
 	    }            
 	    
 	    PClass.pAjax(url, params, dataType, type, async, function(data){
@@ -333,33 +335,41 @@ document.addEventListener("DOMContentLoaded", function(){
 	function loadReplies(){
 	    console.log("loadReplies()");
 	    const boardNoInput = document.querySelector("#boardNo");
+
+	    const boardNo = boardNoInput ? boardNoInput.value : '';
+	    console.log("boardNo:", boardNo);  // boardNo 값이 제대로 출력되는지 확인
+
+	    if (!boardNo) {
+	        console.error("boardNo 값이 없습니다. 확인해 주세요.");
+	        return;
+	    }
 	    
 	    let type = "GET";
 	    let url = "/ehr/reply/doRetrieve.do";
-	    let async = "true";
-	    let dataType = "html";
+	    let async = true;
+	    let dataType = "json";  // 이미 JSON으로 파싱된 데이터를 받도록 설정
 	    
 	    let params = { 
-	        "boardNo": boardNoInput.value
+	        searchDiv: '10',
+	        searchWord: boardNo,
+	        pageSize: 10,
+	        pageNo: 1
 	    }
 	    
 	    PClass.pAjax(url, params, dataType, type, async, function(data){
-	        if(data){
-	            try{
-	                const replies = JSON.parse(data);
-	                let replyHtml = '';
-	                replies.forEach(function(reply){
-	                    replyHtml += '<div class="reply">';
-	                    replyHtml += '<p><strong>' + reply.regId + '</strong>: ' + reply.replyContents + '</p>';
-	                    replyHtml += '<p><small>' + reply.regDt + '</small></p>';
-	                    replyHtml += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
-	                    replyHtml += '</div>';
-	                });
-	                document.querySelector("#replyList").innerHTML = replyHtml;
-	            } catch(e) {
-	                console.error("댓글 로딩 실패:", e);
+	        if(data && data.list){
+	            let replyHtml = '';
+	            data.list.forEach(function(reply){
+	                replyHtml += '<div class="reply">';
+	                replyHtml += '<p><strong>' + reply.regId + '</strong>: ' + reply.replyContents + '</p>';
+	                replyHtml += '<p><small>' + reply.regDt + '</small></p>';
+	                replyHtml += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
+	                replyHtml += '</div>';
+	            });
+	            document.querySelector("#replyList").innerHTML = replyHtml;
+	            } else {
+	                console.error("댓글 로딩 실패");     
 	            }
-	        }
 	    });
 	}
 
@@ -413,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function(){
     <div class="row mb-2">
         <label for="contents" class="col-sm-2 col-form-label">내용</label>
         <div class="col-sm-10">    
-         <textarea style="height: 200px" class="form-control"  id="contents" name="contents"><c:out value='${board.contents }'/></textarea>
+         <textarea style="height: 200px" class="content-area readonly-input" readonly id="contents" name="contents"><c:out value='${board.contents }'/></textarea>
         </div> 
     </div>    
   </form>
@@ -423,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function(){
   <div class="mt-5">
     <h3>댓글</h3>
     
-    <!-- 댓글 입력 폼 -->
+     <!-- 댓글 입력 폼 -->
     <form id="replyForm" class="mb-4">
         <div class="form-group">
             <textarea class="form-control" id="replyContents" rows="3" placeholder="댓글을 입력하세요"></textarea>

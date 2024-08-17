@@ -115,6 +115,7 @@ public class BoardController implements PLog {
 		//검색구분
 		String  searchDiv  = StringUtil.nvl(req.getParameter("searchDiv"),"");
 		String  searchWord = StringUtil.nvl(req.getParameter("searchWord"),"");
+		searchWord = searchWord.trim();
 		
 		search.setSearchDiv(searchDiv);
 		search.setSearchWord(searchWord);
@@ -186,6 +187,9 @@ public class BoardController implements PLog {
         log.debug("1. param inVO: " + inVO);
         
         Board outVO = boardService.doSelectOne(inVO);
+        
+        //TODO:SESSION처리
+      	inVO.setRegId(StringUtil.nvl(inVO.getRegId(),"admin"));
         
         log.debug("2. outVO: " + outVO);
         
