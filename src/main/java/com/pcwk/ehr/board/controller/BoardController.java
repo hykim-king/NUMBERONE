@@ -24,6 +24,7 @@ import com.pcwk.ehr.cmn.StringUtil;
 import com.pcwk.ehr.code.domain.Code;
 import com.pcwk.ehr.code.service.CodeService;
 import com.pcwk.ehr.markdown.service.MarkdownService;
+import com.pcwk.ehr.reply.domain.Reply;
 
 @Controller
 @RequestMapping("board")
@@ -175,42 +176,39 @@ public class BoardController implements PLog {
     @RequestMapping(value = "/doSelectOne.do", 
     			    method = RequestMethod.GET, 
     			    produces = "text/plain;charset=UTF-8")
-    @ResponseBody
-    public String doSelectOne(Board inVO, Model model) throws SQLException {
-        String jsonString = "";
-    	
-        log.debug("1. param inVO: " + inVO);
-
-        Board outVO = boardService.doSelectOne(inVO);
-
-        // markdown을 HTML로 변환
-        outVO.setContents(MarkdownService.convertMarkdownToHtml(outVO.getContents()));
-        
-        log.debug("2. outVO: " + outVO);
-
-        String message =" ";
-        int flag = 0;
-        if(null != outVO) {
-        	message = outVO.getTitle() + " 이 조회 되었습니다.";
-        	flag = 1;
-        
-        }else {
-        	message = inVO.getTitle()+ " 조회 실패!";
-        }
-        
-        Message messageObj = new Message(flag, message);
-        jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(messageObj);
-        log.debug("jsonString:"+jsonString);
-        
-        String jsonBoard = new GsonBuilder().setPrettyPrinting().create().toJson(outVO);
-        log.debug("jsonBoard:"+jsonBoard);
-        
-        String jsonAll = "{\"board\":"+jsonBoard+",\"message\":"+ jsonString+"}";
-        log.debug("jsonAll:"+jsonAll);
-       
-        
-        return jsonAll;
-    }
+	public String doSelectOne(Board inVO, Model model) throws SQLException{
+		String viewName   = "board/board_mng";
+		String jsonString = "";
+		log.debug("1.param inVO:" + inVO);
+		
+		//TODO:SESSION처리
+		inVO.setRegId(StringUtil.nvl(inVO.getRegId(),"james"));
+		
+		
+		Board outVO = boardService.doSelectOne(inVO);
+		
+		//markdown으로  contents변경
+		String markdownContents = this.markdownService.convertMarkdownToHtml(outVO.getContents());
+		
+		// 2.
+		log.debug("2.outVO:" + outVO);		
+		
+		String message = "";
+		int flag = 0;
+		if (null != outVO) {
+			message = outVO.getTitle() + " 이 조회 었습니다.";
+			flag = 1;
+		} else {
+			message = inVO.getTitle() + " 조회 실패!";
+		}
+		
+		Message messageObj = new Message(flag, message);
+		model.addAttribute("markdownContents", markdownContents);
+		model.addAttribute("board", outVO);
+		model.addAttribute("message", messageObj);
+		
+		return viewName;
+	}
 
     // 게시물 등록
     @RequestMapping(value = "/doSave.do", 

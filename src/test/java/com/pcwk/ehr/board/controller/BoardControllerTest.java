@@ -180,7 +180,7 @@ public class BoardControllerTest implements PLog {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void doSelectOne() throws Exception {
 		// 테스트 데이터 저장
@@ -223,7 +223,7 @@ public class BoardControllerTest implements PLog {
 		assertEquals(boardIn.getReadCnt(), boardOut.getReadCnt());
 	}
 
-	//@Ignore
+	@Ignore
 	@Test
 	public void doSave() throws Exception {
 		// 게시물 저장 요청

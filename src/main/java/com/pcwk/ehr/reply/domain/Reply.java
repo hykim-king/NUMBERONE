@@ -4,8 +4,9 @@ import com.pcwk.ehr.cmn.DTO;
 
 public class Reply extends DTO{
 	private int    replyNo  ; //댓글 순번
-	private int    BoardNo  ; //게시판 순번
+	private int    boardNo  ; //게시판 순번
 	private String regId   ; //등록자
+	private String nickName ; //닉네임
 	private String replyContents ; //댓글 내용
 	private int    parentReply ; //대댓글 번호
 	private String regDt    ; //등록일
@@ -14,12 +15,13 @@ public class Reply extends DTO{
 	
 	public Reply() {}
 
-	public Reply(int replyNo, int boardNo, String regId, String replyContents, int parentReply, String regDt,
-			String modDt, int replyLevel) {
+	public Reply(int replyNo, int boardNo, String regId, String nickName, String replyContents, int parentReply,
+			String regDt, String modDt, int replyLevel) {
 		super();
 		this.replyNo = replyNo;
-		BoardNo = boardNo;
+		this.boardNo = boardNo;
 		this.regId = regId;
+		this.nickName = nickName;
 		this.replyContents = replyContents;
 		this.parentReply = parentReply;
 		this.regDt = regDt;
@@ -36,11 +38,11 @@ public class Reply extends DTO{
 	}
 
 	public int getBoardNo() {
-		return BoardNo;
+		return boardNo;
 	}
 
 	public void setBoardNo(int boardNo) {
-		BoardNo = boardNo;
+		this.boardNo = boardNo;
 	}
 
 	public String getRegId() {
@@ -49,6 +51,14 @@ public class Reply extends DTO{
 
 	public void setRegId(String regId) {
 		this.regId = regId;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public String getReplyContents() {
@@ -83,20 +93,22 @@ public class Reply extends DTO{
 		this.modDt = modDt;
 	}
 
-	public int getRelpyLevel() {
+	public int getReplyLevel() {
 		return replyLevel;
 	}
 
-	public void setRelpyLevel(int replyLevel) {
+	public void setReplyLevel(int replyLevel) {
 		this.replyLevel = replyLevel;
 	}
 
 	@Override
 	public String toString() {
-		return "Reply [replyNo=" + replyNo + ", BoardNo=" + BoardNo + ", regId=" + regId + ", replyContents="
-				+ replyContents + ", parentReply=" + parentReply + ", regDt=" + regDt + ", modDt=" + modDt
-				+ ", replyLevel=" + replyLevel + "]";
+		return "Reply [replyNo=" + replyNo + ", boardNo=" + boardNo + ", regId=" + regId + ", nickName=" + nickName
+				+ ", replyContents=" + replyContents + ", parentReply=" + parentReply + ", regDt=" + regDt + ", modDt="
+				+ modDt + ", replyLevel=" + replyLevel + "]";
 	}
+
+
 
 
 

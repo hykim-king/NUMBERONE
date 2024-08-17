@@ -54,9 +54,9 @@ public class ReplyMapperTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");        
         
-        reply01 = new Reply(1,1,"chanho","안녕하세요",0,"사용안함","사용안함",1);
-        reply02 = new Reply(2,1,"chanho","안녕하세요",1,"사용안함","사용안함",1);
-        reply03 = new Reply(3,1,"chanho","안녕하세요",1,"사용안함","사용안함",2);
+        reply01 = new Reply(1,2104,"admin","chanho","안녕하세요",0,"사용안함","사용안함",1);
+        reply02 = new Reply(2,2104,"admin","chanho","안녕하세요",1,"사용안함","사용안함",1);
+        reply03 = new Reply(3,2104,"admin","chanho","안녕하세요",1,"사용안함","사용안함",2);
         //replyMapper.deleteAll();
         
         search = new Search();     
@@ -79,7 +79,7 @@ public class ReplyMapperTest implements PLog {
         assertEquals(replyIn.getParentReply(), replyOut.getParentReply());
     }
       
-    @Ignore
+    //@Ignore
     @Test
     public void doSave() throws Exception{
         log.debug("┌─────────────────────────────────────────────────────────┐");

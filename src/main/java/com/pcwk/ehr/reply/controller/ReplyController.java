@@ -19,6 +19,8 @@ import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.cmn.StringUtil;
+import com.pcwk.ehr.code.service.CodeService;
+import com.pcwk.ehr.markdown.service.MarkdownService;
 
 @Controller
 @RequestMapping("reply")
@@ -26,6 +28,13 @@ public class ReplyController implements PLog {
 
     @Autowired
     ReplyService replyService;
+    
+    @Autowired
+    CodeService codeService;
+    
+    @Autowired
+    MarkdownService markdownService;
+    
 
     public ReplyController() {
         log.debug("┌──────────────────────────────────────────┐");
@@ -34,7 +43,9 @@ public class ReplyController implements PLog {
     }
 
     // 댓글 등록
-    @RequestMapping(value = "/doSave.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/doSave.do", 
+    			 method = RequestMethod.POST,
+    			 produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String doSave(Reply inVO) throws SQLException {
         log.debug("1. param inVO: " + inVO);

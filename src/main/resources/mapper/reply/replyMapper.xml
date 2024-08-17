@@ -13,21 +13,21 @@
     <!-- 댓글 저장 -->
     <insert id="doSave" parameterType="Reply">
         INSERT INTO C##NUMBERONE.REPLY (
-            BOARD_NO,
             REG_ID,
             REPLY_CONTENTS,
             PARENT_REPLY,
             REG_DT,
             MOD_DT,
-            REPLY_LEVEL
+            REPLY_LEVEL,
+            NICK_NAME
         ) VALUES (
-            #{boardNo},
             #{regId},
             #{replyContents},
             #{parentReply},
             SYSDATE,
             SYSDATE,
-            #{replyLevel}
+            #{replyLevel},
+            #{nickName}
         )
     </insert>
     <!-- 댓글 조건 검색 -->
@@ -53,6 +53,7 @@
             REPLY_NO as replyNo,
             BOARD_NO as boardNo,
             REG_ID as regId,
+            NICK_NAME as nickName,
             REPLY_CONTENTS as replyContents,
             PARENT_REPLY as parentReply,
             TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
@@ -123,6 +124,7 @@
                 REPLY_NO as replyNo, 
                 BOARD_NO as boardNo,
                 REG_ID as regId,
+                NICK_NAME as nickName,
                 REPLY_CONTENTS as replyContents, 
                 PARENT_REPLY as parentReply,  
                 TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,

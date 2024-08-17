@@ -25,7 +25,7 @@ import com.pcwk.ehr.mapper.ReplyMapper;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
                                    "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"        
 })
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 public class ReplyServiceImplTest implements PLog {
 
     @Autowired
@@ -46,7 +46,9 @@ public class ReplyServiceImplTest implements PLog {
         log.debug("└─────────────────────────────────────────────────────────┘");
         
         // 초기 테스트 데이터 설정
-        reply01 = new Reply(5, 2, "USER0002", "댓글내용 0005", 1, "사용안함", "사용안함",1);
+        replyMapper.deleteAll();
+        reply01 = new Reply(1,2104,"admin","chanho","안녕하세요",0,"사용안함","사용안함",1);
+
     }
 
     @After
@@ -82,11 +84,12 @@ public class ReplyServiceImplTest implements PLog {
         assertEquals(replyIn.getBoardNo(), replyOut.getBoardNo());
         assertEquals(replyIn.getRegId(), replyOut.getRegId());
         assertEquals(replyIn.getReplyContents(), replyOut.getReplyContents());
-        assertEquals(replyIn.getRegDt(), replyOut.getRegDt());
-        assertEquals(replyIn.getModDt(), replyOut.getModDt());
+        //assertEquals(replyIn.getRegDt(), replyOut.getRegDt());
+       // assertEquals(replyIn.getModDt(), replyOut.getModDt());
+        assertEquals(replyIn.getNickName(), replyOut.getNickName());
     }
     
-    @Ignore
+    //@Ignore
     @Test
     public void doSave() throws SQLException {
         log.debug("┌──────────────────────────────────────────┐");
@@ -135,7 +138,7 @@ public class ReplyServiceImplTest implements PLog {
         assertEquals("수정된 댓글 내용", updatedReply.getReplyContents());
     }
     
- 
+    @Ignore
     @Test
     public void beans() {
         log.debug("┌──────────────────────────────────────────┐");

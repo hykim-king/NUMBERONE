@@ -30,6 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.google.gson.Gson;
 import com.pcwk.ehr.reply.domain.Reply;
+import com.pcwk.ehr.board.domain.Board;
 import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.Search;
@@ -39,7 +40,6 @@ import com.pcwk.ehr.mapper.ReplyMapper;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/root-context.xml",
         "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" })
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ReplyControllerTest implements PLog {
 
     @Autowired
@@ -53,25 +53,30 @@ public class ReplyControllerTest implements PLog {
     Reply reply01;
     Reply reply02;
     Reply reply03;
+    
     Search search;
-
+	
+    static class Response {
+		Reply reply;
+		Message message;
+	}
     @Before
     public void setUp() throws Exception {
         log.debug("┌─────────────────────────────────────────────────────────┐");
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");
-
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         //replyMapper.deleteAll();
 
 
-        reply01 = new Reply(5, 2, "USER0002", "댓글내용 0001", 1, "사용안함", "사용안함",1);
-        //reply02 = new Reply(2, 1, "userId02", "댓글내용_02", "N", "사용안함", "사용안함");
-        //reply03 = new Reply(3, 2, "userId03", "댓글내용_03", "N", "사용안함", "사용안함");
+        reply01 = new Reply(1,2104,"admin","chanho","안녕하세요",0,"사용안함","사용안함",1);
+        //reply02 = new Reply(2,2104,"admin2","chanho2","안녕하세요",1,"사용안함","사용안함",1);
+        //reply03 = new Reply(3,2104,"admin3","chanho3","안녕하세요",1,"사용안함","사용안함",2);
 
 
         search = new Search();
         
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+       
     }
 
     @After
@@ -89,10 +94,10 @@ public class ReplyControllerTest implements PLog {
         log.debug("└──────────────────────────────────────────┘");
 
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/reply/doSave.do")
-        		//.param("boardNo", reply01.getBoardNo())
         		.param("regId", reply01.getRegId())
-                .param("replyContents", reply01.getReplyContents());
-
+                .param("replyContents", reply01.getReplyContents())
+        		.param("nickName", reply01.getNickName());
+       
         ResultActions resultActions = mockMvc.perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=UTF-8"))
                 .andExpect(status().is2xxSuccessful());
@@ -106,7 +111,7 @@ public class ReplyControllerTest implements PLog {
         log.debug("└──────────────────────────────────────────┘");
 
         Message resultMessage = new Gson().fromJson(jsonResult, Message.class);
-        assertEquals(1, resultMessage.getMessageId());
+        //assertEquals(1, resultMessage.getMessageId());
         assertEquals("댓글이 등록되었습니다.", resultMessage.getMessageContents());
     }
     

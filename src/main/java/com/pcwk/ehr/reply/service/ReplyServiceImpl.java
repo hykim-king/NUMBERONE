@@ -26,8 +26,9 @@ public class ReplyServiceImpl implements ReplyService, PLog {
 	
 	@Override
 	public int doSave(Reply inVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return replyMapper.doSave(inVO);
+		
 	}
 
 	@Override
@@ -41,20 +42,19 @@ public class ReplyServiceImpl implements ReplyService, PLog {
 
 	@Override
 	public List<Reply> doRetrieve(DTO search) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.replyMapper.doRetrieve(search);
 	}
 
 	@Override
 	public int doUpdate(Reply inVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		return replyMapper.doUpdate(inVO);
 	}
 
 	@Override
 	public int doDelete(Reply inVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return this.replyMapper.doDelete(inVO);
 	}
 
 	@Override

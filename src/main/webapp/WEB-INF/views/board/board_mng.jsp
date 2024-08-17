@@ -80,7 +80,7 @@
         const contentsTextArea = document.querySelector("#contents");
         
         
-        moveToList.addEventListener("click",function(event){
+        moveToListBtn.addEventListener("click",function(event){
             console.log("moveToListBtn click",event);
             event.stopPropagation();
             if(confirm('목록으로 이동 하시겠습니까?') === false)return;
@@ -235,11 +235,7 @@
   <!-- 제목 -->
   <div class="page-header">
       <h2>
-        <c:choose>
-            <c:otherwise>
                 게시판 작성
-            </c:otherwise>
-        </c:choose>
       </h2>  
   </div>
   <!--// 제목 end ------------------------------------------------------------->
@@ -253,31 +249,37 @@
   <!--// 버튼 ----------------------------------------------------------------->
   
   <!-- form -->
+  <!-- 
   <form action="#" class="form-horizontal"  name="regForm" id="regForm">
     <div class="row mb-2">
         <label for="boardNo" class="col-sm-2 col-form-label">게시판번호</label>
         <div class="col-sm-10">
           <input type="text"  value="<c:out value='${board.boardNo }'/>" class="form-control readonly-input" readonly="readonly" name="boardNo" id="boardNo"  >        
         </div>      
-    </div>  
+    </div> 
+     -->  
+    <!-- 
     <div class="row mb-2">
         <label for="div" class="col-sm-2 col-form-label">구분</label>
         <div class="col-sm-10">
             <input type="text"  value="<c:out value='${board.getDiv() }'/>" class="form-control readonly-input" readonly="readonly" name="div" id="div"  >        
         </div>      
-    </div>   
+    </div> 
+      -->  
     <div class="row mb-2">
         <label for="readCnt" class="col-sm-2 col-form-label">조회수</label>
         <div class="col-sm-10">
           <input type="text"  value="<c:out value='${board.readCnt }'/>" class="form-control readonly-input" readonly="readonly" name="readCnt" id="readCnt"  >        
         </div>      
     </div>     
+    <!-- 
     <div class="row mb-2">
         <label for="regId" class="col-sm-2 col-form-label">등록자</label>
         <div class="col-sm-10">
           <input type="text"  value="<c:out value='${board.regId }'/>" class="form-control readonly-input" readonly="readonly" name="regId" id="regId"  >        
         </div>      
     </div> 
+    -->
      <div class="row mb-2">
         <label for="nickName" class="col-sm-2 col-form-label">닉네임</label>
         <div class="col-sm-10">
@@ -295,14 +297,14 @@
        <label for="contents" class="col-sm-2 col-form-label">내용</label>
        <div class="col-sm-10">${markdownContents}</div>
     </div>
-    <!-- 관리자 -->
+    <!-- 관리자 
     <div class="row mb-2"">
         <label for="contents" class="col-sm-2 col-form-label">내용</label>
         <div class="col-sm-10">    
          <textarea style="height: 200px"  class="form-control" id="contents" name="contents"><c:out value='${board.contents }'/></textarea>
         </div> 
     </div>    
-    
+    -->
   </form>
   
   <!--// form end -->

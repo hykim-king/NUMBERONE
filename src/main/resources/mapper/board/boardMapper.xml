@@ -138,13 +138,13 @@
             BOARD_NO as boardNo,
             div,
             REG_ID as regId,
+            NICK_NAME as nickName,
             TITLE as title,
             CONTENTS as contents,
             ask_cnt as askCnt,
             READ_CNT as readCnt,
             TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
-            TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
-            NICK_NAME as nickName
+            TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
         FROM C##NUMBERONE.BOARD
         WHERE BOARD_NO = #{boardNo}
     </select>

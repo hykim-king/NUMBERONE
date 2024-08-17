@@ -57,6 +57,21 @@
 		const searchDivSelect = document.querySelector("#searchDiv");
 		const pageSizeSelect = document.querySelector("#pageSize");
 		
+		const rows = document.querySelectorAll("#boardTable>tbody>tr")
+	       
+	       rows.forEach(function(row){
+	       row.addEventListener("click",function(event){
+	            console.log("row click");
+	               
+	             let seq=this.querySelector("td:nth-child(6)").textContent.trim();
+	             console.log("seq: "+seq);
+	               
+	             if(confirm('해당 게시판으로 넘어갑니다.') === false)return;
+	               
+	             doSelectOne(seq);
+	           });
+	      
+	       });		
        
 
 		moveToRegBtn.addEventListener("click", function(event) {
@@ -92,8 +107,8 @@
         const frm = document.querySelector("#boardForm");
         
         let searchDiv = frm.searchDiv.value;
-        let searchWord = frm.searchWord.value;
-        window.location.href = "/ehr/board/doSelectOne.do?boardNo=" + boardNo;
+        let div        = frm.div.value;
+        window.location.href = "/ehr/board/doSelectOne.do?boardNo=" + boardNo+"&div="+div;
                
     }
 
