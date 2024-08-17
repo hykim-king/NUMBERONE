@@ -23,7 +23,7 @@ public class LivingController implements PLog {
 
 	@GetMapping("{number}.do")
 	public String handleLiving(@PathVariable("number") int number) {
-		String viewName = "nature/";
+		String viewName = "living/";
 		
 		switch(number) {
 		case 1:
