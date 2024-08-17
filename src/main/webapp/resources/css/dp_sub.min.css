@@ -1460,7 +1460,7 @@ sub, sup {
 	padding: 29px;
 	border: 1px solid #e8ebf2;
 	border-top-color: #a7a7a7;
-	background-color: #f8f9fb;
+	background-color: #F5F5F5;
 	color: #666;
 	overflow: hidden
 }
@@ -1668,7 +1668,8 @@ sub, sup {
 .description_box {
 	margin-top: 16px;
 	padding: 29px 40px 33px 40px;
-	text-align: center
+	text-align: center;
+	width:1000px;
 }
 
 .description_taLeft_w {
@@ -3816,7 +3817,8 @@ select+select, select+input[type="text"], input[type="text"]+select,
 .links_listCell .fireGuide_link {
 	display: block;
 	height: 54px;
-	padding: 0 40px 0 29px
+	padding: 0 40px 0 29px;
+	cursor : pointer;
 }
 
 .links_listCell .fireGuide_link .arrowGray_imgSet_icon {
@@ -5384,7 +5386,7 @@ a.result_link {
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.level1_titleWrap .level1_title {
-		top: -10px
+		top: -3px
 	}
 	.boardTOP_boxWrap {
 		margin-top: 22px

@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-.content {width: 1170px;margin:0 auto;padding-bottom: 90px;}
+.content {margin:0 auto;padding-bottom: 90px;}
 
 /* 공통 제목 아이콘 */
 .title_01 {position: relative;font-size:20px;color:#003668;padding-left:27px;margin:36px 0 20px 0;}

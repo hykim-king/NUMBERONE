@@ -11,6 +11,14 @@
 <link href="/ehr/resources/css/content.css" rel="stylesheet" />
 <link href="/ehr/resources/css/dp_sub.min.css" rel="stylesheet" />
 
+
+<!-- font css -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">
+<link href="/ehr/resources/css/behavior.css" rel="stylesheet" />
+
+
 <!-- Header -->
 <script src="/ehr/resources/js/jquery-1.11.1.min.js"></script>
 <script src="/ehr/resources/js/common.js"></script>

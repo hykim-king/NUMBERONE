@@ -103,6 +103,16 @@
         border: 1px solid #E0E0E0;
     
     }
+    #messageTable{
+        font-family: "Hahmlet", serif;
+        font-optical-sizing: auto;
+        font-size: 13px;
+    
+    }
+    #messageTable tr{
+        padding : 5px;
+    
+    }
     .messages {
         position: absolute;
         top: 445px;

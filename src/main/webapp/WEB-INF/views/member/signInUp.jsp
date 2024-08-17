@@ -34,6 +34,9 @@
 	<%-- common.js --%>
 	<script src="${CP}/resources/js/common.js"></script>
 	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">	
 	
 	
 	<%-- sha256 --%>

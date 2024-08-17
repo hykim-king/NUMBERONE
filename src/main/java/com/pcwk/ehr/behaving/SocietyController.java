@@ -13,7 +13,7 @@ public class SocietyController {
 		
 	}
 	
-	@GetMapping("society.do")
+	@GetMapping("societyMain.do")
 	public String natureMain() {
 		return "society/societyMain";
 	}

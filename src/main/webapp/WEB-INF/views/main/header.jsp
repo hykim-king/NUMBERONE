@@ -88,7 +88,7 @@
         display: flex;
         justify-content: center;
     }
-    #navMenu1,#navMenu2,#navMenu3,#navMenu4{
+    #navMenu1,#navMenu2,#navMenu3,#navMenu4,#navMenu5{
      padding: 10px 70px;
      color: #134b70;
     }
@@ -184,6 +184,10 @@
 
     #gnbWrap4:hover {
         background-color: #eeeeee;
+        
+    }
+    #gnbWrap5:hover {
+        background-color: #eeeeee;
     }
 </style>
 
@@ -206,8 +210,10 @@
             <ul>
                 <li><a id="navMenu1" href="#">재난상황</a></li>
                 <li><a id="navMenu2" href="#">재난뉴스</a></li>
+                
                 <li><a id="navMenu3" href="#">재난대비</a></li>
-                <li><a id="navMenu4" href="http://localhost:8080/ehr/board/doRetrieve.do">커뮤니티</a></li>
+                <li><a id="navMenu4" href="#">행동요령</a></li>
+                <li><a id="navMenu5" href="http://localhost:8080/ehr/board/doRetrieve.do">커뮤니티</a></li>
             </ul>
 
             <div class="gnbWrap">
@@ -227,17 +233,29 @@
                             <li><a href="#">재난뉴스</a></li>
                         </ul>
                     </li>
+                    
+                    
+                   
 
                     <li id="gnbWrap3">
                         
                         <ul>
-                            <li><a href="#">대처요령</a></li>
+                           
                             <li><a href="#">훈련영상</a></li>
                             <li><a href="#">안전시설</a></li>
                         </ul>
                     </li>
-
+                    
                     <li id="gnbWrap4">
+                        
+                        <ul>
+                            <li><a href="http://localhost:8080/ehr/nature/natureMain.do#">자연재난행동요령</a></li>
+                            <li><a href="http://localhost:8080/ehr/society/societyMain.do">사회재난행동요령</a></li>
+                            <li><a href="#">생활안전행동요령</a></li>
+                            <li><a href="#">비상대비행동요령</a></li>
+                        </ul>
+                    </li>
+                    <li id="gnbWrap5">
                        
                         <ul>
                             <li><a href="http://localhost:8080/ehr/board/doRetrieve.do">정보공유</a></li>
@@ -287,6 +305,7 @@
     createHoverEffect("gnbWrap2", "navMenu2");
     createHoverEffect("gnbWrap3", "navMenu3");
     createHoverEffect("gnbWrap4", "navMenu4");
+    createHoverEffect("gnbWrap5", "navMenu5");
       
     </script>
 </body>
