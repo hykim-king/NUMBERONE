@@ -56,6 +56,8 @@
 		const searchWordInput = document.querySelector("#searchWord");
 		const searchDivSelect = document.querySelector("#searchDiv");
 		const pageSizeSelect = document.querySelector("#pageSize");
+		
+       
 
 		moveToRegBtn.addEventListener("click", function(event) {
 			console.log("moveToRegBtn click");
@@ -85,15 +87,15 @@
 		});
 	});
 
-	function doSelectOne(boardNo) {
-		console.log("doSelectOne boardNo:" + boardNo);
-		const frm = document.querySelector("#boardForm");
-		let searchDiv = frm.searchDiv.value;
-		let searchWord = frm.searchWord.value;
-		let div = frm.div.value;
-		window.location.href = "/ehr/board/doSelectOne.do?boardNo=" + boardNo
-				+ "&div=" + div;
-	}
+    function doSelectOne(boardNo) {
+        console.log("doSelectOne boardNo:" + boardNo);
+        const frm = document.querySelector("#boardForm");
+        
+        let searchDiv = frm.searchDiv.value;
+        let searchWord = frm.searchWord.value;
+        window.location.href = "/ehr/board/doSelectOne.do?boardNo=" + boardNo;
+               
+    }
 
 	function moveToReg() {
 		const frm = document.querySelector("#boardForm");
@@ -161,10 +163,10 @@
 		<!-- 검색 -->
 		<form action="#" name="boardForm" class="row g-2 align-items-center"
 			id="boardForm">
-			<input type="hidden" name="div" id="div"
-				value="${search.getSearchDiv()}"> 
-			<input type="hidden"
-				name="pageNo" id="pageNo" value="${search.pageNo}">
+		
+             
+			<input type="hidden" name="div" id="div" value="${search.getSearchDiv()}"> 
+			<input type="hidden" name="pageNo" id="pageNo" value="${search.pageNo}">
 			<div class="col-sm-3"></div>
 			<div class="col-sm-2 text-end g-2">
 				<label for="searchDiv" class="form-label ">구분</label>
@@ -204,14 +206,10 @@
 						<c:forEach var="vo" items="${list }">
 							<tr>
 								<td class="text-center"><c:out value="${vo.no }"></c:out></td>
-								<td class="text-left"><a
-									href="/ehr/board/doSelectOne.do?boardNo=${vo.boardNo }"><c:out
-											value="${vo.title }"></c:out></a></td>
-								<td class="text-center"><c:out value="${vo.nickName }"></c:out></td>
+                                <td class="text-left"><a href="/ehr/board/doSelectOne.do?boardNo=${vo.boardNo }"><c:out value="${vo.title }"></c:out></a></td>								<td class="text-center"><c:out value="${vo.nickName }"></c:out></td>
 								<td class="text-center"><c:out value="${vo.regDt }"></c:out></td>
 								<td class="text-end"><c:out value="${vo.readCnt }"></c:out></td>
-								<td class="text-center d-none"><c:out
-										value="${vo.boardNo }"></c:out></td>
+								<td class="text-center d-none"><c:out value="${vo.boardNo }"></c:out></td>
 							</tr>
 						</c:forEach>
 					</c:when>

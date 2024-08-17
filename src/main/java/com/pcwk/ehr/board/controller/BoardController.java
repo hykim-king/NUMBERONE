@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
@@ -53,6 +54,7 @@ public class BoardController implements PLog {
 
         return viewName;
     }
+    
     
     @RequestMapping(value ="/moveToList.do",
     				method = RequestMethod.GET)

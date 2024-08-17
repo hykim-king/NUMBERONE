@@ -67,8 +67,14 @@
         //boardNo
         const boardNoInput = document.querySelector("#boardNo");
         
+        //div
+        const divInput = document.querySelector("#div");
+        
         //제목
         const titleInput = document.querySelector("#title");
+        
+        //닉네임
+        const nickNameInput = document.querySelector("#nickName");
         
         //내용
         const contentsTextArea = document.querySelector("#contents");
@@ -94,9 +100,14 @@
             event.stopPropagation();
             doDelete(); 
         });
+  
+        function isEmpty(value){
+            return value == null || value.trim() === "";
+        }
         
         function doUpdate(){
             console.log("doUpdate()");
+            
             if(isEmpty(boardNoInput.value) == true){
                 alert('boardNo를 확인 하세요.')
                 return;
@@ -107,6 +118,12 @@
                 titleInput.focus();
                 return;
            }
+           if(isEmpty(nickNameInput.value) == true){
+        	   alert('닉네임을 입력 하세요.')
+        	   return;
+           }
+           
+           
         
             //markdown getter : simplemde.value()
             if(isEmpty(simplemde.value()) == true){
@@ -126,7 +143,9 @@
             
             let params = {  
                 "seq": seqInput.value,
+                "div": divInput.value,
                 "title": titleInput.value,
+                "nickName" : nickNameInput.value,
                 "contents": simplemde.value()      
             }
             
@@ -142,7 +161,7 @@
                             alert(message.messageContents);
                         }
                     }catch(e){
-                         alert("data를 확인 하세요.");     
+                         alert("수정 되었습니다.");     
                     }
                     
                 }
@@ -153,15 +172,13 @@
         
   
         function moveToList(){
-            const frm = document.querySelector("#boardForm");
-            frm.action = "/ehr/board/doRetrieve.do";
-            frm.submit();
+            window.location.href ="/ehr.board/doRetrieve.do?div="+divInput.value;
         }
         
         function doDelete(){
             console.log("doDelete()");
-            if(isEmpty(seqInput.value) == true){
-                alert('seq를 확인 하세요.')
+            if(isEmpty(boardNoInput.value) == true){
+                alert('게시판 번호를 확인 하세요.')
                 return;
             }
             if(confirm('삭제 하시겠습니까?') === false)return;
@@ -191,7 +208,7 @@
                         
                         
                     }catch(e){
-                         alert("data를 확인 하세요.");     
+                         alert("삭제 되었습니다.");     
                     }
                     
                 }
@@ -238,11 +255,17 @@
   <!-- form -->
   <form action="#" class="form-horizontal"  name="regForm" id="regForm">
     <div class="row mb-2">
-        <label for="seq" class="col-sm-2 col-form-label">SEQ</label>
+        <label for="boardNo" class="col-sm-2 col-form-label">게시판번호</label>
         <div class="col-sm-10">
-          <input type="text"  value="<c:out value='${board.boardNo }'/>" class="form-control readonly-input" readonly="readonly" name="seq" id="seq"  >        
+          <input type="text"  value="<c:out value='${board.boardNo }'/>" class="form-control readonly-input" readonly="readonly" name="boardNo" id="boardNo"  >        
         </div>      
     </div>  
+    <div class="row mb-2">
+        <label for="div" class="col-sm-2 col-form-label">구분</label>
+        <div class="col-sm-10">
+            <input type="text"  value="<c:out value='${board.getDiv() }'/>" class="form-control readonly-input" readonly="readonly" name="div" id="div"  >        
+        </div>      
+    </div>   
     <div class="row mb-2">
         <label for="readCnt" class="col-sm-2 col-form-label">조회수</label>
         <div class="col-sm-10">
@@ -254,7 +277,13 @@
         <div class="col-sm-10">
           <input type="text"  value="<c:out value='${board.regId }'/>" class="form-control readonly-input" readonly="readonly" name="regId" id="regId"  >        
         </div>      
-    </div>     
+    </div> 
+     <div class="row mb-2">
+        <label for="nickName" class="col-sm-2 col-form-label">닉네임</label>
+        <div class="col-sm-10">
+          <input type="text"  value="<c:out value='${board.nickName }'/>" class="form-control readonly-input" readonly="readonly" name="nickName" id="nickName"  >        
+        </div>      
+    </div>      
     <div class="row mb-2">
         <label for="title" class="col-sm-2 col-form-label">제목</label>
         <div class="col-sm-10">
