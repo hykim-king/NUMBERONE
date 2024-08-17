@@ -203,7 +203,7 @@
 		        
 		        <div>
 			        <div class="graphText">
-			             <p>발생 건수 그래프</p>
+			             <p>재난 문자 발송 통계</p>
 			        </div>
 			            
 		  
@@ -337,7 +337,37 @@
             });
         }
         
-        callServer("2024/07/13","2024/08/13");
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+            const day = String(date.getDate()).padStart(2, '0'); // 날짜는 2자리로 맞추기
+
+            return `${year}/${month}/${day}`;
+        }
+     // 오늘 날짜 저장
+        const today = new Date();
+
+        // 오늘 날짜를 YYYY/MM/DD 형태로 포맷하는 함수
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+            const day = String(date.getDate()).padStart(2, '0'); // 날짜는 2자리로 맞추기
+
+            return year + '/' + month + '/' + day;
+        }
+
+        // 포맷된 오늘 날짜
+        const formattedToday = formatDate(today);
+        console.log("오늘 날짜:", formattedToday);
+
+        // 한 달 전 날짜 계산
+        const lastMonth = new Date(today); // 오늘 날짜를 기반으로 새 객체 생성
+        lastMonth.setMonth(today.getMonth() - 1);
+
+        // 포맷된 한 달 전 날짜
+        const formattedLastMonth = formatDate(lastMonth);
+        console.log("한 달 전 날짜:", formattedLastMonth);
+        callServer(formattedLastMonth,formattedToday);
 </script>
 </body>
 </html>
