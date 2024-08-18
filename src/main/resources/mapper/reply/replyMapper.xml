@@ -27,7 +27,7 @@
             REPLY_LEVEL,
             NICK_NAME
         ) VALUES (
-            #{replyNo},
+            REPLY_SEQ.NEXTVAL,
             #{boardNo},
             #{regId},
             #{replyContents},
@@ -44,7 +44,7 @@
         <where>
         <choose> 
            <when test="searchDiv != null  and searchDiv == '10' ">
-               AND BOARD_NO = #{searchWord} 
+               AND BOARD_NO =  TO_NUMBER(#{searchWord})
            </when>
            <when test="searchDiv != null  and searchDiv == '20' ">
                AND (REG_ID LIKE '%' || #{searchWord} || '%' OR NICK_NAME LIKE '%' || #{searchWord} || '%')
@@ -105,18 +105,18 @@
                 TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
                 REPLY_LEVEL as replyLevel,
                 NICK_NAME as nickname
-            FROM C##NUMBERONE.REPLY
-            WHERE BOARD_NO = #{boardNo}
+            FROM C##NUMBERONE.REPLY            
+            <include refid="whereReplyRetrieve"/>
         ) A
         WHERE ROWNUM <![CDATA[ <= ]]> #{pageSize} * (#{pageNo} - 1) + #{pageSize}
         START WITH parentReply = 0
-        CONNECT BY PRIOR replyNo = parentReply
+        CONNECT BY NOCYCLE PRIOR replyNo = parentReply
         ORDER SIBLINGS BY replyNo
     ) T1
     JOIN (
         SELECT COUNT(*) as totalCnt 
         FROM C##NUMBERONE.REPLY
-        WHERE BOARD_NO = #{boardNo}
+        <include refid="whereReplyRetrieve"/>
     ) T2 ON 1=1
     WHERE T1.rnum <![CDATA[ >= ]]> #{pageSize} * (#{pageNo} - 1) + 1
 </select>

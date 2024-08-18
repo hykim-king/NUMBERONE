@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -41,6 +42,24 @@ public class ReplyController implements PLog {
     @ResponseBody
     public String doSave(Reply inVO) throws SQLException {
         log.debug("1. param inVO: " + inVO);
+        
+        // regId 설정 (세션에서 가져오거나, 임시로 'admin'으로 설정)
+        // 실제 구현에서는 세션에서 로그인한 사용자 ID를 가져와야 합니다.
+        inVO.setRegId("admin");
+        
+        if (inVO.getParentReply() != 0) {
+            inVO.setReplyLevel(1); // 대댓글의 레벨을 1로 설정
+        } else {
+            inVO.setParentReply(0);
+            inVO.setReplyLevel(0);
+        }
+        
+        
+        
+
+        // replyNo 설정 (데이터베이스에서 자동 생성되도록 0으로 설정)
+        //inVO.setReplyNo(0);
+
 
         int flag = replyService.doSave(inVO);
         String message = "";
@@ -82,11 +101,12 @@ public class ReplyController implements PLog {
     }
 
     // 댓글 삭제
-    @RequestMapping(value = "/doDelete.do", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/doDelete.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String doDelete(Reply inVO) throws SQLException {
-        log.debug("1. param inVO: " + inVO);
-
+    public String doDelete(@RequestParam("replyNo") int replyNo) throws SQLException {
+        log.debug("1. param replyNo: " + replyNo);
+        Reply inVO = new Reply();
+        inVO.setReplyNo(replyNo);
         int flag = replyService.doDelete(inVO);
         String message = "";
 
@@ -103,7 +123,7 @@ public class ReplyController implements PLog {
         return jsonString;
     }
     
-    @RequestMapping(value = "/doRetrieve.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/doRetrieve.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String doRetrieve(HttpServletRequest req) throws SQLException {
         log.debug("┌──────────────────────────────────────────┐");
@@ -115,14 +135,14 @@ public class ReplyController implements PLog {
         int pageNo = Integer.parseInt(StringUtil.nvl(req.getParameter("pageNo"), "1"));
         
         // boardNo 가져오기
-        String boardNo = StringUtil.nvl(req.getParameter("boardNo"), "");
+        String searchWord = StringUtil.nvl(req.getParameter("searchWord"), "");
 
         // 검색 및 페이징 처리를 위한 객체 생성
         Search search = new Search();
         search.setPageSize(pageSize);
         search.setPageNo(pageNo);
         search.setSearchDiv("10"); // boardNo로 검색
-        search.setSearchWord(boardNo); // boardNo 값 설정
+        search.setSearchWord(searchWord); // boardNo 값 설정
         
         log.debug("1. param search: " + search);
 

@@ -202,10 +202,16 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 	function isEmpty(value) {
-	    if (value == null || typeof value !== 'string') {
-	        return true; // value가 null, undefined, 혹은 문자열이 아닌 경우
+	    if (value == null) {
+	        return true; // null 또는 undefined인 경우
 	    }
-	    return value.trim() === '';
+	    if (typeof value === 'string') {
+	        return value.trim() === '';
+	    }
+	    if (typeof value === 'number') {
+	        return false; // 숫자는 항상 비어있지 않은 것으로 간주
+	    }
+	    return false; // 그 외의 경우 (배열, 객체 등)
 	}
 	
 	
@@ -256,12 +262,24 @@ document.addEventListener("DOMContentLoaded", function(){
 	    });            
 	}
 
-
-	function doSaveReply(){
-	    console.log("doSaveReply()");
-	    const replyContentsInput = document.querySelector("#replyContents");
-	    const boardNoInput = document.querySelector("#boardNo");
+	function showReplyForm(replyNo) {
+		 const replyForm = document.getElementById('replyForm' + replyNo);
+		    if (replyForm) {
+		        replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+		    }
+	}
 	
+	function doSaveReply(parentReply = 0){
+		console.log("doSaveReply()");
+	    let replyContentsInput = document.querySelector("#replyContents");
+	    const boardNoInput = document.querySelector("#boardNo");
+	   
+	    if (parentReply === 0) {
+	        replyContentsInput = document.querySelector("#replyContents");
+	    } else {
+	        replyContentsInput = document.querySelector("#replyContents" + parentReply);
+	    }
+	    
 	    if(isEmpty(replyContentsInput.value)){
 	        alert('댓글 내용을 입력하세요.')
 	        replyContentsInput.focus();
@@ -273,23 +291,29 @@ document.addEventListener("DOMContentLoaded", function(){
 	    let type = "POST";
 	    let url = "/ehr/reply/doSave.do";
 	    let async = "true";
-	    let dataType = "html";
+	    let dataType = "json";
 	    
 	    let params = {
-	        "boardNo": boardNoInput.value,
-	        "replyContents": replyContentsInput.value
+	    		boardNo: boardNoInput.value,
+	    	    replyContents: replyContentsInput.value,
+	    	    parentReply: parentReply,
+	            replyLevel: parentReply === 0 ? 0 : 1,
+	    	    nickname: "abc"  
 	    }
 	    
 	    PClass.pAjax(url, params, dataType, type, async, function(data){
 	        if(data){
 	            try{
-	                const message = JSON.parse(data);
-	                if(!isEmpty(message) && 1 === message.msgId){
-	                    alert(message.msgContents);
+	            	if(!isEmpty(data) && 1 === data.messageId){
+                        alert(data.messageContents);
 	                    replyContentsInput.value = '';
+	                    if (parentReply !== 0) {
+	                    	const replyForm = document.getElementById('replyForm' + parentReply);
+	                        if(replyForm) replyForm.style.display = 'none';
+	                    }
 	                    loadReplies();
 	                } else {
-	                    alert(message.msgContents);
+	                    alert(message.messageContents);
 	                }
 	            } catch(e) {
 	                alert("데이터를 확인하세요.");
@@ -299,17 +323,18 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 	
 	function doDeleteReply(replyNo){
-	    console.log("doDeleteReply()");
+	    console.log("doDeleteReply() - replyNo:", replyNo);
+	    console.log("isEmpty(replyNo) 결과:", isEmpty(replyNo))
 	    if(isEmpty(replyNo)){
 	        alert('댓글 번호를 확인하세요.')
 	        return;
 	    }
 	    if(confirm('댓글을 삭제하시겠습니까?') === false) return;
 	    
-	    let type = "GET";
+	    let type = "POST";  
 	    let url = "/ehr/reply/doDelete.do";
-	    let async = "true";
-	    let dataType = "html";
+	    let async = true;  
+	    let dataType = "json";  
 	    
 	    let params = { 
 	        "replyNo": replyNo
@@ -318,18 +343,31 @@ document.addEventListener("DOMContentLoaded", function(){
 	    PClass.pAjax(url, params, dataType, type, async, function(data){
 	        if(data){
 	            try{
-	                const message = JSON.parse(data);
-	                if(!isEmpty(message) && 1 === message.msgId){
-	                    alert(message.msgContents);
+	                if(!isEmpty(data) && 1 === data.messageId){
+	                    alert(data.messageContents);
 	                    loadReplies();
 	                } else {
-	                    alert(message.msgContents);
+	                    alert(data.messageContents);
 	                }
 	            } catch(e) {
-	                alert("데이터를 확인하세요.");
+	                console.error("Error parsing response:", e);
+	                alert("데이터 처리 중 오류가 발생했습니다.");
 	            }
 	        }
 	    });
+	}
+	
+	function setParentReply(replyNo) {
+	    const parentReplyInput = document.querySelector("#parentReply");
+	    if (parentReplyInput) {
+	        parentReplyInput.value = replyNo;
+	        const replyContentsInput = document.querySelector("#replyContents");
+	        if (replyContentsInput) {
+	            replyContentsInput.focus();
+	        }
+	    } else {
+	        console.error("Parent reply input not found");
+	    }
 	}
 	
 	function loadReplies(){
@@ -344,7 +382,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	        return;
 	    }
 	    
-	    let type = "GET";
+	    let type = "POST";
 	    let url = "/ehr/reply/doRetrieve.do";
 	    let async = true;
 	    let dataType = "json";  // 이미 JSON으로 파싱된 데이터를 받도록 설정
@@ -360,10 +398,17 @@ document.addEventListener("DOMContentLoaded", function(){
 	        if(data && data.list){
 	            let replyHtml = '';
 	            data.list.forEach(function(reply){
-	                replyHtml += '<div class="reply">';
+	            	let indentation = reply.replyLevel > 0 ? 'style="margin-left: 20px;"' : '';
+	                replyHtml += '<div class="reply" ' + indentation + '>';
 	                replyHtml += '<p><strong>' + reply.regId + '</strong>: ' + reply.replyContents + '</p>';
 	                replyHtml += '<p><small>' + reply.regDt + '</small></p>';
+	                replyHtml += '<button onclick="showReplyForm(' + reply.replyNo + ')">답글</button>';
+	                replyHtml += '<button onclick="doUpdateReply(' + reply.replyNo + ')">수정 </button>';
 	                replyHtml += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
+	                replyHtml += '<div id="replyForm' + reply.replyNo + '" style="display:none;">';
+	                replyHtml += '<textarea id="replyContents' + reply.replyNo + '"></textarea>';
+	                replyHtml += '<button onclick="doSaveReply(' + reply.replyNo + ')">답글 작성</button>';
+	                replyHtml += '</div>';
 	                replyHtml += '</div>';
 	            });
 	            document.querySelector("#replyList").innerHTML = replyHtml;
@@ -435,6 +480,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
      <!-- 댓글 입력 폼 -->
     <form id="replyForm" class="mb-4">
+    <input type="hidden" id="parentReply" value="0">
         <div class="form-group">
             <textarea class="form-control" id="replyContents" rows="3" placeholder="댓글을 입력하세요"></textarea>
         </div>
