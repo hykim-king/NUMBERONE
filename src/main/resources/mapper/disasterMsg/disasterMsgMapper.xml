@@ -40,7 +40,7 @@
              1=1
             </when>
             
-            <when test ="searchDiv !=null and searchDiv = '10'">
+            <when test ="searchDiv !=null and searchDiv = '10'">//해당지역사람들이 받을 모든 메세지
             message_seq In (SELECT DISTINCT message_seq 
     FROM message_area 
     WHERE area_code IN (

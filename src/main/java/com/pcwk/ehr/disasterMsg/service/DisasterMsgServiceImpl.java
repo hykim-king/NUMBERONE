@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,12 +48,21 @@ public class DisasterMsgServiceImpl implements DisasterMsgService,PLog{
 	public Map<String, Integer> disasterTypeStatisticsBySido(StatisticsCondition condition) throws SQLException {
 		log.debug("condition:"+condition);
 		Map<String, Integer> resultMap= new HashMap<>();
-		List<Location> list =locationMapper.sidoRetrieve();
-		for(Location location :list) {
-			condition.setLocCode(location.getLocCode());
-			resultMap.put(location.getSido(),disasterMsgMapper.disasterTypeStaticsBySido(condition));
+		List<Location> list=null;
+		try {
+			list=locationMapper.sidoRetrieve();
+			
+		}catch(BindingException e) {
+			log.debug("기간내 데이터가 없습니다.");
+			
+		}finally {
+			for(Location location :list) {
+				condition.setLocCode(location.getLocCode());
+				resultMap.put(location.getSido(),disasterMsgMapper.disasterTypeStaticsBySido(condition));
+			}
 		}
 		return resultMap;
+		
 	}
 
 	@Override
