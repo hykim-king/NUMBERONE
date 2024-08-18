@@ -34,4 +34,9 @@
          ORDER SIBLINGS BY eupmyeondong
     </select>
     
+    <select id ="addressFromLocCode" parameterType ="Location" resultType ="String">
+        Select sido ||' ' ||sigungu || ' ' ||nvl(eupmyeondong,' ')
+          from location
+         where loc_code = #{locCode}
+    </select>
 </mapper>

@@ -17,4 +17,6 @@ public interface LocationMapper extends WorkDiv<Location> {
 	
 	List<Location> eupmyeondongRetrieve(Location inVO2) throws SQLException;
 	
+	String addressFromLocCode(Location inVO) throws SQLException;
+	
 }

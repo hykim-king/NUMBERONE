@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="CP" value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,17 +17,23 @@
             margin-top: 20px;
         }
     </style>
+<script src="${CP}/resources/js/jquery_3_7_1.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+<%-- common.js --%>
+<script src="${CP}/resources/js/common.js"></script>
+<script>
+
+</script>
 </head>
 <body>
 
 <div class="container">
     <h2 class="text-center">재난문자</h2>
-    <form action="search" method="post">
         <div class="form-row align-items-end">
             
             <div class="form-group col-md-3">
                 <label for="region">대상지역</label>
-                <select id="region" name="region" class="form-control">
+                <select id="region" name="region" class="form-control" onchange="sigunguSet()">
                     <option>시도선택</option>
                 </select>
             </div>
@@ -34,10 +43,7 @@
                     <option>시군구선택</option>
                 </select>
             </div>
-            <div class="form-group col-md-3">
-                <label for="searchTerm">검색어</label>
-                <input type="text" name="searchTerm" class="form-control" id="searchTerm" placeholder="제목">
-            </div>
+            
         </div>
         <div class="form-row align-items-end">
             <div class="form-group col-md-4">
@@ -49,10 +55,9 @@
                 <input type="date" name="endDate" class="form-control" id="endDate" value="2024-08-18">
             </div>
             <div class="form-group col-md-4">
-                <button type="submit" class="btn btn-primary">검색</button>
+                <button id="searchBtn" class="btn btn-primary" onclick="retrieve()">검색</button>
             </div>
         </div>
-    </form>
 
     <div class="mt-3">
         <span id="total">전체 0 건</span>
@@ -69,9 +74,6 @@
             </tr>
         </thead>
         <tbody id="msgContents">
-            <tr>
-                <td colspan="5" class="text-center">조회된 재난문자가 없습니다.</td>
-            </tr>
         </tbody>
     </table>
 
@@ -85,5 +87,174 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+class StatisticsCondition {
+    constructor(locCode, startDate, endDate, pageNo, pageSize) {
+        this.locCode = locCode;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+    }
+}
+
+
+
+
+$(function sidoSet(){
+	
+	// 요청할 URL
+	let url = "/ehr/location/location";
+
+	// 요청할 파라미터
+	let params = {
+	    "locCode": 0
+	};
+
+	// 쿼리 문자열 생성
+	let queryString = Object.keys(params)
+	    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+	    .join('&');
+
+	// fetch 요청을 위한 URL 생성
+	let fetchUrl = url + '?' + queryString;
+
+	// fetch 요청
+	fetch(fetchUrl, {
+	    method: "GET", // 요청 메소드
+	    headers: {
+	        "Content-Type": "application/json" // 헤더 설정
+	    }
+	})
+	.then(response => {
+	    // 응답이 성공적인 경우
+	    if (!response.ok) {
+	        throw new Error("Network response was not ok " + response.statusText);
+	    }
+	    return response.text(); // 응답 데이터를 HTML로 반환
+	})
+	.then(data => {
+	    // 성공적으로 데이터를 받았을 때 처리
+	    console.log(data);
+
+	    var optionSidoData = JSON.parse(data);
+
+	    optionSidoData.forEach(function(item){
+	         $("#region").append('<option value="' + item.locCode + '">' + item.sido + '</option>'); 
+	    });
+	})
+	.catch(error => {
+	    // 에러 발생 시 처리
+	    console.error("Fetch error: ", error);
+	});
+
+        
+});
+
+function sigunguSet() {
+    $("#subRegion").empty();
+    $("#subRegion").append('<option value="">' + "시군구선택" + '</option>');
+
+    
+    let locCode = $("#region option:selected").val();
+    
+    console.log("locCode:" + locCode);
+    
+    if ("" === locCode) {
+        $("#subRegion").empty();
+        $("#subRegion").append('<option value="">' + "시군구선택" + '</option>');
+    } else {
+        let params = {
+            "locCode": locCode
+        };
+
+        // 쿼리 문자열 생성
+        let queryString = Object.keys(params)
+            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+            .join('&');
+
+        // fetch 요청을 위한 URL 생성
+        let url = "/ehr/location/location_sigungu?" + queryString;
+
+        // fetch 요청
+        fetch(url, {
+            method: "GET", // 요청 메소드
+            headers: {
+                "Content-Type": "application/json" // 헤더 설정
+            }
+        })
+        .then(response => {
+            // 응답이 성공적인 경우
+            if (!response.ok) {
+                throw new Error("Network response was not ok " + response.statusText);
+            }
+            return response.text(); // 응답 데이터를 텍스트로 반환
+        })
+        .then(data => {
+            // JSON 파싱
+            var optionSigunguData = JSON.parse(data);
+            
+            optionSigunguData.forEach(function(item) {
+                $("#subRegion").append('<option value="' + item.locCode + '">' + item.sigungu + '</option>');
+            });
+        })
+        .catch(error => {
+            // 에러 발생 시 처리
+            console.error("Fetch error: ", error);
+        });
+    }
+}
+
+function retrieve(){
+	let loccode=$("#subRegion option:selected").val();
+	let startDate=$("#startDate").val();
+	let endDate=$("#endDate").val();
+	let pageNo =1;
+	let pageSize =10;
+	let condition = new StatisticsCondition(loccode,startDate,endDate,pageNo,pageSize);
+	console.log(condition);
+	
+	fetch('http://localhost:8080/ehr/messageRetrieve', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(condition), 
+    })
+    .then(function(response) { //통신상태 확인
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 좋지 않습니다.');
+        }
+        return response.json();
+    })
+    .then(function(data) { //정상일시 데이터 사용
+        console.log('data:', data);
+        $("#msgContents").empty();
+        if(data.length==0){
+        	$("#msgContents").append($("<td colspan='5' class='text-center'>조회된 재난문자가 없습니다.</td>"));
+        }else{
+        	messageData = data;
+            messageData.forEach(function(item){
+              $("#msgContents").append($("<tr>"));
+              $("#msgContents").append($("<td>").text(item.messageSeq));
+              $("#msgContents").append($("<td>").text(item.disasterType));
+              $("#msgContents").append($("<td>").text(item.emergencyLevel));
+              $("#msgContents").append($("<td>").text(item.messageContext));
+              $("#msgContents").append($("<td>").text(item.msgRegDt));
+              $("#msgContents").append($("</tr>"));
+              $("#total").text(" 전체 "+item.totalCnt+" 건");
+            });
+        	
+        }
+        
+    })
+    .catch(function(error) { 
+        console.error('문제가 발생했습니다:', error);
+    });
+	
+}
+
+
+</script>
 </body>
 </html>

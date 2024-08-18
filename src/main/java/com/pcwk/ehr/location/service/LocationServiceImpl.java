@@ -45,6 +45,13 @@ public class LocationServiceImpl implements LocationService, PLog {
 	}
 
 	@Override
+	public String addressFromLocCode(Location inVO) throws SQLException {
+		log.debug("1. param :" + inVO);
+		String result = this.locationMapper.addressFromLocCode(inVO);
+		return result;
+	}
+
+	@Override
 	public int doUpdate(Location inVO) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;

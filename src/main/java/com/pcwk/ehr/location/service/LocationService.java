@@ -14,4 +14,6 @@ public interface LocationService extends WorkDiv<Location> {
 	List<Location> sigunguRetrieve(Location inVO) throws SQLException;
 	
 	List<Location> eupmyeondongRetrieve(Location inVO2) throws SQLException;
+	
+	String addressFromLocCode(Location inVO) throws SQLException;
 }

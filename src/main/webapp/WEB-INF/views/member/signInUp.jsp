@@ -622,7 +622,7 @@
 	            	                        $("#userIdSignUp").val(),
 	            	                        password,
 	            	                        $("#email").val(),
-	            	                        parseInt($("#eupmyeondong option:selected").val()),
+	            	                        Number($("#eupmyeondong option:selected").val()),
 	            	                        "N"
 	            ); 
 	            
@@ -635,7 +635,8 @@
 	        console.log($("#userIdSignUp").val());
 	        console.log(password);
 	        console.log($("#email").val());
-	        console.log(typeof(parseInt($("#eupmyeondong option:selected").val())));
+	        console.log(Number($("#eupmyeondong option:selected").val()));
+	        
 	        
 	        let url = "/ehr/member/doSave.do";
 	

@@ -290,7 +290,7 @@
             console.log(data);
             memberFromSession = data;
 
-            if (data) {
+            if (data.locCode!=0) {
                 document.getElementById('loginBtn').textContent = '로그아웃';
             } else{
                 document.getElementById('loginBtn').textContent = '로그인/회원가입';

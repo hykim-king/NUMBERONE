@@ -1,8 +1,8 @@
 package com.pcwk.ehr.statisticsCondition.domain;
 
-import com.pcwk.ehr.cmn.DTO;
+import com.pcwk.ehr.cmn.Search;
 
-public class StatisticsCondition extends DTO {
+public class StatisticsCondition extends Search {
 	private long locCode;
 	private String startDate;
 	private String endDate;
@@ -32,10 +32,11 @@ public class StatisticsCondition extends DTO {
 		this.endDate = endDate;
 	}
 	
+	
 	@Override
 	public String toString() {
 		return "StatisticsCondition [locCode=" + locCode + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", disasterType=" + disasterType + "]";
+				+ ", disasterType=" + disasterType + ", toString()=" + super.toString() + "]";
 	}
 	public StatisticsCondition() {
 	}

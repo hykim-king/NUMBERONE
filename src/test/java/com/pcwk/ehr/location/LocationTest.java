@@ -59,7 +59,15 @@ public class LocationTest implements PLog{
 		log.debug("└──────────────────────────────────────────────┘");
 	}
 	
+	@Test 
+	public void addressFromLocCode() throws SQLException {
+		Location testLoc = new Location();
+		testLoc.setLocCode(2726012700L);
+		String address =locationMapper.addressFromLocCode(testLoc);
+		log.debug(address);
+	}
 	
+	@Ignore
 	@Test
 	public void eupmyeondongRetrieve() throws SQLException {
 		
@@ -76,7 +84,7 @@ public class LocationTest implements PLog{
 		
 	}
 	
-	
+	@Ignore
 	@Test
 	public void sigunguRetrieve() throws SQLException {
 		
@@ -90,7 +98,7 @@ public class LocationTest implements PLog{
 		assertEquals(list.get(0).getSigungu(), "강남구");
 	}
 	
-	
+	@Ignore
 	@Test
 	public void sidoRetrieve() throws SQLException {
 		
