@@ -9,6 +9,7 @@ public class Member extends DTO {
     private String name;
     private String nickname;
     private char isAdmin;
+    private String email;
 
     public Member() {}
 
@@ -17,55 +18,81 @@ public class Member extends DTO {
         this.password = password;
     }
 
-    public Member(String memberId, int locCode, String password, String name, String nickname, char isAdmin) {
-        this.memberId = memberId;
-        this.locCode = locCode;    
-        this.password = password;
-        this.name = name;
-        this.nickname = nickname;
-        this.isAdmin = isAdmin;
-    }
+    
+    
+	public Member(String memberId, int locCode, String password, String name, String nickname, char isAdmin,String email) {
+		super();
+		this.memberId = memberId;
+		this.locCode = locCode;
+		this.password = password;
+		this.name = name;
+		this.nickname = nickname;
+		this.isAdmin = isAdmin;
+		this.email = email;
+	}
 
-    public String getMemberId() {
-        return memberId;
-    }
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
-    }
-    public int getLocCode() {
-        return locCode;
-    }
-    public void setLocCode(int locCode) {
-        this.locCode = locCode;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getNickname() {
-        return nickname;
-    }
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-    public char getIsAdmin() {
-        return isAdmin;
-    }
-    public void setIsAdmin(char isAdmin) {
-        this.isAdmin = isAdmin;
-    }
+	public String getMemberId() {
+		return memberId;
+	}
 
-    @Override
-    public String toString() {
-        return "Member [memberId=" + memberId + ", locCode=" + locCode + ", password=" + password + ", name=" + name
-                + ", nickname=" + nickname + ", isAdmin=" + isAdmin + ", toString()=" + super.toString() + "]";
-    }
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+	public int getLocCode() {
+		return locCode;
+	}
+
+	public void setLocCode(int locCode) {
+		this.locCode = locCode;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public char getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(char isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		return "Member [memberId=" + memberId + ", locCode=" + locCode + ", password=" + password + ", name=" + name
+				+ ", nickname=" + nickname + ", isAdmin=" + isAdmin + ", email=" + email + ", toString()="
+				+ super.toString() + "]";
+	}
+
+    
 }

@@ -30,7 +30,7 @@
         font-optical-sizing: auto;
         font-style: bold;   
         font-size: 17px;
-        
+        font-weight: 500;
     }   
     #divWrap{
         width: 1200px;
@@ -113,15 +113,33 @@
         border: 1px solid #E0E0E0;
     
     }
+    .messagesDiv>p{
+        position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%); /* 중앙으로 이동 */
+		text-align: center; /* 가로 가운데 정렬 */
+		font-size : 20px;
+		
+    
+    }
     #messageTable{
         font-family: "Hahmlet", serif;
         font-optical-sizing: auto;
         font-size: 15px;
-    
+        boarder : 1px solid black;
     }
     #messageTable tr{
         padding : 5px;
     
+    }
+    
+    #messageTable td{
+        padding : 8px;
+        background-color: #F5F5F5;
+        border-bottom: 2px solid #9E9E9E;
+        
+       
     }
     .messages {
         position: absolute;
@@ -171,6 +189,11 @@
         display: block;
         
         
+    }
+    
+    #bottomDivGroup{
+        background-color: #134b70;
+    
     }
     
     #behaviorDiv{
@@ -275,7 +298,50 @@
     color: #eeeeee;
     cursor: pointer;
 }
+
+
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none; 
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000; 
+}
+
+.scroll-to-top:hover {
+    background-color: #007bff;
+}
 </style>
+
+<script>
+
+//.scroll-to-top
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 200) { // 스크롤 위치가 300px을 넘었을 때
+            scrollToTopBtn.style.display = 'block'; // 버튼을 보이게
+        } else {
+            scrollToTopBtn.style.display = 'none'; // 버튼을 숨김
+        }
+    });
+
+    scrollToTopBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // 부드럽게 페이지 상단으로 이동
+    });
+});
+</script>
 </head>
 <body>
 
@@ -288,7 +354,6 @@
 		        <div class="myPageZone">
 		            
 		            <p>현재 설정 위치</p>
-		            <p>ㅇㅇ시 ㅇㅇ동</p>
 		            <a href="http://localhost:8080/ehr/member/locCodeUpdate.do"><button>위치 재설정</button></a>
 		        </div>
 		        
@@ -341,6 +406,9 @@
 		        </div>
 		        
 		        
+		        
+		        
+		        <div id="bottomDivGroup">
 		        <div id="behaviorDiv">
                     <div class="behaviorImg">
                         <img src="/ehr/resources/img/behaviorImg.png">
@@ -373,10 +441,12 @@
                     </div>
                 </div>
 		        
-		        
+		        </div>
 		        
         </div>  <!-- divWrap end -->
         
+        
+        <button id="scrollToTopBtn" class="scroll-to-top">↑</button>
     </section>
 
     <%@ include file="footer.jsp" %>

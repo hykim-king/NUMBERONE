@@ -10,6 +10,7 @@
         <result column="name" property="name"/>
         <result column="nickname" property="nickname"/>
         <result column="is_admin" property="isAdmin"/>
+        <result column="email" property="email"/>
     </resultMap>
     
 
@@ -51,9 +52,9 @@
     <!-- 회원 등록 -->
     <insert id="doSave" parameterType="com.pcwk.ehr.member.domain.Member">
         INSERT INTO member (
-            member_id, loc_code, password, name, nickname, is_admin
+            member_id, loc_code, password, name, nickname, is_admin , email
         ) VALUES (
-            #{memberId}, #{locCode}, #{password}, #{name}, #{nickname}, #{isAdmin}
+            #{memberId}, #{locCode}, #{password}, #{name}, #{nickname}, #{isAdmin} ,#{email}
         )
     </insert>
 
@@ -96,7 +97,8 @@
 	        password,
 	        name,
 	        nickname,
-	        is_admin
+	        is_admin,
+	        email
 	    FROM member
 	    WHERE member_id = #{memberId}
 	</select>
@@ -109,7 +111,8 @@
             password AS password,
             name AS name,
             nickname AS nickname,
-            is_admin AS isAdmin
+            is_admin AS isAdmin,
+            email AS email
         FROM member
     </select>
 
@@ -134,7 +137,8 @@
             password = #{password},
             name = #{name},
             nickname = #{nickname},
-            is_admin = #{isAdmin} 
+            is_admin = #{isAdmin},
+            email = #{email} 
         WHERE member_id = #{memberId} 
     </update>
 
@@ -146,7 +150,8 @@
             password,
             name,
             nickname,
-            is_admin
+            is_admin,
+            email
         ) VALUES
         <foreach collection="list" item="member" separator=",">
             (#{member.memberId},
@@ -154,7 +159,8 @@
             #{member.password},
             #{member.name},
             #{member.nickname},
-            #{member.isAdmin}) 
+            #{member.isAdmin},
+            #{member.email}) 
         </foreach>
     </insert>
 

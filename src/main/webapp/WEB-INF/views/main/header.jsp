@@ -159,10 +159,12 @@
         text-decoration: underline;
     }
 
-    li a:hover:not(.active) {
+    #navWrap ul li a:hover:not(.active) {
         background-color: #ddd;
     }
-
+    #loginBtn:hover:not(.active) {
+        background-color: #ddd;
+    }
     li a.active {
         color: white;
         background-color: #04AA6D;
@@ -198,7 +200,7 @@
 <body>
     <div id="headerMenu">
         <ul>
-            <li><a href="http://localhost:8080/ehr/member/signInUp.do" id ="loginBtn">로그인 / 회원가입</a></li>
+            <li><a href="http://localhost:8080/ehr/member/signInUp.do" id ="loginBtn">로그인/회원가입</a></li>
         </ul>
     </div>
     <div>
@@ -270,6 +272,74 @@
     </div>
     
     <script>
+    
+    let memberFromSession;
+
+    function getSession() {
+        fetch('http://localhost:8080/ehr/session/api/session', {
+            method: 'GET',
+            credentials: 'include' // 쿠키 포함
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json(); 
+        })
+        .then(data => {
+            console.log(data);
+            memberFromSession = data;
+
+            if (data) {
+                document.getElementById('loginBtn').textContent = '로그아웃';
+            } else{
+                document.getElementById('loginBtn').textContent = '로그인/회원가입';
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error: ', error);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', getSession);
+    
+
+    
+    
+    function logout() {
+        fetch('http://localhost:8080/ehr/member/logout.do', {
+            method: 'GET',
+            credentials: 'include' // 쿠키 포함
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json(); // JSON 형식으로 응답을 파싱
+        })
+        .then(data => {
+            console.log(data);
+            if (data.flag === 1) {
+                // 로그아웃 성공 시
+                document.getElementById('loginBtn').textContent = '로그인/회원가입';
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error: ', error);
+        });
+    }
+    
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        const buttonText = document.getElementById('loginBtn').textContent;
+        
+        if (buttonText === '로그인/회원가입') {
+            // 로그인 페이지로 이동
+            window.location.href = '/signInUp.jsp';
+        } else if (buttonText === '로그아웃') {
+            logout(); // 로그아웃 호출
+        }
+    });
+    
     function createHoverEffect(gnbWrapId, navMenuId) {
         const navMenu = document.getElementById(navMenuId);
 

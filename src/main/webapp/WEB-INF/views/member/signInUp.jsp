@@ -302,7 +302,17 @@
 	<script>
 	
 
-
+    class Member {
+        constructor(name, nickname, memberId, password, email, locCode, isAdmin) {
+            this.name = name;
+            this.nickname = nickname;
+            this.memberId = memberId;
+            this.password = password;
+            this.email = email;
+            this.locCode = locCode;
+            this.isAdmin = isAdmin;
+        }
+    }
 	
 	$(document).ready(function(){
 	    console.log("document ready!");
@@ -418,8 +428,7 @@
 	    
 	}//--eupmyeondongSet end
 	
-	
-	
+
 	
 	
 	let idDuplicatedClick = 0;
@@ -437,9 +446,12 @@
 	    function idDuplicateCheck() {
 	        console.log("idDuplicateCheck()");
 	
-	        let userIdInput = $("#memberIdSignUp").val();
-	
-	        if (!userIdInput) {
+	        let userIdSignUp = $("#userIdSignUp").val();
+	        console.log("idDuplicateCheck()"+userIdSignUp);
+	        
+	        
+	        
+	        if (!userIdSignUp) {
 	            alert("아이디를 입력 하세요.");
 	            $("#userIdSignUp").focus();
 	            return;
@@ -447,7 +459,7 @@
 	
 	       
 	        let params = {
-	            "memberId": userIdInput
+	            "memberId": userIdSignUp
 	        };
 	
 	        $.ajax({
@@ -521,6 +533,8 @@
 	            }
 	        });
 	    }
+	    
+	    
 	
 	    // 등록: doSave
 	    $("#doSave").on("click", function(event) {
@@ -579,6 +593,13 @@
 	            return;
 	        }
 	
+	        if (!$("#email").val()) {
+                alert("이메일을 입력해주세요.");
+                $("#email").focus();
+                return;
+            }
+    
+	        
 	        if ($("#locCode").val()) {
 	            alert("위치 설정을 해주세요.");
 	            $("#locCode").focus();
@@ -587,8 +608,11 @@
 	
 	
 	        
+	        
+	        
 	        function callServer() {
-	           
+	    
+	            
 	        	// 암호화
 	            let pw = $("#pass1").val();
 	            let password = sha256(pw);
@@ -597,6 +621,7 @@
 	            	                        $("#nicknameSignUp").val(), 
 	            	                        $("#userIdSignUp").val(),
 	            	                        password,
+	            	                        $("#email").val(),
 	            	                        parseInt($("#eupmyeondong option:selected").val()),
 	            	                        "N"
 	            ); 
@@ -609,6 +634,7 @@
 	        console.log($("#nicknameSignUp").val());
 	        console.log($("#userIdSignUp").val());
 	        console.log(password);
+	        console.log($("#email").val());
 	        console.log(typeof(parseInt($("#eupmyeondong option:selected").val())));
 	        
 	        let url = "/ehr/member/doSave.do";
@@ -806,7 +832,10 @@
 	                        <label for="pass2" class="label">비밀번호 재입력</label>
 	                        <input id="pass2" type="password" class="input" data-type="password">
 	                    </div>
-	                    
+	                     <div class="group">
+                            <label for="email" class="label">이메일</label>
+                            <input id="email" type="text" class="input">
+                        </div>
 	                     <div>
 					            <form action="#" name="locationForm" class="row g-2 align-items-right" id="locationForm">
 					                <div class="row g-3">

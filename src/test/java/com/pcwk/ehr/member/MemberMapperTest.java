@@ -48,7 +48,7 @@ public class MemberMapperTest implements PLog {
         // 데이터 삭제
         //memberMapper.deleteAll();
 
-        member1 = new Member("user1", 1, "password1", "User One", "nickname1", 'N');
+        member1 = new Member("user1", 1, "password1", "User One", "nickname1", 'N',"email@example.com");
         
         login01 =new Member("f", "252f10c83610ebca1a059c0bae8255eba2f95be4d1d7bcfa89d7248a82d9f111");
         
@@ -117,7 +117,7 @@ public class MemberMapperTest implements PLog {
 	@Test
 	public void doSave() throws SQLException {
 		System.out.println("[̲̅d][̲̅o][̲̅s][̲̅a][̲̅v][̲̅e]");
-        Member member1 = new Member("user3", 1, "password3", "User3", "nickname3", 'N');
+        Member member1 = new Member("user3", 1, "password3", "User3", "nickname3", 'N',"email@example.com");
         
         // 아이디 중복 체크
         if (memberMapper.idDuplicateCheck(member1.getMemberId()) > 0) {

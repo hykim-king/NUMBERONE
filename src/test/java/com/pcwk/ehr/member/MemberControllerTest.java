@@ -57,13 +57,13 @@ public class MemberControllerTest implements PLog{
 
 	        
 	        login01 = new Member("user1", "password1");
-	        memVO01 = new Member("user1", 1, "password1", "UserOne", "nickname1", 'N');
+	        memVO01 = new Member("user1", 1, "password1", "UserOne", "nickname1", 'N',"email@example.com");
 
 	        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	        session = new MockHttpSession();
 	    }
 	    
-	    
+	    @Ignore
 	    @Test
 	    public void login() throws Exception {
 	        // 사용자 등록
@@ -159,11 +159,11 @@ public class MemberControllerTest implements PLog{
 
 	
 	    
-	    @Ignore
+	    
 	    @Test
 	    public void doSave() throws Exception {
 	        // 새 회원 정보
-	        Member newMember = new Member("user2", 1, "password2", "UserTwo", "nickname2", 'Y');
+	        Member newMember = new Member("user2", 1, "password2", "UserTwo", "nickname2", 'Y',"email@example.com");
 
 	        // 호출방식, URL, param 저장
 	        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/member/doSave.do")

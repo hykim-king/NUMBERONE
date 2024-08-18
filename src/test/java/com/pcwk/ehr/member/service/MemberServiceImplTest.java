@@ -44,7 +44,7 @@ public class MemberServiceImplTest implements PLog{
 		memberMapper.deleteAll();
 		
 		login01 =new Member("user1", "password1");
-		memVO01= new Member("user1", 1, "password1", "UserOne", "nickname1", 'N');
+		memVO01= new Member("user1", 1, "password1", "UserOne", "nickname1", 'N',"email@example.com");
 				
 	}
 
@@ -119,7 +119,7 @@ public class MemberServiceImplTest implements PLog{
 	    assertEquals("name이 일치하지 않습니다.", userVO01.getName(), actual.getName());
 	    assertEquals("nickname이 일치하지 않습니다.", userVO01.getNickname(), actual.getNickname());
 	    assertEquals("isAdmin이 일치하지 않습니다.", userVO01.getIsAdmin(), actual.getIsAdmin());
-		
+	    assertEquals("email이 일치하지 않습니다.", userVO01.getEmail(), actual.getEmail());
 	}
 	@After
 	public void tearDown() throws Exception {

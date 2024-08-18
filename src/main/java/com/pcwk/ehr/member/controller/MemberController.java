@@ -62,7 +62,7 @@ public class MemberController implements PLog {
 			
 			
 			if(null !=member) {
-				httpSession.setAttribute("user", member);
+				httpSession.setAttribute("member", member);
 			}
 		}
 		
@@ -75,6 +75,10 @@ public class MemberController implements PLog {
 		return jsonString;
 	}
 
+    
+
+    
+    
     @RequestMapping(value = "/logout.do", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String logout(HttpSession httpSession) {
@@ -84,7 +88,7 @@ public class MemberController implements PLog {
 		String loginOutMessage = "^^";
 		int    flag = 0;
 		if( null != httpSession.getAttribute("user")) {
-			httpSession.invalidate();
+			httpSession.invalidate();   //세션무효화하기
 			
 			loginOutMessage = "로그아웃 되었습니다.";
 			flag = 1;
@@ -103,12 +107,14 @@ public class MemberController implements PLog {
     @ResponseBody
     public String doSave(@RequestBody Member member) throws SQLException {
         String jsonString = "";
+        log.debug("doSave()");
         log.debug("┌──────────────────────────────────────────┐");
         log.debug(member.getName());
         log.debug(member.getNickname());
         log.debug(member.getMemberId());
         log.debug(member.getPassword());
         log.debug(member.getLocCode());
+        log.debug(member.getEmail());
         log.debug("└──────────────────────────────────────────┘");
         
         boolean isSuccess = memberService.doSave(member); 
