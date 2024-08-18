@@ -10,10 +10,20 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <title>재난안전포털 No.1</title>
 <style>
+
+*{
+        font-family: "Hahmlet", serif;
+        font-optical-sizing: auto;
+        text-decoration: none;
+        color: inherit;
+}
+
+
+
     section {
 
         background-color: #ECEFF1;
-       
+        height: 1280px;
     }
     section p{
         font-family: "Hahmlet", serif;
@@ -24,7 +34,7 @@
     }   
     #divWrap{
         width: 1200px;
-        height: 700px;
+        height: 1000px;
         margin: 0 auto;
         background-color: #ECEFF1;
         position: relative;
@@ -33,8 +43,8 @@
     .myPageZone {
         position: absolute;
         top: 20px;
-        left: 715px;
-        width: 430px;
+        left: 730px;
+        width: 415px;
         height: 138px;
         background-color: #CFD8DC;
         display: flex;
@@ -51,7 +61,7 @@
     }
     .settings {
         position: absolute;
-        top: 210px;
+        top: 485px;
         left: 20px;
         width: 300px;
         height: 45px;
@@ -66,10 +76,10 @@
     }
     .shelters {
         position: absolute;
-        top: 255px;
+        top: 530px;
         left: 20px;
-        width: 625px;
-        height:125px;
+        width: 580px;
+        height: 422px;
         background-color: #fff;
         display: flex;
         justify-content: center;
@@ -89,10 +99,10 @@
     }
     .messagesDiv{
         position: absolute;
-        top: 400px;
-        left: 20px;
-        width: 300px;
-        height: 45px;
+        top: 215px;
+        left: -25px;
+        width: 45px;
+        height: 230px;
         background-color: #CFD8DC;
         display: flex;
         justify-content: center;
@@ -106,7 +116,7 @@
     #messageTable{
         font-family: "Hahmlet", serif;
         font-optical-sizing: auto;
-        font-size: 13px;
+        font-size: 15px;
     
     }
     #messageTable tr{
@@ -115,10 +125,10 @@
     }
     .messages {
         position: absolute;
-        top: 445px;
+        top: 215px;
         left: 20px;
         right: 20px;
-        width :605px;
+        width :1125px;
         height: 212px;
         background-color: #FFFFFF;
         padding: 10px;
@@ -127,8 +137,8 @@
     
     .graphText{
         position: absolute;
-        top: 210px;
-        left: 663px;
+        top: 485px;
+        left: 615px;
         width: 300px;
         height: 45px;
         background-color: #CFD8DC;
@@ -142,10 +152,10 @@
     }
     .graph {
         position: absolute;
-        top: 255px;
-        left: 663px;
+        top: 530px;
+        left: 615px;
         right: 15px;
-        width : 483px;
+        width : 530px;
         height: 402px;
         background-color: #FFFFFF;
         display: flex;
@@ -162,6 +172,109 @@
         
         
     }
+    
+    #behaviorDiv{
+        position: absolute;
+	    top: 990px;
+	    left: 20px;
+	    width: 580px;
+	    height: 240px;
+	    background-color: #fff;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    border: 2px solid #134b70;
+    
+    }
+    .behavior{
+        padding :15px;
+    }
+    .behaviorImg{
+        background-color: #134b70;
+	    width: 140px;
+	    height: 242px;
+	   
+    }
+    .behaviorImg img, .searchImg img{
+       position: relative; 
+       top: 50px;
+    }
+    .behavior h3, .search h3{
+        color : #134b70;    
+    
+    }
+    
+    
+    #searchDiv{
+        position: absolute;
+        top: 990px;
+        left: 615px;
+        width: 550px;
+        height: 240px;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #134b70;
+    
+    }
+    
+    .searchImg{
+	    background-color: #134b70;
+	    width: 125px;
+	    height: 242px;
+	    position: relative;
+	    left: -22px;
+        
+    }
+    
+.behavior ul, .search ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.behavior ul li{
+    background-color: #ECEFF1;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin: 5px;
+    width: 39%; 
+    height: 30px;
+    line-height: 2.2;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
+}
+
+
+.search ul li {
+    background-color: #ECEFF1;
+    border-radius: 50%;
+    padding: 10px 15px;
+    margin: 5px;
+
+    height: 59px;
+    line-height: 4;
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
+}
+
+.behavior ul li:hover, .search ul li:hover {
+    background-color: #134b70;
+    cursor: pointer;
+}
+
+.behavior ul li:hover a, .search ul li:hover a {
+    color: #eeeeee;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -188,9 +301,9 @@
 		          
 		        
 		
-		            <div>
+		            <div id="sheltersDiv">
 			        <div class="settings">
-			            <p>로그인 시 설정 위치로 확인 가능</p>
+			            <p>대피시설 정보조회</p>
 			        </div>
 			        
 			        <div>
@@ -199,7 +312,10 @@
 			        
 			        </div>
 			        
-		         </div>
+		         </div><!-- sheltersDiv end -->
+		        
+		        
+		        
 		        
 		        <div>
 			        <div class="messagesDiv">
@@ -223,6 +339,41 @@
 			            <a href="login.jsp"><img src="/ehr/resources/img/loginIcon.png"></a>
 			        </div>
 		        </div>
+		        
+		        
+		        <div id="behaviorDiv">
+                    <div class="behaviorImg">
+                        <img src="/ehr/resources/img/behaviorImg.png">
+                    </div>
+                    <div class="behavior">
+                        <h3>재난 발생 시 국민행동요령</h3>
+                        <ul>
+                        <li><a href="http://localhost:8080/ehr/nature/natureMain.do">자연재난행동요령</a></li>
+                        <li><a href="http://localhost:8080/ehr/society/societyMain.do">사회재난행동요령</a></li>
+                        <li><a href="http://localhost:8080/ehr/living/livingMain.do">생활안전행동요령</a></li>
+                        <li><a href="http://localhost:8080/ehr/emergencyPre/emergencyPreMain.do">비상대비행동요령</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                
+                
+		        <div id="searchDiv">
+                    <div class="searchImg">
+                        <img src="/ehr/resources/img/searchImg.png">
+                    </div>
+                    <div class="search">
+                        <h3>재난발생 정보조회</h3>
+                        <ul>
+                        <li><a href="#">재난문자</a></li>
+                        <li><a href="#">재난뉴스</a></li>
+                        <li><a href="#">훈련영상</a></li>
+                        <li><a href="#">대피시설</a></li>
+                        </ul>
+                    </div>
+                </div>
+		        
+		        
 		        
         </div>  <!-- divWrap end -->
         
