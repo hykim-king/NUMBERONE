@@ -274,7 +274,7 @@
     
     <script>
     
-    let memberFromSession;
+    let memberFromSession=null;
 
     function getSession() {
         fetch('http://localhost:8080/ehr/session/api/session', {
@@ -290,6 +290,7 @@
         .then(data => {
             console.log(data);
             memberFromSession = data;
+            console.log("memberFromSession:",memberFromSession);
 
             if (data.locCode!=0) {
                 document.getElementById('loginBtn').textContent = '로그아웃';

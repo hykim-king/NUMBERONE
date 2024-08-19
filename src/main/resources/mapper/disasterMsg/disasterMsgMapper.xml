@@ -48,7 +48,7 @@
         FROM location
         START WITH loc_code = TO_NUMBER(#{searchWord})
         CONNECT BY PRIOR parent_loc_code =loc_code
-    ))
+    )) and AND broadcast_organization NOT LIKE '%경찰청'
             </when>
             
             <when test ="searchDiv !=null and searchDiv == '20'">
@@ -126,6 +126,7 @@
 			WHERE t1.msg_reg_dt > TO_DATE(#{startDate}, 'YYYY/MM/DD')
 			  AND t1.msg_reg_dt <= TO_DATE(#{endDate}, 'YYYY/MM/DD')
 			  AND t3.mst_code = 'DISASTER_TYPE'
+			  AND t1.broadcast_organization NOT LIKE '%경찰청'
 			GROUP BY t3.det_code_nm
       ]]>
 	</select>
@@ -149,6 +150,7 @@
 			WHERE t1.msg_reg_dt > TO_DATE(#{startDate}, 'YYYY/MM/DD')
 			  AND t1.msg_reg_dt <= TO_DATE(#{endDate}, 'YYYY/MM/DD')
 			  AND t3.mst_code = 'DISASTER_TYPE'
+			  AND t1.broadcast_organization NOT LIKE '%경찰청'
 			GROUP BY t3.det_code_nm
       ]]>
 	</select>
@@ -171,6 +173,7 @@
 			WHERE t1.msg_reg_dt > TO_DATE(#{startDate}, 'YYYY/MM/DD')
 			  AND t1.msg_reg_dt <= TO_DATE(#{endDate}, 'YYYY/MM/DD')
 			  AND t3.mst_code = 'DISASTER_TYPE'
+			  AND t1.broadcast_organization NOT LIKE '%경찰청'
 			GROUP BY t3.det_code_nm
       ]]>
     </select>
@@ -198,6 +201,7 @@
 			WHERE t1.msg_reg_dt > TO_DATE(#{startDate}, 'YYYY/MM/DD')
 			  AND t1.msg_reg_dt <= TO_DATE(#{endDate}, 'YYYY/MM/DD')
 			  AND t3.mst_code = 'DISASTER_TYPE' and t3.det_code_nm_eng = #{disasterType}
+			  AND t1.broadcast_organization NOT LIKE '%경찰청'
 			GROUP BY t3.det_code_nm
     ]]>
     </select>

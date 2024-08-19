@@ -552,16 +552,17 @@ document.addEventListener('DOMContentLoaded', function() {
 		        console.log(data);
 		        memberFromSession = data;
 		        
-		        
-		        
 		        if (data.locCode!=0) {
 		            document.getElementById('showName').textContent = '"' + memberFromSession.nickname+'" 님 환영합니다!';
 		            locToAddress(memberFromSession.locCode); 
 		            document.getElementById('locResetButton').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
-		            showGraph(memberFromSession.locCode);
+		            console.log(memberFromSession);
+		            callServerUpward(memberFromSession.locCode,formattedLastMonth,formattedToday);
+		            
 		        } else{
 		            document.getElementById('showLocation').textContent = '* 로그인 하시면 맞춤 정보로 확인 가능 합니다.';
 		            document.getElementById('loginGoBtn').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
+		            callServer(1000000000,formattedLastMonth,formattedToday);
 		        }
 		    })
 		    .catch(error => {
@@ -656,19 +657,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 				
 		function showGraph(statistics) {
+			let titleText ='전국 최근 한달 재난 문자 누적 통계';
+			if(statistics.locCode!=1000000000){
+				titleText ='우리동네 최근 한달 재난 문자 누적 통계'
+			}
 		    $("#graphContainer").empty();
             Highcharts.chart('graphContainer', {
                 chart: {
                     type: 'pie'
                 },
                 title: {
-                    text: '전국 최근 한달 재난 문자 누적 통계'
+                    text: titleText
                 },
                 series: [{
                     name: '문자 수',
                     data: statistics
                 }]
             });
+            
         }
 
         class StatisticsCondition {
@@ -697,11 +703,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(function(data) { //정상일시 데이터 사용
+            	console.log('condition:',condition);
             	console.log('data:', data);
-            	const dataMap = new Map(Object.entries(data));
+            	let dataMap = new Map(Object.entries(data));
             	let datasize =dataMap.size; 
-            	const keysArray = [...dataMap.keys()];
-            	const resultArray =[];
+            	let keysArray = [...dataMap.keys()];
+            	let resultArray =[];
             	for (let i =0;i<datasize; i++) {
             		 const key = keysArray[i];
    					 const value = dataMap.get(keysArray[i]);
@@ -720,7 +727,7 @@ document.addEventListener('DOMContentLoaded', function() {
             		}
             	});
             	
-            	
+            	console.log(resultArray);
             	showGraph(resultArray);
             	
                 
@@ -729,6 +736,56 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('문제가 발생했습니다:', error);
             });
         }
+        
+        function callServerUpward(locCode,startDate, endDate) {
+        	const condition = new StatisticsCondition(locCode, startDate, endDate);
+            fetch('http://localhost:8080/ehr/statistics/1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(condition), 
+            })
+            .then(function(response) { //통신상태 확인
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 좋지 않습니다.');
+                }
+                return response.json();
+            })
+            .then(function(data) { //정상일시 데이터 사용
+            	console.log('data:', data);
+            	let dataMap = new Map(Object.entries(data));
+            	let datasize =dataMap.size; 
+            	let keysArray = [...dataMap.keys()];
+            	let resultArray =[];
+            	for (let i =0;i<datasize; i++) {
+            		 const key = keysArray[i];
+   					 const value = dataMap.get(keysArray[i]);
+   					
+   					 resultArray.push([key,value]); 
+				}
+            	resultArray.sort(([, valueA], [, valueB]) => valueB - valueA);
+                
+            	let num = 4-disasterTypeSet.size;
+            	if(resultArray.find(([key]) => key === '기타')){
+            		num++;
+            	}
+            	resultArray.slice(0, num).forEach(([key]) => {
+            		if (key !== '기타') {
+            		disasterTypeSet.add(key); // Set에 key 추가
+            		}
+            	});
+            	
+            	console.log(resultArray);
+            	showGraph(resultArray);
+            	
+                
+            })
+            .catch(function(error) { 
+                console.error('문제가 발생했습니다:', error);
+            });
+        }
+        
         
         function formatDate(date) {
             const year = date.getFullYear();
@@ -760,7 +817,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // 포맷된 한 달 전 날짜
         const formattedLastMonth = formatDate(lastMonth);
         console.log("한 달 전 날짜:", formattedLastMonth);
-        callServer(formattedLastMonth,formattedToday);
+        
+        	
+        	
+        	
+        	
+        
+        
 </script>
 </body>
 </html>
