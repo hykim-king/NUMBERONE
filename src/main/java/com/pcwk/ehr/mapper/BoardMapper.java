@@ -11,7 +11,8 @@ import com.pcwk.ehr.code.domain.Code;
 
 @Mapper
 public interface BoardMapper extends WorkDiv<Board> {
-    /**
+    
+	/**
      * 조회 count 증가
      * @param inVO
      * @return
@@ -41,12 +42,14 @@ public interface BoardMapper extends WorkDiv<Board> {
     int getLatestBoardNo() throws SQLException;
     
     /**
-     * ASK_CNT 증가
+     * ASK_CNT 업데이트
      * @param inVO
      * @return
      * @throws SQLException
      */
     int askCntUpdate(Board inVO) throws SQLException;
+    
+ 
     
    
 }

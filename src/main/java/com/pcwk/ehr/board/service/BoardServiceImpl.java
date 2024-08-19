@@ -44,6 +44,11 @@ public class BoardServiceImpl implements BoardService, PLog {
 		return boardMapper.doSave(inVO);
 	}
     
+	 @Override
+	 public int askCntUpdate(Board inVO) throws SQLException {
+	     log.debug("1. param :" + inVO);
+	     return boardMapper.askCntUpdate(inVO);
+	 }
 	
 	//조회 count증가
 	@Override

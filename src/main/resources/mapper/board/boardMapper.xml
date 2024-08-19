@@ -11,12 +11,18 @@
         <!--AND   REG_ID <![CDATA[ <>  #{regId} ]]> --> 
     </update>
     
-    <!-- ASK_CNT 증가 -->
-   <update id="askCntUpdate" parameterType="Board">
+     <!-- 댓글 수 증가 -->
+    <update id="askCntUpdate" parameterType="Board">
         UPDATE C##NUMBERONE.BOARD
-           SET ask_cnt = NVL(ASK_CNT, 0) + 1
-         WHERE BOARD_NO = #{boardNo}
-   </update>
+        SET ASK_CNT = (
+            SELECT COUNT(*)
+            FROM C##NUMBERONE.REPLY
+            WHERE BOARD_NO = #{boardNo}
+        )
+        WHERE BOARD_NO = #{boardNo}
+    </update>
+
+ 
  
     <!-- 최신 게시판 순번순으로 조회 -->
     <select id="getLatestBoardNo" parameterType="Board" resultType="int">

@@ -130,7 +130,8 @@ public class BoardController implements PLog {
 		// 1.
 		log.debug("1.param search:" + search);		
 		List<Board> list = this.boardService.doRetrieve(search);
-		
+			
+
 		//2. 화면 전송 데이터
 		model.addAttribute("list", list);//조회 데이터
 		model.addAttribute("search", search); //검색조건

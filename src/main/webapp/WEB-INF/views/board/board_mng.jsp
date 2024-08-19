@@ -333,7 +333,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	    
 	    let type = "POST";  
 	    let url = "/ehr/reply/doDelete.do";
-	    let async = true;  
+	    let async = "true";  
 	    let dataType = "json";  
 	    
 	    let params = { 
@@ -369,8 +369,38 @@ document.addEventListener("DOMContentLoaded", function(){
 	        console.error("Parent reply input not found");
 	    }
 	}
+
+	// 댓글 수정 실행 함수
+	function doUpdateReply(replyNo) {
+	    const updatedContent = document.querySelector(`#updateReplyContents${replyNo}`).value;
+	    if (isEmpty(updatedContent)) {
+	        alert('수정할 내용을 입력하세요.');
+	        return;
+	    }
+
+	    if (!confirm('댓글을 수정하시겠습니까?')) return;
+
+	    let type = "POST";
+	    let url = "/ehr/reply/doUpdate.do";
+	    let async = true;
+	    let dataType = "json";
+	    
+	    let params = { 
+	        replyNo: replyNo,
+	        replyContents: updatedContent
+	    };
+	    
+	    PClass.pAjax(url, params, dataType, type, async, function(data) {
+	        if (data && data.messageId === 1) {
+	            alert(data.messageContents);
+	            loadReplies(currentPage); // 현재 페이지 다시 로드
+	        } else {
+	            alert("댓글 수정에 실패했습니다.");
+	        }
+	    });
+	}
 	
-	function loadReplies(){
+	function loadReplies(pageNo = 1){
 	    console.log("loadReplies()");
 	    const boardNoInput = document.querySelector("#boardNo");
 
@@ -384,39 +414,95 @@ document.addEventListener("DOMContentLoaded", function(){
 	    
 	    let type = "POST";
 	    let url = "/ehr/reply/doRetrieve.do";
-	    let async = true;
+	    let async = "true";
 	    let dataType = "json";  // 이미 JSON으로 파싱된 데이터를 받도록 설정
 	    
 	    let params = { 
 	        searchDiv: '10',
 	        searchWord: boardNo,
-	        pageSize: 10,
-	        pageNo: 1
+	        pageSize: 50,
+	        pageNo: pageNo
 	    }
 	    
 	    PClass.pAjax(url, params, dataType, type, async, function(data){
 	        if(data && data.list){
 	            let replyHtml = '';
+	            let replyMap = new Map();
+
+	            // 모든 댓글을 맵에 저장
 	            data.list.forEach(function(reply){
-	            	let indentation = reply.replyLevel > 0 ? 'style="margin-left: 20px;"' : '';
-	                replyHtml += '<div class="reply" ' + indentation + '>';
-	                replyHtml += '<p><strong>' + reply.regId + '</strong>: ' + reply.replyContents + '</p>';
-	                replyHtml += '<p><small>' + reply.regDt + '</small></p>';
-	                replyHtml += '<button onclick="showReplyForm(' + reply.replyNo + ')">답글</button>';
-	                replyHtml += '<button onclick="doUpdateReply(' + reply.replyNo + ')">수정 </button>';
-	                replyHtml += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
-	                replyHtml += '<div id="replyForm' + reply.replyNo + '" style="display:none;">';
-	                replyHtml += '<textarea id="replyContents' + reply.replyNo + '"></textarea>';
-	                replyHtml += '<button onclick="doSaveReply(' + reply.replyNo + ')">답글 작성</button>';
-	                replyHtml += '</div>';
-	                replyHtml += '</div>';
+	                reply.children = [];
+	                replyMap.set(reply.replyNo, reply);
 	            });
+
+	            // 부모-자식 관계 설정
+	            data.list.forEach(function(reply){
+	                if(reply.parentReply !== 0 && replyMap.has(reply.parentReply)){
+	                    replyMap.get(reply.parentReply).children.push(reply);
+	                }
+	            });
+
+	            // 최상위 댓글만 처리 (parentReply가 0인 경우)
+	            data.list.filter(reply => reply.parentReply === 0).forEach(function(reply){
+	                replyHtml += ReplyHtml(reply, 0);
+	            });
+
 	            document.querySelector("#replyList").innerHTML = replyHtml;
-	            } else {
-	                console.error("댓글 로딩 실패");     
-	            }
+	            createPagination(data.totalCnt, params.pageSize, pageNo);
+	        } else {
+	            console.error("댓글 로딩 실패");     
+	        }
 	    });
 	}
+	
+	function ReplyHtml(reply, depth) {
+	    let indentation = 'margin-left: ' + (depth * 20) + 'px;';
+	    let html = '<div class="reply" style="' + indentation + '">';
+	    html += '<p><strong>' + reply.regId + '</strong>: ' + reply.replyContents + '</p>';
+	    html += '<p><small>' + reply.regDt + '</small></p>';
+	    html += '<button onclick="showReplyForm(' + reply.replyNo + ')">답글</button>';
+	    html += '<button onclick="showUpdateReplyForm('+ reply.replyNo + ')">수정</button>';
+	    html += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
+	    html += '<div id="replyForm' + reply.replyNo + '" style="display:none;">';
+	    html += '<textarea id="replyContents' + reply.replyNo + '"></textarea>';
+	    html += '<button onclick="doSaveReply(' + reply.replyNo + ')">답글 작성</button>';
+	    html += '</div>';
+
+	    // 자식 댓글 재귀적으로 처리
+	    if(reply.children && reply.children.length > 0) {
+	        reply.children.forEach(function(childReply) {
+	            html += ReplyHtml(childReply, depth + 1);
+	        });
+	    }
+
+	    html += '</div>';
+	    return html;
+	}
+	
+	function createPagination(totalCnt, pageSize, currentPage) {
+	    const totalPages = Math.ceil(totalCnt / pageSize);
+	    let paginationHtml = '';
+
+	    // 이전 페이지 버튼
+	    paginationHtml += '<li class="page-item ' + (currentPage == 1 ? 'disabled' : '') + '">';
+	    paginationHtml += '<a class="page-link" href="#" onclick="loadReplies(' + (currentPage - 1) + ')" aria-label="Previous">';
+	    paginationHtml += '<span aria-hidden="true">&laquo;</span></a></li>';
+
+	    // 페이지 번호 버튼
+	    for (let i = 1; i <= totalPages; i++) {
+	        paginationHtml += '<li class="page-item ' + (i == currentPage ? 'active' : '') + '">';
+	        paginationHtml += '<a class="page-link" href="#" onclick="loadReplies(' + i + ')">' + i + '</a></li>';
+	    }
+
+	    // 다음 페이지 버튼
+	    paginationHtml += '<li class="page-item ' + (currentPage == totalPages ? 'disabled' : '') + '">';
+	    paginationHtml += '<a class="page-link" href="#" onclick="loadReplies(' + (currentPage + 1) + ')" aria-label="Next">';
+	    paginationHtml += '<span aria-hidden="true">&raquo;</span></a></li>';
+
+	    document.querySelector("#replyPagination").innerHTML = paginationHtml;
+	}
+
+	
 
 </script>
 </head>
@@ -493,6 +579,13 @@ document.addEventListener("DOMContentLoaded", function(){
     </div>
   </div>
   <!-- 댓글 섹션 끝 -->
+  
+  <!-- 페이징 컨트롤 추가 -->
+    <nav aria-label="Reply navigation" class="mt-4">
+        <ul class="pagination justify-content-center" id="replyPagination">
+        <!-- 페이징 버튼이 여기에 동적으로 생성됩니다 -->
+        </ul>
+    </nav>
   
 </div>
 <%@ include file="/WEB-INF/views/main/footer.jsp" %>

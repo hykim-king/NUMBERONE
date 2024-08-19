@@ -107,11 +107,15 @@
                 NICK_NAME as nickname
             FROM C##NUMBERONE.REPLY            
             <include refid="whereReplyRetrieve"/>
+            ORDER BY 
+                CASE 
+                    WHEN PARENT_REPLY = 0 THEN REPLY_NO 
+                    ELSE PARENT_REPLY 
+                END ASC,
+                REPLY_NO ASC
         ) A
         WHERE ROWNUM <![CDATA[ <= ]]> #{pageSize} * (#{pageNo} - 1) + #{pageSize}
-        START WITH parentReply = 0
-        CONNECT BY NOCYCLE PRIOR replyNo = parentReply
-        ORDER SIBLINGS BY replyNo
+       
     ) T1
     JOIN (
         SELECT COUNT(*) as totalCnt 
