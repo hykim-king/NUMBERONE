@@ -1,54 +1,90 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="header.jsp" %>
+<%@ include file="/WEB-INF/views/main/header.jsp" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>훈련 영상</title>
+    <link rel="stylesheet" href="/ehr/resources/css/content.css" />
+    <link rel="stylesheet" href="/ehr/resources/css/dp_sub.min.css" />
+    
     <style>
-
-        main {
+        * {
             font-family: "Hahmlet", serif;
             font-optical-sizing: auto;
-            font-style: normal;
-            font-weight: bold;
-            width: 80%;
-            max-width: 800px;
-            margin: 20px auto;
         }
-        main table {
+
+        main {
+            background-color: #FAFAFA;
+            width: 1082px;
+            border: 2px solid #EEEEEE;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            background-color: #fff;
+            
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        main td {
+
+        td {
             padding: 15px;
-            text-align: center;
+            text-align: left;
             border: 1px solid #ddd;
         }
-        main td a {
-            text-decoration: none;
-            color: #201e43;
-            display: block;
-        }
-        main td a:hover {
-            text-decoration: underline;
-        }
-        
 
+        td a {
+            text-decoration: none;
+            color: #134b70;
+            font-weight: bold;
+        }
+        td:hover{
+            cursor: pointer;
+    
+         }
+        td:hover a {
+            text-decoration: underline;
+            
+        }
+
+        .level1_title {
+            color: #134b70;
+        }
     </style>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cells = document.querySelectorAll('td');
+
+            cells.forEach(function(cell) {
+                cell.addEventListener('click', function() {
+                    var link = cell.querySelector('a');
+                    if (link) {
+                        window.location.href = link.href;
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <main>
-        <table>
+        <div class="level1_titleWrap">
+            <h2 class="level1_title">훈련 영상</h2>
             
+        </div>
+        <p style="margin-top:15px; color:#757575; font-size:16px;">* 아래의 재난을 클릭하시면 훈련영상을 보실 수 있습니다.</p>
+        <table>
             <tbody>
                 <tr>
-                    <td><a href="http://localhost:8080/ehr/video/video01.do">침수</a></td>
+                    <td><a href="http://localhost:8080/ehr/video/video01.do"><span>침수</span></a></td>
                     <td><a href="http://localhost:8080/ehr/video/video02.do">태풍</a></td>
                     <td><a href="http://localhost:8080/ehr/video/video03.do">호우</a></td>
                 </tr>
@@ -80,6 +116,6 @@
             </tbody>
         </table>
     </main>
-    <%@ include file="footer.jsp" %>
+    <%@ include file="/WEB-INF/views/main/footer.jsp" %>
 </body>
 </html>

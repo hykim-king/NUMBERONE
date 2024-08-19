@@ -121,7 +121,7 @@
 		}
 		
 		.login-html.signup-active {
-		    height: 900px;
+		    height: 1020px;
 		     
 		}
 	    

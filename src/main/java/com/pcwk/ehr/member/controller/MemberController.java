@@ -84,7 +84,7 @@ public class MemberController implements PLog {
 		
 		String loginOutMessage = "^^";
 		int    flag = 0;
-		if( null != httpSession.getAttribute("user")) {
+		if( null != httpSession.getAttribute("member")) {
 			httpSession.invalidate();   //세션무효화하기
 			
 			loginOutMessage = "로그아웃 되었습니다.";

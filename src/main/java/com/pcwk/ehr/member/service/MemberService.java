@@ -7,6 +7,7 @@ public interface MemberService {
 
     boolean doSave(Member member);
     Member login(Member inVO) throws SQLException;  
+    boolean logout(String memberId) throws SQLException;
     boolean checkNickname(String nickname);
     boolean checkUserId(String memberId);
 	int idPasswordCheck(Member member) throws SQLException;

@@ -243,7 +243,7 @@
                         
                         <ul>
                            
-                            <li><a href="#">훈련영상</a></li>
+                            <li><a href="http://localhost:8080/ehr/video/videoView.do">훈련영상</a></li>
                             <li><a href="http://localhost:8080/ehr/location/location.do">대피시설</a></li>
                         </ul>
                     </li>
@@ -319,7 +319,8 @@
         })
         .then(data => {
             console.log(data);
-            if (data.flag === 1) {
+            memberFromSession = data;
+            if (data.locCode=0) {
                 // 로그아웃 성공 시
                 document.getElementById('loginBtn').textContent = '로그인/회원가입';
             }

@@ -126,7 +126,7 @@
     #messageTable{
         font-family: "Hahmlet", serif;
         font-optical-sizing: auto;
-        font-size: 15px;
+        font-size: 14px;
         boarder : 1px solid black;
     }
     #messageTable tr{
