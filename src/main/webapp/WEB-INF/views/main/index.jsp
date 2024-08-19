@@ -8,6 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Highcharts 로드 -->
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 <title>재난안전포털 No.1</title>
 <style>
 
@@ -46,12 +47,96 @@
         left: 730px;
         width: 415px;
         height: 138px;
-        background-color: #CFD8DC;
+        background-color: #134b70;
         display: flex;
         justify-content: space-around;
         align-items: center;
         padding : 10px;
         border: 1px solid #E0E0E0;
+        border-radius: 50px;
+    }
+
+    .mypageDiv{
+        width : 80px;
+        height: 160px;
+        font-family: 'Tahoma', sans-serif;
+        position: absolute;
+        left: 0;
+        border : 9px solid #eee;
+         display: flex; /* Flexbox 활성화 */
+	    justify-content: center; /* 가로 중앙 정렬 */
+	    align-items: center; /* 세로 중앙 정렬 */
+	    font-weight: 900;
+	    font-size:70px;
+	    color:#eee;
+	    writing-mode: vertical-rl; /* 텍스트가 위에서 아래로 배치 */
+        transform: rotate(180deg); 
+         border-radius: 0px 47px 47px 0px; /* 왼쪽 위, 왼쪽 아래는 50px, 오른쪽은 0 */
+         overflow: hidden;
+    }
+  
+    #showName{
+        color:#eeeeee;
+        position: absolute;
+        top:20px;
+        left : 110px;
+    }
+    #showLocation{
+        position: absolute;
+        top:60px;
+        left : 110px;
+        color:#eeeeee;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    
+    #locResetButton{
+             display: none; 
+            position: absolute;
+            top: 105px;
+            left: 215px; 
+            width: 80px;
+            height: 30px;
+            background-color: #eee;
+            color: #201e4b;
+            font-weight:600;
+            border: none;
+            border-radius: 15px;
+            font-family: "Hahmlet", serif;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.6); 
+        
+        
+    
+    }
+      /* hover 상태에서 그림자가 안쪽으로 들어가는 효과 */
+    #locResetButton:hover {
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4); /* 버튼 안쪽으로 들어가는 그림자 */
+    }
+    #loginGoBtn{
+             display: none; 
+            position: absolute;
+            top: 105px;
+            left: 195px; 
+            width: 110px;
+            height: 30px;
+            background-color: #eee;
+            color: #201e4b;
+            font-weight:600;
+            border: none;
+            border-radius: 15px;
+            font-family: "Hahmlet", serif;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.6); 
+        
+        
+    
+    }
+          /* hover 상태에서 그림자가 안쪽으로 들어가는 효과 */
+    #loginGoBtn:hover {
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4); /* 버튼 안쪽으로 들어가는 그림자 */
     }
     #disaster-img01,#disaster-img02,#disaster-img03{
         border: 1px solid black;
@@ -322,9 +407,7 @@
     background-color: #007bff;
 }
 </style>
-
 <script>
-
 //.scroll-to-top
 document.addEventListener('DOMContentLoaded', function() {
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
@@ -341,6 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' }); // 부드럽게 페이지 상단으로 이동
     });
 });
+
 </script>
 </head>
 <body>
@@ -352,9 +436,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         
 		        <div class="myPageZone">
-		            
-		            <p>현재 설정 위치</p>
-		            <a href="http://localhost:8080/ehr/member/locCodeUpdate.do"><button>위치 재설정</button></a>
+		            <div class="mypageDiv">NO.1</div>
+		            <a href="http://localhost:8080/ehr/member/signInUp.do"><button id="loginGoBtn" >로그인하러가기</button></a>
+		            <p id= "showName"></p>
+		            <p id= "showLocation">* 로그인 하시면 맞춤 정보로 확인 가능 합니다. </p>
+		            <a href="http://localhost:8080/ehr/member/locCodeUpdate.do" ><button id="locResetButton" >위치 재설정</button></a>
 		        </div>
 		        
 		        
@@ -399,9 +485,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			            
 		  
 			        <div class="graph" id="graphContainer">
-			            <p>로그인 시 확인 가능합니다. </p> 
-			            <br>
-			            <a href="login.jsp"><img src="/ehr/resources/img/loginIcon.png"></a>
+			            <p>* 로그인 하시면 맞춤 정보로 확인 가능 합니다. </p> 
 			        </div>
 		        </div>
 		        
@@ -451,6 +535,84 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <%@ include file="footer.jsp" %>
 <script>
+
+
+		function getSession() {
+		    fetch('http://localhost:8080/ehr/session/api/session', {
+		        method: 'GET',
+		        credentials: 'include' // 쿠키 포함
+		    })
+		    .then(response => {
+		        if (!response.ok) {
+		            throw new Error('Network response was not ok ' + response.statusText);
+		        }
+		        return response.json(); 
+		    })
+		    .then(data => {
+		        console.log(data);
+		        memberFromSession = data;
+		        
+		        
+		        
+		        if (data.locCode!=0) {
+		            document.getElementById('showName').textContent = '"' + memberFromSession.nickname+'" 님 환영합니다!';
+		            locToAddress(memberFromSession.locCode); 
+		            document.getElementById('locResetButton').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
+		            showGraph(memberFromSession.locCode);
+		        } else{
+		            document.getElementById('showLocation').textContent = '* 로그인 하시면 맞춤 정보로 확인 가능 합니다.';
+		            document.getElementById('loginGoBtn').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
+		        }
+		    })
+		    .catch(error => {
+		        console.error('Fetch error: ', error);
+		    });
+		}
+		
+		document.addEventListener('DOMContentLoaded', getSession);
+		
+		function locToAddress(locCode) {
+		       const url = new URL('http://localhost:8080/ehr/location/locToAddress');
+		        url.searchParams.append('locCode', locCode);
+		
+		        fetch(url, {
+		            method: 'GET',
+		            credentials: 'include', // 쿠키 포함
+		        })
+		    .then(response => {
+		        if (!response.ok) {
+		            throw new Error('Network response was not ok ' + response.statusText);
+		        }
+		        return response.json();
+		    })
+		    .then(location => {
+		        console.log(location);
+		        if (location) {
+		            const { sido, sigungu, eupmyeondong } = location;
+		            const address = `${sido} ${sigungu} ${eupmyeondong}`;
+		            console.log("주소:", location);  // 디버깅용으로 주소 출력
+		            const showLocationElement = document.getElementById('showLocation');
+		            if (showLocationElement) {
+		   
+		                showLocationElement.textContent = "현재 설정 위치 : " + location;
+		            } else {
+		                console.error('showLocation 요소를 찾을 수 없습니다.');
+		            }
+		        } else {
+		            document.getElementById('showLocation').textContent = '* 지역 정보를 불러오는데 실패했습니다.';
+		        }
+		    })
+		    .catch(error => {
+		        console.error('Fetch error: ', error);
+		        document.getElementById('showLocation').textContent = '* 지역 정보를 불러오는데 실패했습니다.';
+		    });
+		}
+		
+
+		
+		
+		
+		
 		
         const disasterTypeSet = new Set();
 		function getDisasterMsgList(){
@@ -519,8 +681,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         
         
-        function callServer(startDate, endDate) {
-        	const condition = new StatisticsCondition(1000000000, startDate, endDate);
+        function callServer(locCode,startDate, endDate) {
+        	const condition = new StatisticsCondition(locCode, startDate, endDate);
             fetch('http://localhost:8080/ehr/statistics/3', {
                 method: 'POST',
                 headers: {

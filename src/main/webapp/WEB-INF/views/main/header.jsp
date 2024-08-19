@@ -46,13 +46,14 @@
 
     #headerMenu ul a {
         display: block;
-        color:#201e43;
+        color:#134b70;
         font-size: 13px;
         text-decoration: none;
         font-family: "Hahmlet", serif;
         font-optical-sizing: auto;
         font-style: normal;
         padding: 14px 30px;
+        font-weight: 500;
     }
 
     li {
@@ -340,6 +341,12 @@
             logout(); // 로그아웃 호출
         }
     });
+    
+    
+    
+    
+    
+    
     
     function createHoverEffect(gnbWrapId, navMenuId) {
         const navMenu = document.getElementById(navMenuId);

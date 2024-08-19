@@ -55,7 +55,7 @@ public class MemberController implements PLog {
         } else if (20 == checkCount) { // 비밀번호를 확인하세요.
             loginMessage = "비밀번호를 확인하세요.";
         } else if (30 == checkCount) { // 아이디/비밀번호 일치!
-            loginMessage = "아이디/비밀번호 일치!";
+            loginMessage = "로그인 완료! " + member.getMemberId()+" 님, 맞춤형 재난 안전 정보를 확인하세요!";
 
             // 로그인 성공 시 전체 회원 정보를 가져옴
             Member memberInfoAll = memberService.doSelectOne(member.getMemberId());
