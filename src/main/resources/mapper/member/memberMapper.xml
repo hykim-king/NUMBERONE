@@ -82,39 +82,24 @@
     FROM member 
     WHERE member_id = #{memberId}
     AND password = #{password}
-
 </select>
 
 	
-	
-	
-	
-    <!-- 단건 조회 쿼리 -->
 	<select id="doSelectOne" parameterType="String" resultMap="MemberResultMap">
 	    SELECT
 	        member_id,
 	        loc_code,
 	        password,
 	        name,
-	        nickname,
-	        is_admin,
-	        email
+            nickname,
+            is_admin,
+            email AS email
 	    FROM member
 	    WHERE member_id = #{memberId}
 	</select>
 
-    <!-- 전체 조회 쿼리 -->
-    <select id="getAll" resultMap="MemberResultMap">
-        SELECT
-            member_id AS memberId,
-            loc_code AS locCode,
-            password AS password,
-            name AS name,
-            nickname AS nickname,
-            is_admin AS isAdmin,
-            email AS email
-        FROM member
-    </select>
+
+
 
     <!-- 전체 회원 수 조회 쿼리 -->
     <select id="getCount" resultType="int">

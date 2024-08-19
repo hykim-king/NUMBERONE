@@ -10,6 +10,12 @@ public interface MemberService {
     boolean checkNickname(String nickname);
     boolean checkUserId(String memberId);
 	int idPasswordCheck(Member member) throws SQLException;
+
+	Member getAll(Member member);
+
+	Member doSelectOne(String memberId);
+
+
     
     
 }

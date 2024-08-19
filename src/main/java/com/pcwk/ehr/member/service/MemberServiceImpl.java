@@ -59,7 +59,32 @@ public class MemberServiceImpl implements MemberService, PLog {
         
         return memberMapper.login(inVO);
     }
+    
+    
+    @Override
+    public Member doSelectOne(String memberId) {
+        log.debug("1. param: " + memberId);
+        Member member = null;
+        try {
+            member = memberMapper.doSelectOne(memberId); // 올바른 호출
+            if (member != null) {
+                member.setPassword(null); // 비밀번호를 null로 설정
+            }
+        } catch (SQLException e) {
+            log.error("Error in doSelectOne: " + e.getMessage());
+        }
+        log.debug("2. result: " + member);
+        return member;
+    }
+    
+    
+	@Override
+	public Member getAll(Member member) {
 
+		return member;
+	}
+
+    
     @Override
     public boolean doSave(Member member) {
         log.debug("1. param :" + member);
@@ -88,6 +113,9 @@ public class MemberServiceImpl implements MemberService, PLog {
         
         return false;
     }
+
+
+
 
 
 }

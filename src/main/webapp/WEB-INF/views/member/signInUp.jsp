@@ -706,7 +706,9 @@
 	            console.log("login()");
 	            
 	            let memberId = $("#memberId").val(); 
-	            let password = $("#password").val(); 
+	            
+	            let pw = $("#password").val();
+	            let password = sha256(pw); 
 	            
 	            console.log("memberId:", memberId);
 	            console.log("password:", password);
@@ -719,7 +721,7 @@
 
 	            if (isEmpty(password)) {
 	                alert('비밀번호를 입력 하세요.');
-	                $("#password").focus();
+	                password.focus();
 	                return;
 	            }
 	            
@@ -739,7 +741,7 @@
 	                                $("#memberId").focus();
 	                            } else if (data.messageId === 20) {
 	                                alert(data.messageContents);
-	                                $("#password").focus();
+	                                password.focus();
 	                            } else if (data.messageId === 30) {
 	                                alert(data.messageContents);
 	                                

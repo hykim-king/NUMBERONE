@@ -23,7 +23,7 @@ public interface MemberMapper extends WorkDiv<Member> {
     
     int doSave(Member member) throws SQLException;
 
-    
+    Member doSelectOne(String memberId) throws SQLException;
 
     int passwordCheck(Member member);
     
@@ -31,22 +31,20 @@ public interface MemberMapper extends WorkDiv<Member> {
 	
 	Member login(Member member);
 
-    
-    
-    
-    List<Member> getAll();
 
     int getCount() throws SQLException;
 
     int deleteAll() throws SQLException;
 
-    Member doSelectOne(String memberId) throws SQLException;
+   
 
     List<Member> doRetrieve(Search search) throws SQLException;
     
     
     int multipleSave() throws SQLException;
     int doUpdate(Member user) throws SQLException;
+
+
 
 
 	
