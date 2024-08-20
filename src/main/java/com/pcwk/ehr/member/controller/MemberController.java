@@ -44,6 +44,7 @@ public class MemberController implements PLog {
 			, produces = "text/plain;charset=UTF-8")
     @ResponseBody
 	public String login(Member member, HttpSession  httpSession ) throws SQLException {
+
 		String  jsonString = "";
 		
 		log.debug("Received memberId: " + member.getMemberId());
@@ -170,3 +171,4 @@ public class MemberController implements PLog {
     }
     
 }
+

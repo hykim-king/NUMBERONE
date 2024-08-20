@@ -12,11 +12,12 @@ public class Board extends DTO {
 	private int    askCnt   ; //댓글수	
 	private String regDt    ; //등록일
 	private String modDt    ; //수정일
+	private String nickname ; //닉네임
 	
 	public Board() {}
 
 	public Board(int boardNo, String div, String regId, String title, String contents, int readCnt, int askCnt,
-			String regDt, String modDt) {
+			String regDt, String modDt, String nickname) {
 		super();
 		this.boardNo = boardNo;
 		this.div = div;
@@ -27,6 +28,7 @@ public class Board extends DTO {
 		this.askCnt = askCnt;
 		this.regDt = regDt;
 		this.modDt = modDt;
+		this.nickname = nickname;
 	}
 
 	public int getBoardNo() {
@@ -101,11 +103,20 @@ public class Board extends DTO {
 		this.modDt = modDt;
 	}
 
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", div=" + div + ", regId=" + regId + ", title=" + title + ", contents="
 				+ contents + ", readCnt=" + readCnt + ", askCnt=" + askCnt + ", regDt=" + regDt + ", modDt=" + modDt
-				+ "]";
+				+ ", nickname=" + nickname + ", toString()=" + super.toString() + "]";
 	}
+
 	
 }
