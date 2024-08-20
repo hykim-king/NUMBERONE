@@ -201,205 +201,205 @@ document.addEventListener("DOMContentLoaded", function(){
     loadReplies();
 });
 
-	function isEmpty(value) {
-	    if (value == null) {
-	        return true; // null 또는 undefined인 경우
-	    }
-	    if (typeof value === 'string') {
-	        return value.trim() === '';
-	    }
-	    if (typeof value === 'number') {
-	        return false; // 숫자는 항상 비어있지 않은 것으로 간주
-	    }
-	    return false; // 그 외의 경우 (배열, 객체 등)
-	}
-	
-	
-	function moveToEdit() {
-		const moveToEditBtn = document.querySelector("#moveToEdit");
-	    const boardNo = moveToEditBtn.getAttribute('data-board-no');
-	    console.log("moveToEdit boardNo:" + boardNo);
-	    window.location.href = "/ehr/board/moveToEdit.do?boardNo=" + boardNo;
-	}
-	
-	function moveToList(){
-	    window.location.href = "/ehr/board/doRetrieve.do";
-	}
-	
-	function doDelete(){
-	    console.log("doDelete()");
-	    const boardNoInput = document.querySelector("#boardNo");
-	
-	    if(isEmpty(boardNoInput.value)){
-	        alert('boardNo를 확인 하세요.')
-	        return;
-	    }
-	    if(confirm('삭제 하시겠습니까?') === false) return;
-	    
-	    let type = "GET";  
-	    let url = "/ehr/board/doDelete.do";
-	    let async = "true";
-	    let dataType = "html";
-	    
-	    let params = { 
-	        "boardNo": boardNoInput.value
-	    }            
-	    
-	    PClass.pAjax(url, params, dataType, type, async, function(data){
-	        if(data){
-	            try{
-	                const message = JSON.parse(data);
-	                if(!isEmpty(message) && 1 === message.messageId){
-	                    alert(message.messageContents);
-	                    moveToList();
-	                }else{
-	                    alert(message.messageContents);
-	                }
-	            }catch(e){
-	                 alert("data를 확인 하세요.");     
-	            }
-	        }
-	    });            
-	}
+    function isEmpty(value) {
+        if (value == null) {
+            return true; // null 또는 undefined인 경우
+        }
+        if (typeof value === 'string') {
+            return value.trim() === '';
+        }
+        if (typeof value === 'number') {
+            return false; // 숫자는 항상 비어있지 않은 것으로 간주
+        }
+        return false; // 그 외의 경우 (배열, 객체 등)
+    }
     
-	function showUpdateReplyForm(replyNo) {
-	    const replyElement = document.getElementById('reply' + replyNo);
-	    if (!replyElement) return;
+    
+    function moveToEdit() {
+        const moveToEditBtn = document.querySelector("#moveToEdit");
+        const boardNo = moveToEditBtn.getAttribute('data-board-no');
+        console.log("moveToEdit boardNo:" + boardNo);
+        window.location.href = "/ehr/board/moveToEdit.do?boardNo=" + boardNo;
+    }
+    
+    function moveToList(){
+        window.location.href = "/ehr/board/doRetrieve.do";
+    }
+    
+    function doDelete(){
+        console.log("doDelete()");
+        const boardNoInput = document.querySelector("#boardNo");
+    
+        if(isEmpty(boardNoInput.value)){
+            alert('boardNo를 확인 하세요.')
+            return;
+        }
+        if(confirm('삭제 하시겠습니까?') === false) return;
+        
+        let type = "GET";  
+        let url = "/ehr/board/doDelete.do";
+        let async = "true";
+        let dataType = "html";
+        
+        let params = { 
+            "boardNo": boardNoInput.value
+        }            
+        
+        PClass.pAjax(url, params, dataType, type, async, function(data){
+            if(data){
+                try{
+                    const message = JSON.parse(data);
+                    if(!isEmpty(message) && 1 === message.messageId){
+                        alert(message.messageContents);
+                        moveToList();
+                    }else{
+                        alert(message.messageContents);
+                    }
+                }catch(e){
+                     alert("data를 확인 하세요.");     
+                }
+            }
+        });            
+    }
+    
+    function showUpdateReplyForm(replyNo) {
+        const replyElement = document.getElementById('reply' + replyNo);
+        if (!replyElement) return;
 
-	    const replyContent = replyElement.querySelector('.reply-content').textContent;
-	    const buttonsDiv = replyElement.querySelector('.reply-buttons');
-	    
-	    const updateForm = '<div id="updateForm' + replyNo + '">' +
-	        '<textarea id="updateReplyContents' + replyNo + '">' + replyContent + '</textarea>' +
-	        '<button onclick="doUpdateReply(' + replyNo + ')">수정 완료</button>' +
-	        '<button onclick="cancelUpdateReply(' + replyNo + ')">취소</button>' +
-	        '</div>';
-	    
-	    buttonsDiv.style.display = 'none';
-	    replyElement.querySelector('.reply-content').insertAdjacentHTML('afterend', updateForm);
-	}
+        const replyContent = replyElement.querySelector('.reply-content').textContent;
+        const buttonsDiv = replyElement.querySelector('.reply-buttons');
+        
+        const updateForm = '<div id="updateForm' + replyNo + '">' +
+            '<textarea id="updateReplyContents' + replyNo + '">' + replyContent + '</textarea>' +
+            '<button onclick="doUpdateReply(' + replyNo + ')">수정 완료</button>' +
+            '<button onclick="cancelUpdateReply(' + replyNo + ')">취소</button>' +
+            '</div>';
+        
+        buttonsDiv.style.display = 'none';
+        replyElement.querySelector('.reply-content').insertAdjacentHTML('afterend', updateForm);
+    }
 
 
-	function cancelUpdateReply(replyNo) {
-	    const replyElement = document.getElementById('reply' + replyNo);
-	    if (!replyElement) return;
+    function cancelUpdateReply(replyNo) {
+        const replyElement = document.getElementById('reply' + replyNo);
+        if (!replyElement) return;
 
-	    const updateForm = replyElement.querySelector('#updateForm' + replyNo);
-	    if (updateForm) updateForm.remove();
+        const updateForm = replyElement.querySelector('#updateForm' + replyNo);
+        if (updateForm) updateForm.remove();
 
-	    const buttonsDiv = replyElement.querySelector('.reply-buttons');
-	    buttonsDiv.style.display = 'block';
-	}
-	
-	function showReplyForm(replyNo) {
-		 const replyForm = document.getElementById('replyForm' + replyNo);
-		    if (replyForm) {
-		        replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
-		    }
-	}
-	
-	function doSaveReply(parentReply = 0){
-		console.log("doSaveReply()");
-	    let replyContentsInput = document.querySelector("#replyContents");
-	    const boardNoInput = document.querySelector("#boardNo");
-	   
-	    if (parentReply === 0) {
-	        replyContentsInput = document.querySelector("#replyContents");
-	    } else {
-	        replyContentsInput = document.querySelector("#replyContents" + parentReply);
-	    }
-	    
-	    if(isEmpty(replyContentsInput.value)){
-	        alert('댓글 내용을 입력하세요.')
-	        replyContentsInput.focus();
-	        return;
-	    }
-	    
-	    if(confirm('댓글을 작성하시겠습니까?') === false) return;
-	    
-	    let type = "POST";
-	    let url = "/ehr/reply/doSave.do";
-	    let async = "true";
-	    let dataType = "json";
-	    
-	    let params = {
-	    		boardNo: boardNoInput.value,
-	    	    replyContents: replyContentsInput.value,
-	    	    parentReply: parentReply,
-	            replyLevel: parentReply === 0 ? 0 : 1,
-	    }
-	    
-	    PClass.pAjax(url, params, dataType, type, async, function(data){
-	        if(data){
-	            try{
-	            	if(!isEmpty(data) && 1 === data.messageId){
+        const buttonsDiv = replyElement.querySelector('.reply-buttons');
+        buttonsDiv.style.display = 'block';
+    }
+    
+    function showReplyForm(replyNo) {
+         const replyForm = document.getElementById('replyForm' + replyNo);
+            if (replyForm) {
+                replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+            }
+    }
+    
+    function doSaveReply(parentReply = 0){
+        console.log("doSaveReply()");
+        let replyContentsInput = document.querySelector("#replyContents");
+        const boardNoInput = document.querySelector("#boardNo");
+       
+        if (parentReply === 0) {
+            replyContentsInput = document.querySelector("#replyContents");
+        } else {
+            replyContentsInput = document.querySelector("#replyContents" + parentReply);
+        }
+        
+        if(isEmpty(replyContentsInput.value)){
+            alert('댓글 내용을 입력하세요.')
+            replyContentsInput.focus();
+            return;
+        }
+        
+        if(confirm('댓글을 작성하시겠습니까?') === false) return;
+        
+        let type = "POST";
+        let url = "/ehr/reply/doSave.do";
+        let async = "true";
+        let dataType = "json";
+        
+        let params = {
+                boardNo: boardNoInput.value,
+                replyContents: replyContentsInput.value,
+                parentReply: parentReply,
+                replyLevel: parentReply === 0 ? 0 : 1,
+        }
+        
+        PClass.pAjax(url, params, dataType, type, async, function(data){
+            if(data){
+                try{
+                    if(!isEmpty(data) && 1 === data.messageId){
                         alert(data.messageContents);
-	                    replyContentsInput.value = '';
-	                    if (parentReply !== 0) {
-	                    	const replyForm = document.getElementById('replyForm' + parentReply);
-	                        if(replyForm) replyForm.style.display = 'none';
-	                    }
-	                    loadReplies();
-	                } else {
-	                    alert(message.messageContents);
-	                }
-	            } catch(e) {
-	                alert("데이터를 확인하세요.");
-	            }
-	        }
-	    });
-	}
-	
-	function doDeleteReply(replyNo){
-	    console.log("doDeleteReply() - replyNo:", replyNo);
-	    console.log("isEmpty(replyNo) 결과:", isEmpty(replyNo))
-	    if(isEmpty(replyNo)){
-	        alert('댓글 번호를 확인하세요.')
-	        return;
-	    }
-	    if(confirm('댓글을 삭제하시겠습니까?') === false) return;
-	    
-	    let type = "POST";  
-	    let url = "/ehr/reply/doDelete.do";
-	    let async = "true";  
-	    let dataType = "json";  
-	    
-	    let params = { 
-	        "replyNo": replyNo
-	    }
-	    
-	    PClass.pAjax(url, params, dataType, type, async, function(data){
-	        if(data){
-	            try{
-	                if(!isEmpty(data) && 1 === data.messageId){
-	                    alert(data.messageContents);
-	                    loadReplies();
-	                } else {
-	                    alert(data.messageContents);
-	                }
-	            } catch(e) {
-	                console.error("Error parsing response:", e);
-	                alert("데이터 처리 중 오류가 발생했습니다.");
-	            }
-	        }
-	    });
-	}
-	
-	function setParentReply(replyNo) {
-	    const parentReplyInput = document.querySelector("#parentReply");
-	    if (parentReplyInput) {
-	        parentReplyInput.value = replyNo;
-	        const replyContentsInput = document.querySelector("#replyContents");
-	        if (replyContentsInput) {
-	            replyContentsInput.focus();
-	        }
-	    } else {
-	        console.error("Parent reply input not found");
-	    }
-	}
+                        replyContentsInput.value = '';
+                        if (parentReply !== 0) {
+                            const replyForm = document.getElementById('replyForm' + parentReply);
+                            if(replyForm) replyForm.style.display = 'none';
+                        }
+                        loadReplies();
+                    } else {
+                        alert(message.messageContents);
+                    }
+                } catch(e) {
+                    alert("데이터를 확인하세요.");
+                }
+            }
+        });
+    }
+    
+    function doDeleteReply(replyNo){
+        console.log("doDeleteReply() - replyNo:", replyNo);
+        console.log("isEmpty(replyNo) 결과:", isEmpty(replyNo))
+        if(isEmpty(replyNo)){
+            alert('댓글 번호를 확인하세요.')
+            return;
+        }
+        if(confirm('댓글을 삭제하시겠습니까?') === false) return;
+        
+        let type = "POST";  
+        let url = "/ehr/reply/doDelete.do";
+        let async = "true";  
+        let dataType = "json";  
+        
+        let params = { 
+            "replyNo": replyNo
+        }
+        
+        PClass.pAjax(url, params, dataType, type, async, function(data){
+            if(data){
+                try{
+                    if(!isEmpty(data) && 1 === data.messageId){
+                        alert(data.messageContents);
+                        loadReplies();
+                    } else {
+                        alert(data.messageContents);
+                    }
+                } catch(e) {
+                    console.error("Error parsing response:", e);
+                    alert("데이터 처리 중 오류가 발생했습니다.");
+                }
+            }
+        });
+    }
+    
+    function setParentReply(replyNo) {
+        const parentReplyInput = document.querySelector("#parentReply");
+        if (parentReplyInput) {
+            parentReplyInput.value = replyNo;
+            const replyContentsInput = document.querySelector("#replyContents");
+            if (replyContentsInput) {
+                replyContentsInput.focus();
+            }
+        } else {
+            console.error("Parent reply input not found");
+        }
+    }
 
-	// 댓글 수정 실행 함수
-	function doUpdateReply(replyNo) {
+    // 댓글 수정 실행 함수
+    function doUpdateReply(replyNo) {
     const updateContentElement = document.getElementById('updateReplyContents' + replyNo);
     if (!updateContentElement) {
         console.error('수정할 댓글 넘버를 찾는데 실패:', replyNo);
@@ -433,111 +433,111 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     });
 }
-	
-	function loadReplies(pageNo = 1){
-	    console.log("loadReplies()");
-	    const boardNoInput = document.querySelector("#boardNo");
+    
+    function loadReplies(pageNo = 1){
+        console.log("loadReplies()");
+        const boardNoInput = document.querySelector("#boardNo");
 
-	    const boardNo = boardNoInput ? boardNoInput.value : '';
-	    console.log("boardNo:", boardNo);  // boardNo 값이 제대로 출력되는지 확인
+        const boardNo = boardNoInput ? boardNoInput.value : '';
+        console.log("boardNo:", boardNo);  // boardNo 값이 제대로 출력되는지 확인
 
-	    if (!boardNo) {
-	        console.error("boardNo 값이 없습니다. 확인해 주세요.");
-	        return;
-	    }
-	    
-	    let type = "POST";
-	    let url = "/ehr/reply/doRetrieve.do";
-	    let async = "true";
-	    let dataType = "json";  // 이미 JSON으로 파싱된 데이터를 받도록 설정
-	    
-	    let params = { 
-	        searchDiv: '10',
-	        searchWord: boardNo,
-	        pageSize: 50,
-	        pageNo: pageNo
-	    }
-	    
-	    PClass.pAjax(url, params, dataType, type, async, function(data){
-	        if(data && data.list){
-	            let replyHtml = '';
-	            let replyMap = new Map();
+        if (!boardNo) {
+            console.error("boardNo 값이 없습니다. 확인해 주세요.");
+            return;
+        }
+        
+        let type = "POST";
+        let url = "/ehr/reply/doRetrieve.do";
+        let async = "true";
+        let dataType = "json";  // 이미 JSON으로 파싱된 데이터를 받도록 설정
+        
+        let params = { 
+            searchDiv: '10',
+            searchWord: boardNo,
+            pageSize: 50,
+            pageNo: pageNo
+        }
+        
+        PClass.pAjax(url, params, dataType, type, async, function(data){
+            if(data && data.list){
+                let replyHtml = '';
+                let replyMap = new Map();
 
-	            // 모든 댓글을 맵에 저장
-	            data.list.forEach(function(reply){
-	                reply.children = [];
-	                replyMap.set(reply.replyNo, reply);
-	            });
+                // 모든 댓글을 맵에 저장
+                data.list.forEach(function(reply){
+                    reply.children = [];
+                    replyMap.set(reply.replyNo, reply);
+                });
 
-	            // 부모-자식 관계 설정
-	            data.list.forEach(function(reply){
-	                if(reply.parentReply !== 0 && replyMap.has(reply.parentReply)){
-	                    replyMap.get(reply.parentReply).children.push(reply);
-	                }
-	            });
+                // 부모-자식 관계 설정
+                data.list.forEach(function(reply){
+                    if(reply.parentReply !== 0 && replyMap.has(reply.parentReply)){
+                        replyMap.get(reply.parentReply).children.push(reply);
+                    }
+                });
 
-	            // 최상위 댓글만 처리 (parentReply가 0인 경우)
-	            data.list.filter(reply => reply.parentReply === 0).forEach(function(reply){
-	                replyHtml += ReplyHtml(reply, 0);
-	            });
+                // 최상위 댓글만 처리 (parentReply가 0인 경우)
+                data.list.filter(reply => reply.parentReply === 0).forEach(function(reply){
+                    replyHtml += ReplyHtml(reply, 0);
+                });
 
-	            document.querySelector("#replyList").innerHTML = replyHtml;
-	            createPagination(data.totalCnt, params.pageSize, pageNo);
-	        } else {
-	            console.error("댓글 로딩 실패");     
-	        }
-	    });
-	}
-	
-	function ReplyHtml(reply, depth) {
-	    let indentation = 'margin-left: ' + (depth * 20) + 'px;';
-	    let html = '<div id="reply' + reply.replyNo + '" class="reply" style="' + indentation + '">';
-	    html += '<p><strong>' + reply.nickname + '</strong>: <span class="reply-content">' + reply.replyContents + '</span></p>';
-	    html += '<p><small>' + reply.regDt + '</small></p>';
-	    html += '<div class="reply-buttons">';
-	    html += '<button onclick="showReplyForm(' + reply.replyNo + ')">답글</button>';
-	    html += '<button onclick="showUpdateReplyForm(' + reply.replyNo + ')">수정</button>';
-	    html += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
-	    html += '</div>';
-	    html += '<div id="replyForm' + reply.replyNo + '" style="display:none;">';
-	    html += '<textarea id="replyContents' + reply.replyNo + '"></textarea>';
-	    html += '<button onclick="doSaveReply(' + reply.replyNo + ')">답글 작성</button>';
-	    html += '</div>';
+                document.querySelector("#replyList").innerHTML = replyHtml;
+                createPagination(data.totalCnt, params.pageSize, pageNo);
+            } else {
+                console.error("댓글 로딩 실패");     
+            }
+        });
+    }
+    
+    function ReplyHtml(reply, depth) {
+        let indentation = 'margin-left: ' + (depth * 20) + 'px;';
+        let html = '<div id="reply' + reply.replyNo + '" class="reply" style="' + indentation + '">';
+        html += '<p><strong>' + reply.nickname + '</strong>: <span class="reply-content">' + reply.replyContents + '</span></p>';
+        html += '<p><small>' + reply.regDt + '</small></p>';
+        html += '<div class="reply-buttons">';
+        html += '<button onclick="showReplyForm(' + reply.replyNo + ')">답글</button>';
+        html += '<button onclick="showUpdateReplyForm(' + reply.replyNo + ')">수정</button>';
+        html += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
+        html += '</div>';
+        html += '<div id="replyForm' + reply.replyNo + '" style="display:none;">';
+        html += '<textarea id="replyContents' + reply.replyNo + '"></textarea>';
+        html += '<button onclick="doSaveReply(' + reply.replyNo + ')">답글 작성</button>';
+        html += '</div>';
 
-	    if(reply.children && reply.children.length > 0) {
-	        reply.children.forEach(function(childReply) {
-	            html += ReplyHtml(childReply, depth + 1);
-	        });
-	    }
+        if(reply.children && reply.children.length > 0) {
+            reply.children.forEach(function(childReply) {
+                html += ReplyHtml(childReply, depth + 1);
+            });
+        }
 
-	    html += '</div>';
-	    return html;
-	}
-	
-	function createPagination(totalCnt, pageSize, currentPage) {
-	    const totalPages = Math.ceil(totalCnt / pageSize);
-	    let paginationHtml = '';
+        html += '</div>';
+        return html;
+    }
+    
+    function createPagination(totalCnt, pageSize, currentPage) {
+        const totalPages = Math.ceil(totalCnt / pageSize);
+        let paginationHtml = '';
 
-	    // 이전 페이지 버튼
-	    paginationHtml += '<li class="page-item ' + (currentPage == 1 ? 'disabled' : '') + '">';
-	    paginationHtml += '<a class="page-link" href="#" onclick="loadReplies(' + (currentPage - 1) + ')" aria-label="Previous">';
-	    paginationHtml += '<span aria-hidden="true">&laquo;</span></a></li>';
+        // 이전 페이지 버튼
+        paginationHtml += '<li class="page-item ' + (currentPage == 1 ? 'disabled' : '') + '">';
+        paginationHtml += '<a class="page-link" href="#" onclick="loadReplies(' + (currentPage - 1) + ')" aria-label="Previous">';
+        paginationHtml += '<span aria-hidden="true">&laquo;</span></a></li>';
 
-	    // 페이지 번호 버튼
-	    for (let i = 1; i <= totalPages; i++) {
-	        paginationHtml += '<li class="page-item ' + (i == currentPage ? 'active' : '') + '">';
-	        paginationHtml += '<a class="page-link" href="#" onclick="loadReplies(' + i + ')">' + i + '</a></li>';
-	    }
+        // 페이지 번호 버튼
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHtml += '<li class="page-item ' + (i == currentPage ? 'active' : '') + '">';
+            paginationHtml += '<a class="page-link" href="#" onclick="loadReplies(' + i + ')">' + i + '</a></li>';
+        }
 
-	    // 다음 페이지 버튼
-	    paginationHtml += '<li class="page-item ' + (currentPage == totalPages ? 'disabled' : '') + '">';
-	    paginationHtml += '<a class="page-link" href="#" onclick="loadReplies(' + (currentPage + 1) + ')" aria-label="Next">';
-	    paginationHtml += '<span aria-hidden="true">&raquo;</span></a></li>';
+        // 다음 페이지 버튼
+        paginationHtml += '<li class="page-item ' + (currentPage == totalPages ? 'disabled' : '') + '">';
+        paginationHtml += '<a class="page-link" href="#" onclick="loadReplies(' + (currentPage + 1) + ')" aria-label="Next">';
+        paginationHtml += '<span aria-hidden="true">&raquo;</span></a></li>';
 
-	    document.querySelector("#replyPagination").innerHTML = paginationHtml;
-	}
+        document.querySelector("#replyPagination").innerHTML = paginationHtml;
+    }
 
-	
+    
 
 </script>
 </head>

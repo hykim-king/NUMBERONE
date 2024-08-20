@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import com.pcwk.ehr.cmn.StringUtil;
 import com.pcwk.ehr.code.domain.Code;
 import com.pcwk.ehr.code.service.CodeService;
 import com.pcwk.ehr.markdown.service.MarkdownService;
+import com.pcwk.ehr.member.domain.Member;
 
 @Controller
 @RequestMapping("board")
@@ -184,10 +186,22 @@ public class BoardController implements PLog {
 
     // 단일 게시물 조회
     @RequestMapping(value = "/doSelectOne.do", method = RequestMethod.GET)
-    public String doSelectOne(Board inVO, Model model) throws SQLException {
-        log.debug("1. param inVO: " + inVO);
+    public String doSelectOne(Board inVO, Model model, HttpSession session) throws SQLException {
+        log.debug("1. param inVO: " + inVO);       
+        
+        if(null!=session) {
+        	Member member =(Member)session.getAttribute("member");
+        	inVO.setRegId(member.getMemberId());
+        }else {
+        	inVO.setRegId("1");
+        }
+        
         
         Board outVO = boardService.doSelectOne(inVO);
+        
+         
+        	
+            
         
         //TODO:SESSION처리
       	inVO.setRegId(StringUtil.nvl(inVO.getRegId(),"admin"));
