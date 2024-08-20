@@ -44,6 +44,11 @@ public class BoardServiceImpl implements BoardService, PLog {
 		return boardMapper.doSave(inVO);
 	}
     
+	 @Override
+	 public int askCntUpdate(Board inVO) throws SQLException {
+	     log.debug("1. param :" + inVO);
+	     return boardMapper.askCntUpdate(inVO);
+	 }
 	
 	//조회 count증가
 	@Override
@@ -55,7 +60,7 @@ public class BoardServiceImpl implements BoardService, PLog {
 		
 		int flag = 0;
 		//조회 count증가
-		if(null != outVO && inVO.getRegId() != null) {
+		if(null != outVO) {
             flag = boardMapper.readCntUpdate(inVO);
             log.debug("3. 조회 count증가 :" + flag);
             
