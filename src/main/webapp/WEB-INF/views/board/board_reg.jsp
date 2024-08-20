@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", function(){
     <div class="row mb-2">
         <label for="nickname" class="col-sm-2 col-form-label">등록자</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="nickname" id="nickname"  maxlength="20" required="required">        
+          <input type="text" class="form-control" name="nickname" id="nickname" value="${sessionScope.member.nickname}" readonly>          
         </div>      
     </div>    
     <div class="row mb-2"">

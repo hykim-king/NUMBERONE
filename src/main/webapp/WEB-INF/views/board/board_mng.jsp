@@ -172,34 +172,43 @@ document.addEventListener("DOMContentLoaded", function(){
     
     console.log("doDeleteBtn", doDeleteBtn);
 
-    moveToListBtn.addEventListener("click", function(event){
-        console.log("moveToListBtn click", event);
-        event.stopPropagation();
-        if(confirm('목록으로 이동 하시겠습니까?') === false) return;
-        moveToList();
-    });
+    if(moveToListBtn) {
+        moveToListBtn.addEventListener("click", function(event){
+            console.log("moveToListBtn click", event);
+            event.preventDefault();
+            if(confirm('목록으로 이동 하시겠습니까?') === false) return;
+            moveToList();
+        });
+    }
     
-    moveToEditBtn.addEventListener("click", function(event){
-        console.log("moveToEditBtn click", event);
-        event.stopPropagation();
-        if(confirm('수정 페이지로 이동합니다.') === false) return;
-        moveToEdit();
-    });
+    if(moveToEditBtn) {
+        moveToEditBtn.addEventListener("click", function(event){
+            console.log("moveToEditBtn click", event);
+            event.preventDefault();
+            if(confirm('수정 페이지로 이동합니다.') === false) return;
+            moveToEdit();
+        });
+    }
     
-    doDeleteBtn.addEventListener("click", function(event){
-        console.log("doDeleteBtn click", event);
-        event.stopPropagation();
-        doDelete(); 
-    });
+    if(doDeleteBtn) {
+        doDeleteBtn.addEventListener("click", function(event){
+            console.log("doDeleteBtn click", event);
+            event.preventDefault();
+            doDelete(); 
+        });
+    }
     
-    doSaveReplyBtn.addEventListener("click", function(event){
-        console.log("doSaveReplyBtn click", event);
-        event.stopPropagation();
-        doSaveReply();
-    });
+    if(doSaveReplyBtn) {
+        doSaveReplyBtn.addEventListener("click", function(event){
+            console.log("doSaveReplyBtn click", event);
+            event.preventDefault();
+            doSaveReply();
+        });
+    }
 
     loadReplies();
 });
+
 
     function isEmpty(value) {
         if (value == null) {
@@ -303,10 +312,13 @@ document.addEventListener("DOMContentLoaded", function(){
         let replyContentsInput = document.querySelector("#replyContents");
         const boardNoInput = document.querySelector("#boardNo");
        
-        if (parentReply === 0) {
-            replyContentsInput = document.querySelector("#replyContents");
-        } else {
+        if (parentReply !== 0) {
             replyContentsInput = document.querySelector("#replyContents" + parentReply);
+        }
+        
+        if(!replyContentsInput) {
+            console.error("Reply contents input not found");
+            return;
         }
         
         if(isEmpty(replyContentsInput.value)){
@@ -319,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function(){
         
         let type = "POST";
         let url = "/ehr/reply/doSave.do";
-        let async = "true";
+        let async = true;
         let dataType = "json";
         
         let params = {
@@ -329,7 +341,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 replyLevel: parentReply === 0 ? 0 : 1,
         }
         
+        console.log("Sending request with params:", params);
+        
         PClass.pAjax(url, params, dataType, type, async, function(data){
+            console.log("Received response:", data);
             if(data){
                 try{
                     if(!isEmpty(data) && 1 === data.messageId){
@@ -341,9 +356,10 @@ document.addEventListener("DOMContentLoaded", function(){
                         }
                         loadReplies();
                     } else {
-                        alert(message.messageContents);
+                        alert(data.messageContents);
                     }
                 } catch(e) {
+                    console.error("Error processing response:", e);
                     alert("데이터를 확인하세요.");
                 }
             }
@@ -429,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function(){
             alert(data.messageContents);
             loadReplies(); // 현재 페이지 다시 로드
         } else {
-            alert('댓글 수정에 실패했습니다.');
+            alert('수정 권한이 없습니다.');
         }
     });
 }
@@ -438,8 +454,13 @@ document.addEventListener("DOMContentLoaded", function(){
         console.log("loadReplies()");
         const boardNoInput = document.querySelector("#boardNo");
 
-        const boardNo = boardNoInput ? boardNoInput.value : '';
-        console.log("boardNo:", boardNo);  // boardNo 값이 제대로 출력되는지 확인
+        if (!boardNoInput) {
+            console.error("boardNo input not found");
+            return;
+        }
+
+        const boardNo = boardNoInput.value;
+        console.log("boardNo:", boardNo);
 
         if (!boardNo) {
             console.error("boardNo 값이 없습니다. 확인해 주세요.");
@@ -448,8 +469,8 @@ document.addEventListener("DOMContentLoaded", function(){
         
         let type = "POST";
         let url = "/ehr/reply/doRetrieve.do";
-        let async = "true";
-        let dataType = "json";  // 이미 JSON으로 파싱된 데이터를 받도록 설정
+        let async = true;
+        let dataType = "json";
         
         let params = { 
             searchDiv: '10',
@@ -458,30 +479,35 @@ document.addEventListener("DOMContentLoaded", function(){
             pageNo: pageNo
         }
         
+        console.log("Sending request with params:", params);
+        
         PClass.pAjax(url, params, dataType, type, async, function(data){
+            console.log("Received response:", data);
             if(data && data.list){
                 let replyHtml = '';
                 let replyMap = new Map();
 
-                // 모든 댓글을 맵에 저장
                 data.list.forEach(function(reply){
                     reply.children = [];
                     replyMap.set(reply.replyNo, reply);
                 });
 
-                // 부모-자식 관계 설정
                 data.list.forEach(function(reply){
                     if(reply.parentReply !== 0 && replyMap.has(reply.parentReply)){
                         replyMap.get(reply.parentReply).children.push(reply);
                     }
                 });
 
-                // 최상위 댓글만 처리 (parentReply가 0인 경우)
                 data.list.filter(reply => reply.parentReply === 0).forEach(function(reply){
                     replyHtml += ReplyHtml(reply, 0);
                 });
 
-                document.querySelector("#replyList").innerHTML = replyHtml;
+                const replyListElement = document.querySelector("#replyList");
+                if (replyListElement) {
+                    replyListElement.innerHTML = replyHtml;
+                } else {
+                    console.error("Reply list element not found");
+                }
                 createPagination(data.totalCnt, params.pageSize, pageNo);
             } else {
                 console.error("댓글 로딩 실패");     
@@ -555,8 +581,10 @@ document.addEventListener("DOMContentLoaded", function(){
   <!-- 버튼 -->
   <div class="mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
       <input type="button" value="목록"  id="moveToList"    class="btn btn-primary">
+       <c:if test="${not empty sessionScope.member and sessionScope.member.memberId eq board.regId}">
       <input type="button" value="수정" id="moveToEdit" class="btn btn-primary" data-board-no="${board.boardNo}">
       <input type="button" value="삭제"  id="doDelete" class="btn btn-primary">
+      </c:if>
   </div>
   <!--// 버튼 ----------------------------------------------------------------->
   
@@ -598,6 +626,7 @@ document.addEventListener("DOMContentLoaded", function(){
   <!-- 댓글 섹션 -->
   <div class="mt-5">
     <h3>댓글</h3>
+    
     
      <!-- 댓글 입력 폼 -->
     <form id="replyForm" class="mb-4">

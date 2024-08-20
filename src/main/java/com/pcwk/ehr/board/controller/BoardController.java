@@ -23,7 +23,6 @@ import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.cmn.StringUtil;
 import com.pcwk.ehr.code.domain.Code;
 import com.pcwk.ehr.code.service.CodeService;
-import com.pcwk.ehr.markdown.service.MarkdownService;
 import com.pcwk.ehr.member.domain.Member;
 
 @Controller
@@ -36,9 +35,6 @@ public class BoardController implements PLog {
     @Autowired
     CodeService codeService;
 
-    @Autowired
-    MarkdownService markdownService;
-
     public BoardController() {
         log.debug("┌──────────────────────────────────────────┐");
         log.debug("│ BoardController()                        │");
@@ -47,18 +43,28 @@ public class BoardController implements PLog {
 
     // 게시물 등록 화면으로 이동
     @RequestMapping(value = "/moveToReg.do", method = RequestMethod.GET)
-    public String moveToReg(Board inVO, Model model) throws SQLException {
+    public String moveToReg(Board inVO, Model model, HttpSession session) throws SQLException {
         String viewName = "board/board_reg";
         log.debug("1. param inVO: " + inVO);
+        
+        Member member = (Member) session.getAttribute("member");
+        if (member == null) {
+            return "redirect:/member/signInUp.do";  // 로그인 페이지로 리다이렉트
+        }
+        
         model.addAttribute("board", inVO);
-
         return viewName;
     }
     
     //수정 페이지 이동
     @RequestMapping(value = "/moveToEdit.do", method = RequestMethod.GET)
-    public String moveToEdit(@RequestParam("boardNo") int boardNo, Model model) throws SQLException {
+    public String moveToEdit(@RequestParam("boardNo") int boardNo, Model model, HttpSession session) throws SQLException {
         log.debug("1. param boardNo: " + boardNo);
+        
+        Member member = (Member) session.getAttribute("member");
+        if (member == null) {
+            return "redirect:/signInUp.do";  // 로그인 페이지로 리다이렉트
+        }
         
         Board board = new Board();
         board.setBoardNo(boardNo);
@@ -66,6 +72,10 @@ public class BoardController implements PLog {
         Board outVO = boardService.doSelectOne(board);
         
         if(outVO != null) {
+            if (!member.getMemberId().equals(outVO.getRegId())) {
+                model.addAttribute("message", "수정 권한이 없습니다.");
+                return "redirect:/board/doRetrieve.do";
+            }
             model.addAttribute("board", outVO);
             return "board/board_edit";
         } else {
@@ -77,20 +87,33 @@ public class BoardController implements PLog {
     // 게시물 수정
     @RequestMapping(value = "/doUpdate.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String doUpdate(Board inVO) throws SQLException {
+    public String doUpdate(Board inVO, HttpSession session) throws SQLException {
         log.debug("1. param inVO: " + inVO);
 
-        // 실제 수정자 ID 및 수정일 설정 (수정일은 현재 날짜로 설정)
+        Member member = (Member) session.getAttribute("member");
+        if (member == null) {
+            return new GsonBuilder().setPrettyPrinting().create().toJson(new Message(0, "로그인이 필요합니다."));
+        }
+
+        // 게시글 작성자 확인
+        Board board = new Board();
+        board.setBoardNo(inVO.getBoardNo());
+        Board originalBoard = boardService.doSelectOne(board);
+        
+        if (!member.getMemberId().equals(originalBoard.getRegId())) {
+            return new GsonBuilder().setPrettyPrinting().create().toJson(new Message(0, "수정 권한이 없습니다."));
+        }
+
         inVO.setModDt(StringUtil.nvl(inVO.getModDt(), "2024-08-16"));
-        inVO.setRegId(inVO.getNickname());
+        inVO.setRegId(member.getMemberId());
 
         int flag = boardService.doUpdate(inVO);
         String message = "";
 
         if (1 == flag) {
-            message = inVO.getTitle() + "이 수정되었습니다.";
+            message = "게시글이 수정되었습니다.";
         } else {
-            message = inVO.getTitle() + " 수정 실패!";
+            message = "게시글 수정에 실패했습니다.";
         }
 
         Message messageObj = new Message(flag, message);
@@ -101,8 +124,7 @@ public class BoardController implements PLog {
     }
 
     // 게시물 목록 조회
-    @RequestMapping( value ="/doRetrieve.do"
-			, method = RequestMethod.GET)	
+    @RequestMapping(value ="/doRetrieve.do", method = RequestMethod.GET)	
 	public String doRetrieve(Model model, HttpServletRequest req) throws SQLException{
 		String viewName = "board/board_list";
 		log.debug("┌──────────────────────────────────────────┐");
@@ -165,8 +187,19 @@ public class BoardController implements PLog {
     // 게시물 삭제
     @RequestMapping(value = "/doDelete.do", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String doDelete(Board inVO) throws SQLException {
+    public String doDelete(Board inVO, HttpSession session) throws SQLException {
         log.debug("1. param inVO: " + inVO);
+
+        Member member = (Member) session.getAttribute("member");
+        if (member == null) {
+            return new GsonBuilder().setPrettyPrinting().create().toJson(new Message(0, "로그인이 필요합니다."));
+        }
+
+        // 게시글 작성자 확인
+        Board originalBoard = boardService.doSelectOne(inVO);
+        if (!member.getMemberId().equals(originalBoard.getRegId())) {
+            return new GsonBuilder().setPrettyPrinting().create().toJson(new Message(0, "삭제 권한이 없습니다."));
+        }
 
         int flag = boardService.doDelete(inVO);
         String message = "";
@@ -187,24 +220,18 @@ public class BoardController implements PLog {
     // 단일 게시물 조회
     @RequestMapping(value = "/doSelectOne.do", method = RequestMethod.GET)
     public String doSelectOne(Board inVO, Model model, HttpSession session) throws SQLException {
-        log.debug("1. param inVO: " + inVO);       
+        log.debug("1. param inVO: " + inVO);
         
-        if(null!=session) {
-        	Member member =(Member)session.getAttribute("member");
-        	inVO.setRegId(member.getMemberId());
-        }else {
-        	inVO.setRegId("1");
+        if(null != session) {
+            Member member = (Member)session.getAttribute("member");
+            if(member != null) {
+                inVO.setRegId(member.getMemberId());
+            }
+        } else {
+            inVO.setRegId("1");
         }
         
-        
         Board outVO = boardService.doSelectOne(inVO);
-        
-         
-        	
-            
-        
-        //TODO:SESSION처리
-      	inVO.setRegId(StringUtil.nvl(inVO.getRegId(),"admin"));
         
         log.debug("2. outVO: " + outVO);
         
@@ -225,18 +252,21 @@ public class BoardController implements PLog {
         return "board/board_mng";  // JSP 페이지 이름
     }
 
-
     // 게시물 등록
     @RequestMapping(value = "/doSave.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String doSave(Board inVO) throws SQLException {
+    public String doSave(Board inVO, HttpSession session) throws SQLException {
     	String jsonString = "";
     	log.debug("1. param inVO: " + inVO);
     	
-    	inVO.setRegId(inVO.getNickname());
+        Member member = (Member) session.getAttribute("member");
+        if (member == null) {
+            return new GsonBuilder().setPrettyPrinting().create().toJson(new Message(0, "로그인이 필요합니다."));
+        }
+
+    	inVO.setRegId(member.getMemberId());
+        inVO.setNickname(member.getNickname());
         int flag = boardService.doSave(inVO);
-        
-        
         
         log.debug("2.flag:" + flag);
         String message = "";
