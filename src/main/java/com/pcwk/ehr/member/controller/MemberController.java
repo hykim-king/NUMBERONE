@@ -3,6 +3,8 @@ package com.pcwk.ehr.member.controller;
 import java.sql.SQLException;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +39,15 @@ public class MemberController implements PLog {
         return viewName;
     }
 
-    
+
+    @RequestMapping(value="/findMemberId.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public Member findMemberId(Member member, HttpSession httpSession) throws SQLException {
+    	
+    	
+    	 return memberService.findMemberId(member);
+
+    }
     
     @RequestMapping(value="/login.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody

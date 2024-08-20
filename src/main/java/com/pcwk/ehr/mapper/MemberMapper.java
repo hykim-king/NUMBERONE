@@ -45,6 +45,12 @@ public interface MemberMapper extends WorkDiv<Member> {
     int doUpdate(Member user) throws SQLException;
 
 
+	Member findMemberId(Member member);
+
+
+
+
+
 
 
 	

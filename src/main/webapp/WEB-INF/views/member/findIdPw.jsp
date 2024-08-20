@@ -17,6 +17,8 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <c:set var="CP" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +29,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">  
-
+    <script src="${CP}/resources/js/jquery-1.11.1.min.js"></script>
+    <%-- jquery --%>
+    <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
 <style>
     * {
         font-family: "Hahmlet", serif;
@@ -137,6 +141,7 @@
         width: 100%;
         color: black;
         display: block;
+        
     }
     .findId-form .group .input,
     .findId-form .group .button1,
@@ -145,6 +150,7 @@
         padding: 15px 20px;
         border-radius: 25px;
         background:#E0E0E080;
+        font-weight: 600;
     }
     .findId-form .group input[data-type="password"] {
         text-security: circle;
@@ -153,15 +159,16 @@
     .findId-form .group .label {
         color: #aaa;
         font-size: 15px;
+        padding:6px;
     }
     .findId-form .group .button1 {
         background: #eeeeee;
-        font-size : 14px;
+        font-size : 16px;
     }
     .findId-form .group .button2{
         background: #134b70;
         color: white;
-        font-size : 14px;
+        font-size : 16px;
     }
     .findId-form .group label .icon {
         width: 15px;
@@ -216,6 +223,8 @@
         text-align: center;
     }
 </style>
+
+
 </head>
 <body>
     <div>
@@ -231,14 +240,19 @@
                 <div class="findId-form">
                   <div class="find-id-htm">
                     <div class="group">
+                      <label for="user" class="label">이름</label>
+                      <input id="user" type="text" class="input">
                       <label for="user" class="label">이메일</label>
                       <input id="user" type="text" class="input">
+                      
                     </div>
                       
                     <div class="group">
-                      <button class="button1" type="button" value="아이디찾기">아이디 찾기</button>
+                       <button class="button1" type="button" onclick="findMemberId()">아이디 찾기</button>
                     </div>
-                 
+                    
+                    
+                 <div class="result" id="result"></div>
                     
                   </div>
                   
@@ -283,6 +297,33 @@
                 findHtml.classList.add('white-background');
             });
         });
+        
+
+        
+        
+        
+        
+        function findMemberId() {
+            var name = $('#userName').val();
+            var email = $('#userEmail').val();
+
+            $.ajax({
+                url: '/ehr/member/findMemberId.do',  
+                type: 'POST',
+                data: { name: name, email: email },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.memberId) {
+                        $('#result').html('찾은 아이디: ' + response.memberId);
+                    } else {
+                        $('#result').html('해당하는 아이디를 찾을 수 없습니다.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#result').html('서버 오류가 발생했습니다. 다시 시도해 주세요.');
+                }
+            });
+        }
     </script>
 </body>
 </html>

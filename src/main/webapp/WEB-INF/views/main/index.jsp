@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <c:set var="CP" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Highcharts 로드 -->
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+<script src="${CP}/resources/js/jquery-1.11.1.min.js"></script>
+    <%-- jquery --%>
+    <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
 <title>재난안전포털 No.1</title>
 <style>
 
@@ -235,17 +239,65 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 1px solid #E0E0E0;
+        
         box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     }
     
+    
+    #sheltersBtn {
+        display:none;
+	    width: 576px;
+	    height: 424px;
+	    position: relative;
+	    top: 577px;
+	    left: 110px;
+	    align-items: center;
+	    z-index: 10;
+    }
+  
+
+    #sheltersBtn ul {
+        list-style-type: none; /* 기본 리스트 스타일 제거 */
+        padding: 0;
+        margin: 0;
+        width: 100%;
+
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    #sheltersBtn li {
+        width: 35%; /* 3개의 열로 분배 */
+        margin-bottom: 15px;
+        text-align: center; /* 텍스트 가운데 정렬 */
+        padding:5px;
+       
+    }
+
+    #sheltersBtn a {
+        display: block;
+        padding: 10px;
+        background-color: #ECEFF1;
+        color: black;
+        font-weight:600;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        padding :10px;
+         box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);   
+    }
+
+    #sheltersBtn a:hover {
+        background-color: #134b70; /* 마우스 오버 시 배경색 변경 */
+        color:#eee;
+    }
     .sheltersBottom{
 	    position: absolute;
-	    top: 872px;
-	    left: 21px;
+	    top: 929px;
+	    left: 20px;
 	    background-color: #134b70;
 	    width: 580px;
-	    height: 81px;
+	    height: 45px;
     }
     .emergency-info {
         position: absolute;
@@ -548,9 +600,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			        <div class="settings">
 			            <p>안전시설 정보 조회</p>
 			        </div>
-                        <div>
+                        <div id="sheltersBtn">
                              <ul>
-<!--                             <li><a href="#">민방위 대피시설</a></li>
+                                 <li><a href="#">민방위 대피시설</a></li>
                                  <li><a href="#">지진대피장소</a></li>
                                  <li><a href="#">이재민 임시주거시설</a></li>
                                  <li><a href="#">무더위 쉼터</a></li>
@@ -558,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                  <li><a href="#">민방위 급수시설</a></li>
                                  <li><a href="#">지진겸용 임시주거시설</a></li>
                                  <li><a href="#">화학사고 대피장소</a></li>
-                                 <li><a href="#">미세먼지 쉼터</a></li> -->
+                                 <li><a href="#">미세먼지 쉼터</a></li>
                              </ul>
                         </div>
                         			
@@ -681,7 +733,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		        } else{
 		            document.getElementById('showLocation').textContent = '* 로그인 하시면 맞춤 정보로 확인 가능 합니다.';
 		            document.getElementById('loginGoBtn').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
+		            document.getElementById('sheltersBtn').style.display = 'inline-block';
 		            callServer(1000000000,formattedLastMonth,formattedToday);
+
 		            getDisasterMsgListAll();
 		        }
 		    })

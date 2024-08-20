@@ -26,6 +26,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
 
@@ -58,11 +60,40 @@ public class MemberControllerTest implements PLog{
 
 	        
 	        login01 = new Member("user1", "password1");
-	        memVO01 = new Member("user1", 1, "password1", "UserOne", "nickname1", 'N',"email@example.com");
+	        memVO01 = new Member("ss", 1, "password1", "UserOne", "ss", 'N',"ss@naver.com");
 
 	        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	        session = new MockHttpSession();
 	    }
+	    
+	    
+	    
+	    @Test
+	    public void findMemberId() throws Exception {
+	        // API 호출
+	        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/member/findMemberId.do")
+	                .param("name", "hwname")
+	                .param("email", "hhyew1215@naver.com")
+	                .contentType("application/x-www-form-urlencoded");
+
+	        // 호출 및 응답 받기
+	        ResultActions resultActions = mockMvc.perform(requestBuilder)
+	                .andExpect(MockMvcResultMatchers.status().isOk());
+
+	        // JSON 응답을 문자열로 추출
+	        String jsonResult = resultActions.andDo(print())
+	                .andReturn()
+	                .getResponse().getContentAsString();
+
+	        // JSON 파서로 memberId 추출
+	        JsonObject jsonObject = JsonParser.parseString(jsonResult).getAsJsonObject();
+	        String memberId = jsonObject.get("memberId").getAsString();
+
+	        // 기대값과 실제값 비교
+	        assertEquals("hwid", memberId);
+	    }
+	    
+	    
 	    
 	    @Ignore
 	    @Test
@@ -160,7 +191,7 @@ public class MemberControllerTest implements PLog{
 
 	
 	    
-	    
+	    @Ignore
 	    @Test
 	    public void doSave() throws Exception {
 	        // 새 회원 정보

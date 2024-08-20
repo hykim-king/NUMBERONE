@@ -103,6 +103,12 @@ public class MemberServiceImpl implements MemberService, PLog {
     }
 
     @Override
+    public Member findMemberId(Member member) {
+        return memberMapper.findMemberId(member);
+    }
+    
+    
+    @Override
     public boolean checkNickname(String nickname) {
        
         return false;
@@ -123,6 +129,8 @@ public class MemberServiceImpl implements MemberService, PLog {
         
         return true; // 로그아웃 성공 여부 반환
     }
+
+	
 
 
 

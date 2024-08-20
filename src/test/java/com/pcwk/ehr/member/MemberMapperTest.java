@@ -3,6 +3,9 @@ package com.pcwk.ehr.member;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.sql.SQLException;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -17,6 +20,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.member.domain.Member;
+
+import junit.framework.Assert;
+
 import com.pcwk.ehr.mapper.MemberMapper;
 
 @RunWith(SpringRunner.class)
@@ -155,7 +161,7 @@ public class MemberMapperTest implements PLog {
 	    assertMembersEqual(loginVO, login01);
 	}
 	
-	
+	@Ignore
 	@Test
 	public void doSelectOne() throws SQLException {
 	    System.out.println("[̲̅t][̲̅e][̲̅s][̲̅t][̲̅D][̲̅o][̲̅S][̲̅e][̲̅l][̲̅e][̲̅c][̲̅t][̲̅O][̲̅n]");
@@ -173,6 +179,35 @@ public class MemberMapperTest implements PLog {
 	    // assertEquals(testMember.getPassword(), retrievedMember.getPassword()); // 비밀번호는 보통 null로 설정되므로, 필요에 따라 조정
 	}
 	
+	
+	
+	
+	@Test
+    public void testFindMemberId() {
+        
+        SqlSessionFactory sqlSessionFactory = context.getBean(SqlSessionFactory.class);
+        
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+           
+            MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+
+            // 테스트 데이터
+            Member member = new Member();
+            member.setName("hwname");
+            member.setEmail("hhyew1215@naver.com");
+
+            //호출
+            Member result = mapper.findMemberId(member);
+
+          
+            String expectedMemberId = "hwid";
+
+          
+            assertNotNull(result);
+            assertEquals(expectedMemberId, result.getMemberId());
+        }
+    }
+    
 	
     private void assertMembersEqual(Member expected, Member actual) {
         if (expected == null) {

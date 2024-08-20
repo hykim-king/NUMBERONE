@@ -143,6 +143,7 @@
 	        margin-right: 15px;
 	        padding-bottom: 5px;
 	        margin: 0 15px 10px 0;
+
 	        display: inline-block;
 	        border-bottom: 2px solid transparent;
 	    }
@@ -189,15 +190,18 @@
 	    .login-form .group .label {
 	        color: #9E9E9E;
 	        font-size: 15px;
+	        padding : 6px;
 	    }
 	    .login-form .group .button1 {
 	        background: #eeeeee;
-	        font-size : 14px;
+	        font-size : 16px;
+	        font-weight: 600;
 	    }
 	    .login-form .group .button2 {
 	        background: #134b70;
 	        color: white;
-	        font-size : 14px;
+	        font-size : 16px;
+	        font-weight: 600;
 	    }
 	    
 	    .login-form .group label .icon {
