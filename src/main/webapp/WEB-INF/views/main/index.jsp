@@ -742,7 +742,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			    disasterTypesInEnglish.forEach((type, index) => {
 			        const slide = document.createElement('a');
 			        const img = document.createElement('img');
-			        img.src = '/ehr/src/main/webapp/resources/img/'+type + '.png';
+			        img.src = '/ehr/resources/img/'+type + '.png';
 			        img.alt = type;
 			        slide.appendChild(img);
 			        slidesContainer.appendChild(slide);
