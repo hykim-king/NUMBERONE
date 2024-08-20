@@ -48,7 +48,7 @@
         FROM location
         START WITH loc_code = TO_NUMBER(#{searchWord})
         CONNECT BY PRIOR parent_loc_code =loc_code
-    )) and AND broadcast_organization NOT LIKE '%경찰청'
+    ) AND broadcast_organization NOT LIKE '%경찰청')
             </when>
             
             <when test ="searchDiv !=null and searchDiv == '20'">
