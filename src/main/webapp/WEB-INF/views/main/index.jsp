@@ -47,22 +47,22 @@
         left: 730px;
         width: 415px;
         height: 138px;
-        background-color: #134b70;
+        background-color: #E0E0E0;
         display: flex;
         justify-content: space-around;
         align-items: center;
         padding : 10px;
-        border: 1px solid #E0E0E0;
+       box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.2); 
         border-radius: 50px;
     }
 
     .mypageDiv{
         width : 80px;
-        height: 160px;
+        height: 158px;
         font-family: 'Tahoma', sans-serif;
         position: absolute;
         left: 0;
-        border : 9px solid #eee;
+        border-left : 9px solid #eee;
          display: flex; /* Flexbox 활성화 */
 	    justify-content: center; /* 가로 중앙 정렬 */
 	    align-items: center; /* 세로 중앙 정렬 */
@@ -85,7 +85,7 @@
         position: absolute;
         top:60px;
         left : 110px;
-        color:#eeeeee;
+        color:#134b70;
         font-size: 15px;
         font-weight: 600;
     }
@@ -145,19 +145,26 @@
         height: 130px;
     }
     .settings {
-        position: absolute;
-        top: 485px;
-        left: 20px;
-        width: 300px;
-        height: 45px;
-        background-color: #CFD8DC;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: "Hahmlet", serif;
-        font-optical-sizing: auto;
-        font-style: normal;
-        border: 1px solid #E0E0E0;
+	    position: absolute;
+	    top: 485px;
+	    left: 20px;
+	    width: 209px;
+	    height: 45px;
+	    background-color: #134b70;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    font-family: "Hahmlet", serif;
+	    font-optical-sizing: auto;
+	    font-style: normal;
+	    border: 1px solid #E0E0E0;
+	    border-radius: 10px 10px 0px 0px;
+    }
+    .settings>p{
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        color : #eee
     }
     .shelters {
         position: absolute;
@@ -183,30 +190,33 @@
        
     }
     .messagesDiv{
-        position: absolute;
-        top: 215px;
-        left: -25px;
-        width: 45px;
-        height: 230px;
-        background-color: #CFD8DC;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: "Hahmlet", serif;
-        font-optical-sizing: auto;
-        font-style: normal;
-        border: 1px solid #E0E0E0;
+	    position: absolute;
+	    top: 215px;
+	    left: -21px;
+	    width: 40px;
+	    height: 144px;
+	    background-color: #134b70;
+	    color: #eee;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    font-family: "Hahmlet", serif;
+	    font-optical-sizing: auto;
+	    /* font-weight: 800; */
+	    font-style: normal;
+	    /* border: 1px solid #E0E0E0; */
+	    border-radius: 10px 0px 0px 10px;
+	    box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.4);
     
     }
     .messagesDiv>p{
-        position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%); /* 중앙으로 이동 */
-		text-align: center; /* 가로 가운데 정렬 */
-		font-size : 20px;
-		
-    
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	    text-align: center;
+	    font-size: 20px;
+	    font-weight: 600;
     }
     #messageTable{
         font-family: "Hahmlet", serif;
@@ -555,7 +565,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		        if (data.locCode!=0) {
 		            document.getElementById('showName').textContent = '"' + memberFromSession.nickname+'" 님 환영합니다!';
 		            locToAddress(memberFromSession.locCode); 
+		            
+		            
 		            document.getElementById('locResetButton').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
+		            
+		            document.querySelector('.myPageZone').style.backgroundColor = '#134b70';
+		            document.getElementById('showLocation').style.color = '#eee';
+		            
 		            console.log(memberFromSession);
 		            callServerUpward(memberFromSession.locCode,formattedLastMonth,formattedToday);
 		            
