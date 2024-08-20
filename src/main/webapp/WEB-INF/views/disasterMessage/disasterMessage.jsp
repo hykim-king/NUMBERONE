@@ -214,7 +214,7 @@ function retrieve(){
 	let condition = new StatisticsCondition(loccode,startDate,endDate,pageNo,pageSize);
 	console.log(condition);
 	
-	fetch('http://localhost:8080/ehr/messageRetrieve', {
+	fetch('http://localhost:8080/ehr/messageRetrieve2', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

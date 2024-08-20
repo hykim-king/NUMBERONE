@@ -115,7 +115,7 @@ public class LocationController implements PLog {
 		log.debug("┌──────────────────────────────────────────────────┐");
 		log.debug("│ locToAddress()                                   │");
 		log.debug("└──────────────────────────────────────────────────┘");
-
+        log.debug("locCode:"+locCode);
 		String jsonString = "";
 		Location inVO = new Location();
 		inVO.setLocCode(locCode);

@@ -4,8 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>침수</title>
-
+<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<title>훈련영상</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">
+<link href="/ehr/resources/css/behavior.css" rel="stylesheet" />
 <script>
     function navigateToCategory() {
         var selectBox = document.getElementById("categorySelect");
@@ -16,19 +20,23 @@
     }
 </script>
 <style>
+
+
     main {
         width: 100%;
         max-width: 800px;
         background-color: #F5F5F5;
-        margin: 20px 0;
+         margin : 0 auto;
         padding: 20px;
         text-align: center;
     }
 
-    h1, h2 {
-        color: #333;
+    h1{
+        color: #201e4b;
     }
-
+    h2 {
+        color: #134b70;
+    }
     select {
         width: 200px;
         padding: 10px;
@@ -44,9 +52,11 @@
         border: none;
     }
 </style>
+
+
 </head>
 <body>
-<%@ include file="header.jsp" %>
+  <%@ include file="/WEB-INF/views/main/header.jsp" %> 
 
 <main>
     <h1>훈련영상</h1>
@@ -84,6 +94,6 @@
     </iframe>
 </main>
 
-<%@ include file="footer.jsp" %>
+   <%@ include file="/WEB-INF/views/main/footer.jsp" %>
 </body>
 </html>

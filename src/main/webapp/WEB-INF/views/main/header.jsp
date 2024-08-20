@@ -46,13 +46,14 @@
 
     #headerMenu ul a {
         display: block;
-        color:#201e43;
+        color:#134b70;
         font-size: 13px;
         text-decoration: none;
         font-family: "Hahmlet", serif;
         font-optical-sizing: auto;
         font-style: normal;
         padding: 14px 30px;
+        font-weight: 500;
     }
 
     li {
@@ -243,7 +244,7 @@
                         
                         <ul>
                            
-                            <li><a href="#">훈련영상</a></li>
+                            <li><a href="http://localhost:8080/ehr/video/videoView.do">훈련영상</a></li>
                             <li><a href="http://localhost:8080/ehr/location/location.do">대피시설</a></li>
                         </ul>
                     </li>
@@ -273,7 +274,7 @@
     
     <script>
     
-    let memberFromSession;
+    let memberFromSession=null;
 
     function getSession() {
         fetch('http://localhost:8080/ehr/session/api/session', {
@@ -289,6 +290,7 @@
         .then(data => {
             console.log(data);
             memberFromSession = data;
+            console.log("memberFromSession:",memberFromSession);
 
             if (data.locCode!=0) {
                 document.getElementById('loginBtn').textContent = '로그아웃';
@@ -319,7 +321,8 @@
         })
         .then(data => {
             console.log(data);
-            if (data.flag === 1) {
+            memberFromSession = data;
+            if (data.locCode=0) {
                 // 로그아웃 성공 시
                 document.getElementById('loginBtn').textContent = '로그인/회원가입';
             }
@@ -339,6 +342,12 @@
             logout(); // 로그아웃 호출
         }
     });
+    
+    
+    
+    
+    
+    
     
     function createHoverEffect(gnbWrapId, navMenuId) {
         const navMenu = document.getElementById(navMenuId);

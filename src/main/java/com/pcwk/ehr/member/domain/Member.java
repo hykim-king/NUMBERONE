@@ -17,10 +17,11 @@ public class Member extends DTO {
         this.memberId = memberId;
         this.password = password;
     }
+    
+    
 
-    
-    
-	public Member(String memberId, int locCode, String password, String name, String nickname, char isAdmin,String email) {
+	public Member(String memberId, long locCode, String password, String name, String nickname, char isAdmin,
+			String email) {
 		super();
 		this.memberId = memberId;
 		this.locCode = locCode;
@@ -43,7 +44,7 @@ public class Member extends DTO {
 		return locCode;
 	}
 
-	public void setLocCode(int locCode) {
+	public void setLocCode(long locCode) {
 		this.locCode = locCode;
 	}
 
@@ -93,6 +94,10 @@ public class Member extends DTO {
 				+ ", nickname=" + nickname + ", isAdmin=" + isAdmin + ", email=" + email + ", toString()="
 				+ super.toString() + "]";
 	}
+
+    
+    
+	
 
     
 }

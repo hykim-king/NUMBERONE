@@ -41,6 +41,7 @@
 <script src="/ehr/resources/js/idsi_safekorea_common.js"></script>    
 <script src="/ehr/resources/js/content.js"></script>
 
+
 <script>
     
     function agobeforeView_onclick() {
