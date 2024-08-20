@@ -1048,8 +1048,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
 		
 				
-		function showGraph(statistics) {
+		function showGraph(dataArray,statistics) {
 			let titleText ='전국 최근 한달 재난 문자 누적 통계';
+			console.log(statistics.locCode);
 			if(statistics.locCode!=1000000000){
 				titleText ='우리동네 최근 한달 재난 문자 누적 통계'
 			}
@@ -1063,7 +1064,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 series: [{
                     name: '문자 수',
-                    data: statistics
+                    data: dataArray
                 }]
             });
             
@@ -1120,7 +1121,7 @@ document.addEventListener('DOMContentLoaded', function() {
             	});
             	
             	console.log(resultArray);
-            	showGraph(resultArray);
+            	showGraph(resultArray,condition);
             	
                 
             })
@@ -1169,7 +1170,7 @@ document.addEventListener('DOMContentLoaded', function() {
             	});
             	
             	console.log(resultArray);
-            	showGraph(resultArray);
+            	showGraph(resultArray,condition);
             	
                 
             })
