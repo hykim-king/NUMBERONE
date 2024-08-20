@@ -12,13 +12,14 @@
 <title>재난안전포털 No.1</title>
 <style>
 
-*{
-        font-family: "Hahmlet", serif;
-        font-optical-sizing: auto;
-        text-decoration: none;
-        color: inherit;
-}
-    
+	*{
+	        font-family: "Hahmlet", serif;
+	        font-optical-sizing: auto;
+	        text-decoration: none;
+	        color: inherit;
+	}
+	    
+
 
 
     section {
@@ -47,14 +48,66 @@
         left: 730px;
         width: 415px;
         height: 138px;
-        background-color: #E0E0E0;
+        background-color: white;
         display: flex;
         justify-content: space-around;
         align-items: center;
         padding : 10px;
-       box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.2); 
+        box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.2); 
         border-radius: 50px;
     }
+    
+    
+    
+    /* 배너 */
+	 .slider {
+	    position: relative;
+	    width: 100%;
+	    max-width: 600px; /* 원하는 슬라이더의 최대 너비 */
+	    margin: auto;
+	    overflow: hidden;
+	}
+	
+	.slides {
+	    display: flex;
+	    transition: transform 0.5s ease-in-out;
+	}
+	
+	.slide {
+	    min-width: 100%;
+	    box-sizing: border-box;
+	}
+	
+	.slide img {
+	    width: 100%;
+	    height: auto;
+	    display: block;
+	}
+	
+	.nav-buttons {
+	    text-align: center;
+	    text-align: center;
+	    position: relative;
+	    top: 145px;
+	}
+	
+	.nav-btn {
+	    background-color: #bbb;
+	    border: none;
+	    border-radius: 50%;
+	    cursor: pointer;
+	    height: 7px;
+	    width: 7px;
+	    margin: 5px;
+	    padding: 0;
+	    outline: none;
+	   position: relative;
+	    top: -8px;
+	}
+	
+	.nav-btn.active {
+	    background-color: #717171;
+	}
 
     .mypageDiv{
         width : 80px;
@@ -129,7 +182,7 @@
             font-family: "Hahmlet", serif;
             font-size: 14px;
             cursor: pointer;
-            box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.6); 
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.4);
         
         
     
@@ -157,8 +210,8 @@
 	    font-family: "Hahmlet", serif;
 	    font-optical-sizing: auto;
 	    font-style: normal;
-	    border: 1px solid #E0E0E0;
 	    border-radius: 10px 10px 0px 0px;
+	    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 1px 3px 6px rgba(255, 255, 255, 0.4) inset;
     }
     .settings>p{
         text-align: center;
@@ -178,7 +231,15 @@
         align-items: center;
         border: 1px solid #E0E0E0;
     }
-
+    
+    .sheltersBottom{
+	    position: absolute;
+	    top: 872px;
+	    left: 21px;
+	    background-color: #134b70;
+	    width: 580px;
+	    height: 81px;
+    }
     .emergency-info {
         position: absolute;
         top: 20px;
@@ -219,10 +280,10 @@
 	    font-weight: 600;
     }
     #messageTable{
-        font-family: "Hahmlet", serif;
-        font-optical-sizing: auto;
-        font-size: 14px;
-        boarder : 1px solid black;
+	   
+	    
+	    
+	    font-weight: 500;
     }
     #messageTable tr{
         padding : 5px;
@@ -230,11 +291,10 @@
     }
     
     #messageTable td{
-        padding : 8px;
-        background-color: #F5F5F5;
-        border-bottom: 2px solid #9E9E9E;
         
-       
+        
+        border-bottom: 3px solid #9E9E9E;
+        font-weight: 500;
     }
     .messages {
         position: absolute;
@@ -246,22 +306,24 @@
         background-color: #FFFFFF;
         padding: 10px;
         border: 1px solid #E0E0E0;
+        box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     }
     
     .graphText{
-        position: absolute;
-        top: 485px;
-        left: 615px;
-        width: 300px;
-        height: 45px;
-        background-color: #CFD8DC;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: "Hahmlet", serif;
-        font-optical-sizing: auto;
-        font-style: normal;
-        border: 1px solid #E0E0E0;
+	    position: absolute;
+	    top: 485px;
+	    left: 615px;
+	    width: 209px;
+	    height: 45px;
+	    background-color: #134b70;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    font-family: "Hahmlet", serif;
+	    font-optical-sizing: auto;
+	    font-style: normal;
+	    border-radius: 10px 10px 0px 0px;
+	   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 1px 3px 6px rgba(255, 255, 255, 0.4) inset;
     }
     .graph {
         position: absolute;
@@ -279,6 +341,12 @@
         font-optical-sizing: auto;
         font-style: normal;
         border: 1px solid #E0E0E0;
+    }
+    .graphText p{
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        color : #eee;
     }
     .graph img {
         display: block;
@@ -346,76 +414,76 @@
         
     }
     
-.behavior ul, .search ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-.behavior ul li{
-    background-color: #ECEFF1;
-    border-radius: 10px;
-    padding: 10px 15px;
-    margin: 5px;
-    width: 39%; 
-    height: 30px;
-    line-height: 2.2;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 500;
-    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
-}
-
-
-.search ul li {
-    background-color: #ECEFF1;
-    border-radius: 50%;
-    padding: 10px 15px;
-    margin: 5px;
-
-    height: 59px;
-    line-height: 4;
-    text-align: center;
-    font-weight: 600;
-    font-size: 15px;
-    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
-}
-
-.behavior ul li:hover, .search ul li:hover {
-    background-color: #134b70;
-    cursor: pointer;
-}
-
-.behavior ul li:hover a, .search ul li:hover a {
-    color: #eeeeee;
-    cursor: pointer;
-}
-
-
-.scroll-to-top {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: none; 
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    line-height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 1000; 
-}
-
-.scroll-to-top:hover {
-    background-color: #007bff;
-}
+	.behavior ul, .search ul {
+	    list-style: none;
+	    padding: 0;
+	    margin: 0;
+	    display: flex;
+	    flex-wrap: wrap;
+	    justify-content: space-around;
+	}
+	
+	.behavior ul li{
+	    background-color: #ECEFF1;
+	    border-radius: 10px;
+	    padding: 10px 15px;
+	    margin: 5px;
+	    width: 39%; 
+	    height: 30px;
+	    line-height: 2.2;
+	    text-align: center;
+	    font-size: 15px;
+	    font-weight: 500;
+	    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
+	}
+	
+	
+	.search ul li {
+	    background-color: #ECEFF1;
+	    border-radius: 50%;
+	    padding: 10px 15px;
+	    margin: 5px;
+	
+	    height: 59px;
+	    line-height: 4;
+	    text-align: center;
+	    font-weight: 600;
+	    font-size: 15px;
+	    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
+	}
+	
+	.behavior ul li:hover, .search ul li:hover {
+	    background-color: #134b70;
+	    cursor: pointer;
+	}
+	
+	.behavior ul li:hover a, .search ul li:hover a {
+	    color: #eeeeee;
+	    cursor: pointer;
+	}
+	
+	
+	.scroll-to-top {
+	    position: fixed;
+	    bottom: 20px;
+	    right: 20px;
+	    display: none; 
+	    background-color: #2196F3;
+	    color: white;
+	    border: none;
+	    border-radius: 50%;
+	    width: 50px;
+	    height: 50px;
+	    text-align: center;
+	    line-height: 50px;
+	    font-size: 24px;
+	    cursor: pointer;
+	    z-index: 1000; 
+	}
+	
+	.scroll-to-top:hover {
+	    background-color: #007bff;
+	}
 </style>
 <script>
 //.scroll-to-top
@@ -454,26 +522,46 @@ document.addEventListener('DOMContentLoaded', function() {
 		        </div>
 		        
 		        
+		        
+		        
 		        <div class="emergency-info">
-		            <div>
-		                <a><img src="/ehr/resources/img/typhoon.png" alt="typhoon"></a>
+		            <div class="slides">
+		                
 		            </div>
+		            
+		                <div class="nav-buttons">
+				            
+                        </div>
 		        </div>
 		          
 		        
 		
 		            <div id="sheltersDiv">
 			        <div class="settings">
-			            <p>대피시설 정보조회</p>
+			            <p>안전시설 정보 조회</p>
 			        </div>
+                        <div>
+                             <ul>
+<!--                                  <li><a href="#">민방위 대피시설</a></li>
+                                 <li><a href="#">지진대피장소</a></li>
+                                 <li><a href="#">이재민 임시주거시설</a></li>
+                                 <li><a href="#">무더위 쉼터</a></li>
+                                 <li><a href="#">산사태 대피소</a></li>
+                                 <li><a href="#">민방위 급수시설</a></li>
+                                 <li><a href="#">지진겸용 임시주거시설</a></li>
+                                 <li><a href="#">화학사고 대피장소</a></li>
+                                 <li><a href="#">미세먼지 쉼터</a></li> -->
+                             </ul>
+                        </div>
+                        			
 			        
 			        <div>
 			           <div class="shelters"></div>
-		               
+		               <div class="sheltersBottom"></div>
 			        
 			        </div>
-			        
-		         </div><!-- sheltersDiv end -->
+			        </div><!-- sheltersDiv end -->        
+		         
 		        
 		        
 		        
@@ -525,7 +613,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <img src="/ehr/resources/img/searchImg.png">
                     </div>
                     <div class="search">
-                        <h3>재난발생 정보조회</h3>
+                        <h3>재난발생 정보 조회</h3>
                         <ul>
                         <li><a href="#">재난문자</a></li>
                         <li><a href="#">재난뉴스</a></li>
@@ -545,6 +633,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <%@ include file="footer.jsp" %>
 <script>
+
+
+
+
+
+
 
 
 		function getSession() {
@@ -590,6 +684,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		document.addEventListener('DOMContentLoaded', getSession);
 		
+		
+		
+		
+		
+		
+		
+		
 		function locToAddress(locCode) {
 		       const url = new URL('http://localhost:8080/ehr/location/locToAddress');
 		        url.searchParams.append('locCode', locCode);
@@ -630,7 +731,91 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		
 		
+/* -배너------------------------------------------------------------------------------------- */
+			let disasterTypesInEnglish = [];    
+	
+	
+			function createBanner(disasterTypesInEnglish) {
+			    const slidesContainer = document.querySelector('.slides');
+			    const navButtonsContainer = document.querySelector('.nav-buttons');
+			    
+			    disasterTypesInEnglish.forEach((type, index) => {
+			        const slide = document.createElement('a');
+			        const img = document.createElement('img');
+			        img.src = '/ehr/src/main/webapp/resources/img/'+type + '.png';
+			        img.alt = type;
+			        slide.appendChild(img);
+			        slidesContainer.appendChild(slide);
+			    
+			        const navButton = document.createElement('button');
+			        navButton.className = 'nav-btn';
+			        navButton.dataset.slide = index;
+			        navButton.addEventListener('click', () => showSlide(index));
+			        navButtonsContainer.appendChild(navButton);
+			    });
+	
+			    showSlide(0); // 첫 슬라이드를 초기 설정으로 보여줌
+			}
+			
+			
+		    
+		    setInterval(() => {
+		        currentSlide = (currentSlide + 1) % disasterTypesInEnglish.length;
+		        showSlide(currentSlide);
+		    }, 5000);
+		         
+	        
+	        function convertDisasterTypes(disasterTypes) {
+	        const disasterTypeMap = {
+	            "홍수": "flood",
+	            "호우": "heavyRain",
+	            "풍랑": "waves",
+	            "황사": "yellowDust",
+	            "강풍": "strongWind",
+	            "대설": "heavySnow",
+	            "한파": "coldWave",
+	            "폭염": "heatWave",
+	            "지진": "earthQuake",
+	            "산사태": "landslide",
+	            "화재": "fire",
+	            "산불": "forestFires",
+	            "교통사고": "trafficAccident",
+	            "감염병예방": "preventionInfectious",
+	            "미세먼지": "fineDust"
+	        };
+	        
+	        return Array.from(disasterTypes).map(type => disasterTypeMap[type]);
+	    }
+	    
+	
+	    
+	    // 슬라이드 보여주기
+	    let currentSlide = 0;
+	    
+	    function showSlide(index) {
+	        const slides = document.querySelectorAll('.slides a');
+	        const buttons = document.querySelectorAll('.nav-btn');
+	        
+	        if (index < 0 || index >= slides.length) return;
+	    
+	        slides.forEach((slide, i) => {
+	            slide.style.display = (i === index) ? 'block' : 'none';
+	        });
+	    
+	        buttons.forEach((button, i) => {
+	            button.classList.toggle('active', i === index);
+	        });
+	    
+	        currentSlide = index;
+	    }
+	    
+	    // 초기 슬라이드 설정
+	    showSlide(currentSlide);
+	    
+	   
+
 		
+//------------------------------------------------------------------------------------
 		
 		
         const disasterTypeSet = new Set();
@@ -654,18 +839,61 @@ document.addEventListener('DOMContentLoaded', function() {
             	msgList=data;
         		$.each(msgList, function(index, msg) {
         			let row = $("<tr></tr>");
-                    row.append($("<td></td>").text(msg.broadcastOrganization));
-                    row.append($("<td></td>").text(msg.emergencyLevel));
+                    row.append($("<td></td>").text(msg.broadcastOrganization).css({
+                        "white-space": "nowrap",
+                        "overflow": "hidden",
+                        "text-overflow": "ellipsis",
+                        "max-width": "90px",
+                        "background-color":"#eee"
+                    }));
+                    
+                    console.log("Final disasterTypeSet:", Array.from(disasterTypeSet));
+                    const disasterTypesInEnglish = convertDisasterTypes(disasterTypeSet);
+                    console.log("Converted Types:", disasterTypesInEnglish);
+                    
+
+                    // 위험도에 따른 배경색 설정
+                    let emergencyLevelColor;
+                    switch(msg.emergencyLevel) {
+                        case "안전안내":
+                            emergencyLevelColor = "#FFF176";
+                            break;
+                        case "긴급재난":
+                            emergencyLevelColor = "#FFD54F";
+                            break;
+                        case "위급재난":
+                            emergencyLevelColor = "#FF8A65";
+                            break;
+                        default:
+                            emergencyLevelColor = "white"; // 기본 색상
+                    }
+                    
+                    row.append($("<td></td>").text(msg.emergencyLevel).css({
+                        "background-color": emergencyLevelColor
+                    }));
+                    
                     row.append($("<td></td>").text(msg.msgRegDt));
-                    row.append($("<td></td>").text(msg.messageContext));
+                    row.append($("<td></td>").text(msg.messageContext).css({
+                        "white-space": "nowrap",
+                        "overflow": "hidden",
+                        "text-overflow": "ellipsis",
+                        "max-width": "900px"
+                    }));
                     
                     $("#messageTable").append(row);
+                    
                     if(msg.disasterType != "기타"){
                     	disasterTypeSet.add(msg.disasterType);
                     }
                     
         		});
                 
+          
+                // 재난 종류를 변환한 후 배너를 생성
+                disasterTypesInEnglish = convertDisasterTypes(disasterTypeSet);
+                console.log("Converted Types:", disasterTypesInEnglish);
+                createBanner(disasterTypesInEnglish);
+        		
             })
             .catch(function(error) { 
                 console.error('문제가 발생했습니다:', error);
@@ -696,16 +924,52 @@ document.addEventListener('DOMContentLoaded', function() {
             	msgList=data;
         		$.each(msgList, function(index, msg) {
         			let row = $("<tr></tr>");
-                    row.append($("<td></td>").text(msg.broadcastOrganization));
-                    row.append($("<td></td>").text(msg.emergencyLevel));
+                    row.append($("<td></td>").text(msg.broadcastOrganization).css({
+                        "white-space": "nowrap",
+                        "overflow": "hidden",
+                        "text-overflow": "ellipsis",
+                        "max-width": "90px",
+                        "background-color":"#eee"
+                    }));
+                    
+                     // 위험도에 따른 배경색 설정
+                    let emergencyLevelColor;
+                    switch(msg.emergencyLevel) {
+                        case "안전안내":
+                            emergencyLevelColor = "#FFF176";
+                            break;
+                        case "긴급재난":
+                            emergencyLevelColor = "#FFD54F";
+                            break;
+                        case "위급재난":
+                            emergencyLevelColor = "#FF8A65";
+                            break;
+                        default:
+                            emergencyLevelColor = "white"; // 기본 색상
+                    }
+                    
+                    row.append($("<td></td>").text(msg.emergencyLevel).css({
+                        "background-color": emergencyLevelColor
+                    }));
                     row.append($("<td></td>").text(msg.msgRegDt));
-                    row.append($("<td></td>").text(msg.messageContext));
+                    row.append($("<td></td>").text(msg.messageContext).css({
+                        "white-space": "nowrap",
+                        "overflow": "hidden",
+                        "text-overflow": "ellipsis",
+                        "max-width": "900px"
+                    }));
                     $("#messageTable").append(row);
                     if(msg.disasterType != "기타"){
                     	disasterTypeSet.add(msg.disasterType);
                     }
                     
         		});
+        		
+        		
+                // 재난 종류를 변환한 후 배너를 생성
+                disasterTypesInEnglish = convertDisasterTypes(disasterTypeSet);
+                console.log("Converted Types:", disasterTypesInEnglish);
+                createBanner(disasterTypesInEnglish);
                 
             })
             .catch(function(error) { 
@@ -716,6 +980,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		
 		console.log(disasterTypeSet);
+		
+		
+
+        
 		
 				
 		function showGraph(statistics) {
@@ -883,7 +1151,7 @@ document.addEventListener('DOMContentLoaded', function() {
         	
         	
         	
-        	
+
         
         
 </script>

@@ -14,9 +14,9 @@
         list-style: none;
         text-decoration: none;
     }
-
+    
     body {
-        background-color: #F5F5F5;
+        background-color: white;
     }
 
     #logo {
@@ -106,14 +106,15 @@
     }
 
     .gnbWrap {
-      display: none;
+        display:none;
+        height : 170px;
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
         box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
         z-index: 100;
-        background-color: #F5F5F5;
+        background-color: #134b70;
         
         width: 100%;
     }
@@ -128,7 +129,8 @@
     }
 
     .gnbWrap>ul>li {
-       
+       border-left: 1px solid #123a54;
+       border-right: 1px solid #123a54;
     }
 
 
@@ -145,7 +147,7 @@
     .gnbWrap ul ul li a {
         padding: 5px 0px 5px 0px;
         width:195.8px;
-        color: #134b70;
+        color: #eee;
         text-decoration: none;
         display: block;
         font-size: 14.5px;
@@ -157,41 +159,23 @@
     }
 
     .gnbWrap ul ul li a:hover {
-        text-decoration: underline;
+        transform: scale(1.1); /* 링크를 1.1배 확대 */
+        transition: transform 0.1s ease; /* 부드러운 전환 효과 */
     }
 
-    #navWrap ul li a:hover:not(.active) {
-        background-color: #ddd;
-    }
+
     #loginBtn:hover:not(.active) {
         background-color: #ddd;
     }
+    
+    
     li a.active {
         color: white;
         background-color: #04AA6D;
     }
 
-    #gnbWrap1:hover {
-        background-color: #eeeeee;
-    }
-    #gnbWrap1:hover #navMenu1{
-        background-color: #eeeeee;
-    }
-    #gnbWrap2:hover {
-        background-color: #eeeeee;
-    }
 
-    #gnbWrap3:hover {
-        background-color: #eeeeee;
-    }
 
-    #gnbWrap4:hover {
-        background-color: #eeeeee;
-        
-    }
-    #gnbWrap5:hover {
-        background-color: #eeeeee;
-    }
 </style>
 
 
