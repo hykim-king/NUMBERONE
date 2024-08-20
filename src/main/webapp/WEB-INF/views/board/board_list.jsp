@@ -335,17 +335,23 @@ body {
           <c:choose>
             <c:when test="${list.size() > 0 }">
               <c:forEach var="vo" items="${list }">
-                  <tr>
-                    <td class="text-center" ><c:out value="${vo.no }"></c:out></td>
-                    <td class="text-left">
-                      <a href="/ehr/board/doSelectOne.do?boardNo=${vo.boardNo }"><c:out value="${vo.title }"></c:out></a>
-                    </td>
-                    <td class="text-center"><c:out value="${vo.regId }"></c:out></td>
-                    <td class="text-center"><c:out value="${vo.regDt }"></c:out></td>
-                    <td class="text-end"><c:out value="${vo.readCnt }"></c:out></td>
-                    <td class="text-center d-none"><c:out value="${vo.boardNo }"></c:out></td>
-                  </tr>
-              </c:forEach>            
+    <tr>
+        <td class="text-center"><c:out value="${vo.no }"></c:out></td>
+        <td class="text-left">
+            <a href="/ehr/board/doSelectOne.do?boardNo=${vo.boardNo }">
+                <c:out value="${vo.title }"></c:out>
+                <c:if test="${vo.askCnt > 0}">
+                    <span class="badge bg-secondary">${vo.askCnt}</span>
+                </c:if>
+            </a>
+        </td>
+       <td class="text-center"><c:out value="${vo.nickname }"></c:out></td>
+        <td class="text-center"><c:out value="${vo.regDt }"></c:out></td>
+        <td class="text-end"><c:out value="${vo.readCnt }"></c:out></td>
+        <td class="text-center d-none"><c:out value="${vo.boardNo }"></c:out></td>
+    </tr>
+</c:forEach>
+         
             </c:when>
             <c:otherwise>
                 <tr><td class="text-center" colspan="99">No data found!</td></tr>

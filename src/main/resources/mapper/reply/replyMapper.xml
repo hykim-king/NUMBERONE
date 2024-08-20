@@ -75,11 +75,8 @@
     <!-- 댓글 수정 -->
     <update id="doUpdate" parameterType="Reply">
         UPDATE C##NUMBERONE.REPLY
-        SET REPLY_CONTENTS = #{replyContents},
-            PARENT_REPLY = #{parentReply},
-            MOD_DT = SYSDATE,
-            REPLY_LEVEL = #{replyLevel},
-            NICK_NAME = #{nickname}
+            SET REPLY_CONTENTS = #{replyContents},
+            MOD_DT = SYSDATE
         WHERE REPLY_NO = #{replyNo}
     </update>
 

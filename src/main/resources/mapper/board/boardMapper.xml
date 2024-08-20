@@ -17,12 +17,11 @@
         SET ASK_CNT = (
             SELECT COUNT(*)
             FROM C##NUMBERONE.REPLY
-            WHERE BOARD_NO = #{boardNo}
+            WHERE BOARD_NO = #{boardNo} 
         )
         WHERE BOARD_NO = #{boardNo}
     </update>
 
- 
  
     <!-- 최신 게시판 순번순으로 조회 -->
     <select id="getLatestBoardNo" parameterType="Board" resultType="int">
@@ -41,7 +40,8 @@
             ASK_CNT,
             READ_CNT,
             REG_DT,
-            MOD_DT
+            MOD_DT,
+            NICK_NAME
         )
         SELECT ROWNUM,
                'USER' || LPAD(ROWNUM, 4, '0'),
@@ -78,13 +78,16 @@
             </when>
             <when test="searchDiv != null and searchDiv == '40'">
                 AND REG_ID = #{searchWord}
-            </when>  
+            </when> 
+            <when test="searchDiv != null and searchDiv == '50'">
+                AND NICK_NAME = #{searchWord}
+            </when> 
         </choose>
     </sql>
 
     <!-- 게시물 목록 조회 -->
     <select id="doRetrieve" parameterType="Search" resultType="Board">
-        SELECT A.*, B.*
+        SELECT A.*, B.*    
         FROM (
             SELECT TT1.RNUM AS no,
                    TT1.DIV,
@@ -94,6 +97,7 @@
                    TT1.ASK_CNT as askCnt,                 
                    TO_CHAR(TT1.REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
                    TO_CHAR(TT1.MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
+                   TT1.NICK_NAME as nickname,
                    TT1.BOARD_NO as boardNo
             FROM (
                 SELECT ROWNUM AS RNUM, T1.*
@@ -125,7 +129,8 @@
             TITLE = #{title},
             CONTENTS = #{contents},
             REG_ID = #{regId},
-            MOD_DT = SYSDATE
+            MOD_DT = SYSDATE,
+            NICK_NAME = #{nickname}
         WHERE BOARD_NO = #{boardNo}
     </update>
 
@@ -140,7 +145,8 @@
             READ_CNT AS readCnt,
             ASK_CNT AS askCnt,                       
             TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
-            TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
+            TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt,
+            NICK_NAME as nickname
         FROM C##NUMBERONE.BOARD
         WHERE BOARD_NO = #{boardNo}
     </select>
@@ -166,7 +172,8 @@
             ASK_CNT,
             READ_CNT,            
             REG_DT,
-            MOD_DT
+            MOD_DT,
+            NICK_NAME
         ) VALUES (
             #{div},
             #{title},
@@ -175,7 +182,8 @@
             0,
             0,           
             SYSDATE,
-            SYSDATE
+            SYSDATE,
+            #{nickname}
         )
     </insert>
 

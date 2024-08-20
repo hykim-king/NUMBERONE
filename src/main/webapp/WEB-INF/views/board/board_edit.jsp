@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const doUpdateBtn = document.querySelector("#doUpdate");  
     const boardNoInput = document.querySelector("#boardNo");
     const titleInput = document.querySelector("#title");
-    const regIdInput = document.querySelector("#regId");
+    const nicknameInput = document.querySelector("#nickname");
     const contentsTextArea = document.querySelector("#contents");
     const divInput = document.querySelector("#div");
     
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function(){
         let params = { 
             "boardNo": boardNoInput.value,
             "title": titleInput.value,
-            "regId": regIdInput.value,  
+            "nickname": nicknameInput.value,  
             "contents": simplemde.value(),
             "div": divInput.value
         }
@@ -200,6 +200,7 @@ document.addEventListener("DOMContentLoaded", function(){
         <form action="#" class="form-horizontal" name="editForm" id="editForm">
             <input type="hidden" name="boardNo" id="boardNo" value="${board.boardNo}">
             <input type="hidden" name="div" id="div" value="${board['div']}" />
+            <input type="hidden" name="regId" id="regId" value="${board.getRegId() }">
             <div class="row mb-2">
                 <label for="title" class="col-sm-2 col-form-label">제목</label>
                 <div class="col-sm-10">
@@ -207,9 +208,9 @@ document.addEventListener("DOMContentLoaded", function(){
                 </div>      
             </div>
             <div class="row mb-2">
-                <label for="regId" class="col-sm-2 col-form-label">등록자</label>
+                <label for="nickname" class="col-sm-2 col-form-label">등록자</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="regId" id="regId" value="${board.regId}" readonly>        
+                    <input type="text" class="form-control" name="nickname" id="nickname" value="${board.nickname}" readonly>        
                 </div>      
             </div>    
             <div class="row mb-2">

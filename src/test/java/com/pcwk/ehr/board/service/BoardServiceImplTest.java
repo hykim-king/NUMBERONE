@@ -89,7 +89,7 @@ public class BoardServiceImplTest implements PLog {
         
         // 전체 삭제       
         //boardMapper.deleteAll();
-        board01 = new Board(1, "10", "ADMIN", "제목_01", "내용_01", 0, 0, "사용안함","사용안함");
+        board01 = new Board(1, "10", "ADMIN", "제목_01", "내용_01", 0, 0, "사용안함","사용안함","abc");
     }
 
     @After

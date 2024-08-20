@@ -80,6 +80,7 @@ public class BoardController implements PLog {
 
         // 실제 수정자 ID 및 수정일 설정 (수정일은 현재 날짜로 설정)
         inVO.setModDt(StringUtil.nvl(inVO.getModDt(), "2024-08-16"));
+        inVO.setRegId(inVO.getNickname());
 
         int flag = boardService.doUpdate(inVO);
         String message = "";
@@ -131,7 +132,6 @@ public class BoardController implements PLog {
 		log.debug("1.param search:" + search);		
 		List<Board> list = this.boardService.doRetrieve(search);
 			
-
 		//2. 화면 전송 데이터
 		model.addAttribute("list", list);//조회 데이터
 		model.addAttribute("search", search); //검색조건
@@ -218,15 +218,19 @@ public class BoardController implements PLog {
     public String doSave(Board inVO) throws SQLException {
     	String jsonString = "";
     	log.debug("1. param inVO: " + inVO);
+    	
+    	inVO.setRegId(inVO.getNickname());
         int flag = boardService.doSave(inVO);
+        
+        
         
         log.debug("2.flag:" + flag);
         String message = "";
 
         if (1 == flag) {
-            message = inVO.getTitle() + "이 등록되었습니다.";
+            message =  "게시글이 등록되었습니다.";
         } else {
-            message = inVO.getTitle() + " 등록 실패!";
+            message = "게시글 등록에 실패했습니다.";
         }
 
         Message messageObj = new Message(flag, message);

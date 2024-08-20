@@ -69,7 +69,7 @@ public class BoardControllerTest implements PLog {
         //boardMapper.deleteAll();
 
         // 테스트 데이터를 생성
-        board01 = new Board(1, "10", "ADMIN", "d제목_02", "d내용_02", 0, 0, "2024-08-16", "2024-08-16");
+        board01 = new Board(1, "10", "ADMIN", "d제목_02", "d내용_02", 0, 0, "2024-08-16", "2024-08-16","abc");
         //board02 = new Board(2, "ADMIN", "제목_02", "내용_02", 0, 0, "2024-08-03", "2024-08-03");
         //board03 = new Board(3, "ADMIN", "제목_03", "내용_03", 0, 0, "2024-08-03", "2024-08-03");
 

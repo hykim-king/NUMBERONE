@@ -47,7 +47,7 @@
 <link rel="stylesheet" href="${CP}/resources/css/simplemde.min.css">
 <script src="${CP}/resources/js/simplemde.min.js"></script>
 
-<title>오늘 사람 프로그램</title>
+<title>재난 커뮤니티</title>
 <style>
     body {
             font-family: "Hahmlet", serif;
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	const doSaveBtn = document.querySelector("#doSave");
 	const moveToListBtn = document.querySelector("#moveToList");
 	const titleInput = document.querySelector("#title");
-	const regIdInput = document.querySelector("#regId");
+	const nicknameInput = document.querySelector("#nickname");
 	const contentsTextArea = document.querySelector("#contents");
 	const divInput = document.querySelector("#div");
 	//Event감지
@@ -161,9 +161,9 @@ document.addEventListener("DOMContentLoaded", function(){
 			
 		}
 		
-        if(isEmpty(regIdInput.value) == true){
-            alert('등록자 아이디를 입력 하세요.')
-            regIdInput.focus();
+        if(isEmpty(nicknameInput.value) == true){
+            alert('닉네임을 입력 하세요.')
+            nicknameInput.focus();
             return;
             
         }
@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function(){
         //markdown getter : simplemde.value()
         let params = { 
         	"title": titleInput.value,
-        	"regId": regIdInput.value,	
+        	"nickname": nicknameInput.value,	
         	"contents": simplemde.value(),
         	"div": divInput.value
         }
@@ -249,6 +249,7 @@ document.addEventListener("DOMContentLoaded", function(){
   <!-- form -->  
   <form action="#" class="form-horizontal"  name="regForm" id="regForm">
     <input type="hidden" name="div"    id="div" value="${board.getDiv() }">
+    <input type="hidden" name="regId" id="regId" value="${board.getRegId() }">
     <div class="row mb-2">   
         <label for="title" class="col-sm-2 col-form-label">제목</label>
         <div class="col-sm-10">
@@ -256,13 +257,13 @@ document.addEventListener("DOMContentLoaded", function(){
         </div>      
     </div>
     <div class="row mb-2">
-        <label for="regId" class="col-sm-2 col-form-label">등록자</label>
+        <label for="nickname" class="col-sm-2 col-form-label">등록자</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="regId" id="regId"  maxlength="20" required="required">        
+          <input type="text" class="form-control" name="nickname" id="nickname"  maxlength="20" required="required">        
         </div>      
     </div>    
     <div class="row mb-2"">
-        <label for="regId" class="col-sm-2 col-form-label">내용</label>
+        <label for="nickname" class="col-sm-2 col-form-label">내용</label>
         <div class="col-sm-10">    
          <textarea style="height: 200px"  class="form-control" id="contents" name="contents"></textarea>
         </div> 

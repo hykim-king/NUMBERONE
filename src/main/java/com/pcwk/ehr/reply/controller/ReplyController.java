@@ -51,6 +51,7 @@ public class ReplyController implements PLog {
         // regId 설정 (세션에서 가져오거나, 임시로 'admin'으로 설정)
         // 실제 구현에서는 세션에서 로그인한 사용자 ID를 가져와야 합니다.
         inVO.setRegId("admin");
+        inVO.setNickname("nick123");
         
         if (inVO.getParentReply() != 0) {
             inVO.setReplyLevel(1); // 대댓글의 레벨을 1로 설정
@@ -111,13 +112,15 @@ public class ReplyController implements PLog {
         log.debug("1. param replyNo: " + replyNo);
         Reply inVO = new Reply();
         inVO.setReplyNo(replyNo);
+        
+        Reply replyToDelete = replyService.doSelectOne(inVO);
         int flag = replyService.doDelete(inVO);
         String message = "";
 
         if (1 == flag) {
             message = "댓글이 삭제되었습니다.";
             Board board = new Board();
-            board.setBoardNo(inVO.getBoardNo());
+            board.setBoardNo(replyToDelete.getBoardNo());
             boardService.askCntUpdate(board);
         } else {
             message = "댓글 삭제 실패!";

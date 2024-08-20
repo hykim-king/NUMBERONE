@@ -43,12 +43,12 @@ body {
         
 }      
 
-
 .container{
     margin-top :30px;
     margin-bottom :30px;
-
+    
 }
+
 /* 페이지 제목 스타일 */
 .page-header h2 {
     font-size: 2rem;
@@ -105,7 +105,7 @@ textarea.content-area {
 
 /* 댓글 섹션 스타일 */
 #replyList .reply {
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd; */
     padding: 10px 0;
 }
 
@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	    let dataType = "html";
 	    
 	    let params = { 
-	        "boardNo": boardNoInput.val()
+	        "boardNo": boardNoInput.value
 	    }            
 	    
 	    PClass.pAjax(url, params, dataType, type, async, function(data){
@@ -261,7 +261,36 @@ document.addEventListener("DOMContentLoaded", function(){
 	        }
 	    });            
 	}
+    
+	function showUpdateReplyForm(replyNo) {
+	    const replyElement = document.getElementById('reply' + replyNo);
+	    if (!replyElement) return;
 
+	    const replyContent = replyElement.querySelector('.reply-content').textContent;
+	    const buttonsDiv = replyElement.querySelector('.reply-buttons');
+	    
+	    const updateForm = '<div id="updateForm' + replyNo + '">' +
+	        '<textarea id="updateReplyContents' + replyNo + '">' + replyContent + '</textarea>' +
+	        '<button onclick="doUpdateReply(' + replyNo + ')">수정 완료</button>' +
+	        '<button onclick="cancelUpdateReply(' + replyNo + ')">취소</button>' +
+	        '</div>';
+	    
+	    buttonsDiv.style.display = 'none';
+	    replyElement.querySelector('.reply-content').insertAdjacentHTML('afterend', updateForm);
+	}
+
+
+	function cancelUpdateReply(replyNo) {
+	    const replyElement = document.getElementById('reply' + replyNo);
+	    if (!replyElement) return;
+
+	    const updateForm = replyElement.querySelector('#updateForm' + replyNo);
+	    if (updateForm) updateForm.remove();
+
+	    const buttonsDiv = replyElement.querySelector('.reply-buttons');
+	    buttonsDiv.style.display = 'block';
+	}
+	
 	function showReplyForm(replyNo) {
 		 const replyForm = document.getElementById('replyForm' + replyNo);
 		    if (replyForm) {
@@ -298,7 +327,6 @@ document.addEventListener("DOMContentLoaded", function(){
 	    	    replyContents: replyContentsInput.value,
 	    	    parentReply: parentReply,
 	            replyLevel: parentReply === 0 ? 0 : 1,
-	    	    nickname: "abc"  
 	    }
 	    
 	    PClass.pAjax(url, params, dataType, type, async, function(data){
@@ -372,33 +400,39 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	// 댓글 수정 실행 함수
 	function doUpdateReply(replyNo) {
-	    const updatedContent = document.querySelector(`#updateReplyContents${replyNo}`).value;
-	    if (isEmpty(updatedContent)) {
-	        alert('수정할 내용을 입력하세요.');
-	        return;
-	    }
+    const updateContentElement = document.getElementById('updateReplyContents' + replyNo);
+    if (!updateContentElement) {
+        console.error('수정할 댓글 넘버를 찾는데 실패:', replyNo);
+        return;
+    }
 
-	    if (!confirm('댓글을 수정하시겠습니까?')) return;
+    const updatedContent = updateContentElement.value;
+    if (isEmpty(updatedContent)) {
+        alert('수정할 내용을 입력하세요.');
+        return;
+    }
 
-	    let type = "POST";
-	    let url = "/ehr/reply/doUpdate.do";
-	    let async = true;
-	    let dataType = "json";
-	    
-	    let params = { 
-	        replyNo: replyNo,
-	        replyContents: updatedContent
-	    };
-	    
-	    PClass.pAjax(url, params, dataType, type, async, function(data) {
-	        if (data && data.messageId === 1) {
-	            alert(data.messageContents);
-	            loadReplies(currentPage); // 현재 페이지 다시 로드
-	        } else {
-	            alert("댓글 수정에 실패했습니다.");
-	        }
-	    });
-	}
+    if (!confirm('댓글을 수정하시겠습니까?')) return;
+
+    let type = 'POST';
+    let url = '/ehr/reply/doUpdate.do';
+    let async = true;
+    let dataType = 'json';
+    
+    let params = { 
+        replyNo: replyNo,
+        replyContents: updatedContent
+    };
+    
+    PClass.pAjax(url, params, dataType, type, async, function(data) {
+        if (data && data.messageId === 1) {
+            alert(data.messageContents);
+            loadReplies(); // 현재 페이지 다시 로드
+        } else {
+            alert('댓글 수정에 실패했습니다.');
+        }
+    });
+}
 	
 	function loadReplies(pageNo = 1){
 	    console.log("loadReplies()");
@@ -457,18 +491,19 @@ document.addEventListener("DOMContentLoaded", function(){
 	
 	function ReplyHtml(reply, depth) {
 	    let indentation = 'margin-left: ' + (depth * 20) + 'px;';
-	    let html = '<div class="reply" style="' + indentation + '">';
-	    html += '<p><strong>' + reply.regId + '</strong>: ' + reply.replyContents + '</p>';
+	    let html = '<div id="reply' + reply.replyNo + '" class="reply" style="' + indentation + '">';
+	    html += '<p><strong>' + reply.nickname + '</strong>: <span class="reply-content">' + reply.replyContents + '</span></p>';
 	    html += '<p><small>' + reply.regDt + '</small></p>';
+	    html += '<div class="reply-buttons">';
 	    html += '<button onclick="showReplyForm(' + reply.replyNo + ')">답글</button>';
-	    html += '<button onclick="showUpdateReplyForm('+ reply.replyNo + ')">수정</button>';
+	    html += '<button onclick="showUpdateReplyForm(' + reply.replyNo + ')">수정</button>';
 	    html += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
+	    html += '</div>';
 	    html += '<div id="replyForm' + reply.replyNo + '" style="display:none;">';
 	    html += '<textarea id="replyContents' + reply.replyNo + '"></textarea>';
 	    html += '<button onclick="doSaveReply(' + reply.replyNo + ')">답글 작성</button>';
 	    html += '</div>';
 
-	    // 자식 댓글 재귀적으로 처리
 	    if(reply.children && reply.children.length > 0) {
 	        reply.children.forEach(function(childReply) {
 	            html += ReplyHtml(childReply, depth + 1);
@@ -513,7 +548,7 @@ document.addEventListener("DOMContentLoaded", function(){
   
   <!-- 제목 -->
   <div class="page-header">
-      <h2>공지사항/자유게시판</h2>  
+      <h2>재난 커뮤니티</h2>  
   </div>
   <!--// 제목 end ------------------------------------------------------------->
 
