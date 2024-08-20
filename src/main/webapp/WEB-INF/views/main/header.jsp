@@ -189,7 +189,7 @@
         </ul>
     </div>
     <div>
-        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/img/logo1.png" alt="logo" id="logo"></a>
+        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
     </div>
 
     <div id="nav">

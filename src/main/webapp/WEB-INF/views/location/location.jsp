@@ -30,7 +30,7 @@
 <script src="${CP}/resources/js/common.js"></script>
 <%-- kakao Map --%>
 <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=caeb693362f61c09ef1fc4e0b640aaf4"></script>
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 <title>사회재난행동요령</title>
 
 <link href="/ehr/resources/css/content.css" rel="stylesheet" />

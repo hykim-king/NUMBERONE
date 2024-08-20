@@ -22,6 +22,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 <%-- bootstrap --%>
 <link rel="stylesheet" href="${CP}/resources/css/bootstrap.css">
 <%-- jquery --%>

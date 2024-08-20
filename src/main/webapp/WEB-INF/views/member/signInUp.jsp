@@ -26,7 +26,7 @@
 	
 	<meta charset="UTF-8">
 	<title>로그인/회원가입</title>
-	<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
     <script src="${CP}/resources/js/jquery-1.11.1.min.js"></script>
 	<%-- jquery --%>
 	<script src="${CP}/resources/js/jquery_3_7_1.js"></script>
@@ -781,7 +781,7 @@
 	</head>
 	<body>
 	    <div>
-	        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/img/logo1.png" alt="logo" id="logo"></a>
+	        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
 	    </div>
 	    
 	    <section>

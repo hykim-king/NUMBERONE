@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 <title>훈련영상</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,6 @@
     main {
         width: 100%;
         max-width: 800px;
-        background-color: #F5F5F5;
          margin : 0 auto;
         padding: 20px;
         text-align: center;

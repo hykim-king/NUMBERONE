@@ -6,7 +6,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+    <link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>훈련 영상</title>
     <link rel="stylesheet" href="/ehr/resources/css/content.css" />

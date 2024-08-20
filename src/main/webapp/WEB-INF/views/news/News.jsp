@@ -3,6 +3,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>안전뉴스</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">

@@ -22,7 +22,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 <title>전국통계그래프</title>
 
 

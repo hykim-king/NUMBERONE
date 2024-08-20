@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="shortcut icon" href="${CP}/resources/img/favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 
 <link rel="stylesheet" href="${CP}/resources/css/bootstrap.css">
 

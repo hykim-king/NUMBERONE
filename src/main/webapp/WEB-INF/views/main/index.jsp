@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Highcharts 로드 -->
 <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -25,7 +25,7 @@
     section {
 
         background-color: #ECEFF1;
-        height: 1280px;
+        height: 1300px;
     }
     section p{
         font-family: "Hahmlet", serif;
@@ -44,7 +44,7 @@
     }
     .myPageZone {
         position: absolute;
-        top: 20px;
+        top: 30px;
         left: 730px;
         width: 415px;
         height: 138px;
@@ -88,7 +88,7 @@
 	    text-align: center;
 	    text-align: center;
 	    position: relative;
-	    top: 145px;
+	    top: 5px;
 	}
 	
 	.nav-btn {
@@ -199,7 +199,7 @@
     }
     .settings {
 	    position: absolute;
-	    top: 485px;
+	    top: 505px;
 	    left: 20px;
 	    width: 209px;
 	    height: 45px;
@@ -221,7 +221,7 @@
     }
     .shelters {
         position: absolute;
-        top: 530px;
+        top: 550px;
         left: 20px;
         width: 580px;
         height: 422px;
@@ -242,7 +242,7 @@
     }
     .emergency-info {
         position: absolute;
-        top: 20px;
+        top: 30px;
         left: 20px;
         right:30px;
         width : 680px;
@@ -252,7 +252,7 @@
     }
     .messagesDiv{
 	    position: absolute;
-	    top: 215px;
+	    top: 240px;
 	    left: -21px;
 	    width: 40px;
 	    height: 144px;
@@ -298,7 +298,7 @@
     }
     .messages {
         position: absolute;
-        top: 215px;
+        top: 240px;
         left: 20px;
         right: 20px;
         width :1125px;
@@ -311,7 +311,7 @@
     
     .graphText{
 	    position: absolute;
-	    top: 485px;
+	    top: 505px;
 	    left: 615px;
 	    width: 209px;
 	    height: 45px;
@@ -327,7 +327,7 @@
     }
     .graph {
         position: absolute;
-        top: 530px;
+        top: 550px;
         left: 615px;
         right: 15px;
         width : 530px;
@@ -361,7 +361,7 @@
     
     #behaviorDiv{
         position: absolute;
-	    top: 990px;
+	    top: 1010px;
 	    left: 20px;
 	    width: 580px;
 	    height: 240px;
@@ -393,7 +393,7 @@
     
     #searchDiv{
         position: absolute;
-        top: 990px;
+        top: 1010px;
         left: 615px;
         width: 550px;
         height: 240px;
@@ -542,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			        </div>
                         <div>
                              <ul>
-<!--                                  <li><a href="#">민방위 대피시설</a></li>
+<!--                             <li><a href="#">민방위 대피시설</a></li>
                                  <li><a href="#">지진대피장소</a></li>
                                  <li><a href="#">이재민 임시주거시설</a></li>
                                  <li><a href="#">무더위 쉼터</a></li>
@@ -593,7 +593,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		        <div id="bottomDivGroup">
 		        <div id="behaviorDiv">
                     <div class="behaviorImg">
-                        <img src="/ehr/resources/img/behaviorImg.png">
+                        <img src="/ehr/resources/images/behaviorImg.png">
                     </div>
                     <div class="behavior">
                         <h3>재난 발생 시 국민행동요령</h3>
@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
 		        <div id="searchDiv">
                     <div class="searchImg">
-                        <img src="/ehr/resources/img/searchImg.png">
+                        <img src="/ehr/resources/images/searchImg.png">
                     </div>
                     <div class="search">
                         <h3>재난발생 정보 조회</h3>
@@ -742,7 +742,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			    disasterTypesInEnglish.forEach((type, index) => {
 			        const slide = document.createElement('a');
 			        const img = document.createElement('img');
-			        img.src = '/ehr/resources/img/'+type + '.png';
+			        img.src = '/ehr/resources/images/'+type + '.png';
 			        img.alt = type;
 			        slide.appendChild(img);
 			        slidesContainer.appendChild(slide);
