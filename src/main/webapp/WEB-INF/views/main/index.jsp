@@ -24,7 +24,14 @@
 
     section {
 
-        background-color: #ECEFF1;
+	    background: linear-gradient(
+	        to bottom,
+	        #EEEEEE 0px, /*  0px부터 시작 */
+	        #EEEEEE 220px, /*  0px부터 500px까지 */
+	        #CFD8DC 220px, 
+
+	        #CFD8DC 1300px 
+	    );
         height: 1300px;
     }
     section p{
@@ -38,7 +45,6 @@
         width: 1200px;
         height: 1000px;
         margin: 0 auto;
-        background-color: #ECEFF1;
         position: relative;
     
     }
@@ -211,7 +217,7 @@
 	    font-optical-sizing: auto;
 	    font-style: normal;
 	    border-radius: 10px 10px 0px 0px;
-	    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 1px 3px 6px rgba(255, 255, 255, 0.4) inset;
+	    box-shadow:0 4px 8px rgba(0, 0, 0, 0.2), 1px 2px 5px rgba(255, 255, 255, 0.3) inset;
     }
     .settings>p{
         text-align: center;
@@ -230,6 +236,7 @@
         justify-content: center;
         align-items: center;
         border: 1px solid #E0E0E0;
+        box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     }
     
     .sheltersBottom{
@@ -248,7 +255,7 @@
         width : 680px;
         height: 160px;
         background-color: #CFD8DC;
-       
+        box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.2);
     }
     .messagesDiv{
 	    position: absolute;
@@ -267,7 +274,7 @@
 	    font-style: normal;
 	    /* border: 1px solid #E0E0E0; */
 	    border-radius: 10px 0px 0px 10px;
-	    box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.4);
+	    box-shadow: 5px 2px 2px rgba(0, 0, 0, 0.4), 1px 2px 5px rgba(255, 255, 255, 0.3) inset;
     
     }
     .messagesDiv>p{
@@ -323,7 +330,7 @@
 	    font-optical-sizing: auto;
 	    font-style: normal;
 	    border-radius: 10px 10px 0px 0px;
-	   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 1px 3px 6px rgba(255, 255, 255, 0.4) inset;
+	   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 1px 2px 5px rgba(255, 255, 255, 0.3) inset;
     }
     .graph {
         position: absolute;
@@ -341,6 +348,7 @@
         font-optical-sizing: auto;
         font-style: normal;
         border: 1px solid #E0E0E0;
+        box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     }
     .graphText p{
         text-align: center;
@@ -370,7 +378,7 @@
 	    justify-content: center;
 	    align-items: center;
 	    border: 2px solid #134b70;
-    
+        box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     }
     .behavior{
         padding :15px;
@@ -402,7 +410,7 @@
         justify-content: center;
         align-items: center;
         border: 2px solid #134b70;
-    
+        box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     }
     
     .searchImg{
