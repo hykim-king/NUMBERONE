@@ -639,8 +639,10 @@ document.addEventListener('DOMContentLoaded', function() {
         		$.each(msgList, function(index, msg) {
         			let row = $("<tr></tr>");
                     row.append($("<td></td>").text(msg.broadcastOrganization));
+                    row.append($("<td></td>").text(msg.emergencyLevel));
                     row.append($("<td></td>").text(msg.msgRegDt));
                     row.append($("<td></td>").text(msg.messageContext));
+                    
                     $("#messageTable").append(row);
                     if(msg.disasterType != "기타"){
                     	disasterTypeSet.add(msg.disasterType);
@@ -679,6 +681,7 @@ document.addEventListener('DOMContentLoaded', function() {
         		$.each(msgList, function(index, msg) {
         			let row = $("<tr></tr>");
                     row.append($("<td></td>").text(msg.broadcastOrganization));
+                    row.append($("<td></td>").text(msg.emergencyLevel));
                     row.append($("<td></td>").text(msg.msgRegDt));
                     row.append($("<td></td>").text(msg.messageContext));
                     $("#messageTable").append(row);
