@@ -89,7 +89,7 @@ public class DisasterMsgMapperTest implements PLog{
 	@Ignore
 	@Test
 	public void isNewMessageExistTest() throws SQLException{
-		String result =disasterMsgMapper.isNewMessageExist();
+		String result =disasterMsgMapper.isNewMessageExist(1100000000);
 		assertEquals(result, "N");
 	}
 	

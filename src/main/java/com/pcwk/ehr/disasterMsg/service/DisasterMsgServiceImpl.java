@@ -95,9 +95,9 @@ public class DisasterMsgServiceImpl implements DisasterMsgService,PLog{
 	}
 	
 	@Override
-	public String isNewMessageExist() throws SQLException {
-		log.debug("isNewMessageExist:"+disasterMsgMapper.isNewMessageExist());
-		return disasterMsgMapper.isNewMessageExist();
+	public String isNewMessageExist(long locCode) throws SQLException {
+		log.debug("isNewMessageExist:"+disasterMsgMapper.isNewMessageExist(locCode));
+		return disasterMsgMapper.isNewMessageExist(locCode);
 	}
 	
 	

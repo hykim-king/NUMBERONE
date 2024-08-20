@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.ehr.mapper.NewsMapper">
+	
+	<select id="doSelectOne" parameterType="News" resultType="News">
+        SELECT 
+            news_seq AS newsSeq,
+            news_title as newsTitle,
+            news_writer AS newsWriter,
+            TO_CHAR(news_reg_dt, 'YYYY/MM/DD HH24:MI:SS') as newsRegDt,            
+            news_context as newsContext
+        FROM news
+        WHERE news_seq = #{newsSeq}
+    </select>
+    
+    
+    <sql id="whereDoRetrieve">
+      <where>
+         <choose>
+            <when test ="searchDiv != null and searchDiv == '10'">
+             1=1
+            and  news_REG_DT between #{startDate} and #{endDate}
+            order by news_seq desc 
+            </when>
+            
+            <when test ="searchDiv !=null and searchDiv == '20'">
+            news_title like '%' || #{searchWord} || '%' and
+            news_REG_DT between #{startDate} and #{endDate}
+            </when>
+            
+            <when test ="searchDiv !=null and searchDiv == '30'">
+            news_context like '%' || #{searchWord} || '%' and
+            news_REG_DT between #{startDate} and #{endDate}
+            </when>
+            
+         </choose>       
+      </where> 
+ </sql>
+ 
+    
+    <select id="doRetrieve" parameterType="StatisticsCondition"  resultType="News">
+     SELECT A.*,B.*
+     FROM(
+	 SELECT TT1.RNUM AS no,
+	        TT1.news_seq as newsSeq,
+	        TT1.news_title as newsTitle,
+	        TT1.news_writer as newsWriter,
+	        DECODE( TO_CHAR(TT1.news_reg_dt,'YYYYMMDD'), TO_CHAR(SYSDATE,'YYYYMMDD'),      
+	                 TO_CHAR(TT1.news_reg_dt,'HH24:MI'),TO_CHAR(TT1.news_reg_dt,'YYYY/MM/DD')   
+	        ) AS newsRegDt    
+	 FROM (
+	     SELECT ROWNUM AS RNUM, T1.*
+	     FROM (
+	         SELECT *
+	           FROM news
+              <include refid="whereDoRetrieve"></include>
+
+	     ) T1
+	   WHERE ROWNUM<![CDATA[ <= ( #{pageSize}*(#{pageNo} -1) + #{pageSize} )     
+	 )TT1
+	WHERE tt1.rnum >=( #{pageSize}*(#{pageNo} -1) + 1 )   ]]>
+   )A	
+   CROSS JOIN(
+	   SELECT COUNT(*) totalCnt
+	   FROM news    
+	   <include refid="whereDoRetrieve"></include>  
+   )B
+ </select>
+ 
+ 
+    
+    
+
+</mapper>

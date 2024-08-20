@@ -20,5 +20,7 @@
         <typeAlias alias="MessageArea" type ="com.pcwk.ehr.messageArea.domain.MessageArea"/>
         <typeAlias alias="StatisticsCondition" type = "com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition"/>
         <typeAlias alias = "CommunityNotification" type ="com.pcwk.ehr.notification.domain.CommunityNotification"/>
+        <typeAlias alias = "News" type ="com.pcwk.ehr.news.domain.News"/>
+    
     </typeAliases>
  </configuration>

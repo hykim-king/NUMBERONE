@@ -64,7 +64,7 @@
  </sql>
  
  
- <select id="isNewMessageExist"	 resultType="String">
+ <select id="isNewMessageExist"	 parameterType ="long" resultType="String">
 	 SELECT 
 	    CASE 
 	        WHEN (SELECT MAX(message_seq) FROM disasterMSg) = (SELECT MAX(SEQUENCE_NUMBER) FROM SEQUENCE_TRACKER) 

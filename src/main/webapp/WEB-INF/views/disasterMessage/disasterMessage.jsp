@@ -89,6 +89,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+ 
+
 class StatisticsCondition {
     constructor(locCode, startDate, endDate, pageNo, pageSize) {
         this.locCode = locCode;
@@ -98,8 +100,6 @@ class StatisticsCondition {
         this.pageSize = pageSize;
     }
 }
-
-
 
 
 $(function sidoSet(){
@@ -235,16 +235,23 @@ function retrieve(){
         	$("#msgContents").append($("<td colspan='5' class='text-center'>조회된 재난문자가 없습니다.</td>"));
         }else{
         	messageData = data;
-            messageData.forEach(function(item){
-              $("#msgContents").append($("<tr>"));
-              $("#msgContents").append($("<td>").text(item.messageSeq));
-              $("#msgContents").append($("<td>").text(item.disasterType));
-              $("#msgContents").append($("<td>").text(item.emergencyLevel));
-              $("#msgContents").append($("<td>").text(item.messageContext));
-              $("#msgContents").append($("<td>").text(item.msgRegDt));
-              $("#msgContents").append($("</tr>"));
-              $("#total").text(" 전체 "+item.totalCnt+" 건");
-            });
+        	messageData.forEach(function(item) {
+        	    // 새로운 tr 요소 생성
+        	    var $tr = $("<tr onclick='location.href=\"http://localhost:8080/ehr/disasterMsg/disasterMsg/" + item.messageSeq + "\"'>");
+
+        	    // td 요소 추가
+        	    $tr.append($("<td>").text(item.messageSeq));
+        	    $tr.append($("<td>").text(item.disasterType));
+        	    $tr.append($("<td>").text(item.emergencyLevel));
+        	    $tr.append($("<td>").text(item.messageContext));
+        	    $tr.append($("<td>").text(item.msgRegDt));
+
+        	    // tr 요소를 테이블에 추가
+        	    $("#msgContents").append($tr);
+        	    
+        	    // 전체 건수 업데이트
+        	    $("#total").text(" 전체 " + item.totalCnt + " 건");
+        	});
         	
         }
         

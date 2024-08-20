@@ -17,6 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @RestController
 public class SseController implements PLog{
@@ -32,23 +33,23 @@ public class SseController implements PLog{
 
     // SSE 연결을 위한 메서드
     @GetMapping(value ="/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter handleSse(HttpServletResponse response) {
+    public SseEmitter handleSse(HttpServletResponse response,HttpSession session) {
     	response.setContentType("text/event-stream; charset=UTF-8");
 
         emitter = new SseEmitter();
-        startEventCheck();
+        startEventCheck(session);
         return emitter;
     }
 
-    private void startEventCheck() {
+    private void startEventCheck(HttpSession session) {
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 String result = "N";
-                String message = "새로운 메세지가 등록되었습니다!";
+                String message = "New Message Arrived!";
                 Gson gson = new Gson();
                 
 				try {
-					result = disasterService.isNewMessageExist();
+					result = disasterService.isNewMessageExist(1100000000);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} // SQL 쿼리 실행
