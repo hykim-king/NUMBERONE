@@ -34,21 +34,16 @@
 			    FROM(
 			        SELECT * 
 			        FROM shelter
-			        
 			        <include refid="whereShelterRetrieve"></include>
 			        )T1
-			     WHERE rownum <![CDATA[ <= ( #{pageSize} * (#{pageNo} -1) + #{pageSize}) ]]>
+			     WHERE rownum <![CDATA[ <= ( #{pageSize} * (#{pageNo} -1) + #{pageSize})]]>
 			    )TT1
-			  WHERE TT1.rnum <![CDATA[ >=( #{pageSize}*(#{pageNo} -1) + 1)   ]]>
+			  WHERE TT1.rnum <![CDATA[ >=( #{pageSize}*(#{pageNo} -1) + 1)]]>
 			)A
 			CROSS JOIN(
 			 SELECT COUNT(*) totalCnt
 			   FROM shelter
-			   
 			   <include refid="whereShelterRetrieve"></include>
             )B
     </select>
-
-
-
 </mapper>

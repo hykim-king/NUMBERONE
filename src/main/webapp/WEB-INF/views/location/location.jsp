@@ -129,6 +129,7 @@ body {
     color: #fff;
     font-weight: bold;
 }
+
 .pagination {
     margin: 20px 0;
     display: flex;
@@ -154,6 +155,34 @@ body {
     color: white;
 }
 
+.pagination {
+    margin-top: 20px; /* 여백 추가 */
+}
+
+.page-item.active .page-link {
+    background-color: #007bff; /* 활성 페이지 색상 */
+    border-color: #007bff; /* 활성 페이지 테두리 색상 */
+    color: #fff; /* 활성 페이지 텍스트 색상 */
+}
+
+.page-link {
+    color: #007bff; /* 기본 링크 색상 */
+    border: 1px solid #ced4da; /* 테두리 추가 */
+}
+
+.page-link:hover {
+    background-color: #e9ecef; /* hover 효과 */
+    color: #0056b3; /* hover 시 링크 색상 */
+}
+
+.page-item {
+    display: flex; /* flexbox 사용하여 가로로 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+.page-link {
+    margin: 0 5px; /* 좌우 여백 추가 */
+}
 </style>
 <script>
 //시도 비동기 통신
@@ -309,8 +338,7 @@ function eupmyeondongSet() {
 	            <col style="width:46%">
 	            <col style="width:13%">
 	            <col style="width:7%">
-	            <col style="width:7%">
-	            <col style="width:7%">     
+	            <col style="width:10%">  
 	        </colgroup>
 	    
 	        <thead>
@@ -319,23 +347,24 @@ function eupmyeondongSet() {
 	                <th class="text-center">시설</th>
 	                <th class="text-center">규모</th>
 	                <th class="text-center">최대수용인원</th>
-	                <th class="text-center">이동약자접근성</th>
 	            </tr>
 	        </thead>
 	        <tbody id="shelterList">
 	        </tbody>
 	    </table>
 	
-	    <nav>
+	    <nav aria-label="Page navigation">
 	        <ul class="pagination justify-content-center">
 	            <li class="page-item disabled">
-	                <a class="page-link" href="#" tabindex="-1">이전</a>
+	                <a class="page-link" href="#" id="pageBack" type="button">이전</a>
 	            </li>
+	            
 	            <li class="page-item active">
-	                <a class="page-link" href="#">1</a>
+	                <span class="page-link" id="currentPageNo">1/<span id="totalPageNo">1</span></span> <!-- 총 페이지 수 추가 -->
 	            </li>
+	            
 	            <li class="page-item">
-	                <a class="page-link" href="#">다음</a>
+	                <a class="page-link" href="#" id="pageNext" type="button">다음</a>
 	            </li>
 	        </ul>
 	    </nav>
@@ -344,27 +373,66 @@ function eupmyeondongSet() {
 <script src="${CP}/resources/js/bootstrap.min.js"></script>
 
 <script>
+let currentPageNo = 1; // 현재 페이지 번호 초기화
+let maxPageNo;         //전역변수
+let totalCount;        //전역변수
 $(document).ready(function(){
     console.log("document ready!");
 	
+    //시도 데이터 비동기 통신
 	sidoSet();
 	
+	//검색 버튼 클릭 이벤트
 	$("#search").on("click",function(event){
 		//이벤트 버블링 방지
         event.preventDefault();
         console.log("search click");
+        currentPageNo = 1;
+        shelterRetrieve(1,totalCnt);
         
-        shelterRetrieve();
 	});
+    
+	//페이지 다음 버튼 클릭 이벤트
+    $("#pageNext").on("click",function(event){
+		//이벤트 버블링 방지
+        event.preventDefault();
+        console.log("pageNext click");
+        
+        totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
+        maxPageNo = Math.ceil(totalCount / 10);
+        
+        if (currentPageNo < maxPageNo) {
+            currentPageNo++;
+            console.log("currentPageNo:", currentPageNo,maxPageNo);
+            $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
+            shelterRetrieve(currentPageNo);
+        } else {
+            console.log("마지막 페이지입니다.");
+        }
+        
+	});
+    
+    // 페이지 이전 버튼 클릭 이벤트
+    $("#pageBack").on("click", function(event) {
+        event.preventDefault();
+        console.log("pageBack click");
 
+        if (currentPageNo > 1) {
+            currentPageNo--;
+            $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo); // 현재 페이지 번호 표시
+            shelterRetrieve(currentPageNo); // 현재 페이지 번호로 데이터 조회
+        } else {
+            console.log("첫 번째 페이지입니다.");
+        }
+    });	
 
-function shelterRetrieve() { 
+//shelterRetrieve
+function shelterRetrieve(pageNo,totalCnt) { 
 		console.log("shelterRetrieve()");
-		
+	    
 		let locCode = "";
 		
 		$("#totalCnt").html("전체 0 건");
-		
 		
 		if($("#sido option:selected").val() === ""){
 			$("#shelterList").empty();
@@ -386,17 +454,24 @@ function shelterRetrieve() {
 		
 		let params = {
 			"locCode" : locCode,
-			"shelterDiv" : "10"
+			"shelterDiv" : "10",
+			"pageNo" : pageNo
 		};
 		
 		 PClass.pAjax(url,params,dataType,type,async,function(data){
 	         
 	         var shelterData = JSON.parse(data);
-	         $("#totalCnt").html("전체" + shelterData.length + "건");
+	         //console.log("${search.totalCnt}");
 	         shelterData.forEach(function(item){
-	        
+	        	 totalCnt=item.totalCnt;
+	        	 $("#totalCnt").data("total", item.totalCnt); // 총 개수를 data-attribute로 저장
+	        	 $("#totalCnt").html("전체 " + item.totalCnt + " 건");
+	        	 //console.log(item.pageNo);
+	        	 $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
+	        	 
+	        	 
 	        	  $("#shelterList").append($("<tr>"));
-	        	// roadAddress 클릭 이벤트 추가
+	        	  // roadAddress 클릭 이벤트 추가
 	              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
 	              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
 	              roadAddressElement.on("click", function(event) {
@@ -406,15 +481,18 @@ function shelterRetrieve() {
 	        	  
 	        	  $("#shelterList").append(roadAddressElement);
 	              $("#shelterList").append($("<td>").text(item.facilityName));
-	              $("#shelterList").append($("<td>").text(item.scale));
-	              $("#shelterList").append($("<td>").text(item.maxCapacity));
-	              $("#shelterList").append($("<td>").text(item.accessibility));
+	              $("#shelterList").append($("<td>").text(item.scale + "m²"));
+	              $("#shelterList").append($("<td>").text(item.maxCapacity + "명"));
 	              $("#shelterList").append($("</tr>"));
+	              //-------------------------------------------------------------------------------
+	              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
+	              maxPageNo = Math.ceil(totalCount / 10);
+	              $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
 	      });
 	   
 	 }); 
 		 
-   }
+   }//--shelterRetrieve end
    
 	
 });//--document end
