@@ -22,7 +22,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 <title>전국통계그래프</title>
 
 
@@ -52,6 +52,18 @@
             font-optical-sizing: auto;
             font-style: normal;
         }
+        
+         select {
+	        width: 160px;
+	        padding: 10px;
+	        margin: 20px 0;
+	        border: 1px solid #ddd;
+	        border-radius: 4px;
+            font-size: 16px;
+            font-family: "Hahmlet", serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+    }
         #container {
             width: 1000px;
             height: 600px;
@@ -98,7 +110,7 @@
 
         .date-container select {
             
-            padding: 5px;
+            padding: 4px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 4px;

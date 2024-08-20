@@ -10,11 +10,13 @@ public class Reply extends DTO{
 	private int    parentReply ; //대댓글 번호
 	private String regDt    ; //등록일
 	private String modDt    ; //수정일
+	private int replyLevel  ; //레벨(계층형 쿼리)
+	private String nickname ; //닉네임
 	
 	public Reply() {}
 
 	public Reply(int replyNo, int boardNo, String regId, String replyContents, int parentReply, String regDt,
-			String modDt) {
+			String modDt, int replyLevel, String nickname) {
 		super();
 		this.replyNo = replyNo;
 		BoardNo = boardNo;
@@ -23,6 +25,8 @@ public class Reply extends DTO{
 		this.parentReply = parentReply;
 		this.regDt = regDt;
 		this.modDt = modDt;
+		this.replyLevel = replyLevel;
+		this.nickname = nickname;
 	}
 
 	public int getReplyNo() {
@@ -81,10 +85,26 @@ public class Reply extends DTO{
 		this.modDt = modDt;
 	}
 
+	public int getReplyLevel() {
+		return replyLevel;
+	}
+
+	public void setReplyLevel(int replyLevel) {
+		this.replyLevel = replyLevel;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
 	@Override
 	public String toString() {
 		return "Reply [replyNo=" + replyNo + ", BoardNo=" + BoardNo + ", regId=" + regId + ", replyContents="
-				+ replyContents + ", parentReply=" + parentReply + ", regDt=" + regDt + ", modDt=" + modDt + "]";
+				+ replyContents + ", parentReply=" + parentReply + ", regDt=" + regDt + ", modDt=" + modDt
+				+ ", replyLevel=" + replyLevel + ", nickname=" + nickname + ", toString()=" + super.toString() + "]";
 	}
-
 }

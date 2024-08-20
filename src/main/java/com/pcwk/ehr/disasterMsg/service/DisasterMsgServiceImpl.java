@@ -51,15 +51,16 @@ public class DisasterMsgServiceImpl implements DisasterMsgService,PLog{
 		List<Location> list=null;
 		try {
 			list=locationMapper.sidoRetrieve();
+			for(Location location :list) {
+				condition.setLocCode(location.getLocCode());
+				resultMap.put(location.getSido(),disasterMsgMapper.disasterTypeStaticsBySido(condition));
+			}
 			
 		}catch(BindingException e) {
 			log.debug("기간내 데이터가 없습니다.");
 			
 		}finally {
-			for(Location location :list) {
-				condition.setLocCode(location.getLocCode());
-				resultMap.put(location.getSido(),disasterMsgMapper.disasterTypeStaticsBySido(condition));
-			}
+			
 		}
 		return resultMap;
 		

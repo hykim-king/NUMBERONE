@@ -25,7 +25,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%-- favicon  --%>
-<link rel="shortcut icon" href="${CP}/resources/img/favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 
 <%-- bootstrap css --%>
 <link rel="stylesheet" href="${CP}/resources/css/bootstrap.css">
@@ -47,7 +47,7 @@
 <link rel="stylesheet" href="${CP}/resources/css/simplemde.min.css">
 <script src="${CP}/resources/js/simplemde.min.js"></script>
 
-<title>오늘 사람 프로그램</title>
+<title>재난 커뮤니티</title>
 <style>
     body {
             font-family: "Hahmlet", serif;
@@ -122,9 +122,9 @@ document.addEventListener("DOMContentLoaded", function(){
 	 
 	 
 	const doSaveBtn = document.querySelector("#doSave");
-	
+	const moveToListBtn = document.querySelector("#moveToList");
 	const titleInput = document.querySelector("#title");
-	const regIdInput = document.querySelector("#regId");
+	const nicknameInput = document.querySelector("#nickname");
 	const contentsTextArea = document.querySelector("#contents");
 	const divInput = document.querySelector("#div");
 	//Event감지
@@ -132,6 +132,24 @@ document.addEventListener("DOMContentLoaded", function(){
 	    console.log("doSaveBtn click");		
 	    doSave();
 	});
+	
+	moveToListBtn.addEventListener("click", function(event){
+        console.log("moveToListBtn click", event);
+        event.stopPropagation();
+        if(confirm('목록으로 이동 하시겠습니까?') === false) return;
+        moveToList();
+    });
+	
+	function isEmpty(value) {
+        if (value == null || typeof value !== 'string') {
+            return true; // value가 null, undefined, 혹은 문자열이 아닌 경우
+        }
+        return value.trim() === '';
+    }
+	
+	function moveToList(){
+        window.location.href = "/ehr/board/doRetrieve.do";
+    }
 	
 	function doSave(){
 		console.log("doSave()");
@@ -143,9 +161,9 @@ document.addEventListener("DOMContentLoaded", function(){
 			
 		}
 		
-        if(isEmpty(regIdInput.value) == true){
-            alert('등록자 아이디를 입력 하세요.')
-            regIdInput.focus();
+        if(isEmpty(nicknameInput.value) == true){
+            alert('닉네임을 입력 하세요.')
+            nicknameInput.focus();
             return;
             
         }
@@ -169,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function(){
         //markdown getter : simplemde.value()
         let params = { 
         	"title": titleInput.value,
-        	"regId": regIdInput.value,	
+        	"nickname": nicknameInput.value,	
         	"contents": simplemde.value(),
         	"div": divInput.value
         }
@@ -211,8 +229,8 @@ document.addEventListener("DOMContentLoaded", function(){
   <div class="page-header">
       <h2>
         <c:choose>
-            <c:when test="">공지사항-등록</c:when>
-            <c:when test="">자유게시판-등록</c:when>
+            <c:when test="${ '10'==board.getDiv() }">공지사항-등록</c:when>
+            <c:when test="${ '20'==board.getDiv() }">자유게시판-등록</c:when>
             <c:otherwise>
                                  공지사항/자유게시판
             </c:otherwise>
@@ -223,27 +241,29 @@ document.addEventListener("DOMContentLoaded", function(){
   
   <!-- 버튼 -->
   <div class="mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
-      <input type="button" value="목록" class="btn btn-primary">
+      <input type="button" value="목록" id="moveToList" class="btn btn-primary">
       <input type="button" value="등록"  id="doSave" class="btn btn-primary">
   </div>
   <!--// 버튼 ----------------------------------------------------------------->
   
   <!-- form -->  
   <form action="#" class="form-horizontal"  name="regForm" id="regForm">
-    <div class="row mb-2">
+    <input type="hidden" name="div"    id="div" value="${board.getDiv() }">
+    <input type="hidden" name="regId" id="regId" value="${board.getRegId() }">
+    <div class="row mb-2">   
         <label for="title" class="col-sm-2 col-form-label">제목</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" name="title" id="title"  maxlength="75" required="required">
         </div>      
     </div>
     <div class="row mb-2">
-        <label for="regId" class="col-sm-2 col-form-label">등록자</label>
+        <label for="nickname" class="col-sm-2 col-form-label">등록자</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="regId" id="regId"  maxlength="20" required="required">        
+          <input type="text" class="form-control" name="nickname" id="nickname"  maxlength="20" required="required">        
         </div>      
     </div>    
     <div class="row mb-2"">
-        <label for="regId" class="col-sm-2 col-form-label">내용</label>
+        <label for="nickname" class="col-sm-2 col-form-label">내용</label>
         <div class="col-sm-10">    
          <textarea style="height: 200px"  class="form-control" id="contents" name="contents"></textarea>
         </div> 

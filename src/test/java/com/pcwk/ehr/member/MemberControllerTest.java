@@ -28,6 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.google.gson.Gson;
 import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
+
 import com.pcwk.ehr.mapper.MemberMapper;
 import com.pcwk.ehr.member.domain.Member;
 @WebAppConfiguration
@@ -202,3 +203,4 @@ public class MemberControllerTest implements PLog{
 	        assertNotNull(memberMapper);
 	    }
 }
+

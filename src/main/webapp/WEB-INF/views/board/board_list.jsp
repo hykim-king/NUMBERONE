@@ -26,7 +26,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%-- favicon  --%>
-<link rel="shortcut icon" href="${CP}/resources/img/favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 
 <%-- bootstrap css --%>
 <link rel="stylesheet" href="${CP}/resources/css/bootstrap.css">
@@ -204,6 +204,13 @@ body {
        });
    });
    
+   function isEmpty(value) {
+       if (value == null || typeof value !== 'string') {
+           return true; // value가 null, undefined, 혹은 문자열이 아닌 경우
+       }
+       return value.trim() === '';
+   }
+   
    function doSelectOne(boardNo){
        console.log("doSelectOne boardNo:"+boardNo);
        const frm      = document.querySelector("#boardForm");
@@ -219,6 +226,7 @@ body {
    
    function pageRetrieve(url, pageNo){
        console.log("pageRetrieve()");
+       
        const frm = document.querySelector("#boardForm");
        let searchDiv = frm.searchDiv.value;
        let searchWord = frm.searchWord.value;
@@ -327,17 +335,23 @@ body {
           <c:choose>
             <c:when test="${list.size() > 0 }">
               <c:forEach var="vo" items="${list }">
-                  <tr>
-                    <td class="text-center" ><c:out value="${vo.no }"></c:out></td>
-                    <td class="text-left">
-                      <a href="/ehr/board/doSelectOne.do?boardNo=${vo.boardNo }"><c:out value="${vo.title }"></c:out></a>
-                    </td>
-                    <td class="text-center"><c:out value="${vo.regId }"></c:out></td>
-                    <td class="text-center"><c:out value="${vo.regDt }"></c:out></td>
-                    <td class="text-end"><c:out value="${vo.readCnt }"></c:out></td>
-                    <td class="text-center d-none"><c:out value="${vo.boardNo }"></c:out></td>
-                  </tr>
-              </c:forEach>            
+    <tr>
+        <td class="text-center"><c:out value="${vo.no }"></c:out></td>
+        <td class="text-left">
+            <a href="/ehr/board/doSelectOne.do?boardNo=${vo.boardNo }">
+                <c:out value="${vo.title }"></c:out>
+                <c:if test="${vo.askCnt > 0}">
+                    <span class="badge bg-secondary">${vo.askCnt}</span>
+                </c:if>
+            </a>
+        </td>
+       <td class="text-center"><c:out value="${vo.nickname }"></c:out></td>
+        <td class="text-center"><c:out value="${vo.regDt }"></c:out></td>
+        <td class="text-end"><c:out value="${vo.readCnt }"></c:out></td>
+        <td class="text-center d-none"><c:out value="${vo.boardNo }"></c:out></td>
+    </tr>
+</c:forEach>
+         
             </c:when>
             <c:otherwise>
                 <tr><td class="text-center" colspan="99">No data found!</td></tr>

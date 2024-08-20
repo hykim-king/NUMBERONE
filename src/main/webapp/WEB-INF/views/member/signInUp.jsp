@@ -26,7 +26,7 @@
 	
 	<meta charset="UTF-8">
 	<title>로그인/회원가입</title>
-	<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
     <script src="${CP}/resources/js/jquery-1.11.1.min.js"></script>
 	<%-- jquery --%>
 	<script src="${CP}/resources/js/jquery_3_7_1.js"></script>
@@ -121,7 +121,7 @@
 		}
 		
 		.login-html.signup-active {
-		    height: 900px;
+		    height: 1020px;
 		     
 		}
 	    
@@ -706,7 +706,9 @@
 	            console.log("login()");
 	            
 	            let memberId = $("#memberId").val(); 
-	            let password = $("#password").val(); 
+	            
+	            let pw = $("#password").val();
+	            let password = sha256(pw); 
 	            
 	            console.log("memberId:", memberId);
 	            console.log("password:", password);
@@ -719,7 +721,7 @@
 
 	            if (isEmpty(password)) {
 	                alert('비밀번호를 입력 하세요.');
-	                $("#password").focus();
+	                password.focus();
 	                return;
 	            }
 	            
@@ -739,7 +741,7 @@
 	                                $("#memberId").focus();
 	                            } else if (data.messageId === 20) {
 	                                alert(data.messageContents);
-	                                $("#password").focus();
+	                                password.focus();
 	                            } else if (data.messageId === 30) {
 	                                alert(data.messageContents);
 	                                
@@ -779,7 +781,7 @@
 	</head>
 	<body>
 	    <div>
-	        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/img/logo1.png" alt="logo" id="logo"></a>
+	        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
 	    </div>
 	    
 	    <section>
@@ -864,6 +866,8 @@
 	                </div>
 	            </div>
 	            </div>
+	            
+	            
 	    </section>
 <script>
 

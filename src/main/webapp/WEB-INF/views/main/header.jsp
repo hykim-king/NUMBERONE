@@ -14,9 +14,9 @@
         list-style: none;
         text-decoration: none;
     }
-
+    
     body {
-        background-color: #F5F5F5;
+        background-color: white;
     }
 
     #logo {
@@ -46,13 +46,14 @@
 
     #headerMenu ul a {
         display: block;
-        color:#201e43;
+        color:#134b70;
         font-size: 13px;
         text-decoration: none;
         font-family: "Hahmlet", serif;
         font-optical-sizing: auto;
         font-style: normal;
         padding: 14px 30px;
+        font-weight: 500;
     }
 
     li {
@@ -105,14 +106,15 @@
     }
 
     .gnbWrap {
-      display: none;
+        display:none;
+        height : 170px;
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
         box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
         z-index: 100;
-        background-color: #F5F5F5;
+        background-color: #134b70;
         
         width: 100%;
     }
@@ -127,7 +129,8 @@
     }
 
     .gnbWrap>ul>li {
-       
+       border-left: 1px solid #123a54;
+       border-right: 1px solid #123a54;
     }
 
 
@@ -144,7 +147,7 @@
     .gnbWrap ul ul li a {
         padding: 5px 0px 5px 0px;
         width:195.8px;
-        color: #134b70;
+        color: #eee;
         text-decoration: none;
         display: block;
         font-size: 14.5px;
@@ -156,41 +159,23 @@
     }
 
     .gnbWrap ul ul li a:hover {
-        text-decoration: underline;
+        transform: scale(1.1); /* 링크를 1.1배 확대 */
+        transition: transform 0.1s ease; /* 부드러운 전환 효과 */
     }
 
-    #navWrap ul li a:hover:not(.active) {
-        background-color: #ddd;
-    }
+
     #loginBtn:hover:not(.active) {
         background-color: #ddd;
     }
+    
+    
     li a.active {
         color: white;
         background-color: #04AA6D;
     }
 
-    #gnbWrap1:hover {
-        background-color: #eeeeee;
-    }
-    #gnbWrap1:hover #navMenu1{
-        background-color: #eeeeee;
-    }
-    #gnbWrap2:hover {
-        background-color: #eeeeee;
-    }
 
-    #gnbWrap3:hover {
-        background-color: #eeeeee;
-    }
 
-    #gnbWrap4:hover {
-        background-color: #eeeeee;
-        
-    }
-    #gnbWrap5:hover {
-        background-color: #eeeeee;
-    }
 </style>
 
 
@@ -204,7 +189,7 @@
         </ul>
     </div>
     <div>
-        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/img/logo1.png" alt="logo" id="logo"></a>
+        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
     </div>
 
     <div id="nav">
@@ -243,7 +228,7 @@
                         
                         <ul>
                            
-                            <li><a href="#">훈련영상</a></li>
+                            <li><a href="http://localhost:8080/ehr/video/videoView.do">훈련영상</a></li>
                             <li><a href="http://localhost:8080/ehr/location/location.do">대피시설</a></li>
                         </ul>
                     </li>
@@ -273,7 +258,7 @@
     
     <script>
     
-    let memberFromSession;
+    let memberFromSession=null;
 
     function getSession() {
         fetch('http://localhost:8080/ehr/session/api/session', {
@@ -289,6 +274,7 @@
         .then(data => {
             console.log(data);
             memberFromSession = data;
+            console.log("memberFromSession:",memberFromSession);
 
             if (data.locCode!=0) {
                 document.getElementById('loginBtn').textContent = '로그아웃';
@@ -319,7 +305,8 @@
         })
         .then(data => {
             console.log(data);
-            if (data.flag === 1) {
+            memberFromSession = data;
+            if (data.locCode=0) {
                 // 로그아웃 성공 시
                 document.getElementById('loginBtn').textContent = '로그인/회원가입';
             }
@@ -339,6 +326,12 @@
             logout(); // 로그아웃 호출
         }
     });
+    
+    
+    
+    
+    
+    
     
     function createHoverEffect(gnbWrapId, navMenuId) {
         const navMenu = document.getElementById(navMenuId);

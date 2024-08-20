@@ -4,12 +4,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
@@ -22,6 +24,7 @@ import com.pcwk.ehr.cmn.StringUtil;
 import com.pcwk.ehr.code.domain.Code;
 import com.pcwk.ehr.code.service.CodeService;
 import com.pcwk.ehr.markdown.service.MarkdownService;
+import com.pcwk.ehr.member.domain.Member;
 
 @Controller
 @RequestMapping("board")
@@ -51,6 +54,25 @@ public class BoardController implements PLog {
 
         return viewName;
     }
+    
+    //수정 페이지 이동
+    @RequestMapping(value = "/moveToEdit.do", method = RequestMethod.GET)
+    public String moveToEdit(@RequestParam("boardNo") int boardNo, Model model) throws SQLException {
+        log.debug("1. param boardNo: " + boardNo);
+        
+        Board board = new Board();
+        board.setBoardNo(boardNo);
+        
+        Board outVO = boardService.doSelectOne(board);
+        
+        if(outVO != null) {
+            model.addAttribute("board", outVO);
+            return "board/board_edit";
+        } else {
+            model.addAttribute("message", "게시글을 찾을 수 없습니다.");
+            return "redirect:/board/doRetrieve.do";
+        }
+    }
 
     // 게시물 수정
     @RequestMapping(value = "/doUpdate.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
@@ -59,7 +81,8 @@ public class BoardController implements PLog {
         log.debug("1. param inVO: " + inVO);
 
         // 실제 수정자 ID 및 수정일 설정 (수정일은 현재 날짜로 설정)
-        inVO.setModDt(StringUtil.nvl(inVO.getModDt(), "2024-08-03"));
+        inVO.setModDt(StringUtil.nvl(inVO.getModDt(), "2024-08-16"));
+        inVO.setRegId(inVO.getNickname());
 
         int flag = boardService.doUpdate(inVO);
         String message = "";
@@ -95,6 +118,7 @@ public class BoardController implements PLog {
 		//검색구분
 		String  searchDiv  = StringUtil.nvl(req.getParameter("searchDiv"),"");
 		String  searchWord = StringUtil.nvl(req.getParameter("searchWord"),"");
+		searchWord = searchWord.trim();
 		
 		search.setSearchDiv(searchDiv);
 		search.setSearchWord(searchWord);
@@ -109,7 +133,7 @@ public class BoardController implements PLog {
 		// 1.
 		log.debug("1.param search:" + search);		
 		List<Board> list = this.boardService.doRetrieve(search);
-		
+			
 		//2. 화면 전송 데이터
 		model.addAttribute("list", list);//조회 데이터
 		model.addAttribute("search", search); //검색조건
@@ -162,10 +186,25 @@ public class BoardController implements PLog {
 
     // 단일 게시물 조회
     @RequestMapping(value = "/doSelectOne.do", method = RequestMethod.GET)
-    public String doSelectOne(Board inVO, Model model) throws SQLException {
-        log.debug("1. param inVO: " + inVO);
+    public String doSelectOne(Board inVO, Model model, HttpSession session) throws SQLException {
+        log.debug("1. param inVO: " + inVO);       
+        
+        if(null!=session) {
+        	Member member =(Member)session.getAttribute("member");
+        	inVO.setRegId(member.getMemberId());
+        }else {
+        	inVO.setRegId("1");
+        }
+        
         
         Board outVO = boardService.doSelectOne(inVO);
+        
+         
+        	
+            
+        
+        //TODO:SESSION처리
+      	inVO.setRegId(StringUtil.nvl(inVO.getRegId(),"admin"));
         
         log.debug("2. outVO: " + outVO);
         
@@ -193,15 +232,19 @@ public class BoardController implements PLog {
     public String doSave(Board inVO) throws SQLException {
     	String jsonString = "";
     	log.debug("1. param inVO: " + inVO);
+    	
+    	inVO.setRegId(inVO.getNickname());
         int flag = boardService.doSave(inVO);
+        
+        
         
         log.debug("2.flag:" + flag);
         String message = "";
 
         if (1 == flag) {
-            message = inVO.getTitle() + "이 등록되었습니다.";
+            message =  "게시글이 등록되었습니다.";
         } else {
-            message = inVO.getTitle() + " 등록 실패!";
+            message = "게시글 등록에 실패했습니다.";
         }
 
         Message messageObj = new Message(flag, message);

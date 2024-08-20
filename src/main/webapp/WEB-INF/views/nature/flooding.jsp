@@ -22,7 +22,7 @@
 <html lang ="ko">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 <title>자연재난행동요령</title>
 <link href="/ehr/resources/css/common.css"  rel="stylesheet"/>
 <link href="/ehr/resources/css/layout2.css" rel="stylesheet" />
@@ -40,6 +40,7 @@
 <script src="/ehr/resources/js/common.js"></script>
 <script src="/ehr/resources/js/idsi_safekorea_common.js"></script>    
 <script src="/ehr/resources/js/content.js"></script>
+
 
 <script>
     

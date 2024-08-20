@@ -7,162 +7,135 @@ var jdata1;
 
 var commonFlag = true;
 
- PClass = {
-   pAjax : function(url,params,dataType="html",type="GET",async=true,_callback){
-          //code
-          console.log("┌───────────────────┐");
-          console.log("│ ajaxCall()        │");
-          console.log("└───────────────────┘");
-          
-          console.log("1. url:"+url);
-          console.log("2. dataType:"+dataType);
-          console.log("3. type:"+type);
-          
-          
-          params.url = url;
-          
-          let paramArray = Object.keys(params);
-          if(paramArray.length > 0){
-              console.log("4. params --------");
-              for(let i =0; i<paramArray.length; i++){
-                  console.log(paramArray[i] + ": " + params[paramArray[i]]);
-              }
-              console.log("params end --------");
-          }
-          
-          return $.ajax({
-                    type: type, 
-                    url: url,
-                    async: async,
-                    dataType:dataType,
-                    data:params,
-                    success:function(response){//통신 성공
-                        console.log("success response:",response);
-                        _callback(response)
-                    },
-                    error:function(response){//실패시 처리
-                        console.error("error:"+response);
-                    }
-             });
-      }
-    }
-
-function userModify1(){
-	
-	 $('strong:contains("소관부서")').each(function() {
-		$this = $(this);
-		
-		var text =  $this.html();
-		//var text = '소관부서 : 소방청 생활안전과 김미진(044-205-7666) '
-		//var newText = text.replace(/(:.*(과|실|청|부))[^()]*\(/g, '$1 (');
-	
-		var strArr = text.split('<br>');
-		
-	
-		$this.empty();
-			
-		$.each(strArr,function(i,v){
-		
-			var expr = /(:.*(과|실|청|부|처|관|센터)).*?\(/g
-	        //var expr = /(:.*과).*\(/g				
-			//해양 선박사고
-			//전기·가스사고
-			//미세먼지
-			//보건의료재난
-			
-			//처: 석유제품 사고
-			//관: 화재
-		
-			//case1
-			var testExpr = /:.*실.*단/;
-			var case1 = testExpr.test(v);		
-			if(case1){
-				expr =  /(:.*(과|단|청|부|처|관|센터)).*?\(/g
-			}					
-			
-			//case2
-			/*testExpr = /:.*부.*과/;
-			var case2 = testExpr.test(v);			
-			if(case2){
-				expr = /(:.*(과|실|청)).*?\(/g
-			}		
-			*/
-			
-			//case3 보건의료재난
-			testExpr = /.*부.*과/;		
-			var case3 = testExpr.test(v);		
-				
-			if(case3){		
-				//expr =  /(.*(과|실|청|처|관)).*?\(/g
-				expr =  /(.*(과|실|청|처|센터)).*?\(/g
-			}		
-			
-			//case4
-			var testExpr = /:.*실.*센터/;
-			var case4 = testExpr.test(v);		
-			if(case4){
-				expr =  /(:.*(과|센터|청|부|처|관)).*?\(/g
-			}	
-			
-			//console.log(v);
-			//console.log(expr);
-			var newText = v.replace(expr,'$1 (');
-			newText = newText.replace(/\), [^()]*\(/g, '), (');				
-					
-			$this.append('<br>' + newText);
-		});
-	 });
+// isEmpty 함수 추가
+function isEmpty(value) {
+    return value === undefined || value === null || value === '' || (typeof value === 'object' && Object.keys(value).length === 0);
 }
 
+PClass = {
+    pAjax : function(url, params, dataType="html", type="GET", async=true, _callback){
+        console.log("┌───────────────────┐");
+        console.log("│ ajaxCall()        │");
+        console.log("└───────────────────┘");
+        
+        console.log("1. url:"+url);
+        console.log("2. dataType:"+dataType);
+        console.log("3. type:"+type);
+        
+        params.url = url;
+        
+        let paramArray = Object.keys(params);
+        if(paramArray.length > 0){
+            console.log("4. params --------");
+            for(let i = 0; i < paramArray.length; i++){
+                console.log(paramArray[i] + ": " + params[paramArray[i]]);
+            }
+            console.log("params end --------");
+        }
+        
+        return $.ajax({
+            type: type, 
+            url: url,
+            async: async,
+            dataType: dataType,
+            data: params,
+            success: function(response){
+                console.log("success response:", response);
+                _callback(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.error("AJAX error:", textStatus, errorThrown);
+                if (_callback) {
+                    _callback(null, errorThrown);
+                }
+            }
+        });
+    }
+};
 
-$().ready(function(){
-	init();
-	$(".content").hide();
-	$("#header_include").hide();
-	$("#footer_include").hide();
-	if(location.href.indexOf("main.html") != -1) {
-		$(".linksite").hide();
-	}
+function userModify1(){
+    $('strong:contains("소관부서")').each(function() {
+        $this = $(this);
+        
+        var text =  $this.html();
+        var strArr = text.split('<br>');
+        
+        $this.empty();
+            
+        $.each(strArr, function(i, v){
+            var expr = /(:.*(과|실|청|부|처|관|센터)).*?\(/g;
+            
+            var testExpr = /:.*실.*단/;
+            var case1 = testExpr.test(v);        
+            if(case1){
+                expr =  /(:.*(과|단|청|부|처|관|센터)).*?\(/g;
+            }                    
+            
+            testExpr = /.*부.*과/;        
+            var case3 = testExpr.test(v);        
+                
+            if(case3){        
+                expr =  /(.*(과|실|청|처|센터)).*?\(/g;
+            }        
+            
+            var testExpr = /:.*실.*센터/;
+            var case4 = testExpr.test(v);        
+            if(case4){
+                expr =  /(:.*(과|센터|청|부|처|관)).*?\(/g;
+            }    
+            
+            var newText = v.replace(expr,'$1 (');
+            newText = newText.replace(/\), [^()]*\(/g, '), (');                
+                    
+            $this.append('<br>' + newText);
+        });
+    });
+}
 
-	userModify1();
-
+$(document).ready(function(){
+    init();
+    $(".content").show();
+    $("#header_include").show();
+    $("#footer_include").show();
+    if(location.href.indexOf("main.html") != -1) {
+        $(".linksite").show();
+    }
+    userModify1();
 });
-
 
 $(window).load(function(){
-	$(".content").show();
-	$("#header_include").show();
-	$("#footer_include").show();
-	if(location.href.indexOf("main.html") != -1) {
-		$(".linksite").show();
-	}
+    $(".content").show();
+    $("#header_include").show();
+    $("#footer_include").show();
+    if(location.href.indexOf("main.html") != -1) {
+        $(".linksite").show();
+    }
 });
 
-function init() {	
-	setIncludeHTML();
-	
-//	if(location.href.indexOf("disasterDataLIst.html") != -1 || location.href.indexOf("disasterNewsList.html") != -1 || location.href.indexOf("accidentMsgList.html") != -1) {
-//		search();
-//	} else if(location.href.indexOf("disasterDataView.html") != -1 || location.href.indexOf("disasterNewsView.html") != -1) {
-//		setView();
-//	}
+function init() {    
+    setIncludeHTML();
 }
 
 function setIncludeHTML() {
-	var includeList = document.querySelectorAll("[data-include]");
-	for (i = 0; i < includeList.length; i++) {
-		(function (i) {
-			var el = includeList.item(i);
-			var url;
-			if(el.dataset) {
-				url = el.dataset.include;
-			} else {
-				url = el.getAttribute("data-include");
-			}
-			
-			$("#" + el.id).load(url);
-		})(i);
-	}
+    var includeList = document.querySelectorAll("[data-include]");
+    for (var i = 0; i < includeList.length; i++) {
+        (function (el) {
+            var url = el.dataset ? el.dataset.include : el.getAttribute("data-include");
+            if (url) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function(response) {
+                        el.innerHTML = response;
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Failed to load " + url + ": " + error);
+                    }
+                });
+            }
+        })(includeList[i]);
+    }
 }
 //Rn : 도로명주소 조회
 function readJSONFile(fileName, arcd, Rn) {
@@ -323,4 +296,75 @@ function isNull(comp) {
 		return true;
 	else
 		return false;
+}
+
+let pager = function (maxNum, currentPageNo, rowPerPage, bottomCount, url, scriptName) {
+    let html = [];
+    
+
+    let maxPageNo = Math.floor((maxNum - 1) / rowPerPage) + 1;
+    let startPageNO = Math.floor((currentPageNo - 1) / bottomCount) * bottomCount + 1;
+    let endPageNo = Math.floor((currentPageNo - 1) / bottomCount + 1) * bottomCount;
+    
+    let nowBlockNo = Math.floor((currentPageNo - 1) / bottomCount) + 1;
+    let maxBlockNo = Math.floor((maxNum - 1) / bottomCount) + 1;
+
+    if (currentPageNo > maxPageNo) {
+        return '';
+    }
+
+    html.push('<ul class="pagination justify-content-center">');
+    
+    // <<
+    if (nowBlockNo > 1 && nowBlockNo <= maxBlockNo) {
+        html.push('<li class="page-item">');
+        html.push('<a class="page-link" href="javascript:' + scriptName + '(\'' + url + '\', 1);">');
+        html.push('<span>&laquo;</span>');
+        html.push('</a>');
+        html.push('</li>');
+    }
+    
+    // <
+    if (startPageNO > bottomCount) {
+        html.push('<li class="page-item">');
+        html.push('<a class="page-link" href="javascript:' + scriptName + '(\'' + url + '\',' + (startPageNO - bottomCount) + ');">');
+        html.push('<span>&lt;</span>');
+        html.push('</a>');
+        html.push('</li>');
+    }
+    
+    // 1 2 3 ... 10
+    for (let inx = startPageNO; inx <= maxPageNo && inx <= endPageNo; inx++) {
+        if (inx == currentPageNo) {
+            html.push('<li class="page-item">');
+            html.push('<a class="page-link active" href="#">' + inx + '</a>');
+            html.push('</li>');
+        } else {
+            html.push('<li class="page-item">');
+            html.push('<a class="page-link" href="javascript:' + scriptName + '(\'' + url + '\',' + inx + ');">' + inx + '</a>');
+            html.push('</li>');
+        }
+    }
+    
+    // >
+    if (maxPageNo > endPageNo) {
+        html.push('<li class="page-item">');
+        html.push('<a class="page-link" href="javascript:' + scriptName + '(\'' + url + '\',' + ((nowBlockNo * bottomCount) + 1) + ');">');
+        html.push('<span>&gt;</span>');
+        html.push('</a>');
+        html.push('</li>');
+    }
+    
+    // >>
+    if (maxPageNo > endPageNo) {
+        html.push('<li class="page-item">');
+        html.push('<a class="page-link" href="javascript:' + scriptName + '(\'' + url + '\',' + maxPageNo + ');">');
+        html.push('<span>&raquo;</span>');
+        html.push('</a>');
+        html.push('</li>');
+    }
+    
+    html.push('</ul>');
+
+    return html.join('');
 }

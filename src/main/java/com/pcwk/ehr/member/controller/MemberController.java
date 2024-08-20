@@ -39,42 +39,39 @@ public class MemberController implements PLog {
 
     
     
-    @RequestMapping(value="/login.do"
-			,method = RequestMethod.POST
-			, produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value="/login.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody
-	public String login(Member member, HttpSession  httpSession ) throws SQLException {
-		String  jsonString = "";
-		
-		log.debug("Received memberId: " + member.getMemberId());
-	    log.debug("Received password: " + member.getPassword());
-		
-	    
-		int checkCount = memberService.idPasswordCheck(member);
-		
-		String loginMessage = "";
-		if(10 == checkCount) {//아이디를 확인 하세요.
-			loginMessage = "아이디를 확인 하세요.";
-		}else if(20 == checkCount) {//비번을 확인 하세요.
-			loginMessage = "비번을 확인 하세요.";
-		}else if(30 == checkCount) {
-			loginMessage = "아이디/비번일치!";
-			
-			
-			if(null !=member) {
-				httpSession.setAttribute("member", member);
-			}
-		}
-		
-		Message   message = new Message(checkCount,loginMessage);
-		
-		jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(message);
-		log.debug("3.jsonString:" + jsonString);
-		
-		
-		return jsonString;
-	}
+    public String login(Member member, HttpSession httpSession) throws SQLException {
+        String jsonString = "";
 
+        log.debug("Received memberId: " + member.getMemberId());
+        log.debug("Received password: " + member.getPassword());
+
+        int checkCount = memberService.idPasswordCheck(member);
+
+        String loginMessage = "";
+        if (10 == checkCount) { // 아이디를 확인하세요.
+            loginMessage = "아이디를 확인하세요.";
+        } else if (20 == checkCount) { // 비밀번호를 확인하세요.
+            loginMessage = "비밀번호를 확인하세요.";
+        } else if (30 == checkCount) { // 아이디/비밀번호 일치!
+            loginMessage = "로그인 완료! " + member.getMemberId()+" 님, 환영합니다!";
+
+            // 로그인 성공 시 전체 회원 정보를 가져옴
+            Member memberInfoAll = memberService.doSelectOne(member.getMemberId());
+
+            if (memberInfoAll != null) {
+                
+                httpSession.setAttribute("member", memberInfoAll);
+            }
+        }
+
+        Message message = new Message(checkCount, loginMessage);
+        jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(message);
+        log.debug("3.jsonString:" + jsonString);
+
+        return jsonString;
+    }
     
 
     
@@ -87,7 +84,7 @@ public class MemberController implements PLog {
 		
 		String loginOutMessage = "^^";
 		int    flag = 0;
-		if( null != httpSession.getAttribute("user")) {
+		if( null != httpSession.getAttribute("member")) {
 			httpSession.invalidate();   //세션무효화하기
 			
 			loginOutMessage = "로그아웃 되었습니다.";

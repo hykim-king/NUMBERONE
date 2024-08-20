@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="/ehr/resources/img/favicon.ico">
+<link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 
 <title>위치 재설정</title>
 <script src="${CP}/resources/js/jquery-1.11.1.min.js"></script>

@@ -47,9 +47,9 @@ public class BoardMapperTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");
     
-        board01 = new Board(1, "10", "ADMIN", "제목_01", "내용_01", 0, 0, "사용안함", "사용안함");
-        board02 = new Board(2, "20", "ADMIN", "제목_02", "내용_02", 0, 0, "사용안함", "사용안함");
-        board03 = new Board(3, "30", "ADMIN", "제목_03", "내용_03", 0, 0, "사용안함", "사용안함");
+        board01 = new Board(1, "10", "ADMIN", "제목_01", "내용_01", 0, 0, "사용안함", "사용안함","abc");
+        board02 = new Board(2, "20", "ADMIN", "제목_02", "내용_02", 0, 0, "사용안함", "사용안함","abc");
+        board03 = new Board(3, "30", "ADMIN", "제목_03", "내용_03", 0, 0, "사용안함", "사용안함","abc");
         //boardMapper.deleteAll();
         
         search = new Search();
