@@ -574,11 +574,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		            
 		            console.log(memberFromSession);
 		            callServerUpward(memberFromSession.locCode,formattedLastMonth,formattedToday);
+		            getDisasterMsgList(memberFromSession.locCode);
 		            
 		        } else{
 		            document.getElementById('showLocation').textContent = '* 로그인 하시면 맞춤 정보로 확인 가능 합니다.';
 		            document.getElementById('loginGoBtn').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
 		            callServer(1000000000,formattedLastMonth,formattedToday);
+		            getDisasterMsgListAll();
 		        }
 		    })
 		    .catch(error => {
@@ -632,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		
         const disasterTypeSet = new Set();
-		function getDisasterMsgList(){
+		function getDisasterMsgListAll(){
 			
             fetch('http://localhost:8080/ehr/messages', {
                 method: 'POST',
@@ -653,6 +655,49 @@ document.addEventListener('DOMContentLoaded', function() {
         		$.each(msgList, function(index, msg) {
         			let row = $("<tr></tr>");
                     row.append($("<td></td>").text(msg.broadcastOrganization));
+                    row.append($("<td></td>").text(msg.emergencyLevel));
+                    row.append($("<td></td>").text(msg.msgRegDt));
+                    row.append($("<td></td>").text(msg.messageContext));
+                    
+                    $("#messageTable").append(row);
+                    if(msg.disasterType != "기타"){
+                    	disasterTypeSet.add(msg.disasterType);
+                    }
+                    
+        		});
+                
+            })
+            .catch(function(error) { 
+                console.error('문제가 발생했습니다:', error);
+            });
+		}
+		
+		function getDisasterMsgList(locCode){
+			const startDay =formatDate(today);
+			const tempDate = new Date(today); // 오늘 날짜를 기반으로 새 객체 생성
+			tempDate.setMonth(today.getMonth() - 1);
+			const endDay=formatDate(tempDate);
+			const condition = new StatisticsCondition(locCode, startDay, endDay);
+            fetch('http://localhost:8080/ehr/messageRetrieve', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(condition), 
+            })
+            .then(function(response) { //통신상태 확인
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 좋지 않습니다.');
+                }
+                return response.json();
+            })
+            .then(function(data) { 
+            	$("#messageTable").empty();
+            	msgList=data;
+        		$.each(msgList, function(index, msg) {
+        			let row = $("<tr></tr>");
+                    row.append($("<td></td>").text(msg.broadcastOrganization));
+                    row.append($("<td></td>").text(msg.emergencyLevel));
                     row.append($("<td></td>").text(msg.msgRegDt));
                     row.append($("<td></td>").text(msg.messageContext));
                     $("#messageTable").append(row);
@@ -667,7 +712,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('문제가 발생했습니다:', error);
             });
 		}
-		getDisasterMsgList();
+		
+		
 		
 		console.log(disasterTypeSet);
 		

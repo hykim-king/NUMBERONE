@@ -146,6 +146,21 @@ public class DisasterMsgController implements PLog {
 	@PostMapping(value = "/messageRetrieve")
 	public ResponseEntity<List<DisasterMsg>> disasterMsgRetrieveSearch(@RequestBody StatisticsCondition condition) {
 		List<DisasterMsg> list = null;
+		condition.setSearchDiv("10");
+        condition.setSearchWord(String.valueOf(condition.getLocCode()));
+        condition.setPageSize(5);
+		try {
+			list = disasterMsgService.doRetrieve(condition);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(list);
+	}
+	
+	@PostMapping(value = "/messageRetrieve2")
+	public ResponseEntity<List<DisasterMsg>> disasterMsgRetrieve(@RequestBody StatisticsCondition condition) {
+		List<DisasterMsg> list = null;
 		condition.setSearchDiv("20");
         condition.setSearchWord(String.valueOf(condition.getLocCode()));
 		try {
