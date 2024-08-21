@@ -160,13 +160,13 @@ body {
 }
 
 .page-item.active .page-link {
-    background-color: #007bff; /* 활성 페이지 색상 */
+    background-color: #508c9b; /* 활성 페이지 색상 */
     border-color: #007bff; /* 활성 페이지 테두리 색상 */
     color: #fff; /* 활성 페이지 텍스트 색상 */
 }
 
 .page-link {
-    color: #007bff; /* 기본 링크 색상 */
+    color: #134b70; /* 기본 링크 색상 */
     border: 1px solid #ced4da; /* 테두리 추가 */
 }
 
@@ -220,7 +220,6 @@ function sigunguSet(){
     let async = "false";
     let dataType = "html";
     
-    console.log("locCode:" + locCode);
     
     if("" === locCode){
          $("#sigungu").empty();
@@ -257,8 +256,6 @@ function eupmyeondongSet() {
     let url = "/ehr/location/location_eupmyeondong";
     let async = "false";
     let dataType = "html";
-    
-    console.log("locCode:" + locCode);
     
     if("" === locCode){
         $("#eupmyeondong").empty();
@@ -377,7 +374,6 @@ let currentPageNo = 1; // 현재 페이지 번호 초기화
 let maxPageNo;         //전역변수
 let totalCount;        //전역변수
 $(document).ready(function(){
-    console.log("document ready!");
 	
     //시도 데이터 비동기 통신
 	sidoSet();
@@ -386,7 +382,6 @@ $(document).ready(function(){
 	$("#search").on("click",function(event){
 		//이벤트 버블링 방지
         event.preventDefault();
-        console.log("search click");
         currentPageNo = 1;
         shelterRetrieve(1,totalCnt);
         
@@ -396,14 +391,12 @@ $(document).ready(function(){
     $("#pageNext").on("click",function(event){
 		//이벤트 버블링 방지
         event.preventDefault();
-        console.log("pageNext click");
         
         totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
         maxPageNo = Math.ceil(totalCount / 10);
         
         if (currentPageNo < maxPageNo) {
             currentPageNo++;
-            console.log("currentPageNo:", currentPageNo,maxPageNo);
             $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
             shelterRetrieve(currentPageNo);
         } else {
@@ -415,7 +408,6 @@ $(document).ready(function(){
     // 페이지 이전 버튼 클릭 이벤트
     $("#pageBack").on("click", function(event) {
         event.preventDefault();
-        console.log("pageBack click");
 
         if (currentPageNo > 1) {
             currentPageNo--;
@@ -427,8 +419,7 @@ $(document).ready(function(){
     });	
 
 //shelterRetrieve
-function shelterRetrieve(pageNo,totalCnt) { 
-		console.log("shelterRetrieve()");
+function shelterRetrieve(pageNo,totalCnt) {
 	    
 		let locCode = "";
 		
@@ -461,33 +452,48 @@ function shelterRetrieve(pageNo,totalCnt) {
 		 PClass.pAjax(url,params,dataType,type,async,function(data){
 	         
 	         var shelterData = JSON.parse(data);
-	         //console.log("${search.totalCnt}");
+	         totalCnt = 0; // totalCnt 초기화
+	         // shelterList를 비우고 데이터가 없음을 표시
+	         
+	          if (shelterData.length === 0) {
+	        	     maxPageNo = 0;
+                     $("#shelterList").append($("<tr>"));
+                     $("#shelterList").append($("<td class='text-center' colspan='4'>").html("대피소가 없는 지역입니다."));
+                     $("#shelterList").append($("</tr>"));
+                     $("#totalCnt").data("total", 0); // "totald"을 0으로 초기화
+                     $("#currentPageNo").text("1/1");
+                     return;
+                 }
+	         
+	         $("#shelterList").empty();
+	         
+	         
 	         shelterData.forEach(function(item){
-	        	 totalCnt=item.totalCnt;
+	        	 totalCnt = item.totalCnt;
 	        	 $("#totalCnt").data("total", item.totalCnt); // 총 개수를 data-attribute로 저장
 	        	 $("#totalCnt").html("전체 " + item.totalCnt + " 건");
-	        	 //console.log(item.pageNo);
+	        	 
 	        	 $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
 	        	 
-	        	 
-	        	  $("#shelterList").append($("<tr>"));
-	        	  // roadAddress 클릭 이벤트 추가
-	              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
-	              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
-	              roadAddressElement.on("click", function(event) {
-	            	  console.log("roadAddressElement click")
-	            	  openKakaoMap(item.lat,item.lon,item.facilityName);
-		          });
-	        	  
-	        	  $("#shelterList").append(roadAddressElement);
-	              $("#shelterList").append($("<td>").text(item.facilityName));
-	              $("#shelterList").append($("<td>").text(item.scale + "m²"));
-	              $("#shelterList").append($("<td>").text(item.maxCapacity + "명"));
-	              $("#shelterList").append($("</tr>"));
-	              //-------------------------------------------------------------------------------
-	              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
-	              maxPageNo = Math.ceil(totalCount / 10);
-	              $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
+		        	  $("#shelterList").append($("<tr>"));
+		        	  // roadAddress 클릭 이벤트 추가
+		              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+		              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
+		              roadAddressElement.on("click", function(event) {
+		            	  openKakaoMap(item.lat,item.lon,item.facilityName);
+			          });
+		        	  
+			        	  $("#shelterList").append(roadAddressElement);
+			              $("#shelterList").append($("<td>").text(item.facilityName));
+			              $("#shelterList").append($("<td>").text(item.scale + "m²"));
+			              $("#shelterList").append($("<td>").text(item.maxCapacity + "명"));
+			              $("#shelterList").append($("</tr>"));
+			              
+			              //-------------------------------------------------------------------------------
+			              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
+			              maxPageNo = Math.ceil(totalCount / 10);
+			              $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
+		              
 	      });
 	   
 	 }); 
