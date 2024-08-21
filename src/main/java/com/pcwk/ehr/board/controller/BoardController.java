@@ -1,7 +1,11 @@
 package com.pcwk.ehr.board.controller;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -155,6 +159,21 @@ public class BoardController implements PLog {
 		// 1.
 		log.debug("1.param search:" + search);		
 		List<Board> list = this.boardService.doRetrieve(search);
+		
+		DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+	    DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+	    LocalDateTime now = LocalDateTime.now();
+	    
+	    for (Board board : list) {
+	        LocalDateTime dateTime = LocalDateTime.parse(board.getRegDt(), inputFormatter);
+	        if (dateTime.toLocalDate().equals(now.toLocalDate())) {
+	            // 오늘 날짜인 경우 시간만 표시
+	            board.setRegDt(dateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+	        } else {
+	            // 오늘이 아닌 경우 날짜만 표시
+	            board.setRegDt(dateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+	        }
+	    }
 			
 		//2. 화면 전송 데이터
 		model.addAttribute("list", list);//조회 데이터
@@ -205,9 +224,9 @@ public class BoardController implements PLog {
         String message = "";
 
         if (1 == flag) {
-            message = inVO.getBoardNo() + " 이(가) 삭제되었습니다.";
+            message = " 게시물이 삭제되었습니다.";
         } else {
-            message = inVO.getBoardNo() + " 삭제 실패!";
+            message = " 게시물을 삭제하는데 실패했습니다.";
         }
 
         Message messageObj = new Message(flag, message);
@@ -283,4 +302,5 @@ public class BoardController implements PLog {
 
         return jsonString;
     }
+    
 }
