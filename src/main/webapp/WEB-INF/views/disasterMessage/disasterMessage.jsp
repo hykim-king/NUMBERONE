@@ -10,12 +10,81 @@
     <link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
     <title>재난문자 검색</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">  
+	<link href="/ehr/resources/css/behavior.css" rel="stylesheet" />
     <style>
         body {
-            margin: 20px;
+            font-family: "Hahmlet", sans-serif;
+            background-color: #eeeeee;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 25px;
+        }
+        h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+        }
+        .btn-primary {
+            background-color: #508c9b;
+            border: none;
+            font-size: 1rem;
+        }
+        .btn-primary:hover {
+            background-color: #2c3e50;
         }
         .table {
             margin-top: 20px;
+            background-color: #ffffff;
+        }
+        .table thead th {
+            background-color: #134b70;
+            color: white;
+            font-weight: bold;
+        }
+        .table tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            color: #134b70;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .pagination button:hover {
+            background-color: #134b70;
+            color: white;
+        }
+        .pagination span {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+        .total {
+            font-size: 1rem;
+            color: #333;
+            margin-top: 10px;
         }
     </style>
 <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
@@ -27,9 +96,9 @@
 </script>
 </head>
 <body>
-
+    <%@ include file="/WEB-INF/views/main/header.jsp" %>
 <div class="container">
-    <h2 class="text-center">재난문자</h2>
+    <h2 class="text-center">재난문자 </h2>
         <div class="form-row align-items-end">
             
             <div class="form-group col-md-3">
@@ -84,6 +153,7 @@
         </ul>
     </nav>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -264,5 +334,6 @@ function retrieve(){
 
 
 </script>
+    <%@ include file="/WEB-INF/views/main/footer.jsp" %>
 </body>
 </html>

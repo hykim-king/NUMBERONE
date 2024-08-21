@@ -576,6 +576,10 @@
 	.toast.hide {
 	    opacity: 0; /* 토스트가 숨겨질 때의 투명도 */
 	}
+	
+	
+	
+	
 </style>
 <script>
 //.scroll-to-top

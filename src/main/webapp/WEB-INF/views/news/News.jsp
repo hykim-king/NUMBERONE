@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="CP" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
@@ -7,38 +7,10 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
     <title>안전뉴스</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .search-box {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">  
+<link href="/ehr/resources/css/behavior.css" rel="stylesheet" />
 <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
 <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
 <%-- common.js --%>
@@ -123,8 +95,127 @@ class StatisticsCondition {
         alert("다음 페이지 기능은 아직 구현되지 않았습니다.");
     }
 </script>
+    <style>
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+            color: #134b70;
+        }
+        body {
+            font-family: "Hahmlet", serif;
+	        font-optical-sizing: auto;
+	        font-style: normal;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .search-box {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .search-box label {
+            font-weight: bold;
+            margin-right: 10px;
+            color: #333;
+        }
+        
+        .search-box input, .search-box select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+            font-family: "Hahmlet", serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+        }
+        .search-box input:focus, .search-box select:focus {
+            border-color: #508c9b;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        .search-box button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+            background-color: #508c9b;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .search-box button:hover {
+            background-color: #134b70;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #134b70;
+            color: white;
+            font-weight: bold;
+        }
+        tbody tr:nth-child(odd) {
+            background-color: #eeeeee;
+        }
+        tbody tr:hover {
+            background-color: #e0e0e0;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 8px 12px;
+            margin: 0 5px;
+            background-color: #ffffff;
+            color: #134b70;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .pagination button:hover {
+            background-color: #134b70;
+            color: white;
+        }
+        .pagination span {
+            display: flex;
+            align-items: center;
+            margin: 0 5px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+    <%@ include file="/WEB-INF/views/main/header.jsp" %>
 <div class="container">
     <h1>안전뉴스</h1>
     
@@ -167,7 +258,8 @@ class StatisticsCondition {
     </div>
 </div>
 
-<script>
-</script>
+
+   
 </body>
+ <%@ include file="/WEB-INF/views/main/footer.jsp" %>
 </html>

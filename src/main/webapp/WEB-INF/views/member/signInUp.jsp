@@ -491,6 +491,11 @@
 	        });
 	    }
 	
+	    
+	    let isNicknameChecked = false; // 닉네임 중복 체크 완료 플래그
+	    let isIdChecked = false; // 아이디 중복 체크 완료 플래그
+	    
+	    
 	    // 닉네임 중복 체크
 	    $("#nicknameDuplicateCheck").on("click", function(event) {
 	        event.preventDefault();
@@ -522,17 +527,20 @@
 	            data: params,
 	            success: function(data) {
 	                if (data) {
-	                    try {
-	                        if (data.messageId === 1) {
-	                            alert(data.messageContents); // 사용불가
-	                            $("#nicknameSignUp").focus();
-	                        } else {
-	                            alert(data.messageContents); // 사용가능
-	                        }
-	                    } catch (e) {
-	                        console.error("data가 null 혹은 undefined 입니다.", e);
-	                        alert("data가 null 혹은 undefined 입니다.");
-	                    }
+	                	 try {
+	                         if (data.messageId === 1) {
+	                             alert(data.messageContents); // 사용불가
+	                             $("#nicknameSignUp").focus();
+	                             isNicknameChecked = false; // 사용 불가 시 플래그 false
+	                         } else {
+	                             alert(data.messageContents); // 사용가능
+	                             isNicknameChecked = true; // 사용 가능 시 플래그 true
+	                         }
+	                     } catch (e) {
+	                         console.error("data가 null 혹은 undefined 입니다.", e);
+	                         alert("data가 null 혹은 undefined 입니다.");
+	                         isNicknameChecked = false; // 오류 발생 시 플래그 false
+	                     }
 	                }
 	            }
 	        });
