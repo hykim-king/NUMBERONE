@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.pcwk.ehr.cmn.WorkDiv;
 import com.pcwk.ehr.disasterMsg.domain.DisasterMsg;
+import com.pcwk.ehr.member.domain.Member;
 import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 
 public interface DisasterMsgService extends WorkDiv<DisasterMsg> {
@@ -16,7 +17,9 @@ public interface DisasterMsgService extends WorkDiv<DisasterMsg> {
     
 	public Map<String, Integer> disasterTypeStatisticsDownward(StatisticsCondition condition) throws SQLException;
     
-	public String isNewMessageExist(long locCode) throws SQLException;
+	public String isNewMessageExist() throws SQLException;
+	
+	public int isNewMessageExistForUser(Member user) throws SQLException;
 	
 	public int updateSequence() throws SQLException;
 

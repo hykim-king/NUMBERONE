@@ -11,6 +11,7 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 <script src="${CP}/resources/js/jquery-1.11.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <%-- jquery --%>
     <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
 <title>재난안전포털 No.1</title>
@@ -544,6 +545,37 @@
 	.scroll-to-top:hover {
 	    background-color: #007bff;
 	}
+	.toast {
+    position: relative;
+    display: block;
+    width: 350px; /* 원하는 너비로 조정 가능 */
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+	.toast-header {
+	    display: flex;
+	    align-items: center;
+	    padding: 0.5rem 1rem;
+	    background-color: rgba(0, 0, 0, 0.03);
+	    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	}
+	
+	.toast-body {
+	    padding: 0.5rem 1rem;
+	}
+	
+	.toast.show {
+	    opacity: 1; /* 토스트가 보일 때의 투명도 */
+	}
+	
+	.toast.hide {
+	    opacity: 0; /* 토스트가 숨겨질 때의 투명도 */
+	}
 </style>
 <script>
 //.scroll-to-top
@@ -571,7 +603,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <section>
         <div id= "divWrap">
-        
+                <div class="toast-container" id="toastContainer" style="position: fixed; top: 20px; right: 20px;">
+        			<!-- 토스트가 여기에 추가됩니다. -->
+    			</div>  
         
 		        <div class="myPageZone">
 		            <div class="mypageDiv">NO.1</div>
@@ -1211,7 +1245,37 @@ document.addEventListener('DOMContentLoaded', function() {
         const formattedLastMonth = formatDate(lastMonth);
         console.log("한 달 전 날짜:", formattedLastMonth);
         
+        const eventSource = new EventSource('/ehr/sse'); // SSE 연결을 설정합니다.
+
+        eventSource.onmessage = function(event) {
         	
+            const message = event.data;
+            console.log("message",message);
+            // Bootstrap 토스트 생성
+            const toastHTML = `
+                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false" style="margin-bottom: 10px;">
+                    <div class="toast-header">
+                        <strong class="mr-auto">알림</strong>
+                        <small>방금</small>
+                        <button type="button" class="ml-2 mb-1 close" onclick="toast.hide()" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                                                           새로운 재난문자가 등록되었습니다. 새로고침시 확인 가능합니다.
+                    </div>
+                </div>
+            `;
+
+            // 토스트를 컨테이너에 추가
+            const toastContainer = document.getElementById('toastContainer');
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+
+            // 토스트를 보여줍니다.
+            const toastElement = toastContainer.lastElementChild;
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        };	
         	
         	
 

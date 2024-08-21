@@ -9,9 +9,12 @@ import com.google.gson.Gson;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.disasterMsg.service.DisasterMsgService;
 import com.pcwk.ehr.mapper.DisasterMsgMapper;
+import com.pcwk.ehr.member.domain.Member;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,56 +23,68 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
-public class SseController implements PLog{
-	
-	@Autowired
-	public DisasterMsgMapper disasterMsgMapper;
+public class SseController implements PLog {
+    
+    @Autowired
+    public DisasterMsgMapper disasterMsgMapper;
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private SseEmitter emitter;
-
+    private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+    
     @Autowired
-    private DisasterMsgService disasterService; // MyBatis 매퍼 주입
+    private DisasterMsgService disasterService;
 
     // SSE 연결을 위한 메서드
-    @GetMapping(value ="/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter handleSse(HttpServletResponse response,HttpSession session) {
-    	response.setContentType("text/event-stream; charset=UTF-8");
+    @GetMapping(value = "/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter handleSse(HttpServletResponse response, HttpSession session) {
+        response.setContentType("text/event-stream; charset=UTF-8");
 
-        emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(60*1000*10l);
+        emitters.add(emitter); // emitters 리스트에 추가
+
+        emitter.onCompletion(() -> emitters.remove(emitter)); // 완료 시 리스트에서 제거
+        emitter.onTimeout(() -> emitters.remove(emitter)); // 타임아웃 시 리스트에서 제거
+
         startEventCheck(session);
+
         return emitter;
     }
 
     private void startEventCheck(HttpSession session) {
         scheduler.scheduleAtFixedRate(() -> {
             try {
-                String result = "N";
+                String result = disasterService.isNewMessageExist();
                 String message = "New Message Arrived!";
                 Gson gson = new Gson();
-                
-				try {
-					result = disasterService.isNewMessageExist(1100000000);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} // SQL 쿼리 실행
-                
-				//수정해야함!
-				
-                if ("Y".equals(result)) {
-					emitter.send(gson.toJson(message));
-                    log.debug(message);
-                    try {
-						disasterMsgMapper.updateSequence();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-                
+
+                if ("Y".equals(result)) { // 새로운 메시지가 DB에 등록되면
+                	log.debug(result);
+                    if (session != null) {
+                        log.debug(session);
+                        Member user = (Member) session.getAttribute("member");
+                        log.debug(user);
+                        if (user != null && disasterMsgMapper.isNewMessageExistForUser(user) > 0) {
+                            // 모든 클라이언트에게 메시지 전송
+                            for (SseEmitter emitter : emitters) {
+                                try {
+                                    emitter.send(gson.toJson(message));
+                                } catch (IOException e) {
+                                    // 오류 발생 시 해당 emitter를 리스트에서 제거
+                                    emitters.remove(emitter);
+                                }
+                            }
+                            
+                        }
+                    }else {
+                    	log.debug("session null");
+                    }
+                    disasterMsgMapper.updateSequence();
+                    
                 }
-            } catch (IOException e) {
-                emitter.completeWithError(e);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }, 0, 10, TimeUnit.SECONDS);
     }
 }
+
