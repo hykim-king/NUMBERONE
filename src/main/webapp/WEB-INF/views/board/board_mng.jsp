@@ -278,10 +278,8 @@ document.addEventListener("DOMContentLoaded", function(){
         const replyContent = replyElement.querySelector('.reply-content').textContent;
         const buttonsDiv = replyElement.querySelector('.reply-buttons');
         
-        // 현재 로그인한 사용자의 ID를 JavaScript 변수로 설정 (서버에서 전달받아야 함)
         let currentUserId = '${sessionScope.member.memberId}';
         
-        // 댓글 작성자와 현재 로그인한 사용자가 같을 때만 수정 폼 표시
         if (currentUserId === replyElement.dataset.regId) {
             const updateForm = '<div id="updateForm' + replyNo + '">' +
                 '<textarea id="updateReplyContents' + replyNo + '">' + replyContent + '</textarea>' +
@@ -291,7 +289,9 @@ document.addEventListener("DOMContentLoaded", function(){
             
             buttonsDiv.style.display = 'none';
             replyElement.querySelector('.reply-content').insertAdjacentHTML('afterend', updateForm);
-            }
+        } else {
+            alert('수정 권한이 없습니다.');
+        }
     }
 
 
@@ -374,27 +374,20 @@ document.addEventListener("DOMContentLoaded", function(){
     
     function doDeleteReply(replyNo){
         console.log("doDeleteReply() - replyNo:", replyNo);
-        console.log("isEmpty(replyNo) 결과:", isEmpty(replyNo))
         
-        // 현재 로그인한 사용자의 ID를 JavaScript 변수로 설정 (서버에서 전달받아야 함)
         let currentUserId = '${sessionScope.member.memberId}';
-    
+        
         const replyElement = document.getElementById('reply' + replyNo);
         if (!replyElement || currentUserId !== replyElement.dataset.regId) {
             alert('삭제 권한이 없습니다.');
             return;
         }
-
         
-        if(isEmpty(replyNo)){
-            alert('댓글 번호를 확인하세요.')
-            return;
-        }
         if(confirm('댓글을 삭제하시겠습니까?') === false) return;
         
         let type = "POST";  
         let url = "/ehr/reply/doDelete.do";
-        let async = "true";  
+        let async = true;  
         let dataType = "json";  
         
         let params = { 
@@ -534,13 +527,13 @@ document.addEventListener("DOMContentLoaded", function(){
     
     function ReplyHtml(reply, depth) {
         let indentation = 'margin-left: ' + (depth * 20) + 'px;';
-        let html = '<div id="reply' + reply.replyNo + '" class="reply" style="' + indentation + '">';
+        let html = '<div id="reply' + reply.replyNo + '" class="reply" style="' + indentation + '" data-reg-id="' + reply.regId + '">';
         html += '<p><strong>' + reply.nickname + '</strong>: <span class="reply-content">' + reply.replyContents + '</span></p>';
         html += '<p><small>' + reply.regDt + '</small></p>';
         html += '<div class="reply-buttons">';
         html += '<button onclick="showReplyForm(' + reply.replyNo + ')">답글</button>';
-        // 현재 로그인한 사용자의 ID를 JavaScript 변수로 설정 (서버에서 전달받아야 함)
         
+        // 현재 로그인한 사용자의 ID를 JavaScript 변수로 설정
         let currentUserId = '${sessionScope.member.memberId}';
         
         // 댓글 작성자와 현재 로그인한 사용자가 같을 때만 수정, 삭제 버튼 표시
