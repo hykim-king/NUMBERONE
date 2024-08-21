@@ -439,7 +439,7 @@
         background-color: #134b70;
 	    width: 140px;
 	    height: 242px;
-	   
+	   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2), 0px 1px 7px rgba(255, 255, 255, 0.3) inset;
     }
     .behaviorImg img, .searchImg img{
        position: relative; 
@@ -471,7 +471,7 @@
 	    height: 242px;
 	    position: relative;
 	    left: -22px;
-        
+        box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2), 0px 1px 7px rgba(255, 255, 255, 0.3) inset;
     }
     
 	.behavior ul, .search ul {

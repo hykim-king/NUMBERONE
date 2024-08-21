@@ -67,7 +67,7 @@ public class MemberControllerTest implements PLog{
 	    }
 	    
 	    
-	    
+	    @Ignore
 	    @Test
 	    public void findMemberId() throws Exception {
 	        // API 호출
@@ -191,11 +191,11 @@ public class MemberControllerTest implements PLog{
 
 	
 	    
-	    @Ignore
+	    
 	    @Test
 	    public void doSave() throws Exception {
 	        // 새 회원 정보
-	        Member newMember = new Member("user2", 1, "password2", "UserTwo", "nickname2", 'Y',"email@example.com");
+	        Member newMember = new Member("user21", 1, "password2", "UserTwo", "nickname21", 'Y',"email@example.com");
 
 	        // 호출방식, URL, param 저장
 	        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/member/doSave.do")

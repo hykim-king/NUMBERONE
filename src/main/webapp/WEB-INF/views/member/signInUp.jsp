@@ -121,7 +121,7 @@
 		}
 		
 		.login-html.signup-active {
-		    height: 1020px;
+		        height: 1100px;
 		     
 		}
 	    
@@ -564,6 +564,12 @@
 	            $("#nicknameSignUp").focus();
 	            return;
 	        }
+	        
+	        if (nicknameDuplicateCheck === 0) {
+                alert("닉네임 중복 체크를 하세요.");
+                $("#nicknameDuplicateCheck").focus();
+                return;
+            }
 	        // 필수 입력 처리
 	        if (!$("#userIdSignUp").val()) {
 	            alert("아이디를 입력 하세요.");

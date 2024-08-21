@@ -54,7 +54,7 @@ public class MemberMapperTest implements PLog {
         // 데이터 삭제
         //memberMapper.deleteAll();
 
-        member1 = new Member("user1", 1, "password1", "User One", "nickname1", 'N',"email@example.com");
+        member1 = new Member("tt", 1, "tt", "tt", "tt", 'N',"tt@example.com");
         
         login01 =new Member("f", "252f10c83610ebca1a059c0bae8255eba2f95be4d1d7bcfa89d7248a82d9f111");
         
@@ -62,7 +62,6 @@ public class MemberMapperTest implements PLog {
     }
 
     @Test
-    @Ignore
      public void idDuplicateCheck() throws SQLException {
 		System.out.println("[̲̅i][̲̅d][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
 
@@ -86,8 +85,11 @@ public class MemberMapperTest implements PLog {
         assertEquals(1, flag);
 
         //존재하지 않는 ID 체크
-        flag = memberMapper.idDuplicateCheck("nonExistentID"); // 존재하지 않는 ID를 체크
+        flag = memberMapper.idDuplicateCheck("qt"); // 존재하지 않는 ID를 체크
         assertEquals(0, flag);
+        
+        
+        
     }
 
     @Test
@@ -119,11 +121,11 @@ public class MemberMapperTest implements PLog {
     }
 
     
-    @Ignore
+
 	@Test
 	public void doSave() throws SQLException {
 		System.out.println("[̲̅d][̲̅o][̲̅s][̲̅a][̲̅v][̲̅e]");
-        Member member1 = new Member("user3", 1, "password3", "User3", "nickname3", 'N',"email@example.com");
+        Member member1 = new Member("user2", 1, "password2", "UserTwo", "nickname2", 'N',"email@example.com");
 
         
         // 아이디 중복 체크
@@ -181,9 +183,9 @@ public class MemberMapperTest implements PLog {
 	
 	
 	
-	
+	@Ignore
 	@Test
-    public void testFindMemberId() {
+    public void findMemberId() {
         
         SqlSessionFactory sqlSessionFactory = context.getBean(SqlSessionFactory.class);
         

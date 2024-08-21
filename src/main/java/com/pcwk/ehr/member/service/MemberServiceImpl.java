@@ -88,18 +88,33 @@ public class MemberServiceImpl implements MemberService, PLog {
     @Override
     public boolean doSave(Member member) {
         log.debug("1. param :" + member);
-        boolean result = false;
-        int flag = 0;
-        try {
-            flag = memberMapper.doSave(member);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        if (flag == 1) {
-            result = true;
+        try {
+            // 아이디 중복 체크
+            if (memberMapper.idDuplicateCheck(member.getMemberId()) > 0) {
+                log.debug("아이디가 이미 존재합니다: " + member.getMemberId());
+                return false;
+            }
+
+            // 닉네임 중복 체크
+            if (memberMapper.nicknameDuplicateCheck(member.getNickname()) > 0) {
+                log.debug("닉네임이 이미 존재합니다: " + member.getNickname());
+                return false;
+            }
+
+            // 중복이 없으면 저장
+            int flag = memberMapper.doSave(member);
+            if (flag == 1) {
+                log.debug("회원 가입 성공: " + member.getMemberId());
+                return true;
+            } else {
+                log.debug("회원 가입 실패: " + member.getMemberId());
+                return false;
+            }
+        } catch (SQLException e) {
+            log.error("SQLException in doSave: " + e.getMessage());
+            return false;
         }
-        return result;
     }
 
     @Override
