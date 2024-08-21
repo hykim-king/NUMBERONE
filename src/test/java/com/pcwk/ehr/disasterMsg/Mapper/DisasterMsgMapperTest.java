@@ -26,6 +26,7 @@ import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.disasterMsg.domain.DisasterMsg;
 import com.pcwk.ehr.mapper.DisasterMsgMapper;
+import com.pcwk.ehr.member.domain.Member;
 import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 
 
@@ -47,6 +48,7 @@ public class DisasterMsgMapperTest implements PLog{
     StatisticsCondition condition2;
     StatisticsCondition condition3;
     Search search;
+    Member user;
 	@Before
 	public void setUp() throws Exception {
 		disasterMsg = new DisasterMsg();
@@ -73,15 +75,24 @@ public class DisasterMsgMapperTest implements PLog{
         search.setPageSize(100);
         search.setSearchDiv("10");
         search.setSearchWord("1168010500");
+        
+        user = new Member();
+        user.setLocCode(4125010200l);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
-	
+	@Ignore
 	@Test
 	public void disasterTypeStaticsBySido() throws SQLException{
 		int result =disasterMsgMapper.disasterTypeStaticsBySido(condition3);
+		log.debug(result);
+	}
+	
+	@Test
+	public void isNewMessageExistForUser() throws SQLException{
+		int result = disasterMsgMapper.isNewMessageExistForUser(user);
 		log.debug(result);
 	}
 	
@@ -89,7 +100,7 @@ public class DisasterMsgMapperTest implements PLog{
 	@Ignore
 	@Test
 	public void isNewMessageExistTest() throws SQLException{
-		String result =disasterMsgMapper.isNewMessageExist(1100000000);
+		String result =disasterMsgMapper.isNewMessageExist();
 		assertEquals(result, "N");
 	}
 	

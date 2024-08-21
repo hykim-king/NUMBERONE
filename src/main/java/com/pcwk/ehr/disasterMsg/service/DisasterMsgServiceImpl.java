@@ -16,6 +16,7 @@ import com.pcwk.ehr.location.domain.Location;
 import com.pcwk.ehr.mapper.DisasterMsgMapper;
 import com.pcwk.ehr.mapper.LocationMapper;
 import com.pcwk.ehr.mapper.MessageAreaMapper;
+import com.pcwk.ehr.member.domain.Member;
 import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 
 @Service
@@ -95,13 +96,21 @@ public class DisasterMsgServiceImpl implements DisasterMsgService,PLog{
 	}
 	
 	@Override
-	public String isNewMessageExist(long locCode) throws SQLException {
-		log.debug("isNewMessageExist:"+disasterMsgMapper.isNewMessageExist(locCode));
-		return disasterMsgMapper.isNewMessageExist(locCode);
+	public String isNewMessageExist() throws SQLException {
+		log.debug("isNewMessageExist:"+disasterMsgMapper.isNewMessageExist());
+		return disasterMsgMapper.isNewMessageExist();
 	}
 	
 	
 	
+	@Override
+	public int isNewMessageExistForUser(Member user) throws SQLException {
+		log.debug("1.param:"+user);
+		log.debug(disasterMsgMapper.isNewMessageExistForUser(user));
+		return disasterMsgMapper.isNewMessageExistForUser(user);
+		
+	}
+
 	@Override
 	public int updateSequence() throws SQLException {
 		int flag= disasterMsgMapper.updateSequence();

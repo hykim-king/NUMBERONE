@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.pcwk.ehr.cmn.WorkDiv;
 import com.pcwk.ehr.disasterMsg.domain.DisasterMsg;
 import com.pcwk.ehr.location.domain.Location;
+import com.pcwk.ehr.member.domain.Member;
 import com.pcwk.ehr.statisticsCondition.domain.StatisticsCondition;
 
 @Mapper
@@ -32,7 +33,7 @@ public interface DisasterMsgMapper extends WorkDiv<DisasterMsg> {
 	 */
 	public List<Map<String,Object>> disasterTypeStatisticsDownward(StatisticsCondition condition) throws SQLException;
 
-	public String isNewMessageExist(long locCode) throws SQLException;
+	public String isNewMessageExist() throws SQLException;
 	
 	public int updateSequence() throws SQLException;
 
@@ -40,4 +41,5 @@ public interface DisasterMsgMapper extends WorkDiv<DisasterMsg> {
 
 	public List<Map<String, Object>> disasterTypeStatisticsAll(StatisticsCondition condition);
 	
+	public int isNewMessageExistForUser(Member user) throws SQLException;
 }

@@ -12,6 +12,14 @@
 			property="broadcastOrganization" />
 	</resultMap>
 	
+	<select id ="isNewMessageExistForUser" parameterType="Member" resultType ="int">
+	select count(*) from message_area where area_code IN (
+			        SELECT loc_code 
+			        FROM location 
+			        START WITH loc_code = #{locCode}
+			        CONNECT BY PRIOR parent_loc_code = loc_code
+			    ) and message_seq > (select max(sequence_number) from sequence_tracker)
+	</select>
 
 	<select id="doSelectOne" parameterType="DisasterMsg"
 		resultMap="DisasterMsgResultMap">
@@ -64,7 +72,7 @@
  </sql>
  
  
- <select id="isNewMessageExist"	 parameterType ="long" resultType="String">
+ <select id="isNewMessageExist" resultType="String">
 	 SELECT 
 	    CASE 
 	        WHEN (SELECT MAX(message_seq) FROM disasterMSg) = (SELECT MAX(SEQUENCE_NUMBER) FROM SEQUENCE_TRACKER) 

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +38,7 @@ public class DisasterMsgController implements PLog {
 	Gson gson;
 
 	@PostMapping(value = "/statistics/1")
-	public ResponseEntity<Map<String, Integer>> disasterStaticsUpward(@RequestBody StatisticsCondition condition) {
+	public ResponseEntity<Map<String, Integer>> disasterStaticsUpward(@RequestBody StatisticsCondition condition,HttpSession session) {
 		log.debug("┌──────────────────────────────────────────┐");
 		log.debug("          disasterStaticsUpward             ");
 		log.debug("└──────────────────────────────────────────┘");
@@ -55,6 +57,7 @@ public class DisasterMsgController implements PLog {
 
 		} else {
 			return ResponseEntity.ok().body(resultMap);
+			//session.setAttribute(name, value);
 		}
 
 	}
