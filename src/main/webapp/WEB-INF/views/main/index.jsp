@@ -969,13 +969,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     row.append($("<td></td>").text(msg.emergencyLevel).css({
-                    	"width": "25px", /* 두 번째 열 너비 */                        
+                    	"width": "35px", /* 두 번째 열 너비 */                        
                         "background-color": emergencyLevelColor,
                         "text-align" : "center"
                     }));
                     
                     row.append($("<td></td>").text(msg.msgRegDt).css({
-                        "width": "20px", /* 세 번째 열 너비 */
+                        "width": "30px", /* 세 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
@@ -1060,12 +1060,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     row.append($("<td></td>").text(msg.emergencyLevel).css({
-                    	"width": "25px", /* 두 번째 열 너비 */                        
+                    	"width": "35px", /* 두 번째 열 너비 */                        
                         "background-color": emergencyLevelColor,
                         "text-align" : "center"
                     }));
                     row.append($("<td></td>").text(msg.msgRegDt).css({
-                        "width": "20px", /* 세 번째 열 너비 */
+                        "width": "30px", /* 세 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
