@@ -278,14 +278,20 @@ document.addEventListener("DOMContentLoaded", function(){
         const replyContent = replyElement.querySelector('.reply-content').textContent;
         const buttonsDiv = replyElement.querySelector('.reply-buttons');
         
-        const updateForm = '<div id="updateForm' + replyNo + '">' +
-            '<textarea id="updateReplyContents' + replyNo + '">' + replyContent + '</textarea>' +
-            '<button onclick="doUpdateReply(' + replyNo + ')">수정 완료</button>' +
-            '<button onclick="cancelUpdateReply(' + replyNo + ')">취소</button>' +
-            '</div>';
+        // 현재 로그인한 사용자의 ID를 JavaScript 변수로 설정 (서버에서 전달받아야 함)
+        let currentUserId = '${sessionScope.member.memberId}';
         
-        buttonsDiv.style.display = 'none';
-        replyElement.querySelector('.reply-content').insertAdjacentHTML('afterend', updateForm);
+        // 댓글 작성자와 현재 로그인한 사용자가 같을 때만 수정 폼 표시
+        if (currentUserId === replyElement.dataset.regId) {
+            const updateForm = '<div id="updateForm' + replyNo + '">' +
+                '<textarea id="updateReplyContents' + replyNo + '">' + replyContent + '</textarea>' +
+                '<button onclick="doUpdateReply(' + replyNo + ')">수정 완료</button>' +
+                '<button onclick="cancelUpdateReply(' + replyNo + ')">취소</button>' +
+                '</div>';
+            
+            buttonsDiv.style.display = 'none';
+            replyElement.querySelector('.reply-content').insertAdjacentHTML('afterend', updateForm);
+            }
     }
 
 
@@ -369,6 +375,17 @@ document.addEventListener("DOMContentLoaded", function(){
     function doDeleteReply(replyNo){
         console.log("doDeleteReply() - replyNo:", replyNo);
         console.log("isEmpty(replyNo) 결과:", isEmpty(replyNo))
+        
+        // 현재 로그인한 사용자의 ID를 JavaScript 변수로 설정 (서버에서 전달받아야 함)
+        let currentUserId = '${sessionScope.member.memberId}';
+    
+        const replyElement = document.getElementById('reply' + replyNo);
+        if (!replyElement || currentUserId !== replyElement.dataset.regId) {
+            alert('삭제 권한이 없습니다.');
+            return;
+        }
+
+        
         if(isEmpty(replyNo)){
             alert('댓글 번호를 확인하세요.')
             return;
@@ -522,8 +539,16 @@ document.addEventListener("DOMContentLoaded", function(){
         html += '<p><small>' + reply.regDt + '</small></p>';
         html += '<div class="reply-buttons">';
         html += '<button onclick="showReplyForm(' + reply.replyNo + ')">답글</button>';
-        html += '<button onclick="showUpdateReplyForm(' + reply.replyNo + ')">수정</button>';
-        html += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
+        // 현재 로그인한 사용자의 ID를 JavaScript 변수로 설정 (서버에서 전달받아야 함)
+        
+        let currentUserId = '${sessionScope.member.memberId}';
+        
+        // 댓글 작성자와 현재 로그인한 사용자가 같을 때만 수정, 삭제 버튼 표시
+        if (currentUserId === reply.regId) {
+            html += '<button onclick="showUpdateReplyForm(' + reply.replyNo + ')">수정</button>';
+            html += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
+        }
+        
         html += '</div>';
         html += '<div id="replyForm' + reply.replyNo + '" style="display:none;">';
         html += '<textarea id="replyContents' + reply.replyNo + '"></textarea>';

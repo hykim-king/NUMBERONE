@@ -121,10 +121,10 @@ public class ReplyController {
         return new GsonBuilder().setPrettyPrinting().create().toJson(new Message(flag, message));
     }
     
-    // 댓글 조회 (세션 체크 제거)
+    // 댓글 조회 
     @RequestMapping(value = "/doRetrieve.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String doRetrieve(HttpServletRequest req) throws SQLException {
+    public String doRetrieve(HttpServletRequest req, HttpSession session) throws SQLException {
         int pageSize = Integer.parseInt(StringUtil.nvl(req.getParameter("pageSize"), "50"));
         int pageNo = Integer.parseInt(StringUtil.nvl(req.getParameter("pageNo"), "1"));
         String searchWord = StringUtil.nvl(req.getParameter("searchWord"), "");
@@ -142,6 +142,10 @@ public class ReplyController {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("list", list);
         resultMap.put("totalCnt", totalCnt);
+        
+        Member member = (Member) session.getAttribute("member");
+        String currentUserId = (member != null) ? member.getMemberId() : "";
+        resultMap.put("currentUserId", currentUserId);
 
         return new Gson().toJson(resultMap);
     }
