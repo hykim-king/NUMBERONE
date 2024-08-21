@@ -3,7 +3,6 @@ package com.pcwk.ehr.member;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.sql.SQLException;
-
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.After;
@@ -20,9 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.member.domain.Member;
-
-import junit.framework.Assert;
-
 import com.pcwk.ehr.mapper.MemberMapper;
 
 @RunWith(SpringRunner.class)

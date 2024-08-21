@@ -30,7 +30,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">  
     <script src="${CP}/resources/js/jquery-1.11.1.min.js"></script>
-    <%-- jquery --%>
     <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
 <style>
     * {
@@ -240,10 +239,10 @@
                 <div class="findId-form">
                   <div class="find-id-htm">
                     <div class="group">
-                      <label for="user" class="label">이름</label>
+                      <label for="userName" class="label">이름</label>
                       <input id="user" type="text" class="input">
-                      <label for="user" class="label">이메일</label>
-                      <input id="user" type="text" class="input">
+                      <label for="userEmail" class="label">이메일</label>
+                      <input id="userEmail" type="text" class="input">
                       
                     </div>
                       
@@ -259,12 +258,12 @@
         
                   <div class="find-pw-htm">
                     <div class="group">
-                      <label for="user" class="label">이메일</label>
-                      <input id="user" type="text" class="input">
+                      <label for="userEmail2" class="label">이메일</label>
+                      <input id="userEmail2" type="text" class="input">
                     </div>
                     <div class="group">
-                      <label for="pass" class="label">아이디</label>
-                      <input id="pass" type="text" class="input">
+                      <label for="memId" class="label">아이디</label>
+                      <input id="memId" type="text" class="input">
                     </div>
                     <div class="group">
                       <button class="button2" type="button" value="비밀번호초기화">비밀번호 초기화</button>

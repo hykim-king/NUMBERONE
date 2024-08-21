@@ -195,7 +195,7 @@ public class MemberControllerTest implements PLog{
 	    @Test
 	    public void doSave() throws Exception {
 	        // 새 회원 정보
-	        Member newMember = new Member("user21", 1, "password2", "UserTwo", "nickname21", 'Y',"email@example.com");
+	        Member newMember = new Member("hwid", 1, "password1", "hwname", "hwnickname", 'N',"ss@naver.com");
 
 	        // 호출방식, URL, param 저장
 	        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/member/doSave.do")
@@ -204,7 +204,7 @@ public class MemberControllerTest implements PLog{
 
 	        // 호출
 	        ResultActions resultActions = mockMvc.perform(requestBuilder)
-	                .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=UTF-8"))
+	                .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
 	                .andExpect(status().isOk());
 
 	        String jsonResult = resultActions.andDo(print())

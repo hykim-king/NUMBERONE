@@ -299,6 +299,12 @@
 	    background-color: #134b70;
 	    width: 580px;
 	    height: 45px;
+	    font-size: 29px;
+	    color: #CFD8DC;
+	    font-weight: 1000;
+	    font-family: 'Tahoma', sans-serif;
+	    line-height: 1.5;
+	    overflow: hidden;
     }
     .emergency-info {
         position: absolute;
@@ -492,7 +498,7 @@
 	    line-height: 2.2;
 	    text-align: center;
 	    font-size: 15px;
-	    font-weight: 500;
+	    font-weight: 600;
 	    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
 	}
 	
@@ -544,27 +550,57 @@
 	    background-color: #007bff;
 	}
 	.toast {
-    position: relative;
-    display: block;
-    width: 350px; /* 원하는 너비로 조정 가능 */
-    margin-bottom: 1rem;
-    border: none;
-    border-radius: 0.25rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+	    position: relative;
+	    display: block;
+	    width: 260px; 
+	    margin-bottom: 1rem;
+	    border: none;
+
+	    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+	    opacity: 0;
+	    transition: opacity 0.5s ease-in-out;
+	    background-color: #ffffff; /* 토스트 배경색 */
+        border-radius: 0.375rem; /* 토스트 모서리 둥글게 */
 }
 
 	.toast-header {
+	  
 	    display: flex;
 	    align-items: center;
-	    padding: 0.5rem 1rem;
-	    background-color: rgba(0, 0, 0, 0.03);
-	    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	    padding: 0.5rem 1rem;      
+	    background-color: #134b70; /* 헤더 배경색 */
+	    color: #495057; /* 헤더 텍스트 색상 */
+	    border-bottom: 1px solid #dee2e6; /* 헤더 하단 테두리 */
 	}
-	
+	.toast-header strong{
+	   text-align: center;
+	   font-size: 20px;
+	   color: white;
+	}
+	.toast-header small{
+       text-align: center;
+       font-size: 13px;
+       color: white;
+    }
+	.toast-header>button {
+	    font-size: 1.4rem; /* X 버튼 크기 */
+	    color: white; /* X 버튼 색상 */
+	    cursor: pointer; 
+	    border: none;
+	    background: none; 
+	    margin-left: auto; /* 오른쪽 정렬 */
+	    margin-bottom: 0.5rem; /* 아래 여백 */
+	    transition: color 0.2s ease-in-out; /* 색상 변화 애니메이션 */
+    }
+
+	.toast-header>button:hover {
+	    color: #2196F3; /* 호버 시 색상 변화 */
+	}
 	.toast-body {
-	    padding: 0.5rem 1rem;
+	     padding: 1.1rem 1rem;
+	     color: #212529; /* 본문 텍스트 색상 */
+         font-size: 15px; /* 본문 텍스트 크기 */    
+         text-align: center;
 	}
 	
 	.toast.show {
@@ -575,7 +611,9 @@
 	    opacity: 0; /* 토스트가 숨겨질 때의 투명도 */
 	}
 	
-	
+	.btn-close {
+    filter: brightness(0.8); /* 닫기 버튼 밝기 조절 */
+}
 	
 	
 </style>
@@ -653,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			        
 			        <div>
 			           <div class="shelters"></div>
-		               <div class="sheltersBottom"></div>
+		               <div class="sheltersBottom">──────────────────────────────</div>
 			        
 			        </div>
 			        </div><!-- sheltersDiv end -->        
@@ -674,7 +712,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		        
 		        <div>
 			        <div class="graphText">
-			             <p>재난 문자 발송 통계</p>
+			             <a href="http://localhost:8080/ehr/chart/dataChart.do"><p>재난 문자 발송 통계</p></a>
 			        </div>
 			            
 		  
@@ -714,7 +752,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <li><a href="http://localhost:8080/ehr/disasterMsg/disasterMsg">재난문자</a></li>
                         <li><a href="http://localhost:8080/ehr/news">안전뉴스</a></li>
                         <li><a href="http://localhost:8080/ehr/video/videoView.do">훈련영상</a></li>
-                        <li><a href="http://localhost:8080/ehr/location/location.do">대피시설</a></li>
+                        <li><a href="http://localhost:8080/ehr/chart/dataChartMap.do">전국통계</a></li>
                         </ul>
                     </div>
                 </div>
@@ -837,11 +875,37 @@ document.addEventListener('DOMContentLoaded', function() {
 			    const slidesContainer = document.querySelector('.slides');
 			    const navButtonsContainer = document.querySelector('.nav-buttons');
 			    
+			    
+			     const disasterTypeNum = {
+			    		    "flood": 16,
+			    		    "heavyRain": 3,
+			    		    "waves": 6,
+			    		    "yellowDust": 10,
+			    		    "strongWind": 5,
+			    		    "heavySnow": 7,
+			    		    "coldWave": 8,
+	                        "heatWave": 9,
+	                        "earthQuake": 11,
+	                        "landslide": 18/* 
+			                "화재": "fire",
+			                "산불": "forestFires",
+			                "교통사고": "trafficAccident",
+			                "감염병예방": "preventionInfectious",
+			                "미세먼지": "fineDust" */
+		         };
+			    
+			    
+			    
+			    
 			    disasterTypesInEnglish.forEach((type, index) => {
 			        const slide = document.createElement('a');
 			        const img = document.createElement('img');
 			        img.src = '/ehr/resources/images/'+type + '.png';
 			        img.alt = type;
+			        
+			        const typeNumber = disasterTypeNum[type] || 'unknown';
+			        slide.href = 'http://localhost:8080/ehr/nature/' + typeNumber + '.do'; 
+			        
 			        slide.appendChild(img);
 			        slidesContainer.appendChild(slide);
 			    
@@ -886,7 +950,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	    }
 	    
 	
-	    
+
+
 	    // 슬라이드 보여주기
 	    let currentSlide = 0;
 	    
@@ -1301,9 +1366,7 @@ document.addEventListener('DOMContentLoaded', function() {
             toast.show();
         };	
         	
-        	
 
-        
         
 </script>
 </body>
