@@ -340,10 +340,8 @@
 	    font-weight: 600;
     }
     #messageTable{
-	   
-	    
-	    
-	    font-weight: 500;
+	   width: 100%; /* 테이블의 너비를 100%로 설정 */
+	    table-layout: fixed; /* 테이블의 너비를 고정 */
     }
     #messageTable tr{
         padding : 5px;
@@ -713,10 +711,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="search">
                         <h3>재난발생 정보 조회</h3>
                         <ul>
-                        <li><a href="#">재난문자</a></li>
-                        <li><a href="#">재난뉴스</a></li>
-                        <li><a href="#">훈련영상</a></li>
-                        <li><a href="#">대피시설</a></li>
+                        <li><a href="http://localhost:8080/ehr/disasterMsg/disasterMsg">재난문자</a></li>
+                        <li><a href="http://localhost:8080/ehr/news">안전뉴스</a></li>
+                        <li><a href="http://localhost:8080/ehr/video/videoView.do">훈련영상</a></li>
+                        <li><a href="http://localhost:8080/ehr/location/location.do">대피시설</a></li>
                         </ul>
                     </div>
                 </div>
@@ -940,11 +938,13 @@ document.addEventListener('DOMContentLoaded', function() {
         		$.each(msgList, function(index, msg) {
         			let row = $("<tr></tr>");
                     row.append($("<td></td>").text(msg.broadcastOrganization).css({
+                    	"width": "30px", /* 첫 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
                         "max-width": "90px",
-                        "background-color":"#eee"
+                        "padding": "6px",
+                        "background-color":"#F5F5F5"
                     }));
                     
                     console.log("Final disasterTypeSet:", Array.from(disasterTypeSet));
@@ -969,11 +969,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     row.append($("<td></td>").text(msg.emergencyLevel).css({
-                        "background-color": emergencyLevelColor
+                    	"width": "25px", /* 두 번째 열 너비 */                        
+                        "background-color": emergencyLevelColor,
+                        "text-align" : "center"
                     }));
                     
-                    row.append($("<td></td>").text(msg.msgRegDt));
+                    row.append($("<td></td>").text(msg.msgRegDt).css({
+                        "width": "20px", /* 세 번째 열 너비 */
+                        "white-space": "nowrap",
+                        "overflow": "hidden",
+                        "text-overflow": "ellipsis",
+                        "text-align" : "center"
+                    }));
                     row.append($("<td></td>").text(msg.messageContext).css({
+                    	"width": "300px", /* 네 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
@@ -1025,11 +1034,13 @@ document.addEventListener('DOMContentLoaded', function() {
         		$.each(msgList, function(index, msg) {
         			let row = $("<tr></tr>");
                     row.append($("<td></td>").text(msg.broadcastOrganization).css({
+                    	"width": "30px", /* 첫 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
                         "max-width": "90px",
-                        "background-color":"#eee"
+                        "padding": "6px",
+                        "background-color":"#F5F5F5"
                     }));
                     
                      // 위험도에 따른 배경색 설정
@@ -1049,10 +1060,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     row.append($("<td></td>").text(msg.emergencyLevel).css({
-                        "background-color": emergencyLevelColor
+                    	"width": "25px", /* 두 번째 열 너비 */                        
+                        "background-color": emergencyLevelColor,
+                        "text-align" : "center"
                     }));
-                    row.append($("<td></td>").text(msg.msgRegDt));
+                    row.append($("<td></td>").text(msg.msgRegDt).css({
+                        "width": "20px", /* 세 번째 열 너비 */
+                        "white-space": "nowrap",
+                        "overflow": "hidden",
+                        "text-overflow": "ellipsis",
+                        "text-align" : "center"
+                    }));
                     row.append($("<td></td>").text(msg.messageContext).css({
+                    	"width": "300px", /* 네 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
