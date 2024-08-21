@@ -178,11 +178,11 @@ public class BoardController implements PLog {
     			    produces = "text/plain;charset=UTF-8")
 	public String doSelectOne(Board inVO, Model model) throws SQLException{
 		String viewName   = "board/board_mng";
-		String jsonString = "";
+		
 		log.debug("1.param inVO:" + inVO);
 		
 		//TODO:SESSION처리
-		inVO.setRegId(StringUtil.nvl(inVO.getRegId(),"james"));
+		inVO.setRegId(StringUtil.nvl(inVO.getRegId()," "));
 		
 		
 		Board outVO = boardService.doSelectOne(inVO);
@@ -206,6 +206,7 @@ public class BoardController implements PLog {
 		model.addAttribute("markdownContents", markdownContents);
 		model.addAttribute("board", outVO);
 		model.addAttribute("message", messageObj);
+		model.addAttribute("boardNo", outVO.getBoardNo());
 		
 		return viewName;
 	}

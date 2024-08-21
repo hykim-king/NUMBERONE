@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
@@ -111,39 +113,39 @@ public class ReplyController implements PLog {
         return jsonString;
     }
     
-    @RequestMapping(value = "/doRetrieve.do", method = RequestMethod.GET)
-    public String doRetrieve(Model model, HttpServletRequest req) throws SQLException {
-        String viewName = "reply/reply_list";
+    @RequestMapping(value = "/doRetrieve.do", 
+    			   method = RequestMethod.GET
+    			   ,produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String doRetrieve(@RequestParam String boardNo,
+    			             @RequestParam(required = false, defaultValue = "10") int pageSize,
+    			             @RequestParam(required = false, defaultValue = "1") int pageNo) throws SQLException {
+        
         log.debug("┌──────────────────────────────────────────┐");
         log.debug("│ doRetrieve()                             │");
         log.debug("└──────────────────────────────────────────┘");
 
         // 기본 페이징 설정
-        int pageSize = Integer.parseInt(StringUtil.nvl(req.getParameter("pageSize"), "10"));
-        int pageNo = Integer.parseInt(StringUtil.nvl(req.getParameter("pageNo"), "1"));
+         //Integer.parseInt(StringUtil.nvl(String.valueOf(inVO.getPageSize()), "10"));
+        //Integer.parseInt(StringUtil.nvl(String.valueOf(inVO.getPageNo()), "1"));
 
         // 검색 조건
-        String searchWord = StringUtil.nvl(req.getParameter("searchWord"), "");
+        String searchWord = boardNo; //StringUtil.nvl(String.valueOf(inVO.getBoardNo()), "");
 
         // 검색 및 페이징 처리를 위한 객체 생성
         Search search = new Search();
         search.setPageSize(pageSize);
         search.setPageNo(pageNo);
         search.setSearchWord(searchWord);
+        search.setSearchDiv("10");
         
         log.debug("1. param search: " + search);
 
         // 댓글 목록 조회
         List<Reply> list = replyService.doRetrieve(search);
-
-        model.addAttribute("list", list); // 조회 결과를 모델에 추가
-
-        int totalCnt = 0;
-        if (list != null && list.size() > 0) {
-            totalCnt = list.get(0).getTotalCnt();
-        }
-        model.addAttribute("totalCnt", totalCnt); // 총 댓글 수를 모델에 추가
-
-        return viewName;
+        
+        String jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(list); 
+        
+        return jsonString;
     }
 }

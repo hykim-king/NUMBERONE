@@ -34,18 +34,19 @@
     </insert>
     <!-- 댓글 조건 검색 -->
 	    <sql id="whereReplyRetrieve">
+        
         <where>
-        <choose> 
-           <when test="searchDiv != null  and searchDiv == '10' ">
-               AND BOARD_NO = #{searchWord} 
+         <choose>
+           <when test = "searchDiv != null and searchDiv == '10' ">
+             AND R.BOARD_NO = #{searchWord} 
            </when>
            <when test="searchDiv != null  and searchDiv == '20' ">
-               AND REG_ID LIKE #{searchWord} || '%'     
+               OR R.REG_ID LIKE #{searchWord} || '%'     
            </when>
            <when test="searchDiv != null  and searchDiv == '30' ">           
-               AND replyContents LIKE #{searchWord} || '%'
+               OR R.REPLY_CONTENTS LIKE #{searchWord} || '%'
            </when>  
-        </choose>
+         </choose>
         </where>
     </sql>
     
@@ -72,13 +73,13 @@
         SET REPLY_CONTENTS = #{replyContents},
             PARENT_REPLY = #{parentReply},
             MOD_DT = SYSDATE
-        WHERE seq = #{seq}
+        WHERE BOARD_NO = #{boardNo}
     </update>
 
     <!-- 댓글 삭제 -->
     <delete id="doDelete" parameterType="Reply">
         DELETE FROM C##NUMBERONE.REPLY
-        WHERE seq = #{seq}
+        WHERE BOARD_NO = #{boardNo}
     </delete>
 
 
@@ -118,34 +119,50 @@
     
     <!-- 댓글 전체 조회 -->
     <select id="doRetrieve" parameterType="Search" resultType="Reply">
-    SELECT T1.*, T2.*
-    FROM (
-        SELECT ROWNUM AS rnum, A.*,level as replyLevel
+        SELECT *
         FROM (
-            SELECT 
-                REPLY_NO as replyNo, 
-                BOARD_NO as boardNo,
-                REG_ID as regId,
-                NICK_NAME as nickName,
-                REPLY_CONTENTS as replyContents, 
-                PARENT_REPLY as parentReply,  
-                TO_CHAR(REG_DT, 'YYYY/MM/DD HH24:MI:SS') as regDt,
-                TO_CHAR(MOD_DT, 'YYYY/MM/DD HH24:MI:SS') as modDt
-            FROM C##NUMBERONE.REPLY
-           <include refid="whereReplyRetrieve"/>
-        ) A
-        WHERE ROWNUM <![CDATA[ <= ]]> #{pageSize} * (#{pageNo} - 1) + #{pageSize}
-        START WITH parentReply = 0
-        CONNECT BY PRIOR replyNo = parentReply
-        ORDER SIBLINGS BY replyNo
-    ) T1
-    JOIN (
-        SELECT COUNT(*) as totalCnt 
-        FROM C##NUMBERONE.REPLY
-       <include refid="whereReplyRetrieve"/>
-    ) T2 ON 1=1
-    WHERE T1.rnum <![CDATA[ >= ]]> #{pageSize} * (#{pageNo} - 1) + 1
-</select>
+                SELECT 
+                    R.REPLY_NO AS replyNo, 
+                    R.BOARD_NO AS boardNo,
+                    R.REG_ID AS regId,
+                    R.NICK_NAME AS nickName,
+                    R.REPLY_CONTENTS AS replyContents, 
+                    R.PARENT_REPLY AS parentReply,  
+                    TO_CHAR(R.REG_DT, 'YYYY/MM/DD HH24:MI:SS') AS regDt,
+                    TO_CHAR(R.MOD_DT, 'YYYY/MM/DD HH24:MI:SS') AS modDt,
+                    ROWNUM AS rnum,
+               (SELECT COUNT(*)
+                  FROM C##NUMBERONE.REPLY R2
+                  JOIN C##NUMBERONE.BOARD B2 ON R2.BOARD_NO = B2.BOARD_NO
+                
+                    
+                  <include refid="whereReplyRetrieve"/>
+               ) AS totalCnt
+                FROM (
+                    SELECT 
+                        R.REPLY_NO, 
+                        R.BOARD_NO,
+                        R.REG_ID,
+                        R.NICK_NAME,
+                        R.REPLY_CONTENTS, 
+                        R.PARENT_REPLY,  
+                        R.REG_DT,
+                        R.MOD_DT
+                    FROM C##NUMBERONE.REPLY R
+                    JOIN C##NUMBERONE.BOARD B ON R.BOARD_NO = B.BOARD_NO
+                    
+                  
+                    <include refid="whereReplyRetrieve"/>
+                    START WITH R.PARENT_REPLY = 0
+                    CONNECT BY PRIOR R.REPLY_NO = R.PARENT_REPLY
+                    ORDER SIBLINGS BY R.REPLY_NO
+                ) R
+                WHERE ROWNUM <![CDATA[ <= ]]> #{pageSize} * (#{pageNo} -1) + #{pageSize}
+
+            ) 
+            WHERE rnum <![CDATA[ >= ]]> #{pageSize} * (#{pageNo} - 1) + 1
+            
+    </select>
 
     
 </mapper>
