@@ -1300,7 +1300,32 @@ document.addEventListener('DOMContentLoaded', function() {
             const toast = new bootstrap.Toast(toastElement);
             toast.show();
         };	
-        	
+      function test(){
+    	  const toastHTML = `
+              <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false" style="margin-bottom: 10px;">
+                  <div class="toast-header">
+                      <strong class="mr-auto">알림</strong>
+                      <small>방금</small>
+                      <button type="button" class="ml-2 mb-1 close" onclick="toast.hide()" data-dismiss="toast" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="toast-body">
+                                                         새로운 재난문자가 등록되었습니다. 새로고침시 확인 가능합니다.
+                  </div>
+              </div>
+          `;
+
+          // 토스트를 컨테이너에 추가
+          const toastContainer = document.getElementById('toastContainer');
+          toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+
+          // 토스트를 보여줍니다.
+          const toastElement = toastContainer.lastElementChild;
+          const toast = new bootstrap.Toast(toastElement);
+          toast.show();
+      }  	
+      test();
         	
 
         
