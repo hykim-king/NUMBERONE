@@ -643,15 +643,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			        </div>
                         <div id="sheltersBtn">
                              <ul>
-                                 <li><a href="#">민방위 대피시설</a></li>
-                                 <li><a href="#">지진대피장소</a></li>
-                                 <li><a href="#">이재민 임시주거시설</a></li>
-                                 <li><a href="#">무더위 쉼터</a></li>
-                                 <li><a href="#">산사태 대피소</a></li>
-                                 <li><a href="#">민방위 급수시설</a></li>
-                                 <li><a href="#">지진겸용 임시주거시설</a></li>
-                                 <li><a href="#">화학사고 대피장소</a></li>
-                                 <li><a href="#">미세먼지 쉼터</a></li>
+                                 <li><a href="http://localhost:8080/ehr/location/location/1">민방위 대피시설</a></li>
+                                 <li><a href="http://localhost:8080/ehr/location/location/2">민방위 급수시설</a></li>
+                                 <li><a href="http://localhost:8080/ehr/location/location/3">지진대피장소</a></li>
+                                 <li><a href="http://localhost:8080/ehr/location/location/5">지진겸용 임시주거시설</a></li>
+                                 <li><a href="http://localhost:8080/ehr/location/location/6">이재민 임시주거시설</a></li>
+                                 <li><a href="http://localhost:8080/ehr/location/location/7">화학사고 대피장소</a></li>
+                                 <li><a href="http://localhost:8080/ehr/location/location/8">무더위 쉼터</a></li>
+                                 <li><a href="http://localhost:8080/ehr/location/location/9">미세먼지 쉼터</a></li>
                              </ul>
                         </div>
                         			
@@ -719,7 +718,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <li><a href="http://localhost:8080/ehr/disasterMsg/disasterMsg">재난문자</a></li>
                         <li><a href="http://localhost:8080/ehr/news">안전뉴스</a></li>
                         <li><a href="http://localhost:8080/ehr/video/videoView.do">훈련영상</a></li>
-                        <li><a href="http://localhost:8080/ehr/location/location.do">대피시설</a></li>
+                        <li><a href="http://localhost:8080/ehr/location/location/1">대피시설</a></li>
                         </ul>
                     </div>
                 </div>

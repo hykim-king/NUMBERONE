@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,21 +37,49 @@ public class LocationController implements PLog {
 	}
 
 	// 동기 통신
-	@RequestMapping(value = "/location.do", method = RequestMethod.GET)
-	public String sidoRetrieve(Model model, HttpServletRequest req) throws SQLException {
+	@RequestMapping(value = "/location/{number}", method = RequestMethod.GET)
+	public String sidoRetrieve(@PathVariable("number") int number) throws SQLException {
 		log.debug("┌──────────────────────────────────────────────────┐");
 		log.debug("│ sidoRetrieve()                                   │");
 		log.debug("└──────────────────────────────────────────────────┘");
-
-		String viewName = "location/location";
-
-		String jsonString = "";
-
-		List<Location> sidoSearch = this.locationService.sidoRetrieve();
-
-		jsonString = new Gson().toJson(sidoSearch);
-		/* model.addAttribute("sidoSearch",jsonString); */
-
+		
+		String viewName = "location/";
+		
+		switch(number) {
+		case 1:
+			viewName += "civilDefenseShelter";
+			break;
+		case 2:
+			viewName += "waterSupplyShelter";
+			break;
+		case 3:
+			viewName += "earthquakeShelter";
+			break;
+		case 4:
+			viewName += "tsunamiEmergencyShelter";
+			break;
+		case 5:
+			viewName += "earthquake_ResistantTemporaryHousing";
+			break;
+		case 6:
+			viewName += "disasterVictimTemporaryHousing";
+			break;
+		case 7:
+			viewName += "chemicalIncidentShelter";
+			break;
+		case 8:
+			viewName += "heatwaveShelter";
+			break;
+		case 9:
+			viewName += "dustShelter";
+			break;
+		case 10:
+			viewName += "coldwaveShelter";
+			break;	
+		default:
+			viewName += "unknown";
+			break;
+		}	
 		return viewName;
 	}
 

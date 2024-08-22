@@ -27,6 +27,7 @@
 			       TT1.scale             as scale,
 			       TT1.max_capacity      as maxCapacity,
 			       TT1.accessibility     as accessibility,
+			       TT1.contact_info      as contactInfo,
 			       TT1.lat               as lat,
 			       TT1.lon               as lon
 			 FROM (    

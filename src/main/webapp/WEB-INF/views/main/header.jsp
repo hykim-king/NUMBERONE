@@ -229,7 +229,7 @@
                         <ul>
                            
                             <li><a href="http://localhost:8080/ehr/video/videoView.do">훈련영상</a></li>
-                            <li><a href="http://localhost:8080/ehr/location/location.do">대피시설</a></li>
+                            <li><a href="http://localhost:8080/ehr/location/location/1">대피시설</a></li>
                         </ul>
                     </li>
                     
