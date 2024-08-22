@@ -34,11 +34,14 @@
 
 	    background: linear-gradient(
 	        to bottom,
-	        #EEEEEE 0px, /*  0px부터 시작 */
-	        #EEEEEE 220px, /*  0px부터 500px까지 */
-	        #CFD8DC 220px, 
-
-	        #CFD8DC 1300px 
+	        #f4f7f7  0px, /*  0px부터 시작 */
+	        #f4f7f7  220px, /*  0px부터 500px까지 */
+	        
+	        #CADBE9  220px, 
+	        #CADBE9  1000px,
+	        
+	        #D4DFE6  1000px, 
+            #D4DFE6  1300px
 	    );
         height: 1300px;
     }
@@ -129,13 +132,13 @@
         font-family: 'Tahoma', sans-serif;
         position: absolute;
         left: 0;
-        border-left : 9px solid #eee;
+        border-left : 9px solid #f4f7f7  ;
          display: flex; /* Flexbox 활성화 */
 	    justify-content: center; /* 가로 중앙 정렬 */
 	    align-items: center; /* 세로 중앙 정렬 */
 	    font-weight: 900;
 	    font-size:70px;
-	    color:#eee;
+	    color:#fff;
 	    writing-mode: vertical-rl; /* 텍스트가 위에서 아래로 배치 */
         transform: rotate(180deg); 
          border-radius: 0px 47px 47px 0px; /* 왼쪽 위, 왼쪽 아래는 50px, 오른쪽은 0 */
@@ -238,16 +241,32 @@
         top: 550px;
         left: 20px;
         width: 580px;
-        height: 422px;
+        height: 424px;
         background-color: #fff;
         display: flex;
         justify-content: center;
         align-items: center;
-        
+        font-size: 17px;
+        font-weight: 500;
         box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     }
     
-    
+    #shelterBottom{
+	    background: #134b70;
+	    position: relative;
+	    top: 506px;
+	    width: 580px;
+	    height: 39px;
+	    left: 20px;
+	    overflow: hidden;
+        display: none;
+    }
+    #shelterBottom>span{
+        color: #0d354f;
+        font-weight: 800;
+        line-height: 0.6;
+        font-size: 50px;
+    }
     #sheltersBtn {
         display:none;
 	    width: 576px;
@@ -294,14 +313,6 @@
     #sheltersBtn a:hover {
         background-color: #134b70; /* 마우스 오버 시 배경색 변경 */
         color:#eee;
-    }
-    .sheltersBottom{
-	    position: absolute;
-	    top: 929px;
-	    left: 20px;
-	    background-color: #134b70;
-	    width: 580px;
-	    height: 45px;
     }
     
     
@@ -356,7 +367,7 @@
     #messageTable td{
         
         
-        border-bottom: 3px solid #9E9E9E;
+        border-bottom: 2px solid #BDBDBD;
         font-weight: 500;
     }
     .messages {
@@ -425,7 +436,7 @@
     
     #behaviorDiv{
         position: absolute;
-	    top: 1010px;
+	    top: 1025px;
 	    left: 20px;
 	    width: 580px;
 	    height: 240px;
@@ -457,7 +468,7 @@
     
     #searchDiv{
         position: absolute;
-        top: 1010px;
+        top: 1025px;
         left: 615px;
         width: 550px;
         height: 240px;
@@ -582,7 +593,47 @@
 	
 	
 	
-	
+/* 	shelter style */
+
+    #shelterList th {
+        background-color: #134b70; /* 원하는 배경색 */
+        color: white; /* 텍스트 색상 */
+        font-size: 16px; /* 폰트 크기 */
+        text-align: center; /* 텍스트 중앙 정렬 */
+        padding: 15px; 
+        height: 30px;
+        border: 3px solid #eee;
+        font-size: 20px;
+        height: 10px;
+    }
+
+	#shelterList td{
+	   padding:10px;
+	   border-bottom: 2px solid #eee;
+	   font-size: 16px;
+	}
+   /* 테이블의 높이를 제한하고 스크롤을 적용하는 스타일 */
+    .scrollable-table-container {
+        max-width: 550px;
+        max-height: 350px; /* 최대 높이 설정 */
+        overflow-y: auto;  /* 세로 스크롤바 활성화 */
+	    border: 1px solid #ddd; /* 테이블 테두리 */
+	    margin-top: 10px; /* 테이블과 상단 요소 사이의 간격 */
+    }
+
+    .scrollable-table-container table {
+        width: 100%; /* 테이블 너비를 컨테이너에 맞춤 */
+        border-collapse: collapse; /* 테이블 경계선 겹침 방지 */
+    }
+
+    /* td의 높이를 제한하고 ... 처리 */
+    .scrollable-table-container td {
+        max-height: 100px; /* 각 셀의 최대 높이 설정 */
+        overflow: hidden; /* 넘치는 내용 숨김 */
+        text-overflow: ellipsis; /* 넘치는 텍스트에 ... 표시 */
+        
+        border:1px solid #eee;
+    }
 </style>
 <script>
 //.scroll-to-top
@@ -658,9 +709,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			        
 			        <div>
 			           <div class="shelters" id="shelterList"></div>
-		               <div class="sheltersBottom"></div>
-			        
+                        <div class="shelterBottom" id="shelterBottom"><span>──────────────────────────────────────────────────</span></div>
 			        </div>
+		
 			        </div><!-- sheltersDiv end -->        
 		         
 		        
@@ -776,6 +827,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            document.getElementById('showLocation').textContent = '* 로그인 시 맞춤 정보로 확인 가능 합니다.';
 		            document.getElementById('loginGoBtn').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
 		            document.getElementById('sheltersBtn').style.display = 'inline-block';
+		            document.getElementById('shelterBottom').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
 		            callServer(1000000000,formattedLastMonth,formattedToday);
 
 		            getDisasterMsgListAll();
@@ -791,66 +843,66 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		//2024/08/21 통신 부분 css 미해결
 		
-		function getShelter(locCode, shelterDiv) {
-		    console.log("getShelter()");
+function getShelter(locCode, shelterDiv) {
+    console.log("getShelter()");
 
-		    let type = "GET";
-		    let url = "http://localhost:8080/ehr/shelter/shelter";
-		    let async = "false";
-		    let dataType = "html";
+    let type = "GET";
+    let url = "http://localhost:8080/ehr/shelter/shelter";
+    let async = "false";
+    let dataType = "html";
 
-		    let params = {
-		        "locCode": locCode,
-		        "shelterDiv": shelterDiv,
-		        "pageSize" : 3
-		    };
+    let params = {
+        "locCode": locCode,
+        "shelterDiv": shelterDiv,
+        "pageSize": 50
+    };
 
-		    PClass.pAjax(url, params, dataType, type, async, function(data) {
-		        var shelterData = JSON.parse(data);
+    PClass.pAjax(url, params, dataType, type, async, function(data) {
+        var shelterData = JSON.parse(data);
 
-		        console.log("성공 locCode:", locCode);
-		        console.log("shelterDiv:", shelterDiv);
-		        
-		        // 테이블 생성
-		        let table = $("<table id='shelterList' class='table table-bordered'>").addClass("table")
-		                    .append($("<colgroup><col style='width:45%'><col style='width:30%'></colgroup>"));
-		        let thead = $("<thead>").append($("<tr class='table-light.table-striped'>")
-		            .append($("<th class='text-center'>위치</th>"))
-		            .append($("<th class='text-center'>시설</th>"))
-		        );
-		        let tbody = $("<tbody>");
-		        console.log("shelterData:",shelterData);
-		        shelterData.forEach(function(item) {
-		            // 새로운 행 생성
-		            let row = $("<tr>");
-		            
-		            // 도로 주소 클릭 이벤트 추가
-		            let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
-		            roadAddressElement.css("cursor","pointer"); // 클릭 가능한 커서 스타일 클래스 추가
-		            roadAddressElement.on("click", function(event) {
-		                openKakaoMap(item.lat, item.lon, item.facilityName);
-		            });
+        console.log("성공 locCode:", locCode);
+        console.log("shelterDiv:", shelterDiv);
 
-		            // 행에 데이터 추가
-		            row.append(roadAddressElement);
-		            row.append($("<td>").text(item.facilityName));
-		            
-		            // 행을 tbody에 추가
-		            tbody.append(row);
-		        });
+        // 테이블 생성
+        let table = $("<table id='shelterListTable' class='table table-bordered'>").addClass("table")
+                    .append($("<colgroup><col style='width:50%'><col style='width:40%'></colgroup>"));
+        let thead = $("<thead>").append($("<tr class='table-light table-striped'>")
+            .append($("<th class='text-center'>위치</th>"))
+            .append($("<th class='text-center'>시설</th>"))
+        );
+        let tbody = $("<tbody>");
+        console.log("shelterData:", shelterData);
+        shelterData.forEach(function(item) {
+            // 새로운 행 생성
+            let row = $("<tr>");
 
-		        // 테이블 완성 후 DOM에 추가
-		        table.append(thead).append(tbody);
-		        $("#shelterList").empty().append(table); // 기존 내용을 지우고 새 테이블 추가
-		    }); // --pAjax end
-		} // --getShelter end
+            // 도로 주소 클릭 이벤트 추가
+            let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+            roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일 클래스 추가
+            roadAddressElement.on("click", function(event) {
+                openKakaoMap(item.lat, item.lon, item.facilityName);
+            });
 
-        
-        function openKakaoMap(lat,lon,facilityName){
-            //팝업창 생성
-            var popup = window.open("http://localhost:8080/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
-        }//-- openKakaoMap end
-		
+            // 행에 데이터 추가
+            row.append(roadAddressElement);
+            row.append($("<td>").text(item.facilityName));
+            
+            // 행을 tbody에 추가
+            tbody.append(row);
+        });
+
+        // 테이블 완성 후 DOM에 추가
+        let container = $("<div class='scrollable-table-container'>");
+        container.append(table.append(thead).append(tbody));
+
+        $("#shelterList").empty().append(container); // 기존 내용을 지우고 새 컨테이너와 테이블 추가
+    }); // --pAjax end
+} // --getShelter end
+
+function openKakaoMap(lat, lon, facilityName) {
+    // 팝업창 생성
+    var popup = window.open("http://localhost:8080/ehr/shelter/shelter_map?lat=" + lat + "&lon=" + lon + "&FacilityName=" + facilityName, "Kakao Map", "width=700,height=500");
+} // --openKakaoMap end
 		
 		function locToAddress(locCode) {
 		       const url = new URL('http://localhost:8080/ehr/location/locToAddress');
@@ -1035,7 +1087,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         "text-overflow": "ellipsis",
                         "max-width": "90px",
                         "padding": "6px",
-                        "background-color":"#F5F5F5"
+                        "background-color":"#F5F5F5",
+                        "text-align" : "center"
                     }));
                     
                     console.log("Final disasterTypeSet:", Array.from(disasterTypeSet));
@@ -1066,7 +1119,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }));
                     
                     row.append($("<td></td>").text(msg.msgRegDt).css({
-                        "width": "30px", /* 세 번째 열 너비 */
+                        "width": "50px", /* 세 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
@@ -1131,7 +1184,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         "text-overflow": "ellipsis",
                         "max-width": "90px",
                         "padding": "6px",
-                        "background-color":"#F5F5F5"
+                        "background-color":"#F5F5F5",
+                        "text-align" : "center"
+                     
                     }));
                     
                      // 위험도에 따른 배경색 설정
@@ -1156,7 +1211,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         "text-align" : "center"
                     }));
                     row.append($("<td></td>").text(msg.msgRegDt).css({
-                        "width": "30px", /* 세 번째 열 너비 */
+                        "width": "50px", /* 세 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",

@@ -61,7 +61,7 @@ public class MemberController implements PLog {
     }
     
 
-    @RequestMapping(value = "locCodeUpdate", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/locCodeUpdate", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<Member> locCodeUpdate(@RequestBody Member member) {
         String memberId = member.getMemberId();

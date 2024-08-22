@@ -408,6 +408,18 @@ function eupmyeondongSet() {
   
   
 <script>
+
+class Member {
+    constructor(locCode, memberId) {
+        this.locCode = locCode;
+        
+        this.memberId = memberId;
+    }
+}
+
+
+
+
 // 함수 정의
 function locCodeUpdate() {
     console.log("locCodeUpdate 함수 호출됨");
@@ -424,16 +436,14 @@ function locCodeUpdate() {
     console.log(locCode);
     
     
+    member = new Member(locCode,memberFromSession.memberId);
+    
     fetch('/ehr/member/locCodeUpdate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            memberId: memberFromSession.memberId,
-            locCode: locCode
-            
-        }),
+        body: JSON.stringify(member),
     })
     .then(response => {
         if (!response.ok) {

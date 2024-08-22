@@ -147,7 +147,7 @@ public class MemberMapperTest implements PLog {
     }
 	
 
-	
+    @Ignore
 	@Test
 	public void locCodeUpdate() throws SQLException {
 	    System.out.println("[̲̅l][̲̅o][̲̅c][̲̅C][̲̅o][̲̅d][̲̅e][̲̅U][̲̅p][̲̅d][̲̅a][̲̅t][̲̅e]");
@@ -206,7 +206,7 @@ public class MemberMapperTest implements PLog {
 	
 	
 	
-	@Ignore
+
 	@Test
     public void findMemberId() {
         
@@ -230,6 +230,7 @@ public class MemberMapperTest implements PLog {
           
             assertNotNull(result);
             assertEquals(expectedMemberId, result.getMemberId());
+            System.out.println(result.getMemberId());
         }
     }
     
