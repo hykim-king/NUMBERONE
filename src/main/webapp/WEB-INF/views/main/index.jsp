@@ -877,21 +877,21 @@ document.addEventListener('DOMContentLoaded', function() {
 			    
 			    
 			     const disasterTypeNum = {
-			    		    "flood": 16,
-			    		    "heavyRain": 3,
-			    		    "waves": 6,
-			    		    "yellowDust": 10,
-			    		    "strongWind": 5,
-			    		    "heavySnow": 7,
-			    		    "coldWave": 8,
-	                        "heatWave": 9,
-	                        "earthQuake": 11,
-	                        "landslide": 18/* 
-			                "화재": "fire",
-			                "산불": "forestFires",
-			                "교통사고": "trafficAccident",
-			                "감염병예방": "preventionInfectious",
-			                "미세먼지": "fineDust" */
+			    		    "flood": "nature/16",
+			    		    "heavyRain":"nature/3",
+			    		    "waves": "nature/6",
+			    		    "yellowDust": "nature/10",
+			    		    "strongWind": "nature/5",
+			    		    "heavySnow": "nature/7",
+			    		    "coldWave": "nature/8",
+	                        "heatWave": "nature/9",
+	                        "earthQuake": "nature/11",
+	                        "landslide": "nature/18", 
+			                "fire": "society/1",
+			                "forestFires": "society/2",
+			                "trafficAccident": "society/5",
+			                "preventionInfectious": "society/17",
+			                "fineDust": "fineDust" 
 		         };
 			    
 			    
@@ -903,8 +903,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			        img.src = '/ehr/resources/images/'+type + '.png';
 			        img.alt = type;
 			        
-			        const typeNumber = disasterTypeNum[type] || 'unknown';
-			        slide.href = 'http://localhost:8080/ehr/nature/' + typeNumber + '.do'; 
+			        const typeLink = disasterTypeNum[type] || 'unknown';
+			        slide.href = 'http://localhost:8080/ehr/' + typeLink + '.do'; 
 			        
 			        slide.appendChild(img);
 			        slidesContainer.appendChild(slide);
