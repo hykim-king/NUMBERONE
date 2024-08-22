@@ -1,8 +1,11 @@
 package com.pcwk.ehr.member.controller;
 
 import java.sql.SQLException;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
@@ -38,13 +43,63 @@ public class MemberController implements PLog {
     }
 
 
-    @RequestMapping(value="/findMemberId.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-    @ResponseBody
-    public Member findMemberId(Member member, HttpSession httpSession) throws SQLException {
-    	
-    	
-    	 return memberService.findMemberId(member);
 
+
+
+ // ID 찾기 처리
+    @RequestMapping(value = "/findMemberId.do", method = RequestMethod.POST)
+    @ResponseBody
+    public String findMemberId(Member inVO) throws SQLException {
+
+        log.debug("1. param: " + inVO);
+
+        // 사용자 아이디 찾기
+        Member foundMemberId = memberService.findMemberId(inVO);
+        String message;
+        int flag;
+
+        if (foundMemberId != null) {
+            message = "회원님의 아이디는☛" + foundMemberId.getMemberId() + "☚입니다."; // memberId 필드를 사용
+            flag = 1;  
+        } else {
+            message = "해당 정보와 일치하는 아이디가 없습니다";
+            flag = 0;  
+        }
+
+        Message messageObj = new Message(flag, message);
+        String jsonString = new Gson().toJson(messageObj); // Gson 객체를 재사용할 수 있도록 개선
+
+        log.debug("2. jsonString: " + jsonString);
+
+        return jsonString;
+    }
+    
+    
+    @GetMapping("locCodeUpdate.do")
+    public String locCodeUpdate() {
+        String viewName = "member/locCodeUpdate";
+        log.debug("┌──────────────────────────────────────────┐");
+        log.debug("│ viewName:" + viewName);
+        log.debug("└──────────────────────────────────────────┘");
+        return viewName;
+    }
+    
+
+    @RequestMapping(value = "/locCodeUpdate", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseEntity<Member> locCodeUpdate(@RequestBody Member member) {
+        String memberId = member.getMemberId();
+        long locCode = member.getLocCode(); 
+
+        Member member1 = memberService.getMemberById(memberId);
+        if (member1 != null) {
+            // locCode 업데이트
+            member1.setLocCode(locCode);
+            memberService.locCodeUpdate(member1);
+            return ResponseEntity.ok(member1);  // 업데이트된 Member 객체를 반환
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);  
+        }
     }
     
     @RequestMapping(value="/login.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
@@ -183,13 +238,6 @@ public class MemberController implements PLog {
         return viewName;
     }
     
-    @GetMapping("locCodeUpdate.do")
-    public String locCodeUpdate() {
-        String viewName = "member/locCodeUpdate";
-        log.debug("┌──────────────────────────────────────────┐");
-        log.debug("│ viewName:"+viewName);                                 
-        log.debug("└──────────────────────────────────────────┘");
-        return viewName;
-    }
+   
     
 }

@@ -89,8 +89,32 @@ public class SocietyController implements PLog {
 			viewName += "artificialSpace";
 			break;	
 		case 22:
-			viewName += "redTide";
-			break;				
+			viewName += "fineDust";
+			break;	
+		case 23:
+			viewName += "information";
+			break;	
+		case 24:
+			viewName += "gpsRadio";
+			break;	
+		case 25:
+			viewName += "healthCare";
+			break;	
+		case 26:
+			viewName += "personal";
+			break;	
+		case 27:
+			viewName += "concert";
+			break;	
+		case 28:
+			viewName += "tunnel";
+			break;	
+		case 29:
+			viewName += "stadium";
+			break;	
+		case 30:
+			viewName += "crudeOil";
+			break;		
 		default:
 			viewName += "unknown";
 			break;

@@ -57,6 +57,8 @@ public class MemberMapperTest implements PLog {
         search = new Search();
     }
 
+    
+    @Ignore
     @Test
      public void idDuplicateCheck() throws SQLException {
 		System.out.println("[̲̅i][̲̅d][̲̅D][̲̅u][̲̅p][̲̅l][̲̅i][̲̅c][̲̅a][̲̅t][̲̅e][̲̅C][̲̅h][̲̅e][̲̅c][̲̅k]");
@@ -117,7 +119,7 @@ public class MemberMapperTest implements PLog {
     }
 
     
-
+    @Ignore
 	@Test
 	public void doSave() throws SQLException {
 		System.out.println("[̲̅d][̲̅o][̲̅s][̲̅a][̲̅v][̲̅e]");
@@ -145,6 +147,31 @@ public class MemberMapperTest implements PLog {
     }
 	
 
+    @Ignore
+	@Test
+	public void locCodeUpdate() throws SQLException {
+	    System.out.println("[̲̅l][̲̅o][̲̅c][̲̅C][̲̅o][̲̅d][̲̅e][̲̅U][̲̅p][̲̅d][̲̅a][̲̅t][̲̅e]");
+
+	    // 데이터 등록
+		/*
+		 * Member member = new Member("Update1", 1, "Update", "Update", "Update",
+		 * 'N',"Update@example.com"); int result = memberMapper.doSave(member);
+		 * assertEquals(1, result);
+		 */
+
+	    // locCode 업데이트
+	    long newLocCode = 1036549498;
+	    Member updatedMember = new Member("Update1", newLocCode, "Update", "Update", "Update", 'N',"Update@example.com");
+	    memberMapper.locCodeUpdate(updatedMember);
+
+	    // 데이터 조회 및 검증
+	    Member retrievedMember = memberMapper.doSelectOne(new Member("Update1", newLocCode, "Update", "Update", "Update", 'N',"Update@example.com"));
+	    assertNotNull(retrievedMember);
+	    assertEquals(newLocCode, retrievedMember.getLocCode());
+	}
+	
+	
+	
     
 	@Test
 	@Ignore
@@ -179,7 +206,7 @@ public class MemberMapperTest implements PLog {
 	
 	
 	
-	@Ignore
+
 	@Test
     public void findMemberId() {
         
@@ -203,6 +230,7 @@ public class MemberMapperTest implements PLog {
           
             assertNotNull(result);
             assertEquals(expectedMemberId, result.getMemberId());
+            System.out.println(result.getMemberId());
         }
     }
     

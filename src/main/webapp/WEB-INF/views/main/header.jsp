@@ -19,12 +19,14 @@
         background-color: white;
     }
 
-    #logo {
-        width: 145px;
-        height: auto;
-        margin: auto;
-        display: block;
-    }
+	#logo {
+	    width: 145px;
+	    height: auto;
+	    margin: auto;
+	    display: block;
+	    position: relative; 
+	    z-index: 1;
+	}
 
     ul {
         list-style-type: none;
@@ -188,9 +190,11 @@
             <li><a href="http://localhost:8080/ehr/member/signInUp.do" id ="loginBtn">로그인/회원가입</a></li>
         </ul>
     </div>
-    <div>
-        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
-    </div>
+	<div>
+	    <a href="http://localhost:8080/ehr/main/index.do">
+	        <img src="/ehr/resources/images/logo1.png" alt="logo" id="logo">
+	    </a>
+	</div>
 
     <div id="nav">
         <div id="navWrap">
