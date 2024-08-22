@@ -20,39 +20,80 @@
     }
 </script>
 <style>
-
-
     main {
         width: 100%;
-        max-width: 800px;
-         margin : 0 auto;
+        max-width: 1200px;
+        margin: 0 auto;
         padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .video-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .main-video {
+        width: 70%;
+    }
+
+    .main-video-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .related-videos {
+        width: 25%;
+    }
+
+    h1 {
+        color: #201e4b;
+        width: 100%;
         text-align: center;
     }
 
-    h1{
-        color: #201e4b;
-    }
     h2 {
         color: #134b70;
+        font-size: 1.2em;
+        margin-bottom: 15px;    
     }
+
     select {
         width: 200px;
         padding: 10px;
-        margin: 20px 0;
+        margin: 20px auto;
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 16px;
+        display: block;
     }
 
     iframe {
         width: 100%;
-        height: 500px;
-        border: none;
+        height: 400px;
+    }
+
+    .related-video {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .related-video img {
+        width: 70%;
+        height: auto;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .related-video p {
+        margin: 0;
+        font-size: 12px;
     }
 </style>
-
-
 </head>
 <body>
   <%@ include file="/WEB-INF/views/main/header.jsp" %> 
@@ -60,7 +101,7 @@
 <main>
     <h1>훈련영상</h1>
     <h2>침수</h2>
-
+    <div class="main-video">
     <!-- 드롭다운 메뉴 추가 -->
     <select id="categorySelect" onchange="navigateToCategory()">
         <option value="">카테고리 선택</option>
@@ -82,8 +123,7 @@
         <option value="http://localhost:8080/ehr/video/video16.do">폭발사고</option>
         <option value="http://localhost:8080/ehr/video/video17.do">원전사고</option>
         <option value="http://localhost:8080/ehr/video/video18.do">감염병</option>
-    </select>
-
+    </select>    
     <iframe 
         src="https://www.youtube.com/embed/DMW_RxrbOcc?si=qdoTOgIe294GWzKT" 
         title="YouTube video player" 
@@ -91,6 +131,40 @@
         referrerpolicy="strict-origin-when-cross-origin" 
         allowfullscreen>
     </iframe>
+    </div>
+    <div class="related-videos">
+        <h2>추천 영상</h2>
+        <div class="related-video">
+            <a href="http://localhost:8080/ehr/video/video02.do">
+                <img src="/ehr/resources/thumbnail/typhoon_thumbnail.png" alt="태풍 영상">
+                <p>태풍 행동요령</p>
+            </a>
+        </div>
+        <div class="related-video">
+            <a href="http://localhost:8080/ehr/video/video03.do">
+                <img src="/ehr/resources/thumbnail/downpour_thumbnail.png" alt="호우 영상">
+                <p>호우 행동요령</p>
+            </a>
+        </div>
+        <div class="related-video">
+            <a href="http://localhost:8080/ehr/video/video04.do">
+                <img src="/ehr/resources/thumbnail/lightning_thumbnail.png" alt="낙뢰 영상">
+                <p>낙뢰 행동요령</p>
+            </a>
+        </div>
+        <div class="related-video">
+            <a href="http://localhost:8080/ehr/video/video05.do">
+                <img src="/ehr/resources/thumbnail/heatwave_thumbnail.png" alt="폭염 영상">
+                <p>폭염 행동요령</p>
+            </a>
+        </div>
+        <div class="related-video">
+            <a href="http://localhost:8080/ehr/video/video09.do">
+                <img src="/ehr/resources/thumbnail/landslide_thumbnail.png" alt="산사태 영상">
+                <p>산사태 행동요령</p>
+            </a>
+        </div>
+    </div>
 </main>
 
    <%@ include file="/WEB-INF/views/main/footer.jsp" %>
