@@ -183,6 +183,7 @@ body {
 .page-link {
     margin: 0 5px; /* 좌우 여백 추가 */
 }
+
 </style>
 <script>
 //시도 비동기 통신
@@ -475,14 +476,14 @@ function shelterRetrieve(pageNo,totalCnt) {
 	        	 
 	        	 $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
 	        	 
-		        	  $("#shelterList").append($("<tr>"));
 		        	  // roadAddress 클릭 이벤트 추가
 		              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
 		              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
 		              roadAddressElement.on("click", function(event) {
 		            	  openKakaoMap(item.lat,item.lon,item.facilityName);
 			          });
-		        	  
+		              
+		                  $("#shelterList").append($("<tr>"));
 			        	  $("#shelterList").append(roadAddressElement);
 			              $("#shelterList").append($("<td>").text(item.facilityName));
 			              $("#shelterList").append($("<td>").text(item.scale + "m²"));
@@ -506,10 +507,6 @@ function shelterRetrieve(pageNo,totalCnt) {
 function openKakaoMap(lat,lon,facilityName){
     //팝업창 생성
     var popup = window.open("http://localhost:8080/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
-    /* popup.document.body.appendChild(mapContainer);
-    popup.document.body.style.margin = "0";
-    popup.document.body.style.padding = "0";
-    popup.document.body.style.overflow = "hidden"; */
 }//-- openKakaoMap end  
 
 </script>

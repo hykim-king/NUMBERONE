@@ -20,7 +20,7 @@
     }
 
     #logo {
-        width: 150px;
+        width: 145px;
         height: auto;
         margin: auto;
         display: block;

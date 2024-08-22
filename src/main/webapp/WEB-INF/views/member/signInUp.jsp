@@ -196,14 +196,23 @@
 	        background: #eeeeee;
 	        font-size : 16px;
 	        font-weight: 600;
+	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 1px 2px 5px rgba(255, 255, 255, 0.3) inset;
 	    }
 	    .login-form .group .button2 {
 	        background: #134b70;
 	        color: white;
 	        font-size : 16px;
 	        font-weight: 600;
+	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 1px 2px 5px rgba(255, 255, 255, 0.3) inset;
 	    }
 	    
+	    .login-form .group .button1:hover{
+	        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4); /* 버튼 안쪽으로 들어가는 그림자 */
+	    }
+	    
+	    .login-form .group .button2:hover{
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4); /* 버튼 안쪽으로 들어가는 그림자 */
+        }
 	    .login-form .group label .icon {
 	        width: 15px;
 	        height: 15px;
@@ -435,7 +444,12 @@
 
 	
 	
-	let idDuplicatedClick = 0;
+    let idDuplicatedClick = 0;
+    let isNicknameChecked = false; // 닉네임 중복 체크 완료 플래그
+    let isIdChecked = false; // 아이디 중복 체크 완료 플래그
+    
+	
+	
 	
 	$(document).ready(function() {
 	    console.log("document ready!");
@@ -473,28 +487,27 @@
 	            data: params,
 	            success: function(data) {
 	                if (data) {
-	                    try {
-	                        if (data.messageId === 1) {
-	                            alert(data.messageContents); // 사용불가
-	                            $("#memberIdSignUp").focus();
-	                            idDuplicatedClick = 0;
-	                        } else {
-	                            alert(data.messageContents); // 사용가능
-	                            idDuplicatedClick = 1;
-	                        }
-	                    } catch (e) {
-	                        console.error("data가 null 혹은 undefined 입니다.", e);
-	                        alert("data가 null 혹은 undefined 입니다.");
-	                    }
+	                	try {
+                            if (data.messageId === 1) {
+                                alert(data.messageContents); // 사용불가
+                                $("#userIdSignUp").focus();
+                                idDuplicatedClick = 0;
+                                isIdChecked = false;
+                            } else {
+                                alert(data.messageContents); // 사용가능
+                                idDuplicatedClick = 1;
+                                isIdChecked = true;
+                            }
+                        } catch (e) {
+                            console.error("data가 null 혹은 undefined 입니다.", e);
+                            alert("data가 null 혹은 undefined 입니다.");
+                        }
 	                }
 	            }
 	        });
 	    }
 	
-	    
-	    let isNicknameChecked = false; // 닉네임 중복 체크 완료 플래그
-	    let isIdChecked = false; // 아이디 중복 체크 완료 플래그
-	    
+
 	    
 	    // 닉네임 중복 체크
 	    $("#nicknameDuplicateCheck").on("click", function(event) {
@@ -528,19 +541,19 @@
 	            success: function(data) {
 	                if (data) {
 	                	 try {
-	                         if (data.messageId === 1) {
-	                             alert(data.messageContents); // 사용불가
-	                             $("#nicknameSignUp").focus();
-	                             isNicknameChecked = false; // 사용 불가 시 플래그 false
-	                         } else {
-	                             alert(data.messageContents); // 사용가능
-	                             isNicknameChecked = true; // 사용 가능 시 플래그 true
-	                         }
-	                     } catch (e) {
-	                         console.error("data가 null 혹은 undefined 입니다.", e);
-	                         alert("data가 null 혹은 undefined 입니다.");
-	                         isNicknameChecked = false; // 오류 발생 시 플래그 false
-	                     }
+                             if (data.messageId === 1) {
+                                 alert(data.messageContents); // 사용불가
+                                 $("#nicknameSignUp").focus();
+                                 isNicknameChecked = false; // 사용 불가 시 플래그 false
+                             } else {
+                                 alert(data.messageContents); // 사용가능
+                                 isNicknameChecked = true; // 사용 가능 시 플래그 true
+                             }
+                         } catch (e) {
+                             console.error("data가 null 혹은 undefined 입니다.", e);
+                             alert("data가 null 혹은 undefined 입니다.");
+                             isNicknameChecked = false; // 오류 발생 시 플래그 false
+                         }
 	                }
 	            }
 	        });
@@ -573,7 +586,7 @@
 	            return;
 	        }
 	        
-	        if (nicknameDuplicateCheck === 0) {
+	        if (!nicknameDuplicateCheck) {
                 alert("닉네임 중복 체크를 하세요.");
                 $("#nicknameDuplicateCheck").focus();
                 return;
@@ -585,7 +598,7 @@
 	            return;
 	        }
 	
-	        if (idDuplicatedClick === 0) {
+	        if (!idDuplicatedClick) {
 	            alert("아이디 중복 체크를 하세요.");
 	            $("#idDuplicateCheck").focus();
 	            return;
@@ -618,11 +631,10 @@
             }
     
 	        
-	        if ($("#locCode").val()) {
-	            alert("위치 설정을 해주세요.");
-	            $("#locCode").focus();
-	            return;
-	        }
+	        if ($("#sido").val() === "" || $("#sigungu").val() === "" || $("#eupmyeondong").val() === "") {
+                alert("위치 설정을 해주세요.");
+                return;
+            }
 	
 	
 	        
@@ -817,10 +829,7 @@
 	                        <label for="password" class="label">비밀번호</label>
 	                        <input id="password" type="password" class="input" data-type="password" name="password">
 	                    </div>  
-	                    <div class="group">
-	                      <input id="check" type="checkbox" class="check" checked>
-	                      <label for="check"><span class="icon"></span> Keep me Signed in</label>
-	                    </div>
+	                  
 	                    <div class="group">
 	                      <button class="button1" type="button" value="로그인" id="loginInfoBtn">로그인</button>
 	                    </div>

@@ -91,13 +91,13 @@ public class MemberServiceImpl implements MemberService, PLog {
 
         try {
             // 아이디 중복 체크
-            if (memberMapper.idDuplicateCheck(member.getMemberId()) > 0) {
+            if (idDuplicateCheck(member.getMemberId())) {
                 log.debug("아이디가 이미 존재합니다: " + member.getMemberId());
                 return false;
             }
 
             // 닉네임 중복 체크
-            if (memberMapper.nicknameDuplicateCheck(member.getNickname()) > 0) {
+            if (nicknameDuplicateCheck(member.getNickname())) {
                 log.debug("닉네임이 이미 존재합니다: " + member.getNickname());
                 return false;
             }
@@ -124,17 +124,30 @@ public class MemberServiceImpl implements MemberService, PLog {
     
     
     @Override
-    public boolean checkNickname(String nickname) {
-       
-        return false;
+    public boolean idDuplicateCheck(String memberId) {
+        try {
+            // 아이디 중복 체크
+            return memberMapper.idDuplicateCheck(memberId) > 0;
+        } catch (SQLException e) {
+            log.error("SQLException in idDuplicateCheck: " + e.getMessage());
+            return false;
+        }
     }
+    
+    
 
     @Override
-    public boolean checkUserId(String memberId) {
-        
-        return false;
+    public boolean nicknameDuplicateCheck(String nickname) {
+        try {
+            // 닉네임 중복 체크
+            return memberMapper.nicknameDuplicateCheck(nickname) > 0;
+        } catch (SQLException e) {
+            log.error("SQLException in nicknameDuplicateCheck: " + e.getMessage());
+            return false;
+        }
     }
-
+    
+    
     @Override
     public boolean logout(String memberId) throws SQLException {
         log.debug("1. param: " + memberId);

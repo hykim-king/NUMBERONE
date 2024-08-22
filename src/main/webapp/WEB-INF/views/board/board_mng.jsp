@@ -20,8 +20,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-<link rel="stylesheet" href="${CP}/resources/css/simplemde.min.css">
-<script src="${CP}/resources/js/simplemde.min.js"></script>
+
 <title>재난 커뮤니티</title>
 <style>
 * {
@@ -89,6 +88,13 @@ body {
     color: #333;
 }
 
+.board-meta {
+        font-size: 0.9rem;
+        color: #666;
+        text-align: right;
+        margin-bottom: 10px;
+}
+
 /* 내용 텍스트칸 스타일 */
 textarea.form-control {
     resize: vertical;
@@ -97,11 +103,18 @@ textarea.form-control {
 }
 
 textarea.content-area {
-    resize: vertical;
-    background-color: #e9ecef;
-    pointer-events: none; !important; /* 사용자 입력 비활성화 */
-    border: 1px solid #ced4da; 
+        height: 300px; /* 고정 높이 설정 */
+        min-height: 300px; /* 최소 높이도 동일하게 설정 */
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        padding: 10px;
+        width: 100%;
+        resize: vertical; /* 사용자가 세로 크기를 조절할 수 있게 함 */
 }
+
 
 /* 댓글 섹션 스타일 */
 #replyList .reply {
@@ -595,7 +608,39 @@ document.addEventListener("DOMContentLoaded", function(){
       <h2>재난 커뮤니티</h2>  
   </div>
   <!--// 제목 end ------------------------------------------------------------->
-
+  
+  <!-- form -->
+  <form action="#" class="form-horizontal"  name="regForm" id="regForm">
+    <div class="row mb-2" style="display: none;">
+        <label for="boardNo" class="col-sm-2 col-form-label">boardNo</label>
+        <div class="col-sm-10">
+          <input type="hidden" value="<c:out value='${board.boardNo }'/>" name="boardNo" id="boardNo">  
+        </div>      
+    </div> 
+    
+    <div class="board-meta">
+            등록자: <span class="board-author"><c:out value='${board.nickname}'/></span> | 
+            조회수: <span class="board-views"><c:out value='${board.readCnt}'/></span>
+    </div>
+        
+    <div class="row mb-2">
+        <label for="title" class="col-sm-2 col-form-label">제목</label>
+        <div class="col-sm-10">
+          <input type="text" value="<c:out value='${board.title }'/>" class="form-control readonly-input" readonly="readonly" name="title" id="title"  maxlength="75" required="required">
+        </div>      
+    </div> 
+    <div class="row mb-2">
+    <label for="contents" class="col-sm-2 col-form-label">내용</label>
+        <div class="col-sm-10">    
+         <textarea style="height: 200px" class="content-area readonly-input" readonly id="contents" name="contents"><c:out value='${board.contents }'/></textarea>
+        </div> 
+     </div>
+     
+   <input type="hidden" name="regDt" id="regDt" value="<c:out value='${board.regDt}'/>">
+  
+  </form>
+  <!--// form end -->
+  
   <!-- 버튼 -->
   <div class="mb-2 d-grid gap-2 d-md-flex justify-content-md-end">
       <input type="button" value="목록"  id="moveToList"    class="btn btn-primary">
@@ -605,41 +650,6 @@ document.addEventListener("DOMContentLoaded", function(){
       </c:if>
   </div>
   <!--// 버튼 ----------------------------------------------------------------->
-  
-  <!-- form -->
-  <form action="#" class="form-horizontal"  name="regForm" id="regForm">
-    <div class="row mb-2">
-        <label for="boardNo" class="col-sm-2 col-form-label">boardNo</label>
-        <div class="col-sm-10">
-          <input type="text"  value="<c:out value='${board.boardNo }'/>" class="form-control readonly-input" readonly="readonly" name="boardNo" id="boardNo"  >        
-        </div>      
-    </div>  
-    <div class="row mb-2">
-        <label for="readCnt" class="col-sm-2 col-form-label">조회수</label>
-        <div class="col-sm-10">
-          <input type="text"  value="<c:out value='${board.readCnt }'/>" class="form-control readonly-input" readonly="readonly" name="readCnt" id="readCnt"  >        
-        </div>      
-    </div>     
-    <div class="row mb-2">
-        <label for="regId" class="col-sm-2 col-form-label">등록자</label>
-        <div class="col-sm-10">
-          <input type="text"  value="<c:out value='${board.regId }'/>" class="form-control readonly-input" readonly="readonly" name="regId" id="regId"  >        
-        </div>      
-    </div>     
-    <div class="row mb-2">
-        <label for="title" class="col-sm-2 col-form-label">제목</label>
-        <div class="col-sm-10">
-          <input type="text" value="<c:out value='${board.title }'/>" class="form-control readonly-input" readonly="readonly" name="title" id="title"  maxlength="75" required="required">
-        </div>      
-    </div>
-    <div class="row mb-2">
-        <label for="contents" class="col-sm-2 col-form-label">내용</label>
-        <div class="col-sm-10">    
-         <textarea style="height: 200px" class="content-area readonly-input" readonly id="contents" name="contents"><c:out value='${board.contents }'/></textarea>
-        </div> 
-    </div>    
-  </form>
-  <!--// form end -->
   
   <!-- 댓글 섹션 -->
   <div class="mt-5">
@@ -672,9 +682,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </div>
 <%@ include file="/WEB-INF/views/main/footer.jsp" %>
 <!--// container end ---------------------------------------------------------->
-<script>
-    var simplemde = new SimpleMDE({ element: document.getElementById("contents") })
-</script>
+
 <%-- bootstrap js --%>
 <script src="${CP}/resources/js/bootstrap.bundle.js"></script>
 </body>

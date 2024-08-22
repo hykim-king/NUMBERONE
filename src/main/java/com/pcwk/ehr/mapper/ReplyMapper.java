@@ -45,4 +45,7 @@ public interface ReplyMapper extends WorkDiv<Reply> {
      * @throws SQLException
      */
     int deleteAll() throws SQLException;
+    
+    int hardDelete(int replyNo) throws SQLException;
+    int hasChildren(int replyNo) throws SQLException;
 } 

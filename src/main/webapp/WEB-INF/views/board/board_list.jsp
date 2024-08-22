@@ -13,6 +13,8 @@
     since 2020.11.23
     Copyright (C) by KandJang All right reserved.
 --%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="com.pcwk.ehr.cmn.StringUtil"%>
 <%@page import="com.pcwk.ehr.cmn.Search"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

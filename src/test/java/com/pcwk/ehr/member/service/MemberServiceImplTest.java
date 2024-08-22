@@ -1,9 +1,6 @@
 package com.pcwk.ehr.member.service;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -18,9 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.mapper.MemberMapper;
 import com.pcwk.ehr.member.domain.Member;
-
-import junit.framework.Assert;
-
 
 @RunWith(SpringRunner.class) 
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",

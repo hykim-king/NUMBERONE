@@ -3,8 +3,6 @@ package com.pcwk.ehr.member.controller;
 import java.sql.SQLException;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -110,10 +108,9 @@ public class MemberController implements PLog {
 
     
     
-    @RequestMapping(value="/doSave.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/doSave.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String doSave(@RequestBody Member member) throws SQLException {
-        String jsonString = "";
         log.debug("doSave()");
         log.debug("┌──────────────────────────────────────────┐");
         log.debug(member.getName());
@@ -123,13 +120,32 @@ public class MemberController implements PLog {
         log.debug(member.getLocCode());
         log.debug(member.getEmail());
         log.debug("└──────────────────────────────────────────┘");
-        
+
+        // 아이디 중복 체크
+        boolean idDuplicateCheck = memberService.idDuplicateCheck(member.getMemberId());
+        if (idDuplicateCheck) {
+            Message message = new Message(1, "중복된 아이디입니다.");
+            String jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(message);
+            log.debug("아이디 중복 메시지:" + jsonString);
+            return jsonString;
+        }
+
+        // 닉네임 중복 체크
+        boolean nicknameDuplicateCheck = memberService.nicknameDuplicateCheck(member.getNickname());
+        if (nicknameDuplicateCheck) {
+            Message message = new Message(1, "중복된 닉네임입니다.");
+            String jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(message);
+            log.debug("닉네임 중복 메시지:" + jsonString);
+            return jsonString;
+        }
+
+        // 회원가입 처리
         boolean isSuccess = memberService.doSave(member); 
         String signUpMessage = isSuccess ? "회원가입 완료!" : "회원가입 실패!";
         
         Message message = new Message(isSuccess ? 0 : 1, signUpMessage);
-        jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(message);
-        log.debug("signUp jsonString:" + jsonString);
+        String jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(message);
+        log.debug("회원가입 jsonString:" + jsonString);
         
         return jsonString;
     }
@@ -139,7 +155,7 @@ public class MemberController implements PLog {
     public String nicknameDuplicateCheck(@RequestParam("nickname") String nickname) throws SQLException {
         log.debug("닉네임 중복 체크 요청: " + nickname);
 
-        boolean isDuplicate = memberService.checkNickname(nickname);
+        boolean isDuplicate = memberService.nicknameDuplicateCheck(nickname);
         String message = isDuplicate ? "중복된 닉네임입니다." : "사용 가능한 닉네임입니다.";
         
         Message responseMessage = new Message(isDuplicate ? 1 : 0, message);
@@ -151,7 +167,7 @@ public class MemberController implements PLog {
     public String idDuplicateCheck(@RequestParam("memberId") String memberId) throws SQLException {
         log.debug("아이디 중복 체크 요청: " + memberId);
 
-        boolean isDuplicate = memberService.checkUserId(memberId);
+        boolean isDuplicate = memberService.idDuplicateCheck(memberId);
         String message = isDuplicate ? "중복된 아이디입니다." : "사용 가능한 아이디입니다.";
         
         Message responseMessage = new Message(isDuplicate ? 1 : 0, message);
