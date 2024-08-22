@@ -47,7 +47,7 @@ public interface MemberMapper extends WorkDiv<Member> {
 	Member findMemberId(Member member);
 
 
-	  void locCodeUpdate(Member member);
+	  int locCodeUpdate(Member member);
 
 
 	Member getMemberById(String memberId);

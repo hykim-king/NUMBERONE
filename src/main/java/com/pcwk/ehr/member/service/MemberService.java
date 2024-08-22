@@ -18,7 +18,7 @@ public interface MemberService {
 
 
 	 Member getMemberById(String memberId); 
-	 Member locCodeUpdate(Member member);
+	 int locCodeUpdate(Member member);
 	
 
 

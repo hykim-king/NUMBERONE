@@ -125,9 +125,9 @@ public class MemberServiceImpl implements MemberService, PLog {
 
 
     @Override
-    public Member locCodeUpdate(Member member) {
-        memberMapper.locCodeUpdate(member);
-		return member;
+    public int locCodeUpdate(Member member) {
+        int flag= memberMapper.locCodeUpdate(member);
+		return flag;
     }
     
     @Override
@@ -167,8 +167,10 @@ public class MemberServiceImpl implements MemberService, PLog {
 
 	@Override
 	public Member getMemberById(String memberId) {
-		// TODO Auto-generated method stub
-		return null;
+		log.debug(memberId);
+		Member outVO =memberMapper.getMemberById(memberId);
+		log.debug(outVO);
+		return outVO;
 	}
 
 

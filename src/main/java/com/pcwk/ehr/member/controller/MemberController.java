@@ -87,18 +87,32 @@ public class MemberController implements PLog {
 
     @RequestMapping(value = "/locCodeUpdate", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<Member> locCodeUpdate(@RequestBody Member member) {
-        String memberId = member.getMemberId();
+    public String locCodeUpdate(@RequestBody Member member,HttpSession session) {
+        log.debug(member);
+    	Member memberVO = (Member)session.getAttribute("member");
+    	log.debug(memberVO);
+        String memberId=memberVO.getMemberId();
+        int flag=0;
         long locCode = member.getLocCode(); 
-
+        String message = "변경 성공";
         Member member1 = memberService.getMemberById(memberId);
+        Member updatedMember;
+        log.debug(member1);
         if (member1 != null) {
             // locCode 업데이트
             member1.setLocCode(locCode);
-            memberService.locCodeUpdate(member1);
-            return ResponseEntity.ok(member1);  // 업데이트된 Member 객체를 반환
+            flag =memberService.locCodeUpdate(member1);
+            if(flag ==1) {
+            	updatedMember=memberService.getMemberById(memberId);
+            	session.removeAttribute("member");
+            	session.setAttribute("member", updatedMember);
+            	return message;  
+            }else {
+            	return "";
+            }
+            
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);  
+            return "";  
         }
     }
     

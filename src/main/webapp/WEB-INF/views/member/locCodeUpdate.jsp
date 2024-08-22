@@ -410,10 +410,8 @@ function eupmyeondongSet() {
 <script>
 
 class Member {
-    constructor(locCode, memberId) {
+    constructor(locCode) {
         this.locCode = locCode;
-        
-        this.memberId = memberId;
     }
 }
 
@@ -436,7 +434,7 @@ function locCodeUpdate() {
     console.log(locCode);
     
     
-    member = new Member(locCode,memberFromSession.memberId);
+    member = new Member(locCode);
     
     fetch('/ehr/member/locCodeUpdate', {
         method: 'POST',
@@ -449,7 +447,7 @@ function locCodeUpdate() {
         if (!response.ok) {
             throw new Error('네트워크 응답이 좋지 않습니다.');
         }
-        return response.json();
+        return response;
     })
     .then(data => {
         alert("위치가 성공적으로 저장되었습니다.");
