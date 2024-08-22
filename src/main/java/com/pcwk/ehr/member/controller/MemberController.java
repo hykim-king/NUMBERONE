@@ -1,10 +1,11 @@
 package com.pcwk.ehr.member.controller;
 
 import java.sql.SQLException;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +51,7 @@ public class MemberController implements PLog {
     }
     
     
-    @RequestMapping(value = "/locCodeUpdate.do", method = RequestMethod.GET)
+    @GetMapping("locCodeUpdate.do")
     public String locCodeUpdate() {
         String viewName = "member/locCodeUpdate";
         log.debug("┌──────────────────────────────────────────┐");
@@ -59,23 +60,23 @@ public class MemberController implements PLog {
         return viewName;
     }
     
-    // locCode 업데이트 메서드
-    @RequestMapping(value = "/locCodeUpdate", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+
+    @RequestMapping(value = "locCodeUpdate", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Member locCodeUpdate(Member member, HttpSession httpSession) {
+    public ResponseEntity<Member> locCodeUpdate(@RequestBody Member member) {
         String memberId = member.getMemberId();
-        long locCode =member.getLocCode();
+        long locCode = member.getLocCode(); 
 
         Member member1 = memberService.getMemberById(memberId);
         if (member1 != null) {
             // locCode 업데이트
             member1.setLocCode(locCode);
             memberService.locCodeUpdate(member1);
+            return ResponseEntity.ok(member1);  // 업데이트된 Member 객체를 반환
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);  
         }
-
-        return member1;
     }
-    
     
     @RequestMapping(value="/login.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody

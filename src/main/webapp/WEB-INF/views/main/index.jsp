@@ -9,11 +9,14 @@
 <link rel="icon" type="image/png" href="/ehr/resources/images/favicon.ico">
 <!-- Highcharts 로드 -->
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<%-- jquery --%>
+<script src="${CP}/resources/js/jquery_3_7_1.js"></script>
+<%-- common.js --%>
+<script src="${CP}/resources/js/common.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 <script src="${CP}/resources/js/jquery-1.11.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <%-- jquery --%>
-    <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
+    
 <title>재난안전포털 No.1</title>
 <style>
 
@@ -299,13 +302,9 @@
 	    background-color: #134b70;
 	    width: 580px;
 	    height: 45px;
-	    font-size: 29px;
-	    color: #CFD8DC;
-	    font-weight: 1000;
-	    font-family: 'Tahoma', sans-serif;
-	    line-height: 1.5;
-	    overflow: hidden;
     }
+    
+    
     .emergency-info {
         position: absolute;
         top: 30px;
@@ -498,7 +497,7 @@
 	    line-height: 2.2;
 	    text-align: center;
 	    font-size: 15px;
-	    font-weight: 600;
+	    font-weight: 500;
 	    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
 	}
 	
@@ -550,57 +549,27 @@
 	    background-color: #007bff;
 	}
 	.toast {
-	    position: relative;
-	    display: block;
-	    width: 260px; 
-	    margin-bottom: 1rem;
-	    border: none;
-
-	    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
-	    opacity: 0;
-	    transition: opacity 0.5s ease-in-out;
-	    background-color: #ffffff; /* 토스트 배경색 */
-        border-radius: 0.375rem; /* 토스트 모서리 둥글게 */
+    position: relative;
+    display: block;
+    width: 350px; /* 원하는 너비로 조정 가능 */
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
 	.toast-header {
-	  
 	    display: flex;
 	    align-items: center;
-	    padding: 0.5rem 1rem;      
-	    background-color: #134b70; /* 헤더 배경색 */
-	    color: #495057; /* 헤더 텍스트 색상 */
-	    border-bottom: 1px solid #dee2e6; /* 헤더 하단 테두리 */
+	    padding: 0.5rem 1rem;
+	    background-color: rgba(0, 0, 0, 0.03);
+	    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	}
-	.toast-header strong{
-	   text-align: center;
-	   font-size: 20px;
-	   color: white;
-	}
-	.toast-header small{
-       text-align: center;
-       font-size: 13px;
-       color: white;
-    }
-	.toast-header>button {
-	    font-size: 1.4rem; /* X 버튼 크기 */
-	    color: white; /* X 버튼 색상 */
-	    cursor: pointer; 
-	    border: none;
-	    background: none; 
-	    margin-left: auto; /* 오른쪽 정렬 */
-	    margin-bottom: 0.5rem; /* 아래 여백 */
-	    transition: color 0.2s ease-in-out; /* 색상 변화 애니메이션 */
-    }
-
-	.toast-header>button:hover {
-	    color: #2196F3; /* 호버 시 색상 변화 */
-	}
+	
 	.toast-body {
-	     padding: 1.1rem 1rem;
-	     color: #212529; /* 본문 텍스트 색상 */
-         font-size: 15px; /* 본문 텍스트 크기 */    
-         text-align: center;
+	    padding: 0.5rem 1rem;
 	}
 	
 	.toast.show {
@@ -611,9 +580,7 @@
 	    opacity: 0; /* 토스트가 숨겨질 때의 투명도 */
 	}
 	
-	.btn-close {
-    filter: brightness(0.8); /* 닫기 버튼 밝기 조절 */
-}
+	
 	
 	
 </style>
@@ -690,8 +657,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         			
 			        
 			        <div>
-			           <div class="shelters"></div>
-		               <div class="sheltersBottom">──────────────────────────────</div>
+			           <div class="shelters" id="shelterList"></div>
+		               <div class="sheltersBottom"></div>
 			        
 			        </div>
 			        </div><!-- sheltersDiv end -->        
@@ -712,7 +679,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		        
 		        <div>
 			        <div class="graphText">
-			             <a href="http://localhost:8080/ehr/chart/dataChart.do"><p>재난 문자 발송 통계</p></a>
+			             <p>재난 문자 발송 통계</p>
 			        </div>
 			            
 		  
@@ -752,7 +719,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <li><a href="http://localhost:8080/ehr/disasterMsg/disasterMsg">재난문자</a></li>
                         <li><a href="http://localhost:8080/ehr/news">안전뉴스</a></li>
                         <li><a href="http://localhost:8080/ehr/video/videoView.do">훈련영상</a></li>
-                        <li><a href="http://localhost:8080/ehr/chart/dataChartMap.do">전국통계</a></li>
+                        <li><a href="http://localhost:8080/ehr/location/location.do">대피시설</a></li>
                         </ul>
                     </div>
                 </div>
@@ -803,6 +770,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            console.log(memberFromSession);
 		            callServerUpward(memberFromSession.locCode,formattedLastMonth,formattedToday);
 		            getDisasterMsgList(memberFromSession.locCode);
+		            getShelter(Number(memberFromSession.locCode),"10");
 		            
 		        } else{
 		            document.getElementById('showLocation').textContent = '* 로그인 시 맞춤 정보로 확인 가능 합니다.';
@@ -821,10 +789,67 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.addEventListener('DOMContentLoaded', getSession);
 		
 		
+		//2024/08/21 통신 부분 css 미해결
 		
-		
-		
-		
+		function getShelter(locCode, shelterDiv) {
+		    console.log("getShelter()");
+
+		    let type = "GET";
+		    let url = "http://localhost:8080/ehr/shelter/shelter";
+		    let async = "false";
+		    let dataType = "html";
+
+		    let params = {
+		        "locCode": locCode,
+		        "shelterDiv": shelterDiv,
+		        "pageSize" : 3
+		    };
+
+		    PClass.pAjax(url, params, dataType, type, async, function(data) {
+		        var shelterData = JSON.parse(data);
+
+		        console.log("성공 locCode:", locCode);
+		        console.log("shelterDiv:", shelterDiv);
+		        
+		        // 테이블 생성
+		        let table = $("<table id='shelterList' class='table table-bordered'>").addClass("table")
+		                    .append($("<colgroup><col style='width:45%'><col style='width:30%'></colgroup>"));
+		        let thead = $("<thead>").append($("<tr class='table-light.table-striped'>")
+		            .append($("<th class='text-center'>위치</th>"))
+		            .append($("<th class='text-center'>시설</th>"))
+		        );
+		        let tbody = $("<tbody>");
+		        console.log("shelterData:",shelterData);
+		        shelterData.forEach(function(item) {
+		            // 새로운 행 생성
+		            let row = $("<tr>");
+		            
+		            // 도로 주소 클릭 이벤트 추가
+		            let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+		            roadAddressElement.css("cursor","pointer"); // 클릭 가능한 커서 스타일 클래스 추가
+		            roadAddressElement.on("click", function(event) {
+		                openKakaoMap(item.lat, item.lon, item.facilityName);
+		            });
+
+		            // 행에 데이터 추가
+		            row.append(roadAddressElement);
+		            row.append($("<td>").text(item.facilityName));
+		            
+		            // 행을 tbody에 추가
+		            tbody.append(row);
+		        });
+
+		        // 테이블 완성 후 DOM에 추가
+		        table.append(thead).append(tbody);
+		        $("#shelterList").empty().append(table); // 기존 내용을 지우고 새 테이블 추가
+		    }); // --pAjax end
+		} // --getShelter end
+
+        
+        function openKakaoMap(lat,lon,facilityName){
+            //팝업창 생성
+            var popup = window.open("http://localhost:8080/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
+        }//-- openKakaoMap end
 		
 		
 		function locToAddress(locCode) {
@@ -874,8 +899,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			function createBanner(disasterTypesInEnglish) {
 			    const slidesContainer = document.querySelector('.slides');
 			    const navButtonsContainer = document.querySelector('.nav-buttons');
-			    
-			    
+ 
 			     const disasterTypeNum = {
 			    		    "flood": "nature/16",
 			    		    "heavyRain":"nature/3",
@@ -891,21 +915,24 @@ document.addEventListener('DOMContentLoaded', function() {
 			                "forestFires": "society/2",
 			                "trafficAccident": "society/5",
 			                "preventionInfectious": "society/17",
-			                "fineDust": "fineDust" 
+			                "fineDust": "fineDust/22" 
 		         };
 			    
 			    
 			    
 			    
+
 			    disasterTypesInEnglish.forEach((type, index) => {
 			        const slide = document.createElement('a');
 			        const img = document.createElement('img');
 			        img.src = '/ehr/resources/images/'+type + '.png';
 			        img.alt = type;
+
 			        
 			        const typeLink = disasterTypeNum[type] || 'unknown';
 			        slide.href = 'http://localhost:8080/ehr/' + typeLink + '.do'; 
 			        
+
 			        slide.appendChild(img);
 			        slidesContainer.appendChild(slide);
 			    
@@ -950,8 +977,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    }
 	    
 	
-
-
+	    
 	    // 슬라이드 보여주기
 	    let currentSlide = 0;
 	    
@@ -1366,7 +1392,9 @@ document.addEventListener('DOMContentLoaded', function() {
             toast.show();
         };	
         	
+        	
 
+        
         
 </script>
 </body>

@@ -56,34 +56,38 @@ public class SseController implements PLog {
                 String result = disasterService.isNewMessageExist();
                 String message = "New Message Arrived!";
                 Gson gson = new Gson();
-
-                if ("Y".equals(result)) { // 새로운 메시지가 DB에 등록되면
-                	log.debug(result);
-                    if (session != null) {
-                        log.debug(session);
-                        Member user = (Member) session.getAttribute("member");
-                        log.debug(user);
-                        if (user != null && disasterMsgMapper.isNewMessageExistForUser(user) > 0) {
-                            // 모든 클라이언트에게 메시지 전송
-                            for (SseEmitter emitter : emitters) {
-                                try {
-                                    emitter.send(gson.toJson(message));
-                                } catch (IOException e) {
-                                    // 오류 발생 시 해당 emitter를 리스트에서 제거
-                                    emitters.remove(emitter);
-                                }
-                            }
-                            
-                        }
-                    }else {
-                    	log.debug("session null");
-                    }
-                    disasterMsgMapper.updateSequence();
-                    
-                }
+                for (SseEmitter emitter : emitters) {
+                emitter.send(gson.toJson(message));}
+//                if ("Y".equals(result)) { // 새로운 메시지가 DB에 등록되면
+//                	log.debug(result);
+//                    if (session != null) {
+//                        log.debug(session);
+//                        Member user = (Member) session.getAttribute("member");
+//                        log.debug(user);
+//                        if (user != null && disasterMsgMapper.isNewMessageExistForUser(user) > 0) {
+//                            // 모든 클라이언트에게 메시지 전송
+//                            for (SseEmitter emitter : emitters) {
+//                                try {
+//                                    emitter.send(gson.toJson(message));
+//                                } catch (IOException e) {
+//                                    // 오류 발생 시 해당 emitter를 리스트에서 제거
+//                                    emitters.remove(emitter);
+//                                }
+//                            }
+//                            
+//                        }
+//                    }else {
+//                    	log.debug("session null");
+//                    }
+//                    disasterMsgMapper.updateSequence();
+//                    
+//                }
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
+            } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }, 0, 10, TimeUnit.SECONDS);
     }
 }

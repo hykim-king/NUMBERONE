@@ -70,7 +70,7 @@ body {
 #locCodeUpdate{
     display: none;
 }
-.btn {
+.btn {  
     padding: 10px 20px;
     font-size: 1rem;
     border-radius: 5px;
@@ -424,7 +424,7 @@ function locCodeUpdate() {
     console.log(locCode);
     
     
-    fetch('http://localhost:8080/ehr/member/locCodeUpdate', {
+    fetch('/ehr/member/locCodeUpdate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -432,6 +432,7 @@ function locCodeUpdate() {
         body: JSON.stringify({
             memberId: memberFromSession.memberId,
             locCode: locCode
+            
         }),
     })
     .then(response => {
@@ -452,7 +453,7 @@ function locCodeUpdate() {
 // DOMContentLoaded 이벤트에서 이벤트 핸들러 설정
 document.addEventListener('DOMContentLoaded', function() {
     // 버튼 클릭 시 locCodeUpdate 함수 호출
-    document.getElementById('locCodeUpdate').onclick = locCodeUpdate1;
+    document.getElementById('locCodeUpdate').onclick = locCodeUpdate;
 });
 </script>
 </body>

@@ -17,7 +17,7 @@ public interface MemberService {
 	Member doSelectOne(String memberId);
 
 
-	 Member getMemberById(String memberId); // Assumes you have this method
+	 Member getMemberById(String memberId); 
 	 Member locCodeUpdate(Member member);
 	
 
