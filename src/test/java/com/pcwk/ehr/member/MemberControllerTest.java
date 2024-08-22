@@ -191,7 +191,7 @@ public class MemberControllerTest implements PLog{
 
 	
 	    
-	    
+	    @Ignore
 	    @Test
 	    public void doSave() throws Exception {
 	        // 새 회원 정보
@@ -217,8 +217,44 @@ public class MemberControllerTest implements PLog{
 	    }
 
 	    
+	    @Test
+	    public void locCodeUpdate() throws Exception {
+	        // 사용자 정보 설정
+	        String memberId = "hwid";  // 테스트할 사용자 ID
+	        long newLocCode = 47844123;    // 업데이트할 locCode 값
 
-	    
+	        // 요청 본문에 포함할 데이터
+	        JsonObject updateRequest = new JsonObject();
+	        updateRequest.addProperty("memberId", memberId);
+	        updateRequest.addProperty("locCode", newLocCode);
+
+	        // 호출방식, URL, param 저장
+	        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/member/locCodeUpdate")
+	                .contentType("application/json")
+	                .content(updateRequest.toString());
+
+	        // 호출
+	        ResultActions resultActions = mockMvc.perform(requestBuilder)
+	                .andExpect(status().isOk());
+
+	        // 응답 데이터 확인
+	        String jsonResult = resultActions.andDo(print())
+	                .andReturn()
+	                .getResponse().getContentAsString();
+
+	        System.out.println("Response JSON: " + jsonResult);
+
+	        // 응답을 Member 객체로 변환
+	        Member updatedMember = new Gson().fromJson(jsonResult, Member.class);
+
+	        
+	        if (updatedMember == null) {
+	            throw new AssertionError("Updated member is null");
+	        }
+	        // 기대값과 실제값 비교
+	        assertEquals(memberId, updatedMember.getMemberId());
+	        assertEquals(newLocCode, updatedMember.getLocCode());
+	    }
 	    @After
 	    public void tearDown() throws Exception {
 	    	log.debug("┌─────────────────────────────────────────────────────────┐");

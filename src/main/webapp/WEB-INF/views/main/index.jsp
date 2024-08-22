@@ -651,7 +651,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            <div class="mypageDiv">NO.1</div>
 		            <a href="http://localhost:8080/ehr/member/signInUp.do"><button id="loginGoBtn" >로그인하러가기</button></a>
 		            <p id= "showName"></p>
-		            <p id= "showLocation">* 로그인 하시면 맞춤 정보로 확인 가능 합니다. </p>
+		            <p id= "showLocation">* 로그인 시 맞춤 정보로 확인 가능 합니다. </p>
 		            <a href="http://localhost:8080/ehr/member/locCodeUpdate.do" ><button id="locResetButton" >위치 재설정</button></a>
 		        </div>
 		        
@@ -805,7 +805,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            getDisasterMsgList(memberFromSession.locCode);
 		            
 		        } else{
-		            document.getElementById('showLocation').textContent = '* 로그인 하시면 맞춤 정보로 확인 가능 합니다.';
+		            document.getElementById('showLocation').textContent = '* 로그인 시 맞춤 정보로 확인 가능 합니다.';
 		            document.getElementById('loginGoBtn').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
 		            document.getElementById('sheltersBtn').style.display = 'inline-block';
 		            callServer(1000000000,formattedLastMonth,formattedToday);

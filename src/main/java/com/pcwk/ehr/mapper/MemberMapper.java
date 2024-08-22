@@ -19,7 +19,6 @@ public interface MemberMapper extends WorkDiv<Member> {
 
     
     int nicknameDuplicateCheck(String nickname) throws SQLException;
-
     
     int doSave(Member member) throws SQLException;
 
@@ -46,6 +45,12 @@ public interface MemberMapper extends WorkDiv<Member> {
 
 
 	Member findMemberId(Member member);
+
+
+	  void locCodeUpdate(Member member);
+
+
+	Member getMemberById(String memberId);
 
 
 

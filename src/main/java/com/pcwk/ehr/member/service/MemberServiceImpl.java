@@ -122,6 +122,14 @@ public class MemberServiceImpl implements MemberService, PLog {
         return memberMapper.findMemberId(member);
     }
     
+
+
+
+    @Override
+    public Member locCodeUpdate(Member member) {
+        memberMapper.locCodeUpdate(member);
+		return member;
+    }
     
     @Override
     public boolean idDuplicateCheck(String memberId) {
@@ -157,6 +165,15 @@ public class MemberServiceImpl implements MemberService, PLog {
         
         return true; // 로그아웃 성공 여부 반환
     }
+
+	@Override
+	public Member getMemberById(String memberId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
 
 	
 
