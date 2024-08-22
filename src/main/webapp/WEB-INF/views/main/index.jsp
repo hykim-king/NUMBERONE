@@ -268,12 +268,12 @@
         font-size: 50px;
     }
     #sheltersBtn {
-        display:none;
-	    width: 576px;
+	    display: none;
+	    width: 598px;
 	    height: 424px;
 	    position: relative;
-	    top: 577px;
-	    left: 110px;
+	    top: 600px;
+	    left: 100px;
 	    align-items: center;
 	    z-index: 10;
     }
@@ -306,7 +306,7 @@
         text-decoration: none;
         border-radius: 5px;
         transition: background-color 0.3s ease;
-        padding :10px;
+        padding :13px;
          box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);   
     }
 
@@ -636,6 +636,7 @@
     }
 </style>
 <script>
+let locationString="";
 //.scroll-to-top
 document.addEventListener('DOMContentLoaded', function() {
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
@@ -675,16 +676,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		        
 		        
 		        
-		        
-		        <div class="emergency-info">
-		            <div class="slides">
-		                
-		            </div>
-		            
-		                <div class="nav-buttons">
-				            
-                        </div>
-		        </div>
+				<div class="emergency-info">
+				    <div class="slides">
+				        
+				    </div>
+				    <div class="nav-buttons">
+				        
+				    </div>
+				</div>
 		          
 		        
 		
@@ -698,7 +697,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                  <li><a href="#">지진대피장소</a></li>
                                  <li><a href="#">이재민 임시주거시설</a></li>
                                  <li><a href="#">무더위 쉼터</a></li>
-                                 <li><a href="#">산사태 대피소</a></li>
                                  <li><a href="#">민방위 급수시설</a></li>
                                  <li><a href="#">지진겸용 임시주거시설</a></li>
                                  <li><a href="#">화학사고 대피장소</a></li>
@@ -922,6 +920,7 @@ function openKakaoMap(lat, lon, facilityName) {
 		        console.log(location);
 		        if (location) {
 		            const { sido, sigungu, eupmyeondong } = location;
+		            locationString=location;
 		            const address = `${sido} ${sigungu} ${eupmyeondong}`;
 		            console.log("주소:", location);  // 디버깅용으로 주소 출력
 		            const showLocationElement = document.getElementById('showLocation');
@@ -945,116 +944,119 @@ function openKakaoMap(lat, lon, facilityName) {
 		
 		
 /* -배너------------------------------------------------------------------------------------- */
-			let disasterTypesInEnglish = [];    
-	
-	
-			function createBanner(disasterTypesInEnglish) {
-			    const slidesContainer = document.querySelector('.slides');
-			    const navButtonsContainer = document.querySelector('.nav-buttons');
- 
-			     const disasterTypeNum = {
-			    		    "flood": "nature/16",
-			    		    "heavyRain":"nature/3",
-			    		    "waves": "nature/6",
-			    		    "yellowDust": "nature/10",
-			    		    "strongWind": "nature/5",
-			    		    "heavySnow": "nature/7",
-			    		    "coldWave": "nature/8",
-	                        "heatWave": "nature/9",
-	                        "earthQuake": "nature/11",
-	                        "landslide": "nature/18", 
-			                "fire": "society/1",
-			                "forestFires": "society/2",
-			                "trafficAccident": "society/5",
-			                "preventionInfectious": "society/17",
-			                "fineDust": "fineDust/22" 
-		         };
-			    
-			    
-			    
-			    
+		let disasterTypesInEnglish = [];    
+		
+		function createBanner(disasterTypesInEnglish) {
+		    const slidesContainer = document.querySelector('.slides');
+		    const navButtonsContainer = document.querySelector('.nav-buttons');
 
-			    disasterTypesInEnglish.forEach((type, index) => {
-			        const slide = document.createElement('a');
-			        const img = document.createElement('img');
-			        img.src = '/ehr/resources/images/'+type + '.png';
-			        img.alt = type;
+		    const disasterTypeNum = {
+		        "flood": "nature/16",
+		        "heavyRain": "nature/3",
+		        "waves": "nature/6",
+		        "yellowDust": "nature/10",
+		        "strongWind": "nature/5",
+		        "heavySnow": "nature/7",
+		        "coldWave": "nature/8",
+		        "heatWave": "nature/9",
+		        "earthQuake": "nature/11",
+		        "landslide": "nature/18",
+		        "fire": "society/1",
+		        "forestFires": "society/2",
+		        "trafficAccident": "society/5",
+		        "preventionInfectious": "society/17",
+		        "fineDust": "fineDust/22"
+		    };
 
-			        
-			        const typeLink = disasterTypeNum[type] || 'unknown';
-			        slide.href = 'http://localhost:8080/ehr/' + typeLink + '.do'; 
-			        
+		    let slideIndex = 0;
 
-			        slide.appendChild(img);
-			        slidesContainer.appendChild(slide);
-			    
-			        const navButton = document.createElement('button');
-			        navButton.className = 'nav-btn';
-			        navButton.dataset.slide = index;
-			        navButton.addEventListener('click', () => showSlide(index));
-			        navButtonsContainer.appendChild(navButton);
-			    });
-	
-			    showSlide(0); // 첫 슬라이드를 초기 설정으로 보여줌
-			}
-			
-			
-		    
-		    setInterval(() => {
-		        currentSlide = (currentSlide + 1) % disasterTypesInEnglish.length;
-		        showSlide(currentSlide);
-		    }, 5000);
-		         
-	        
-	        function convertDisasterTypes(disasterTypes) {
-	        const disasterTypeMap = {
-	            "홍수": "flood",
-	            "호우": "heavyRain",
-	            "풍랑": "waves",
-	            "황사": "yellowDust",
-	            "강풍": "strongWind",
-	            "대설": "heavySnow",
-	            "한파": "coldWave",
-	            "폭염": "heatWave",
-	            "지진": "earthQuake",
-	            "산사태": "landslide",
-	            "화재": "fire",
-	            "산불": "forestFires",
-	            "교통사고": "trafficAccident",
-	            "감염병예방": "preventionInfectious",
-	            "미세먼지": "fineDust"
-	        };
-	        
-	        return Array.from(disasterTypes).map(type => disasterTypeMap[type]);
-	    }
-	    
-	
-	    
-	    // 슬라이드 보여주기
-	    let currentSlide = 0;
-	    
-	    function showSlide(index) {
-	        const slides = document.querySelectorAll('.slides a');
-	        const buttons = document.querySelectorAll('.nav-btn');
-	        
-	        if (index < 0 || index >= slides.length) return;
-	    
-	        slides.forEach((slide, i) => {
-	            slide.style.display = (i === index) ? 'block' : 'none';
-	        });
-	    
-	        buttons.forEach((button, i) => {
-	            button.classList.toggle('active', i === index);
-	        });
-	    
-	        currentSlide = index;
-	    }
-	    
-	    // 초기 슬라이드 설정
-	    showSlide(currentSlide);
-	    
-	   
+		    // Clear existing slides and buttons
+		    slidesContainer.innerHTML = '';
+		    navButtonsContainer.innerHTML = '';
 
+		    disasterTypesInEnglish.forEach((type) => {
+		        const typeLink = disasterTypeNum[type];
+
+		        if (typeLink) {
+		            const slide = document.createElement('a');
+		            const img = document.createElement('img');
+		            img.src = '/ehr/resources/images/' + type + '.png';
+		            img.alt = type;
+
+		            slide.href = 'http://localhost:8080/ehr/' + typeLink + '.do';
+
+		            slide.appendChild(img);
+		            slidesContainer.appendChild(slide);
+
+		            const navButton = document.createElement('button');
+		            navButton.className = 'nav-btn';
+		            navButton.dataset.slide = slideIndex; 
+		            navButton.addEventListener('click', (event) => {
+		                const index = parseInt(event.currentTarget.dataset.slide, 10); 
+		                console.log('Button clicked: ', index); 
+		                showSlide(index);
+		            });
+		            navButtonsContainer.appendChild(navButton);
+
+		            slideIndex++;
+		        }
+		    });
+
+		    if (slideIndex > 0) {
+		        showSlide(0);
+		        setInterval(() => {
+		            currentSlide = (currentSlide + 1) % slideIndex;
+		            showSlide(currentSlide);
+		        }, 5000);
+		    }
+		}
+		
+		function convertDisasterTypes(disasterTypes) {
+		    const disasterTypeMap = {
+		        "홍수": "flood",
+		        "호우": "heavyRain",
+		        "풍랑": "waves",
+		        "황사": "yellowDust",
+		        "강풍": "strongWind",
+		        "대설": "heavySnow",
+		        "한파": "coldWave",
+		        "폭염": "heatWave",
+		        "지진": "earthQuake",
+		        "산사태": "landslide",
+		        "화재": "fire",
+		        "산불": "forestFires",
+		        "교통사고": "trafficAccident",
+		        "감염병예방": "preventionInfectious",
+		        "미세먼지": "fineDust"
+		    };
+		
+		    return Array.from(disasterTypes).map(type => disasterTypeMap[type]);
+		}
+		
+		
+		
+		function showSlide(index) {
+		    const slides = document.querySelectorAll('.slides a'); 
+		    const buttons = document.querySelectorAll('.nav-btn'); 
+
+		    if (index < 0 || index >= slides.length) return;
+
+		    console.log('Showing slide index: ', index); 
+
+		    slides.forEach((slide, i) => {
+		        slide.style.display = (i === index) ? 'block' : 'none';
+		    });
+
+		    buttons.forEach((button, i) => {
+		        button.classList.toggle('active', i === index);
+		    });
+
+		    currentSlide = index;
+		}
+
+		
+		let currentSlide = 0;
+		showSlide(currentSlide);
 		
 //------------------------------------------------------------------------------------
 		
@@ -1256,7 +1258,7 @@ function openKakaoMap(lat, lon, facilityName) {
 			let titleText ='전국 최근 한달 재난 문자 누적 통계';
 			console.log(statistics.locCode);
 			if(statistics.locCode!=1000000000){
-				titleText ='우리동네 최근 한달 재난 문자 누적 통계'
+				titleText ='['+ locationString + '] 최근 한달 재난 문자 누적 통계'
 			}
 		    $("#graphContainer").empty();
             Highcharts.chart('graphContainer', {

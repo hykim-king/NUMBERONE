@@ -121,7 +121,6 @@ public class MemberServiceImpl implements MemberService, PLog {
     public Member findMemberId(Member member) {
         return memberMapper.findMemberId(member);
     }
-    
 
 
 

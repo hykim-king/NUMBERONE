@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
@@ -41,13 +43,35 @@ public class MemberController implements PLog {
     }
 
 
-    @RequestMapping(value="/findMemberId.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-    @ResponseBody
-    public Member findMemberId(Member member, HttpSession httpSession) throws SQLException {
-    	
-    	
-    	 return memberService.findMemberId(member);
 
+
+
+ // ID 찾기 처리
+    @RequestMapping(value = "/findMemberId.do", method = RequestMethod.POST)
+    @ResponseBody
+    public String findMemberId(Member inVO) throws SQLException {
+
+        log.debug("1. param: " + inVO);
+
+        // 사용자 아이디 찾기
+        Member foundMemberId = memberService.findMemberId(inVO);
+        String message;
+        int flag;
+
+        if (foundMemberId != null) {
+            message = "회원님의 아이디는☛" + foundMemberId.getMemberId() + "☚입니다."; // memberId 필드를 사용
+            flag = 1;  
+        } else {
+            message = "해당 정보와 일치하는 아이디가 없습니다";
+            flag = 0;  
+        }
+
+        Message messageObj = new Message(flag, message);
+        String jsonString = new Gson().toJson(messageObj); // Gson 객체를 재사용할 수 있도록 개선
+
+        log.debug("2. jsonString: " + jsonString);
+
+        return jsonString;
     }
     
     

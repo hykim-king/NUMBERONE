@@ -110,9 +110,7 @@
 
 	<select id="findMemberId" parameterType="Member" resultType="Member">
 	    SELECT 
-	        member_id AS memberId,
-	        name, 
-	        email
+	        member_id AS memberId
 	    FROM member
 	    WHERE name = #{name}
 	    AND email = #{email}
