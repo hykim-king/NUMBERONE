@@ -38,10 +38,16 @@ public class ShelterServiceImpl implements ShelterService, PLog {
 	@Override
 	public List<Shelter> doRetrieve(DTO search) throws SQLException {
 		log.debug("1. param :" + search);
+		log.debug("======================================");
+		log.debug("======================================");
+		log.debug("======================================");
+		log.debug("======================================");
 		//Shelter의 locCode를 받아와야 하기 때문에 DTO search를 형변환.
 		if (search instanceof Shelter) {
 			Shelter shelter = (Shelter) search;
-			
+			log.debug("======================================");
+			log.debug("shelter:"+ shelter);
+			log.debug("======================================");
 			return this.shelterMapper.doRetrieve(shelter);
 		}else {
 			return null;

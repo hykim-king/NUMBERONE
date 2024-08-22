@@ -40,7 +40,9 @@ public class ShelterController implements PLog {
 		log.debug("┌────────────────────────────────────────┐");
 		log.debug("│ doRetrieve()                           │");
 		log.debug("└────────────────────────────────────────┘");
-		
+		log.debug("======================================");
+		log.debug("shelter:"+ shelter);
+		log.debug("======================================");
 		String jsonString = "";
 		
 		List<Shelter> shelterSearch = this.shelterService.doRetrieve(shelter);
