@@ -732,6 +732,7 @@
 	        
 
 
+
 	        function login() {
 	            console.log("login()");
 	            
@@ -810,92 +811,89 @@
 	
 	</head>
 	<body>
-	    <div>
-	        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
-	    </div>
-	    
-	    <section>
-	           <div class="login-wrap">
-	              <div class="login-html">
-	                <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
-	                <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
-	                <div class="login-form">
-	                  <div class="sign-in-htm">
-	                    <div class="group">
-	                      <label for="memberId" class="label">아이디</label>
-	                      <input id="memberId" type="text" class="input" name="member_id">
-	                    </div>
-	                    <div class="group">
-	                        <label for="password" class="label">비밀번호</label>
-	                        <input id="password" type="password" class="input" data-type="password" name="password">
-	                    </div>  
-	                  
-	                    <div class="group">
-	                      <button class="button1" type="button" value="로그인" id="loginInfoBtn">로그인</button>
-	                    </div>
-	                    <div class="hr"></div>
-	                    <div class="foot-lnk">
-	                      <a href="http://localhost:8080/ehr/member/findIdPw.do">아이디나 비밀번호를 잊으셨나요?</a>
-	                    </div>
-	                  </div>
-	                  
-	                  <div class="sign-up-htm">
-	                    <div class="group">
-	                        <label for="nameSignUp" class="label">이름</label>
-	                        <input id="nameSignUp" type="text" class="input">
-	                    </div>
-	                    <div class="group">
-	                        <label for="nicknameSignUp" class="label">닉네임</label>
-	                        <input id="nicknameSignUp" type="text" class="input">
-	                        <button id="nicknameDuplicateCheck" type="button">닉네임 중복 체크</button>
-	                    </div>
-	                    <div class="group">
-	                        <label for="userIdSignUp" class="label">아이디</label>
-	                        <input id="userIdSignUp" type="text" class="input">
-	                        <button id="idDuplicateCheck" type="button">아이디 중복 체크</button>
-	                    </div>
-	                    <div class="group">
-	                        <label for="pass1" class="label">비밀번호</label>
-	                        <input id="pass1" type="password" class="input" data-type="password">
-	                    </div>
-	                    <div class="group">
-	                        <label for="pass2" class="label">비밀번호 재입력</label>
-	                        <input id="pass2" type="password" class="input" data-type="password">
-	                    </div>
-	                     <div class="group">
-                            <label for="email" class="label">이메일</label>
-                            <input id="email" type="text" class="input">
+		    <div>
+		        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
+		    </div>
+		    
+ <section>
+        <div class="login-wrap">
+            <div class="login-html">
+                <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+                <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+                <div class="login-form">
+                    <form id="signInForm">
+                        <div class="sign-in-htm">
+                            <div class="group">
+                                <label for="memberId" class="label">아이디</label>
+                                <input id="memberId" type="text" class="input" name="member_id">
+                            </div>
+                            <div class="group">
+                                <label for="password" class="label">비밀번호</label>
+                                <input id="password" type="password" class="input" data-type="password" name="password">
+                            </div>  
+                            <div class="group">
+                                <button class="button1" type="button" id="loginInfoBtn">로그인</button>
+                            </div>
+                            <div class="hr"></div>
+                            <div class="foot-lnk">
+                                <a href="http://localhost:8080/ehr/member/findIdPw.do">아이디나 비밀번호를 잊으셨나요?</a>
+                            </div>
                         </div>
-	                     <div>
-					            <form action="#" name="locationForm" class="row g-2 align-items-right" id="locationForm">
-					                <div class="row g-3">
-					                    <p>위치 설정</p>
-					                    <select name="sido" class="form-select" id="sido" onchange="sigunguSet()">
-					                        <option value="">시도선택</option>
-					                    </select>
-					
-					                    <select name="sigungu" class="form-select" id="sigungu" onchange="eupmyeondongSet()">
-					                        <option value="">시군구선택</option>
-					                    </select>
-					
-					                    <select name="eupmyeondong" class="form-select" id="eupmyeondong">
-					                        <option value="">읍면동선택</option>
-					                    </select>
-					                </div>
-					                
-					            </form>
-	                        </div>
-	                    
-	                    <div class="group">
-	                        <button id="doSave" class="button2" type="button">회원가입</button>
-	                    </div>
-	                </div>
-	                </div>
-	            </div>
-	            </div>
-	            
-	            
-	    </section>
+                    </form>
+
+                    <form id="signUpForm">
+                        <div class="sign-up-htm">
+                            <div class="group">
+                                <label for="nameSignUp" class="label">이름</label>
+                                <input id="nameSignUp" type="text" class="input">
+                            </div>
+                            <div class="group">
+                                <label for="nicknameSignUp" class="label">닉네임</label>
+                                <input id="nicknameSignUp" type="text" class="input">
+                                <button id="nicknameDuplicateCheck" type="button">닉네임 중복 체크</button>
+                            </div>
+                            <div class="group">
+                                <label for="userIdSignUp" class="label">아이디</label>
+                                <input id="userIdSignUp" type="text" class="input">
+                                <button id="idDuplicateCheck" type="button">아이디 중복 체크</button>
+                            </div>
+                            <div class="group">
+                                <label for="pass1" class="label">비밀번호</label>
+                                <input id="pass1" type="password" class="input" data-type="password">
+                            </div>
+                            <div class="group">
+                                <label for="pass2" class="label">비밀번호 재입력</label>
+                                <input id="pass2" type="password" class="input" data-type="password">
+                            </div>
+                            <div class="group">
+                                <label for="email" class="label">이메일</label>
+                                <input id="email" type="text" class="input">
+                            </div>
+                            <div>
+                                <form id="locationForm" name="locationForm" class="row g-2 align-items-right">
+                                    <div class="row g-3">
+                                        <p>위치 설정</p>
+                                        <select name="sido" class="form-select" id="sido" onchange="sigunguSet()">
+                                            <option value="">시도선택</option>
+                                        </select>
+                                        <select name="sigungu" class="form-select" id="sigungu" onchange="eupmyeondongSet()">
+                                            <option value="">시군구선택</option>
+                                        </select>
+                                        <select name="eupmyeondong" class="form-select" id="eupmyeondong">
+                                            <option value="">읍면동선택</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="group">
+                                <button id="doSave" class="button2" type="button">회원가입</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 <script>
 
 document.addEventListener('DOMContentLoaded', (event) => {

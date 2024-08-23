@@ -32,16 +32,20 @@
 
     section {
 
-	    background: linear-gradient(
-	        to bottom,
-	        #EEEEEE 0px, /*  0px부터 시작 */
-	        #EEEEEE 220px, /*  0px부터 500px까지 */
-	        #CFD8DC 220px, 
-
-	        #CFD8DC 1300px 
-	    );
+        background: linear-gradient(
+            to bottom,
+            #f4f7f7  0px, /*  0px부터 시작 */
+            #f4f7f7  220px, /*  0px부터 500px까지 */
+            
+            #CADBE9  220px, 
+            #CADBE9  1000px,
+            
+            #D4DFE6  1000px, 
+            #D4DFE6  1300px
+        );
         height: 1300px;
     }
+
     section p{
         font-family: "Hahmlet", serif;
         font-optical-sizing: auto;
@@ -129,13 +133,13 @@
         font-family: 'Tahoma', sans-serif;
         position: absolute;
         left: 0;
-        border-left : 9px solid #eee;
+         border-left : 9px solid #f4f7f7  ;
          display: flex; /* Flexbox 활성화 */
 	    justify-content: center; /* 가로 중앙 정렬 */
 	    align-items: center; /* 세로 중앙 정렬 */
 	    font-weight: 900;
 	    font-size:70px;
-	    color:#eee;
+	   color:#fff;
 	    writing-mode: vertical-rl; /* 텍스트가 위에서 아래로 배치 */
         transform: rotate(180deg); 
          border-radius: 0px 47px 47px 0px; /* 왼쪽 위, 왼쪽 아래는 50px, 오른쪽은 0 */
@@ -238,23 +242,24 @@
         top: 550px;
         left: 20px;
         width: 580px;
-        height: 422px;
+        height: 424px;
         background-color: #fff;
         display: flex;
         justify-content: center;
         align-items: center;
-        
+        font-size: 17px;
+        font-weight: 500;
         box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     }
     
     
     #sheltersBtn {
         display:none;
-	    width: 576px;
+        width: 598px;
 	    height: 424px;
 	    position: relative;
-	    top: 577px;
-	    left: 110px;
+        top: 600px;
+        left: 100px;
 	    align-items: center;
 	    z-index: 10;
     }
@@ -287,7 +292,7 @@
         text-decoration: none;
         border-radius: 5px;
         transition: background-color 0.3s ease;
-        padding :10px;
+        padding :13px;
          box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);   
     }
 
@@ -295,14 +300,22 @@
         background-color: #134b70; /* 마우스 오버 시 배경색 변경 */
         color:#eee;
     }
-    .sheltersBottom{
-	    position: absolute;
-	    top: 929px;
-	    left: 20px;
-	    background-color: #134b70;
-	    width: 580px;
-	    height: 45px;
-    }
+	#shelterBottom{
+	        background: #134b70;
+	        position: relative;
+	        top: 506px;
+	        width: 580px;
+	        height: 39px;
+	        left: 20px;
+	        overflow: hidden;
+	        display: none;
+	    }
+	    #shelterBottom>span{
+	        color: #0d354f;
+	        font-weight: 800;
+	        line-height: 0.6;
+	        font-size: 50px;
+	    }
     
     
     .emergency-info {
@@ -354,9 +367,7 @@
     }
     
     #messageTable td{
-        
-        
-        border-bottom: 3px solid #9E9E9E;
+        border-bottom: 2px solid #BDBDBD;
         font-weight: 500;
     }
     .messages {
@@ -425,7 +436,7 @@
     
     #behaviorDiv{
         position: absolute;
-	    top: 1010px;
+	    top: 1025px;
 	    left: 20px;
 	    width: 580px;
 	    height: 240px;
@@ -457,7 +468,7 @@
     
     #searchDiv{
         position: absolute;
-        top: 1010px;
+        top: 1025px;
         left: 615px;
         width: 550px;
         height: 240px;
@@ -582,9 +593,56 @@
 	
 	
 	
+	/*     shelter style */
+
+    .text-center {
+        background-color: #134b70; /* 원하는 배경색 */
+        color: white; /* 텍스트 색상 */
+        font-size: 16px; /* 폰트 크기 */
+        text-align: center; /* 텍스트 중앙 정렬 */
+        padding: 10px; 
+
+        border: 3px solid #eee;
+        font-size: 20px;
+        height: 10px;
+    }
+    #shelterListTable td{
+       padding:10px;
+       border-bottom: 2px solid #eee;
+       font-size: 16px;
+    }
+   /* 테이블의 높이를 제한하고 스크롤을 적용하는 스타일 */
+    .table-bordered {
+        max-height: 90%;    /* 부모 요소 높이를 초과하지 않도록 설정 */
+        width: 95%;         /* 부모 요소의 너비에 맞춤 */
+        overflow-y: auto;    /* 세로 스크롤만 활성화 */
+        overflow-x: hidden;  /* 가로 스크롤 비활성화 */
+      
+     
+    }
+    .table-bordered table {
+        width: 100%;
+        border-collapse: collapse; 
+    }
+    /* td의 높이를 제한하고 ... 처리 */
+    .table-bordered td {
+        max-height: 100px;
+        overflow: hidden; 
+        text-overflow: ellipsis;
+        padding: 10px;
+        border:1px solid #eee;
+        text-align: center;
+        position: relative;
+        
+    }
 	
+
 </style>
 <script>
+
+let locationString="";
+
+
 //.scroll-to-top
 document.addEventListener('DOMContentLoaded', function() {
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
@@ -625,15 +683,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		        
 		        
 		        
-		        <div class="emergency-info">
-		            <div class="slides">
-		                
-		            </div>
-		            
-		                <div class="nav-buttons">
-				            
-                        </div>
-		        </div>
+                <div class="emergency-info">
+                    <div class="slides">
+
+                    </div>
+                    <div class="nav-buttons">
+
+                    </div>
+                 </div>
 		          
 		        
 		
@@ -656,8 +713,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         			
 			        
 			        <div>
-			           <div class="shelters" id="shelterList"></div>
-		               <div class="sheltersBottom"></div>
+			           <div class="shelters" >
+			             <div class = "table table-bordered" id="shelterList"></div>
+			           
+			           </div>
+		               <div class="shelterBottom" id="shelterBottom"><span>──────────────────────────────────────────────────</span></div>
 			        
 			        </div>
 			        </div><!-- sheltersDiv end -->        
@@ -672,6 +732,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			        </div>
 			        <div class="messages">
 			            <table id ="messageTable"></table>
+			           
 			        </div>
 		        </div>
 		        
@@ -766,6 +827,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		            document.querySelector('.myPageZone').style.backgroundColor = '#134b70';
 		            document.getElementById('showLocation').style.color = '#eee';
 		            
+		            
+		            
 		            console.log(memberFromSession);
 		            callServerUpward(memberFromSession.locCode,formattedLastMonth,formattedToday);
 		            getDisasterMsgList(memberFromSession.locCode);
@@ -775,6 +838,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            document.getElementById('showLocation').textContent = '* 로그인 하시면 맞춤 정보로 확인 가능 합니다.';
 		            document.getElementById('loginGoBtn').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
 		            document.getElementById('sheltersBtn').style.display = 'inline-block';
+		            document.getElementById('shelterBottom').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
 		            callServer(1000000000,formattedLastMonth,formattedToday);
 
 		            getDisasterMsgListAll();
@@ -799,10 +863,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		    let dataType = "html";
 
 		    let params = {
-		        "locCode": locCode,
-		        "shelterDiv": shelterDiv,
-		        "pageSize" : 3
-		    };
+		            "locCode": locCode,
+		            "shelterDiv": shelterDiv,
+		            "pageSize": 50
+		        };
 
 		    PClass.pAjax(url, params, dataType, type, async, function(data) {
 		        var shelterData = JSON.parse(data);
@@ -812,20 +876,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		        
 		        // 테이블 생성
 		        let table = $("<table id='shelterList' class='table table-bordered'>").addClass("table")
-		                    .append($("<colgroup><col style='width:45%'><col style='width:30%'></colgroup>"));
-		        let thead = $("<thead>").append($("<tr class='table-light.table-striped'>")
+		                    .append($("<colgroup><col style='width:50%'><col style='width:40%'></colgroup>"));
+		        let thead = $("<thead>").append($("<tr class='table-light table-striped'>")
 		            .append($("<th class='text-center'>위치</th>"))
 		            .append($("<th class='text-center'>시설</th>"))
 		        );
 		        let tbody = $("<tbody>");
-		        console.log("shelterData:",shelterData);
+		        console.log("shelterData:", shelterData);
 		        shelterData.forEach(function(item) {
 		            // 새로운 행 생성
 		            let row = $("<tr>");
 		            
 		            // 도로 주소 클릭 이벤트 추가
 		            let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
-		            roadAddressElement.css("cursor","pointer"); // 클릭 가능한 커서 스타일 클래스 추가
+		            roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일 클래스 추가
 		            roadAddressElement.on("click", function(event) {
 		                openKakaoMap(item.lat, item.lon, item.facilityName);
 		            });
@@ -869,6 +933,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		        console.log(location);
 		        if (location) {
 		            const { sido, sigungu, eupmyeondong } = location;
+	                locationString=location;
 		            const address = `${sido} ${sigungu} ${eupmyeondong}`;
 		            console.log("주소:", location);  // 디버깅용으로 주소 출력
 		            const showLocationElement = document.getElementById('showLocation');
@@ -893,84 +958,108 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 /* -배너------------------------------------------------------------------------------------- */
 			let disasterTypesInEnglish = [];    
-	
-	
-			function createBanner(disasterTypesInEnglish) {
-			    const slidesContainer = document.querySelector('.slides');
-			    const navButtonsContainer = document.querySelector('.nav-buttons');
+        
+        function createBanner(disasterTypesInEnglish) {
+	            const slidesContainer = document.querySelector('.slides');
+	            const navButtonsContainer = document.querySelector('.nav-buttons');
+	            
+	            
+	            const disasterTypeNum = {
+	                    "flood": "nature/16",
+	                    "heavyRain": "nature/3",
+	                    "waves": "nature/6",
+	                    "yellowDust": "nature/10",
+	                    "strongWind": "nature/5",
+	                    "heavySnow": "nature/7",
+	                    "coldWave": "nature/8",
+	                    "heatWave": "nature/9",
+	                    "earthQuake": "nature/11",
+	                    "landslide": "nature/18",
+	                    "fire": "society/1",
+	                    "forestFires": "society/2",
+	                    "trafficAccident": "society/5",
+	                    "preventionInfectious": "society/17",
+	                    "fineDust": "fineDust/22"
+	                };
 			    
-			    disasterTypesInEnglish.forEach((type, index) => {
-			        const slide = document.createElement('a');
-			        const img = document.createElement('img');
-			        img.src = '/ehr/resources/images/'+type + '.png';
-			        img.alt = type;
-			        slide.appendChild(img);
-			        slidesContainer.appendChild(slide);
-			    
-			        const navButton = document.createElement('button');
-			        navButton.className = 'nav-btn';
-			        navButton.dataset.slide = index;
-			        navButton.addEventListener('click', () => showSlide(index));
-			        navButtonsContainer.appendChild(navButton);
-			    });
-	
-			    showSlide(0); // 첫 슬라이드를 초기 설정으로 보여줌
-			}
-			
-			
-		    
-		    setInterval(() => {
-		        currentSlide = (currentSlide + 1) % disasterTypesInEnglish.length;
-		        showSlide(currentSlide);
-		    }, 5000);
-		         
+	            
+	            let slideIndex = 0;
+	            
+	            
+	         // Clear existing slides and buttons
+	            slidesContainer.innerHTML = '';
+	            navButtonsContainer.innerHTML = '';
+	            disasterTypesInEnglish.forEach((type) => {
+	                const typeLink = disasterTypeNum[type];
+	                if (typeLink) {
+	                    const slide = document.createElement('a');
+	                    const img = document.createElement('img');
+	                    img.src = '/ehr/resources/images/' + type + '.png';
+	                    img.alt = type;
+	                    slide.href = 'http://localhost:8080/ehr/' + typeLink + '.do';
+	                    slide.appendChild(img);
+	                    slidesContainer.appendChild(slide);
+	                    const navButton = document.createElement('button');
+	                    navButton.className = 'nav-btn';
+	                    navButton.dataset.slide = slideIndex; 
+	                    navButton.addEventListener('click', (event) => {
+	                        const index = parseInt(event.currentTarget.dataset.slide, 10); 
+	                        console.log('Button clicked: ', index); 
+	                        showSlide(index);
+	                    });
+	                    navButtonsContainer.appendChild(navButton);
+	                    slideIndex++;
+	                }
+	            });
+	            if (slideIndex > 0) {
+	                showSlide(0);
+	                setInterval(() => {
+	                    currentSlide = (currentSlide + 1) % slideIndex;
+	                    showSlide(currentSlide);
+	                }, 5000);
+	            }
+	        }
 	        
 	        function convertDisasterTypes(disasterTypes) {
-	        const disasterTypeMap = {
-	            "홍수": "flood",
-	            "호우": "heavyRain",
-	            "풍랑": "waves",
-	            "황사": "yellowDust",
-	            "강풍": "strongWind",
-	            "대설": "heavySnow",
-	            "한파": "coldWave",
-	            "폭염": "heatWave",
-	            "지진": "earthQuake",
-	            "산사태": "landslide",
-	            "화재": "fire",
-	            "산불": "forestFires",
-	            "교통사고": "trafficAccident",
-	            "감염병예방": "preventionInfectious",
-	            "미세먼지": "fineDust"
-	        };
+	            const disasterTypeMap = {
+	                "홍수": "flood",
+	                "호우": "heavyRain",
+	                "풍랑": "waves",
+	                "황사": "yellowDust",
+	                "강풍": "strongWind",
+	                "대설": "heavySnow",
+	                "한파": "coldWave",
+	                "폭염": "heatWave",
+	                "지진": "earthQuake",
+	                "산사태": "landslide",
+	                "화재": "fire",
+	                "산불": "forestFires",
+	                "교통사고": "trafficAccident",
+	                "감염병예방": "preventionInfectious",
+	                "미세먼지": "fineDust"
+	            };
 	        
-	        return Array.from(disasterTypes).map(type => disasterTypeMap[type]);
-	    }
-	    
-	
-	    
-	    // 슬라이드 보여주기
-	    let currentSlide = 0;
-	    
-	    function showSlide(index) {
-	        const slides = document.querySelectorAll('.slides a');
-	        const buttons = document.querySelectorAll('.nav-btn');
+	            return Array.from(disasterTypes).map(type => disasterTypeMap[type]);
+	        }
 	        
-	        if (index < 0 || index >= slides.length) return;
-	    
-	        slides.forEach((slide, i) => {
-	            slide.style.display = (i === index) ? 'block' : 'none';
-	        });
-	    
-	        buttons.forEach((button, i) => {
-	            button.classList.toggle('active', i === index);
-	        });
-	    
-	        currentSlide = index;
-	    }
-	    
-	    // 초기 슬라이드 설정
-	    showSlide(currentSlide);
+	        
+	        
+	        function showSlide(index) {
+	            const slides = document.querySelectorAll('.slides a'); 
+	            const buttons = document.querySelectorAll('.nav-btn'); 
+	            if (index < 0 || index >= slides.length) return;
+	            console.log('Showing slide index: ', index); 
+	            slides.forEach((slide, i) => {
+	                slide.style.display = (i === index) ? 'block' : 'none';
+	            });
+	            buttons.forEach((button, i) => {
+	                button.classList.toggle('active', i === index);
+	            });
+	            currentSlide = index;
+	        }
+	        
+	        let currentSlide = 0;
+	        showSlide(currentSlide);
 	    
 	   
 
@@ -1006,7 +1095,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         "text-overflow": "ellipsis",
                         "max-width": "90px",
                         "padding": "6px",
-                        "background-color":"#F5F5F5"
+                        "background-color":"#F5F5F5",
+                        "text-align" : "center"
                     }));
                     
                     console.log("Final disasterTypeSet:", Array.from(disasterTypeSet));
@@ -1031,7 +1121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     row.append($("<td></td>").text(msg.emergencyLevel).css({
-                    	"width": "35px", /* 두 번째 열 너비 */                        
+                    	"width": "50px", /* 두 번째 열 너비 */                        
                         "background-color": emergencyLevelColor,
                         "text-align" : "center"
                     }));
@@ -1041,7 +1131,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
-                        "text-align" : "center"
+                        "text-align" : "center" 
+                        
                     }));
                     row.append($("<td></td>").text(msg.messageContext).css({
                     	"width": "300px", /* 네 번째 열 너비 */
@@ -1102,7 +1193,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         "text-overflow": "ellipsis",
                         "max-width": "90px",
                         "padding": "6px",
-                        "background-color":"#F5F5F5"
+                        "background-color":"#F5F5F5",
+                        "text-align" : "center"
                     }));
                     
                      // 위험도에 따른 배경색 설정
@@ -1127,7 +1219,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         "text-align" : "center"
                     }));
                     row.append($("<td></td>").text(msg.msgRegDt).css({
-                        "width": "30px", /* 세 번째 열 너비 */
+                        "width": "50px", /* 세 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
@@ -1172,7 +1264,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			let titleText ='전국 최근 한달 재난 문자 누적 통계';
 			console.log(statistics.locCode);
 			if(statistics.locCode!=1000000000){
-				titleText ='우리동네 최근 한달 재난 문자 누적 통계'
+				titleText ='['+ locationString + ']<br> 최근 한달 재난 문자 누적 통계'
 			}
 		    $("#graphContainer").empty();
             Highcharts.chart('graphContainer', {
