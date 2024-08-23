@@ -463,7 +463,7 @@ function shelterRetrieve(pageNo,totalCnt) {
 		}
 		
 		let type = "GET";
-		let url = "http://localhost:8080/ehr/shelter/shelter";
+		let url = "/ehr/shelter/shelter";
 		let async = "false";
 		let dataType = "html";
 		
@@ -530,7 +530,7 @@ function shelterRetrieve(pageNo,totalCnt) {
 
 function openKakaoMap(lat,lon,facilityName){
     //팝업창 생성
-    var popup = window.open("http://localhost:8080/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
+    var popup = window.open("/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
 }//-- openKakaoMap end  
 
 </script>

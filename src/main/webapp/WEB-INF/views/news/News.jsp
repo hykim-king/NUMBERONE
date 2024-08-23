@@ -39,7 +39,7 @@ class StatisticsCondition {
     	let condition = new StatisticsCondition(startDate,endDate,pageNo,pageSize,searchDiv,searchWord);
     	console.log(condition);
     	
-    	fetch('http://localhost:8080/ehr/news/doRetrieve', {
+    	fetch('/ehr/news/doRetrieve', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ class StatisticsCondition {
             	messageData = data;
             	messageData.forEach(function(item) {
             	    // 새로운 tr 요소 생성
-            	    var $tr = $("<tr onclick='location.href=\"http://localhost:8080/ehr/news/" + item.newsSeq + "\"'>");
+            	    var $tr = $("<tr onclick='location.href=\"/ehr/news/" + item.newsSeq + "\"'>");
 
             	    // td 요소 추가
             	    $tr.append($("<td>").text(item.newsSeq));

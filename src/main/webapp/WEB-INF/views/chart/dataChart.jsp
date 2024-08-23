@@ -167,7 +167,7 @@
 
         function callServer(startDate, endDate) {
             const condition = new StatisticsCondition(2811010100, startDate, endDate);
-            fetch('http://localhost:8080/ehr/messages', {
+            fetch('/ehr/messages', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -37,6 +37,7 @@ public class DisasterMsgPageController implements PLog{
 	      
 	      return viewName;
 	   }
+		
 		@GetMapping("/disasterMsg/{seq}")
 	    public String getMessageDetail(@PathVariable int seq, Model model) {
 	        // seq에 해당하는 뉴스 찾기
@@ -58,6 +59,29 @@ public class DisasterMsgPageController implements PLog{
 	            
 	        }
 	        return "disasterMessage/msgDetail"; // JSP 페이지 이름
+	    }
+		
+		@GetMapping("/disasterMsgFromMain/{seq}")
+	    public String getMessageDetailFromMain(@PathVariable int seq, Model model) {
+	        // seq에 해당하는 뉴스 찾기
+			log.debug(seq);
+			DisasterMsg inVO =new DisasterMsg();
+			inVO.setMessageSeq(seq);
+			DisasterMsg msg=null;
+			try {
+				msg = disasterMsgService.doSelectOneWithDetails(inVO);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	        if (msg != null) {
+	            model.addAttribute("msg", msg);
+	            
+	        } else {
+	            
+	        }
+	        return "disasterMessage/msgDetailFromMain"; // JSP 페이지 이름
 	    }
 
 }

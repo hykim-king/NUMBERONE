@@ -334,7 +334,7 @@
 	        
 	    	    let locCode = 0;
 	    	    let type = "GET";
-	    	    let url = "http://localhost:8080/ehr/location/location";
+	    	    let url = "/ehr/location/location";
 	    	    let async = "true";
 	    	    let dataType = "html";
 	    	    
@@ -375,7 +375,7 @@
 	    
 	    let locCode = $("#sido option:selected").val();
 	    let type = "GET";
-	    let url = "http://localhost:8080/ehr/location/location_sigungu";
+	    let url = "/ehr/location/location_sigungu";
 	    let async = "true";
 	    let dataType = "html";
 	    
@@ -410,7 +410,7 @@
 	    
 	    let locCode = $("#sigungu option:selected").val();
 	    let type = "GET";
-	    let url = "http://localhost:8080/ehr/location/location_eupmyeondong";
+	    let url = "/ehr/location/location_eupmyeondong";
 	    let async = "true";
 	    let dataType = "html";
 	    
@@ -812,7 +812,7 @@
 	</head>
 	<body>
 		    <div>
-		        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
+		        <a href="/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
 		    </div>
 		    
  <section>
@@ -836,7 +836,7 @@
                             </div>
                             <div class="hr"></div>
                             <div class="foot-lnk">
-                                <a href="http://localhost:8080/ehr/member/findIdPw.do">아이디나 비밀번호를 잊으셨나요?</a>
+                                <a href="/ehr/member/findIdPw.do">아이디나 비밀번호를 잊으셨나요?</a>
                             </div>
                         </div>
                     </form>

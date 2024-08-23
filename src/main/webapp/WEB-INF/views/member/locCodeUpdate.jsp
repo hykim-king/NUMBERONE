@@ -115,7 +115,7 @@ body {
 
 
 function getSession() {
-    fetch('http://localhost:8080/ehr/session/api/session', {
+    fetch('/ehr/session/api/session', {
         method: 'GET',
         credentials: 'include' // 쿠키 포함
     })
@@ -147,7 +147,7 @@ function getSession() {
 }
 
 function locToAddress(locCode) {
-    const url = new URL('http://localhost:8080/ehr/location/locToAddress');
+    const url = new URL('/ehr/location/locToAddress');
     url.searchParams.append('locCode', locCode);
 
     fetch(url, {
@@ -201,7 +201,7 @@ class StatisticsCondition {
 
 function callServer(locCode,startDate, endDate) {
     const condition = new StatisticsCondition(locCode, startDate, endDate);
-    fetch('http://localhost:8080/ehr/statistics/3', {
+    fetch('/ehr/statistics/3', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -262,7 +262,7 @@ $(document).ready(function(){
         
             let locCode = 0;
             let type = "GET";
-            let url = "http://localhost:8080/ehr/location/location";
+            let url = "/ehr/location/location";
             let async = "true";
             let dataType = "html";
             
@@ -303,7 +303,7 @@ function sigunguSet(){
     
     let locCode = $("#sido option:selected").val();
     let type = "GET";
-    let url = "http://localhost:8080/ehr/location/location_sigungu";
+    let url = "/ehr/location/location_sigungu";
     let async = "true";
     let dataType = "html";
     
@@ -338,7 +338,7 @@ function eupmyeondongSet() {
     
     let locCode = $("#sigungu option:selected").val();
     let type = "GET";
-    let url = "http://localhost:8080/ehr/location/location_eupmyeondong";
+    let url = "/ehr/location/location_eupmyeondong";
     let async = "true";
     let dataType = "html";
     

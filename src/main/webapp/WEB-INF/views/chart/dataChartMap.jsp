@@ -292,7 +292,7 @@
 
         function callServer(startDate, endDate, disasterType) {
             const condition = new StatisticsCondition(1000000000, startDate, endDate, disasterType);
-            fetch('http://localhost:8080/ehr/statistics/4', {
+            fetch('/ehr/statistics/4', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

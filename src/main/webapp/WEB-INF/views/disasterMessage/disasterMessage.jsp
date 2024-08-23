@@ -285,7 +285,7 @@ function retrieve(){
 	let condition = new StatisticsCondition(loccode,startDate,endDate,pageNo,pageSize);
 	console.log(condition);
 	
-	fetch('http://localhost:8080/ehr/messageRetrieve2', {
+	fetch('/ehr/messageRetrieve2', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -307,7 +307,7 @@ function retrieve(){
         	messageData = data;
         	messageData.forEach(function(item) {
         	    // 새로운 tr 요소 생성
-        	    var $tr = $("<tr onclick='location.href=\"http://localhost:8080/ehr/disasterMsg/disasterMsg/" + item.messageSeq + "\"'>");
+        	    var $tr = $("<tr onclick='location.href=\"/ehr/disasterMsg/disasterMsg/" + item.messageSeq + "\"'>");
 
         	    // td 요소 추가
         	    $tr.append($("<td>").text(item.messageSeq));

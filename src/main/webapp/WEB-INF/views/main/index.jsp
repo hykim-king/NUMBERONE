@@ -674,10 +674,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
 		        <div class="myPageZone">
 		            <div class="mypageDiv">NO.1</div>
-		            <a href="http://localhost:8080/ehr/member/signInUp.do"><button id="loginGoBtn" >로그인하러가기</button></a>
+		            <a href="/ehr/member/signInUp.do"><button id="loginGoBtn" >로그인하러가기</button></a>
 		            <p id= "showName"></p>
 		            <p id= "showLocation">* 로그인 하시면 맞춤 정보로 확인 가능 합니다. </p>
-		            <a href="http://localhost:8080/ehr/member/locCodeUpdate.do" ><button id="locResetButton" >위치 재설정</button></a>
+		            <a href="/ehr/member/locCodeUpdate.do" ><button id="locResetButton" >위치 재설정</button></a>
 		        </div>
 		        
 		        
@@ -700,14 +700,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			        </div>
                         <div id="sheltersBtn">
                              <ul>
-                                 <li><a href="http://localhost:8080/ehr/location/location/1">민방위 대피시설</a></li>
-                                 <li><a href="http://localhost:8080/ehr/location/location/2">민방위 급수시설</a></li>
-                                 <li><a href="http://localhost:8080/ehr/location/location/3">지진대피장소</a></li>
-                                 <li><a href="http://localhost:8080/ehr/location/location/5">지진겸용 임시주거시설</a></li>
-                                 <li><a href="http://localhost:8080/ehr/location/location/6">이재민 임시주거시설</a></li>
-                                 <li><a href="http://localhost:8080/ehr/location/location/7">화학사고 대피장소</a></li>
-                                 <li><a href="http://localhost:8080/ehr/location/location/8">무더위 쉼터</a></li>
-                                 <li><a href="http://localhost:8080/ehr/location/location/9">미세먼지 쉼터</a></li>
+                                 <li><a href="/ehr/location/location/1">민방위 대피시설</a></li>
+                                 <li><a href="/ehr/location/location/2">민방위 급수시설</a></li>
+                                 <li><a href="/ehr/location/location/3">지진대피장소</a></li>
+                                 <li><a href="/ehr/location/location/5">지진겸용 임시주거시설</a></li>
+                                 <li><a href="/ehr/location/location/6">이재민 임시주거시설</a></li>
+                                 <li><a href="/ehr/location/location/7">화학사고 대피장소</a></li>
+                                 <li><a href="/ehr/location/location/8">무더위 쉼터</a></li>
+                                 <li><a href="/ehr/location/location/9">미세먼지 쉼터</a></li>
                              </ul>
                         </div>
                         			
@@ -759,10 +759,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="behavior">
                         <h3>재난 발생 시 국민행동요령</h3>
                         <ul>
-                        <li><a href="http://localhost:8080/ehr/nature/natureMain.do">자연재난행동요령</a></li>
-                        <li><a href="http://localhost:8080/ehr/society/societyMain.do">사회재난행동요령</a></li>
-                        <li><a href="http://localhost:8080/ehr/living/livingMain.do">생활안전행동요령</a></li>
-                        <li><a href="http://localhost:8080/ehr/emergencyPre/emergencyPreMain.do">비상대비행동요령</a></li>
+                        <li><a href="/ehr/nature/natureMain.do">자연재난행동요령</a></li>
+                        <li><a href="/ehr/society/societyMain.do">사회재난행동요령</a></li>
+                        <li><a href="/ehr/living/livingMain.do">생활안전행동요령</a></li>
+                        <li><a href="/ehr/emergencyPre/emergencyPreMain.do">비상대비행동요령</a></li>
                         </ul>
                     </div>
                 </div>
@@ -776,10 +776,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="search">
                         <h3>재난발생 정보 조회</h3>
                         <ul>
-                        <li><a href="http://localhost:8080/ehr/disasterMsg/disasterMsg">재난문자</a></li>
-                        <li><a href="http://localhost:8080/ehr/news">안전뉴스</a></li>
-                        <li><a href="http://localhost:8080/ehr/video/videoView.do">훈련영상</a></li>
-                        <li><a href="http://localhost:8080/ehr/location/location/1">대피시설</a></li>
+                        <li><a href="/ehr/disasterMsg/disasterMsg">재난문자</a></li>
+                        <li><a href="/ehr/news">안전뉴스</a></li>
+                        <li><a href="/ehr/video/videoView.do">훈련영상</a></li>
+                        <li><a href="/ehr/location/location/1">대피시설</a></li>
                         </ul>
                     </div>
                 </div>
@@ -803,7 +803,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 		function getSession() {
-		    fetch('http://localhost:8080/ehr/session/api/session', {
+		    fetch('/ehr/session/api/session', {
 		        method: 'GET',
 		        credentials: 'include' // 쿠키 포함
 		    })
@@ -858,7 +858,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		    console.log("getShelter()");
 
 		    let type = "GET";
-		    let url = "http://localhost:8080/ehr/shelter/shelter";
+		    let url = "/ehr/shelter/shelter";
 		    let async = "false";
 		    let dataType = "html";
 
@@ -911,12 +911,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         function openKakaoMap(lat,lon,facilityName){
             //팝업창 생성
-            var popup = window.open("http://localhost:8080/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
+            var popup = window.open("/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
         }//-- openKakaoMap end
 		
 		
 		function locToAddress(locCode) {
-		       const url = new URL('http://localhost:8080/ehr/location/locToAddress');
+			    const url = new URL('/ehr/location/locToAddress', window.location.origin);
 		        url.searchParams.append('locCode', locCode);
 		
 		        fetch(url, {
@@ -996,7 +996,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	                    const img = document.createElement('img');
 	                    img.src = '/ehr/resources/images/' + type + '.png';
 	                    img.alt = type;
-	                    slide.href = 'http://localhost:8080/ehr/' + typeLink + '.do';
+	                    slide.href = '/ehr/' + typeLink + '.do';
 	                    slide.appendChild(img);
 	                    slidesContainer.appendChild(slide);
 	                    const navButton = document.createElement('button');
@@ -1070,7 +1070,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const disasterTypeSet = new Set();
 		function getDisasterMsgListAll(){
 			
-            fetch('http://localhost:8080/ehr/messages', {
+            fetch('/ehr/messages', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1168,7 +1168,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			tempDate.setMonth(today.getMonth() - 1);
 			const endDay=formatDate(tempDate);
 			const condition = new StatisticsCondition(locCode, startDay, endDay);
-            fetch('http://localhost:8080/ehr/messageRetrieve', {
+            fetch('/ehr/messageRetrieve', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1294,7 +1294,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         function callServer(locCode,startDate, endDate) {
         	const condition = new StatisticsCondition(locCode, startDate, endDate);
-            fetch('http://localhost:8080/ehr/statistics/3', {
+            fetch('/ehr/statistics/3', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1344,7 +1344,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         function callServerUpward(locCode,startDate, endDate) {
         	const condition = new StatisticsCondition(locCode, startDate, endDate);
-            fetch('http://localhost:8080/ehr/statistics/1', {
+            fetch('/ehr/statistics/1', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
