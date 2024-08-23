@@ -487,7 +487,7 @@ function shelterRetrieve(pageNo,totalCnt) {
               if (shelterData.length === 0) {
                      maxPageNo = 0;
                      $("#shelterList").append($("<tr>"));
-                     $("#shelterList").append($("<td class='text-center' colspan='4'>").html("대피소가 없는 지역입니다."));
+                     $("#shelterList").append($("<td class='text-center' colspan='4'>").html("쉼터가 없는 지역입니다."));
                      $("#shelterList").append($("</tr>"));
                      $("#totalCnt").data("total", 0); // "totald"을 0으로 초기화
                      $("#currentPageNo").text("1/1");
