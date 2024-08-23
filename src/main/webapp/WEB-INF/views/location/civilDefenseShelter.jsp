@@ -519,7 +519,7 @@ function shelterRetrieve(pageNo,totalCnt) {
 			          });
 		              
 		              
-		      /*hover 효과---------------------------------------------------------------------- */
+		              /*hover 효과---------------------------------------------------------------------- */
 		              $("#shelterList").append($("<tr>")
 		                      .append(roadAddressElement)
 		                      .append($("<td>").text(item.facilityName))
@@ -530,10 +530,7 @@ function shelterRetrieve(pageNo,totalCnt) {
 		                          function () { $(this).css("background-color", ""); }      
 		                      )
 		                  );
-		      
-		      
-		      
-			              //-------------------------------------------------------------------------------
+			           //-------------------------------------------------------------------------------
 			              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
 			              maxPageNo = Math.ceil(totalCount / 10);
 			              $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);

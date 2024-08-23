@@ -1,7 +1,7 @@
 <%--
 /**
-	Class Name: civilDefenseShelter.jsp
-	Description: 민방위 대피시설
+	Class Name: 
+	Description: 무더위 쉼터
 	Author: Jinseo
 	Modification information
 	
@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">  
 <link href="/ehr/resources/css/behavior.css" rel="stylesheet" />
-<title>대피시설</title>
+<title>쉼터 - 무더위쉼터</title>
 <style>
 * {
     margin: 0;
@@ -291,21 +291,24 @@ function eupmyeondongSet() {
 	    
 	    <div class="container-sm" id="content" style="display: block;">
 	        <div class="level1_titleWrap">
-	          <h2 class="level1_title">대피시설</h2>
+	          <h2 class="level1_title">쉼터</h2>
 	        </div>
+	    </div>
 	    
-	        <div class="contextIndent_oneDepList">
-	            <li><span class="dot_bulTxt_txtIndent">· 시도, 시군구별로 대피시설 정보를 조회하실 수 있습니다.</span></li><br>
-	            <li><span class="dot_bulTxt_txtIndent">· 세종특별자치시는 시군구가 없으므로 읍면동에서 조회하시기 바랍니다.</span></li><br>
-	            <li><span class="dot_bulTxt_txtIndent">· 지도 아이콘을 클릭하시면 지도를 통해 위치를 확인하실 수 있습니다.</span></li><br>
-	            <li><span class="dot_bulTxt_txtIndent">· 본 지도는 네이버에서 제공하는 서비스로 실제와 차이가 있을 수 있습니다.</span></li><br>  
-	            <li><span class="dot_bulTxt_txtIndent">· 민방위사태 발생시 주민의 생명과 재산을 보호하기 위하여 정부지원으로 설치 또는 공공용으로 지정 지하 대피시설</span></li>
-	            <li><span class="dot_bulTxt_txtIndent" style="color:#134b70; font-weight:600; ">· 주거지역의 대피시설이 검색되지 않을 경우(법정동과 행정동의 차이)인근 지역으로 재검색 시행 필요</span></li>
-	            <li><span class="dot_bulTxt_txtIndent" style="color:#134b70; font-weight:600;">· 타 시스템 연계를 통해 제공되는 정보로 일시적 장애 및 조회 지연이 있을 수 있습니다.</span></li>
-	            <li><span class="dot_bulTxt_txtIndent" style="color:#134b70; font-weight:600;">· 행정구역 경계에 위치한 시설은 활용도에 따라 인접 관할 행정기관에서 해당 시설을 관리할 수 있어 검색된 시설의 주소가 인접 시군구(읍면동)로 검색  될 수 있습니다.</span></li>
-	        </div>
+	        <div id="shelterSelect">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a id="shelter30" href="/ehr/location/location/8" title="선택됨" tabindex="0" class="nav-link active">무더위쉼터</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="shelter40" href="/ehr/location/location/9" title="선택됨" tabindex="0" class="nav-link">미세먼지쉼터</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="shelter40" href="/ehr/location/location/10" title="선택됨" tabindex="0" class="nav-link">한파쉼터</a>
+                    </li>
+                </ul>
+            </div>
 	        
-	     </div>
 	        <div class="container-sm">
 	            <form action="#" name="locationForm" class="row g-2 align-items-right" id="locationForm">
 	                <div class="row g-3">
@@ -326,9 +329,9 @@ function eupmyeondongSet() {
 	        </div>
 	        
 	     <div class="container mt-4">
-	    <div class="d-flex justify-content-between align-items-center">
-	        <h5 id="totalCnt">전체  0 건</h5>
-	    </div>
+		    <div class="d-flex justify-content-between align-items-center">
+		        <h5 id="totalCnt">전체  0 건</h5>
+		    </div>
 	    
 	    <div class="header-line"></div>
 	
@@ -336,7 +339,6 @@ function eupmyeondongSet() {
 	        <colgroup>
 	            <col style="width:46%">
 	            <col style="width:13%">
-	            <col style="width:7%">
 	            <col style="width:10%">  
 	        </colgroup>
 	    
@@ -344,8 +346,7 @@ function eupmyeondongSet() {
 	            <tr class="table-light.table-striped">
 	                <th class="text-center">위치</th>
 	                <th class="text-center">시설</th>
-	                <th class="text-center">규모</th>
-	                <th class="text-center">최대수용인원</th>
+	                <th class="text-center">이용가능인원</th>
 	            </tr>
 	        </thead>
 	        <tbody id="shelterList">
@@ -366,7 +367,7 @@ function eupmyeondongSet() {
 	                <a class="page-link" href="#" id="pageNext" type="button">다음</a>
 	            </li>
 	        </ul>
-	        <h5 class="mt-4">소관부서 : 위기관리지원과 (044-205-4432)</h5>
+	        <h5 class="mt-4">소관부서 : 기후재난대응과 (044-205-6363)</h5>
 	    </nav>
 	</div>
 </div>
@@ -471,7 +472,7 @@ function shelterRetrieve(pageNo,totalCnt) {
 		
 		let params = {
 			"locCode" : locCode,
-			"shelterDiv" : "10",
+			"shelterDiv" : "80",
 			"pageNo" : pageNo
 		};
 		
@@ -484,7 +485,7 @@ function shelterRetrieve(pageNo,totalCnt) {
 	          if (shelterData.length === 0) {
 	        	     maxPageNo = 0;
                      $("#shelterList").append($("<tr>"));
-                     $("#shelterList").append($("<td class='text-center' colspan='4'>").html("대피소가 없는 지역입니다."));
+                     $("#shelterList").append($("<td class='text-center' colspan='3'>").html("쉼터가 없는 지역입니다."));
                      $("#shelterList").append($("</tr>"));
                      $("#totalCnt").data("total", 0); // "totald"을 0으로 초기화
                      $("#currentPageNo").text("1/1");
@@ -501,21 +502,28 @@ function shelterRetrieve(pageNo,totalCnt) {
 	        	 
 	        	 $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
 	        	 
-		        	  // roadAddress 클릭 이벤트 추가
-		              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
-		              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
-		              roadAddressElement.on("click", function(event) {
-		            	  openKakaoMap(item.lat,item.lon,item.facilityName);
-			          });
-		              
-		                  $("#shelterList").append($("<tr>"));
-			        	  $("#shelterList").append(roadAddressElement);
-			              $("#shelterList").append($("<td>").text(item.facilityName));
-			              $("#shelterList").append($("<td>").text(item.scale + "m²"));
-			              $("#shelterList").append($("<td>").text(item.maxCapacity + "명"));
-			              $("#shelterList").append($("</tr>"));
-			              
-			              //-------------------------------------------------------------------------------
+		        	// roadAddress 클릭 이벤트 추가
+	                 let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+	                 roadAddressElement.css({
+	                     "cursor": "pointer"
+	                 }); // 클릭 가능한 커서 스타일
+	                 
+	                 roadAddressElement.on("click", function(event) {
+	                     openKakaoMap(item.lat,item.lon,item.facilityName);
+	                 });
+	                 
+	                 
+	                 /*hover 효과---------------------------------------------------------------------- */
+	                 $("#shelterList").append($("<tr>")
+	                         .append(roadAddressElement)
+	                         .append($("<td>").text(item.facilityName))
+	                         .append($("<td>").text(item.maxCapacity + "명"))
+	                         .hover(
+	                             function () { $(this).css("background-color", "#eeeeee"); }, 
+	                             function () { $(this).css("background-color", ""); }      
+	                         )
+	                     );
+	                  //-------------------------------------------------------------------------------
 			              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
 			              maxPageNo = Math.ceil(totalCount / 10);
 			              $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);

@@ -72,7 +72,7 @@ body {
     color: #2c3e50;
     margin-bottom: 20px;
 }
-.btn {
+#search{
     padding: 10px 20px;
     font-size: 1rem;
     border-radius: 5px;
@@ -181,6 +181,29 @@ body {
 .page-link {
     margin: 0 5px; /* 좌우 여백 추가 */
 }
+
+#shelterSelect {
+	width: 900px;
+	height: 100px;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	font-size: 30px;
+	text-align: center;
+}
+
+#shelter30 {
+    display: block;
+    height: 50px;
+    border-width: 1px 0 0 1px;
+    border-style: solid;
+    border-color: #ddd;
+    font-size: 35px;
+    line-height: 1;
+    text-align: center;
+    }
 
 </style>
 <script>
@@ -292,18 +315,23 @@ function eupmyeondongSet() {
 		        </div>
 		    </div>
 		
-		
-		    <div class="container text-center">
-			    <div class="row">
-			        <div class="col">
-			            1 of 2
-			        </div>
-			        <div class="col">
-			            2 of 2
-			        </div>
-			    </div>
+            <div id="shelterSelect">
+			    <ul class="nav nav-tabs">
+			        <li class="nav-item">
+			            <a id="shelter30" href="/ehr/location/location/3" title="선택됨" tabindex="0" class="nav-link active">지진옥외대피장소</a>
+			        </li>
+			        <li class="nav-item">
+			            <a id="shelter40" href="/ehr/location/location/4" title="선택됨" tabindex="0" class="nav-link">지진해일 긴급대피장소</a>
+			        </li>
+			    </ul>
 			</div>
-	     
+            
+            <div>
+               <h5>
+                <p>지진발생초기 운동장,공터 등 구조물 파손 및 낙하물로부터 안전한 외부 대피장소입니다.</p>
+               </h5>
+            </div>
+            
 	        <div class="container-sm">
 	            <form action="#" name="locationForm" class="row g-2 align-items-right" id="locationForm">
 	                <div class="row g-3">
@@ -499,22 +527,29 @@ function shelterRetrieve(pageNo,totalCnt) {
 	        	 
 	        	 $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
 	        	 
-		        	  // roadAddress 클릭 이벤트 추가
-		              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
-		              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
-		              roadAddressElement.on("click", function(event) {
-		            	openKakaoMap(item.lat,item.lon,item.facilityName);
-			          });
-		              
-		                  $("#shelterList").append($("<tr>"));
-			              $("#shelterList").append($("<td>").text(item.facilityName));
-			        	  $("#shelterList").append(roadAddressElement);
-			              $("#shelterList").append($("<td>").text(item.scale + "m²"));
-                          $("#shelterList").append($("<td>").text(item.maxCapacity + "명"));
-                          $("#shelterList").append($("<td>").text(item.contactInfo));
-			              $("#shelterList").append($("</tr>"));
-			              
-			              //-------------------------------------------------------------------------------
+	        	 // roadAddress 클릭 이벤트 추가
+                 let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+                 roadAddressElement.css({
+                     "cursor": "pointer"
+                 }); // 클릭 가능한 커서 스타일
+                 
+                 roadAddressElement.on("click", function(event) {
+                     openKakaoMap(item.lat,item.lon,item.facilityName);
+                 });
+                 
+                 
+                 /*hover 효과---------------------------------------------------------------------- */
+                 $("#shelterList").append($("<tr>")
+                         .append($("<td>").text(item.facilityName))
+                         .append(roadAddressElement)
+                         .append($("<td>").text(item.scale + "m²"))
+                         .append($("<td>").text(item.contactInfo))
+                         .hover(
+                             function () { $(this).css("background-color", "#eeeeee"); }, 
+                             function () { $(this).css("background-color", ""); }      
+                         )
+                     );
+                  //-------------------------------------------------------------------------------
 			              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
 			              maxPageNo = Math.ceil(totalCount / 10);
 			              $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);

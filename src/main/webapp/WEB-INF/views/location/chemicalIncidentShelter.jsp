@@ -334,7 +334,7 @@ function eupmyeondongSet() {
 	                <th class="text-center">시설명</th>
 	                <th class="text-center">위치</th>
 	                <th class="text-center">수용가능인원</th>
-	                <th class="text-center">관리기관전화번호</th>
+	                <th class="text-center">연락처</th>
 	            </tr>
 	        </thead>
 	        <tbody id="shelterList">
@@ -490,23 +490,29 @@ function shelterRetrieve(pageNo,totalCnt) {
 	        	 
 	        	 $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
 	        	 
-		        	  // roadAddress 클릭 이벤트 추가
-		              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
-		              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
-		              roadAddressElement.on("click", function(event) {
-		            	  openKakaoMap(item.lat,item.lon,item.facilityName);
-			          });
-		              
-		                  $("#shelterList").append($("<tr>"));
-			              $("#shelterList").append($("<td>").text(item.facilityName));
-			        	  $("#shelterList").append(roadAddressElement);
-			              $("#shelterList").append($("<td>").text(item.maxCapacity + "명"));
-			              $("#shelterList").append($("<td>").text(item.contactInfo));
-			              $("#shelterList").append($("</tr>"));
-			              
-			              
-			              
-			              //-------------------------------------------------------------------------------
+		        	// roadAddress 클릭 이벤트 추가
+	                 let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+	                 roadAddressElement.css({
+	                     "cursor": "pointer"
+	                 }); // 클릭 가능한 커서 스타일
+	                 
+	                 roadAddressElement.on("click", function(event) {
+	                     openKakaoMap(item.lat,item.lon,item.facilityName);
+	                 });
+	                 
+	                 
+	                 /*hover 효과---------------------------------------------------------------------- */
+	                 $("#shelterList").append($("<tr>")
+	                         .append($("<td>").text(item.facilityName))
+	                         .append(roadAddressElement)
+	                         .append($("<td>").text(item.maxCapacity + "명"))
+	                         .append($("<td>").text(item.contactInfo))
+	                         .hover(
+	                             function () { $(this).css("background-color", "#eeeeee"); }, 
+	                             function () { $(this).css("background-color", ""); }      
+	                         )
+	                     );
+	                  //-------------------------------------------------------------------------------
 			              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
 			              maxPageNo = Math.ceil(totalCount / 10);
 			              $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);

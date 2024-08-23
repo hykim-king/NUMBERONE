@@ -479,7 +479,7 @@ function shelterRetrieve(pageNo,totalCnt) {
 	          if (shelterData.length === 0) {
 	        	     maxPageNo = 0;
                      $("#shelterList").append($("<tr>"));
-                     $("#shelterList").append($("<td class='text-center' colspan='4'>").html("대피소가 없는 지역입니다."));
+                     $("#shelterList").append($("<td class='text-center' colspan='3'>").html("대피소가 없는 지역입니다."));
                      $("#shelterList").append($("</tr>"));
                      $("#totalCnt").data("total", 0); // "totald"을 0으로 초기화
                      $("#currentPageNo").text("1/1");
@@ -496,20 +496,28 @@ function shelterRetrieve(pageNo,totalCnt) {
 	        	 
 	        	 $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
 	        	 
-		        	  // roadAddress 클릭 이벤트 추가
-		              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
-		              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
-		              roadAddressElement.on("click", function(event) {
-		            	openKakaoMap(item.lat,item.lon,item.facilityName);
-			          });
-		              
-		                  $("#shelterList").append($("<tr>"));
-			        	  $("#shelterList").append(roadAddressElement);
-			              $("#shelterList").append($("<td>").text(item.facilityName));
-			              $("#shelterList").append($("<td>").text(item.scale + "m²"));
-			              $("#shelterList").append($("</tr>"));
-			              
-			              //-------------------------------------------------------------------------------
+	        	// roadAddress 클릭 이벤트 추가
+                 let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+                 roadAddressElement.css({
+                     "cursor": "pointer"
+                 }); // 클릭 가능한 커서 스타일
+                 
+                 roadAddressElement.on("click", function(event) {
+                     openKakaoMap(item.lat,item.lon,item.facilityName);
+                 });
+                 
+                 
+                 /*hover 효과---------------------------------------------------------------------- */
+                 $("#shelterList").append($("<tr>")
+                         .append(roadAddressElement)
+                         .append($("<td>").text(item.facilityName))
+                         .append($("<td>").text(item.scale + "m²"))
+                         .hover(
+                             function () { $(this).css("background-color", "#eeeeee"); }, 
+                             function () { $(this).css("background-color", ""); }      
+                         )
+                     );
+                  //-------------------------------------------------------------------------------
 			              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
 			              maxPageNo = Math.ceil(totalCount / 10);
 			              $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
