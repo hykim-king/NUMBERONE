@@ -200,7 +200,7 @@
         <div id="navWrap">
             <ul>
                 <li><a id="navMenu1" href="#">재난상황</a></li>
-                <li><a id="navMenu2" href="#">안전뉴스</a></li>
+                <li><a id="navMenu2" href="http://localhost:8080/ehr/news">안전뉴스</a></li>
                 
                 <li><a id="navMenu3" href="#">재난대비</a></li>
                 <li><a id="navMenu4" href="#">행동요령</a></li>

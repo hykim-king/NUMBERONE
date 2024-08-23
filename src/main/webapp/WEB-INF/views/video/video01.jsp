@@ -18,6 +18,32 @@
             window.location.href = selectedValue;
         }
     }
+    
+    window.onload = function() {
+        var currentURL = window.location.pathname;
+        console.log("Current URL:", currentURL);
+        var selectBox = document.getElementById("categorySelect");
+        for (var i = 0; i < selectBox.options.length; i++) {
+            var optionValue = selectBox.options[i].value;
+            console.log("Checking option:", optionValue);
+            if (optionValue && currentURL.endsWith(optionValue.split("/").pop())) {
+                selectBox.selectedIndex = i;
+                console.log("Selected index:", i);
+                break;
+            }
+        }
+    }
+    
+    function changeVideo(videoSrc, videoTitle) {
+        var iframe = document.getElementById('mainVideo');
+        if (iframe) {
+            iframe.src = videoSrc;
+            var titleElement = document.getElementById('videoTitle');
+            if (titleElement) {
+                titleElement.textContent = videoTitle;
+            }
+        }
+    }
 </script>
 <style>
     main {
@@ -25,9 +51,13 @@
         max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
+    }
+
+    .header-container {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 20px;
     }
 
     .video-container {
@@ -40,19 +70,13 @@
         width: 70%;
     }
 
-    .main-video-header {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
     .related-videos {
         width: 25%;
     }
 
     h1 {
         color: #201e4b;
-        width: 100%;
-        text-align: center;
+        margin-bottom: 10px;
     }
 
     h2 {
@@ -64,16 +88,15 @@
     select {
         width: 200px;
         padding: 10px;
-        margin: 20px auto;
+        margin-bottom: 20px;
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 16px;
-        display: block;
     }
 
     iframe {
         width: 100%;
-        height: 400px;
+        height: 450px;
     }
 
     .related-video {
@@ -83,7 +106,7 @@
     }
 
     .related-video img {
-        width: 70%;
+        width: 80%;
         height: auto;
         cursor: pointer;
         margin-right: 10px;
@@ -100,69 +123,54 @@
 
 <main>
     <h1>훈련영상</h1>
-    <h2>침수</h2>
-    <div class="main-video">
-    <!-- 드롭다운 메뉴 추가 -->
-    <select id="categorySelect" onchange="navigateToCategory()">
-        <option value="">카테고리 선택</option>
-        <option value="http://localhost:8080/ehr/video/video01.do">침수</option>
-        <option value="http://localhost:8080/ehr/video/video02.do">태풍</option>
-        <option value="http://localhost:8080/ehr/video/video03.do">호우</option>
-        <option value="http://localhost:8080/ehr/video/video04.do">낙뢰</option>
-        <option value="http://localhost:8080/ehr/video/video05.do">폭염</option>
-        <option value="http://localhost:8080/ehr/video/video06.do">대설</option>
-        <option value="http://localhost:8080/ehr/video/video07.do">한파</option>
-        <option value="http://localhost:8080/ehr/video/video08.do">지진</option>
-        <option value="http://localhost:8080/ehr/video/video09.do">산사태</option>
-        <option value="http://localhost:8080/ehr/video/video10.do">황사</option>
-        <option value="http://localhost:8080/ehr/video/video11.do">테러</option>
-        <option value="http://localhost:8080/ehr/video/video12.do">핵</option>
-        <option value="http://localhost:8080/ehr/video/video13.do">화학</option>
-        <option value="http://localhost:8080/ehr/video/video14.do">생물학</option>
-        <option value="http://localhost:8080/ehr/video/video15.do">화재</option>
-        <option value="http://localhost:8080/ehr/video/video16.do">폭발사고</option>
-        <option value="http://localhost:8080/ehr/video/video17.do">원전사고</option>
-        <option value="http://localhost:8080/ehr/video/video18.do">감염병</option>
-    </select>    
-    <iframe 
-        src="https://www.youtube.com/embed/DMW_RxrbOcc?si=qdoTOgIe294GWzKT" 
-        title="YouTube video player" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        allowfullscreen>
-    </iframe>
-    </div>
-    <div class="related-videos">
-        <h2>추천 영상</h2>
-        <div class="related-video">
-            <a href="http://localhost:8080/ehr/video/video02.do">
-                <img src="/ehr/resources/thumbnail/typhoon_thumbnail.png" alt="태풍 영상">
-                <p>태풍 행동요령</p>
-            </a>
+    <div class="video-container">
+        <div class="main-video">
+            <!-- 드롭다운 메뉴 추가 -->
+            <select id="categorySelect" onchange="navigateToCategory()">
+                <option value="">카테고리 선택</option>
+                <option value="http://localhost:8080/ehr/video/video01.do">침수</option>
+                <option value="http://localhost:8080/ehr/video/video02.do">태풍</option>
+                <option value="http://localhost:8080/ehr/video/video03.do">호우</option>
+                <option value="http://localhost:8080/ehr/video/video04.do">낙뢰</option>
+                <option value="http://localhost:8080/ehr/video/video05.do">폭염</option>
+                <option value="http://localhost:8080/ehr/video/video06.do">대설</option>
+                <option value="http://localhost:8080/ehr/video/video07.do">한파</option>
+                <option value="http://localhost:8080/ehr/video/video08.do">지진</option>
+                <option value="http://localhost:8080/ehr/video/video09.do">산사태</option>
+                <option value="http://localhost:8080/ehr/video/video10.do">황사</option>
+                <option value="http://localhost:8080/ehr/video/video11.do">테러</option>
+                <option value="http://localhost:8080/ehr/video/video12.do">핵</option>
+                <option value="http://localhost:8080/ehr/video/video13.do">화학</option>
+                <option value="http://localhost:8080/ehr/video/video14.do">생물학</option>
+                <option value="http://localhost:8080/ehr/video/video15.do">화재</option>
+                <option value="http://localhost:8080/ehr/video/video16.do">폭발사고</option>
+                <option value="http://localhost:8080/ehr/video/video17.do">원전사고</option>
+                <option value="http://localhost:8080/ehr/video/video18.do">감염병</option>
+            </select>    
+            <iframe 
+                id="mainVideo"
+                src="https://www.youtube.com/embed/DMW_RxrbOcc?si=qdoTOgIe294GWzKT" 
+                title="YouTube video player" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+            </iframe>
         </div>
-        <div class="related-video">
-            <a href="http://localhost:8080/ehr/video/video03.do">
-                <img src="/ehr/resources/thumbnail/downpour_thumbnail.png" alt="호우 영상">
-                <p>호우 행동요령</p>
-            </a>
-        </div>
-        <div class="related-video">
-            <a href="http://localhost:8080/ehr/video/video04.do">
-                <img src="/ehr/resources/thumbnail/lightning_thumbnail.png" alt="낙뢰 영상">
-                <p>낙뢰 행동요령</p>
-            </a>
-        </div>
-        <div class="related-video">
-            <a href="http://localhost:8080/ehr/video/video05.do">
-                <img src="/ehr/resources/thumbnail/heatwave_thumbnail.png" alt="폭염 영상">
-                <p>폭염 행동요령</p>
-            </a>
-        </div>
-        <div class="related-video">
-            <a href="http://localhost:8080/ehr/video/video09.do">
-                <img src="/ehr/resources/thumbnail/landslide_thumbnail.png" alt="산사태 영상">
-                <p>산사태 행동요령</p>
-            </a>
+        <div class="related-videos">
+            <h2>관련 영상</h2>
+            <div class="related-video" onclick="changeVideo('https://www.youtube.com/embed/midmGS9Kqjo?si=k8zq5E3pzW6kUumd')">
+                 <img src="/ehr/resources/thumbnail/flooding2_thumbnail.png" alt="침수2">
+            </div>
+            <div class="related-video" onclick="changeVideo('https://www.youtube.com/embed/cOQEdUBpLjg?si=n3dO_UpLrgX9MD1P')">
+                 <img src="/ehr/resources/thumbnail/flooding3_thumbnail.png" alt="침수3">
+            </div>
+            <div class="related-video" onclick="changeVideo('https://www.youtube.com/embed/AurI_lLpsz8?si=lZsjyzKWAEAEccdw')">
+                 <img src="/ehr/resources/thumbnail/flooding4_thumbnail.png" alt="침수4">
+            </div>
+            <div class="related-video" onclick="changeVideo('https://www.youtube.com/embed/HA0DcSdS_ic?si=kHnxi7sxJx0zdEB2')">
+                 <img src="/ehr/resources/thumbnail/flooding5_thumbnail.png" alt="침수5">
+            </div>
+            
         </div>
     </div>
 </main>

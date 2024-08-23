@@ -127,16 +127,17 @@ textarea.content-area {
 }
 
 #replyList .reply button {
-    background-color: #e74c3c;
+    background-color: #134b70;
     border: none;
     color: #fff;
-    padding: 5px 10px;
+    padding: 4px 8px;
     border-radius: 3px;
     cursor: pointer;
+    margin: 2px;
 }
 
 #replyList .reply button:hover {
-    background-color: #c0392b;
+    background-color: #201e4b;
 }
 
 /* 댓글 입력 폼 스타일 */
