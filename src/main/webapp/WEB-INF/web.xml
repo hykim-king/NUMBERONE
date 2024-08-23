@@ -31,7 +31,15 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     
-    
+    <filter>
+    <filter-name>corsFilter</filter-name>
+    <filter-class>com.pcwk.ehr.cors.SimpleCORSFilter</filter-class>
+      <async-supported>true</async-supported> <!-- 비동기 지원 추가 -->
+</filter>
+<filter-mapping>
+    <filter-name>corsFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
     
 
 </web-app>

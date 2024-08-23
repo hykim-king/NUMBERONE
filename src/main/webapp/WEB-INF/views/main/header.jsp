@@ -187,11 +187,11 @@
 <body>
     <div id="headerMenu">
         <ul>
-            <li><a href="http://localhost:8080/ehr/member/signInUp.do" id ="loginBtn">로그인/회원가입</a></li>
+            <li><a href="/ehr/member/signInUp.do" id ="loginBtn">로그인/회원가입</a></li>
         </ul>
     </div>
 	<div>
-	    <a href="http://localhost:8080/ehr/main/index.do">
+	    <a href="/ehr/main/index.do">
 	        <img src="/ehr/resources/images/logo1.png" alt="logo" id="logo">
 	    </a>
 	</div>
@@ -204,7 +204,7 @@
                 
                 <li><a id="navMenu3" href="#">재난대비</a></li>
                 <li><a id="navMenu4" href="#">행동요령</a></li>
-                <li><a id="navMenu5" href="http://localhost:8080/ehr/board/doRetrieve.do">커뮤니티</a></li>
+                <li><a id="navMenu5" href="/ehr/board/doRetrieve.do">커뮤니티</a></li>
             </ul>
 
             <div class="gnbWrap">
@@ -212,16 +212,16 @@
                     <li id="gnbWrap1">
                        
                         <ul>
-                            <li><a href="http://localhost:8080/ehr/disasterMsg/disasterMsg">재난 문자</a></li>
-                            <li><a href="http://localhost:8080/ehr/chart/dataChartMap.do">전국 통계 그래프</a></li>
-                            <li><a href="http://localhost:8080/ehr/chart/dataChart.do">지역 재난 그래프</a></li>
+                            <li><a href="/ehr/disasterMsg/disasterMsg">재난 문자</a></li>
+                            <li><a href="/ehr/chart/dataChartMap.do">전국 통계 그래프</a></li>
+                            <li><a href="/ehr/chart/dataChart.do">지역 재난 그래프</a></li>
                         </ul>
                     </li>
 
                     <li id="gnbWrap2">
                        
                         <ul>
-                            <li><a href="http://localhost:8080/ehr/news">안전뉴스</a></li>
+                            <li><a href="/ehr/news">안전뉴스</a></li>
                         </ul>
                     </li>
                     
@@ -232,24 +232,24 @@
                         
                         <ul>
                            
-                            <li><a href="http://localhost:8080/ehr/video/videoView.do">훈련영상</a></li>
-                            <li><a href="http://localhost:8080/ehr/location/location/1">대피시설</a></li>
+                            <li><a href="/ehr/video/videoView.do">훈련영상</a></li>
+                            <li><a href="/ehr/location/location/1">대피시설</a></li>
                         </ul>
                     </li>
                     
                     <li id="gnbWrap4">
                         
                         <ul>
-                            <li><a href="http://localhost:8080/ehr/nature/natureMain.do">자연재난행동요령</a></li>
-                            <li><a href="http://localhost:8080/ehr/society/societyMain.do">사회재난행동요령</a></li>
-                            <li><a href="http://localhost:8080/ehr/living/livingMain.do">생활안전행동요령</a></li>
-                            <li><a href="http://localhost:8080/ehr/emergencyPre/emergencyPreMain.do">비상대비행동요령</a></li>
+                            <li><a href="/ehr/nature/natureMain.do">자연재난행동요령</a></li>
+                            <li><a href="/ehr/society/societyMain.do">사회재난행동요령</a></li>
+                            <li><a href="/ehr/living/livingMain.do">생활안전행동요령</a></li>
+                            <li><a href="/ehr/emergencyPre/emergencyPreMain.do">비상대비행동요령</a></li>
                         </ul>
                     </li>
                     <li id="gnbWrap5">
                        
                         <ul>
-                            <li><a href="http://localhost:8080/ehr/board/doRetrieve.do">정보공유</a></li>
+                            <li><a href="/ehr/board/doRetrieve.do">정보공유</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -265,7 +265,7 @@
     let memberFromSession=null;
 
     function getSession() {
-        fetch('http://localhost:8080/ehr/session/api/session', {
+        fetch('/ehr/session/api/session', {
             method: 'GET',
             credentials: 'include' // 쿠키 포함
         })
@@ -297,7 +297,7 @@
     
     
     function logout() {
-        fetch('http://localhost:8080/ehr/member/logout.do', {
+        fetch('/ehr/member/logout.do', {
             method: 'GET',
             credentials: 'include' // 쿠키 포함
         })

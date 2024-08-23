@@ -227,7 +227,7 @@
 </head>
 <body>
     <div>
-        <a href="http://localhost:8080/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
+        <a href="/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
     </div>
     
     <section>
@@ -278,7 +278,7 @@
             </div>  <!-- find-wrap end -->
             
             <div class="foot-lnk">
-                  <a href="http://localhost:8080/ehr/member/signInUp.do">로그인 화면으로 돌아가기</a>
+                  <a href="/ehr/member/signInUp.do">로그인 화면으로 돌아가기</a>
             </div>
     </section>
 
