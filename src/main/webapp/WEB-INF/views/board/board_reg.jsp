@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <c:when test="${ '10'==board.getDiv() }">공지사항-등록</c:when>
             <c:when test="${ '20'==board.getDiv() }">자유게시판-등록</c:when>
             <c:otherwise>
-                                 공지사항/자유게시판
+                                 재난 커뮤니티
             </c:otherwise>
         </c:choose>
       </h2>  

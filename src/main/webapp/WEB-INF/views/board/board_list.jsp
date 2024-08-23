@@ -319,7 +319,6 @@ body {
              value="${search.searchWord }"
              placeholder="검색어">
         </div>
-<<<<<<< HEAD
         <div class="col-sm-1" id="pageSizehidden">
             <select name="pageSize" id="pageSize" class="form-select">
                 <c:forEach var="item" items="${COM_PAGE_SIZE }">
@@ -327,9 +326,6 @@ body {
                 </c:forEach>            
             </select>
         </div> 
-=======
-
->>>>>>> 08ca716a7a0100d3e741fee01edaeeef99387b07
     </form>
   <!--// 검색 end ------------------------------------------------------------->
   
