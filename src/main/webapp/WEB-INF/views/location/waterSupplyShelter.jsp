@@ -525,7 +525,7 @@ function shelterRetrieve(pageNo,totalCnt) {
 
 function openKakaoMap(lat,lon,facilityName){
     //팝업창 생성
-    var popup = window.open("/ehr/shelter/shelter_map?lat="+lon+"&lon="+lat+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
+    var popup = window.open("/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
 }//-- openKakaoMap end  
 
 </script>
