@@ -233,7 +233,7 @@
                         <ul>
                            
                             <li><a href="/ehr/video/videoView.do">훈련영상</a></li>
-                            <li><a href="/ehr/location/location/1">대피시설</a></li>
+                            <li><a href="/ehr/location/locationMain">대피시설</a></li>
                         </ul>
                     </li>
                     

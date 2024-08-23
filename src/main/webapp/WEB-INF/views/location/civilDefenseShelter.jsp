@@ -184,6 +184,13 @@ body {
     margin: 0 5px; /* 좌우 여백 추가 */
 }
 
+.roadAddressElement {
+    text-decoration: none; /* 기본적으로 밑줄 제거 */
+}
+
+.roadAddressElement:hover {
+    
+}
 </style>
 <script>
 //시도 비동기 통신
@@ -503,7 +510,10 @@ function shelterRetrieve(pageNo,totalCnt) {
 	        	 
 		        	  // roadAddress 클릭 이벤트 추가
 		              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
-		              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
+		              roadAddressElement.css({
+		            	  "cursor": "pointer"
+		              }); // 클릭 가능한 커서 스타일
+		              
 		              roadAddressElement.on("click", function(event) {
 		            	  openKakaoMap(item.lat,item.lon,item.facilityName);
 			          });
