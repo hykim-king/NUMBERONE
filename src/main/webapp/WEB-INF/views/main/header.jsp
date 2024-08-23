@@ -19,14 +19,14 @@
         background-color: white;
     }
 
-	#logo {
-	    width: 145px;
-	    height: auto;
-	    margin: auto;
-	    display: block;
-	    position: relative; 
-	    z-index: 1;
-	}
+    #logo {
+        width: 145px;
+        height: auto;
+        margin: auto;
+        display: block;
+        position: relative; 
+        z-index: 1;
+    }
 
     ul {
         list-style-type: none;
@@ -35,10 +35,10 @@
     }
 
     #headerMenu {
-        margin-right: 500px;
-        position: relative;
-        top: 70px;
-        right: -120px;
+    position: relative;
+    width: 100%;
+    z-index: 1000; 
+    box-sizing: border-box; 
     }
 
     #headerMenu ul {
@@ -190,17 +190,17 @@
             <li><a href="/ehr/member/signInUp.do" id ="loginBtn">로그인/회원가입</a></li>
         </ul>
     </div>
-	<div>
-	    <a href="/ehr/main/index.do">
-	        <img src="/ehr/resources/images/logo1.png" alt="logo" id="logo">
-	    </a>
-	</div>
+    <div>
+        <a href="/ehr/main/index.do">
+            <img src="/ehr/resources/images/logo1.png" alt="logo" id="logo">
+        </a>
+    </div>
 
     <div id="nav">
         <div id="navWrap">
             <ul>
                 <li><a id="navMenu1" href="#">재난상황</a></li>
-                <li><a id="navMenu2" href="#">안전뉴스</a></li>
+                <li><a id="navMenu2" href="http://localhost:8080/ehr/news">안전뉴스</a></li>
                 
                 <li><a id="navMenu3" href="#">재난대비</a></li>
                 <li><a id="navMenu4" href="#">행동요령</a></li>
@@ -233,7 +233,7 @@
                         <ul>
                            
                             <li><a href="/ehr/video/videoView.do">훈련영상</a></li>
-                            <li><a href="/ehr/location/location/1">대피시설</a></li>
+                            <li><a href="/ehr/location/locationMain">대피시설</a></li>
                         </ul>
                     </li>
                     

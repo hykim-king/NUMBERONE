@@ -81,7 +81,7 @@
 	 .slider {
 	    position: relative;
 	    width: 100%;
-	    max-width: 600px; /* 원하는 슬라이더의 최대 너비 */
+	    max-width: 600px; 
 	    margin: auto;
 	    overflow: hidden;
 	}
@@ -134,13 +134,13 @@
         position: absolute;
         left: 0;
          border-left : 9px solid #f4f7f7  ;
-         display: flex; /* Flexbox 활성화 */
-	    justify-content: center; /* 가로 중앙 정렬 */
-	    align-items: center; /* 세로 중앙 정렬 */
+         display: flex; 
+	    justify-content: center;
+	    align-items: center;
 	    font-weight: 900;
 	    font-size:70px;
 	   color:#fff;
-	    writing-mode: vertical-rl; /* 텍스트가 위에서 아래로 배치 */
+	    writing-mode: vertical-rl; 
         transform: rotate(180deg); 
          border-radius: 0px 47px 47px 0px; /* 왼쪽 위, 왼쪽 아래는 50px, 오른쪽은 0 */
          overflow: hidden;
@@ -254,12 +254,12 @@
     
     
     #sheltersBtn {
-        display:none;
-        width: 598px;
+	    display: none;
+	    width: 630px;
 	    height: 424px;
 	    position: relative;
-        top: 600px;
-        left: 100px;
+	    top: 600px;
+	    left: 82px;
 	    align-items: center;
 	    z-index: 10;
     }
@@ -311,10 +311,10 @@
 	        display: none;
 	    }
 	    #shelterBottom>span{
-	        color: #0d354f;
-	        font-weight: 800;
-	        line-height: 0.6;
-	        font-size: 50px;
+		    color: #0d354f;
+		    font-weight: 900;
+		    line-height: 0.5;
+		    font-size: 57px;
 	    }
     
     
@@ -370,6 +370,10 @@
         border-bottom: 2px solid #BDBDBD;
         font-weight: 500;
     }
+	#messageTable tr.hover {
+	    background-color: #eeeeee;
+	    cursor: pointer; 
+	}
     .messages {
         position: absolute;
         top: 240px;
@@ -508,7 +512,7 @@
 	    line-height: 2.2;
 	    text-align: center;
 	    font-size: 15px;
-	    font-weight: 500;
+	    font-weight: 600;
 	    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
 	}
 	
@@ -717,7 +721,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			             <div class = "table table-bordered" id="shelterList"></div>
 			           
 			           </div>
-		               <div class="shelterBottom" id="shelterBottom"><span>──────────────────────────────────────────────────</span></div>
+		               <div class="shelterBottom" id="shelterBottom"><span>◤◢◣◥◤◢◣◥◤◢◣◥◤◢◣◥<span></div>
 			        
 			        </div>
 			        </div><!-- sheltersDiv end -->        
@@ -898,6 +902,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		            row.append(roadAddressElement);
 		            row.append($("<td>").text(item.facilityName));
 		            
+		            row.hover(
+		                    function() {
+		                        $(this).css("background-color", "#eeeeee"); // 마우스를 올렸을 때 배경색 변경
+		                    },
+		                    function() {
+		                        $(this).css("background-color", ""); // 마우스를 벗어났을 때 배경색 초기화
+		                    }
+		                );
+		            
 		            // 행을 tbody에 추가
 		            tbody.append(row);
 		        });
@@ -979,7 +992,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	                    "forestFires": "society/2",
 	                    "trafficAccident": "society/5",
 	                    "preventionInfectious": "society/17",
-	                    "fineDust": "fineDust/22"
+	                    "fineDust": "society/22"
 	                };
 			    
 	            
@@ -1127,7 +1140,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }));
                     
                     row.append($("<td></td>").text(msg.msgRegDt).css({
-                        "width": "30px", /* 세 번째 열 너비 */
+                        "width": "50px", /* 세 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
@@ -1149,7 +1162,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
         		});
-                
+        		 // 행 hover 효과 추가
+        	    $("#messageTable").on("mouseenter", "tr", function() {
+        	        $(this).addClass("hover");
+        	    }).on("mouseleave", "tr", function() {
+        	        $(this).removeClass("hover");
+        	    });
           
                 // 재난 종류를 변환한 후 배너를 생성
                 disasterTypesInEnglish = convertDisasterTypes(disasterTypeSet);
@@ -1238,6 +1256,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
         		});
+        		
+        		 $("#messageTable").on("mouseenter", "tr", function() {
+                     $(this).addClass("hover");
+                 }).on("mouseleave", "tr", function() {
+                     $(this).removeClass("hover");
+                 });
+           
+        		
         		
         		
                 // 재난 종류를 변환한 후 배너를 생성

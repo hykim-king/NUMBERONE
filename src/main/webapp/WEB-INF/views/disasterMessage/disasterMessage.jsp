@@ -60,6 +60,7 @@
         }
         .table tbody tr:hover {
             background-color: #f1f1f1;
+            cursor:pointer;
         }
         .pagination {
             justify-content: center;

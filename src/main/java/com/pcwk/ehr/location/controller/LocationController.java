@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,10 +36,15 @@ public class LocationController implements PLog {
 		log.debug("│ locationController()                  │");
 		log.debug("└───────────────────────────────────────┘");
 	}
-
+	
+	@GetMapping("locationMain")
+	public String locationMain() {
+		return "location/shelterList";
+	}
+	
 	// 동기 통신
 	@RequestMapping(value = "/location/{number}", method = RequestMethod.GET)
-	public String sidoRetrieve(@PathVariable("number") int number) throws SQLException {
+	public String locationRetrieve(@PathVariable("number") int number) throws SQLException {
 		log.debug("┌──────────────────────────────────────────────────┐");
 		log.debug("│ sidoRetrieve()                                   │");
 		log.debug("└──────────────────────────────────────────────────┘");
