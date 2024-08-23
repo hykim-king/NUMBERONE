@@ -29,7 +29,8 @@
     margin : 0 auto;
     padding : 20px;
     border-radius: 10px;
- 
+ margin: 0 auto;
+    margin-top: 90px;
  }
  .level1_title{
     color : #134b70;
@@ -59,8 +60,7 @@
         <div class="level1_titleWrap">
             <h2 class="level1_title">대피소</h2>
         </div>
-        <div class="description_box">
-        </div>
+
         <p class="infoListTop_boxWrap"></p>
         <div class="star_bulTxt_w" style="margin-top:15px; color:#757575; font-size:16px;">
             <span class="star_bulTxt">*</span>

@@ -94,9 +94,18 @@ body {
 }
 
 .btn:hover {
-    background-color: #134b70;
+  background-color: #201e4b;
 }
 
+#doRetrieve{
+    position: relative;
+    top: 53px;
+    right: -78px;
+    background-color: #134b70;
+}
+#doRetrieve:hover{
+    background-color: #201e4b;
+}
 /* Form Styles */
 .form-label {
     font-weight: bold;
@@ -311,13 +320,7 @@ body {
              value="${search.searchWord }"
              placeholder="검색어">
         </div>
-        <div class="col-sm-1">
-            <select name="pageSize" id="pageSize" class="form-select">
-                <c:forEach var="item" items="${COM_PAGE_SIZE }">
-                   <option value="${item.detCode}"   <c:if test="${item.detCode == search.pageSize }">selected</c:if> >${ item.detNm}</option>
-                </c:forEach>            
-            </select>
-        </div> 
+
     </form>
   <!--// 검색 end ------------------------------------------------------------->
   

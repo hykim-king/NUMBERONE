@@ -121,7 +121,7 @@ body {
 .table-striped tbody tr:nth-child(odd) {
     background-color: #eeeeee;
 }
-.table-hover tbody tr:hover {
+.table tbody tr:hover {
     background-color: #e0e0e0;
 }
 .table thead th {
@@ -518,13 +518,21 @@ function shelterRetrieve(pageNo,totalCnt) {
 		            	  openKakaoMap(item.lat,item.lon,item.facilityName);
 			          });
 		              
-		                  $("#shelterList").append($("<tr>"));
-			        	  $("#shelterList").append(roadAddressElement);
-			              $("#shelterList").append($("<td>").text(item.facilityName));
-			              $("#shelterList").append($("<td>").text(item.scale + "m²"));
-			              $("#shelterList").append($("<td>").text(item.maxCapacity + "명"));
-			              $("#shelterList").append($("</tr>"));
-			              
+		              
+		      /*hover 효과---------------------------------------------------------------------- */
+		              $("#shelterList").append($("<tr>")
+		                      .append(roadAddressElement)
+		                      .append($("<td>").text(item.facilityName))
+		                      .append($("<td>").text(item.scale + "m²"))
+		                      .append($("<td>").text(item.maxCapacity + "명"))
+		                      .hover(
+		                          function () { $(this).css("background-color", "#eeeeee"); }, 
+		                          function () { $(this).css("background-color", ""); }      
+		                      )
+		                  );
+		      
+		      
+		      
 			              //-------------------------------------------------------------------------------
 			              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
 			              maxPageNo = Math.ceil(totalCount / 10);
@@ -543,6 +551,9 @@ function openKakaoMap(lat,lon,facilityName){
     //팝업창 생성
     var popup = window.open("/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
 }//-- openKakaoMap end  
+
+
+
 
 </script>
 

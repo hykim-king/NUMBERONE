@@ -504,6 +504,8 @@ function shelterRetrieve(pageNo,totalCnt) {
 			              $("#shelterList").append($("<td>").text(item.contactInfo));
 			              $("#shelterList").append($("</tr>"));
 			              
+			              
+			              
 			              //-------------------------------------------------------------------------------
 			              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
 			              maxPageNo = Math.ceil(totalCount / 10);

@@ -81,7 +81,7 @@
 	 .slider {
 	    position: relative;
 	    width: 100%;
-	    max-width: 600px; /* 원하는 슬라이더의 최대 너비 */
+	    max-width: 600px; 
 	    margin: auto;
 	    overflow: hidden;
 	}
@@ -134,13 +134,13 @@
         position: absolute;
         left: 0;
          border-left : 9px solid #f4f7f7  ;
-         display: flex; /* Flexbox 활성화 */
-	    justify-content: center; /* 가로 중앙 정렬 */
-	    align-items: center; /* 세로 중앙 정렬 */
+         display: flex; 
+	    justify-content: center;
+	    align-items: center;
 	    font-weight: 900;
 	    font-size:70px;
 	   color:#fff;
-	    writing-mode: vertical-rl; /* 텍스트가 위에서 아래로 배치 */
+	    writing-mode: vertical-rl; 
         transform: rotate(180deg); 
          border-radius: 0px 47px 47px 0px; /* 왼쪽 위, 왼쪽 아래는 50px, 오른쪽은 0 */
          overflow: hidden;
@@ -370,6 +370,10 @@
         border-bottom: 2px solid #BDBDBD;
         font-weight: 500;
     }
+	#messageTable tr.hover {
+	    background-color: #eeeeee;
+	    cursor: pointer; 
+	}
     .messages {
         position: absolute;
         top: 240px;
@@ -898,6 +902,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		            row.append(roadAddressElement);
 		            row.append($("<td>").text(item.facilityName));
 		            
+		            row.hover(
+		                    function() {
+		                        $(this).css("background-color", "#eeeeee"); // 마우스를 올렸을 때 배경색 변경
+		                    },
+		                    function() {
+		                        $(this).css("background-color", ""); // 마우스를 벗어났을 때 배경색 초기화
+		                    }
+		                );
+		            
 		            // 행을 tbody에 추가
 		            tbody.append(row);
 		        });
@@ -979,7 +992,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	                    "forestFires": "society/2",
 	                    "trafficAccident": "society/5",
 	                    "preventionInfectious": "society/17",
-	                    "fineDust": "fineDust/22"
+	                    "fineDust": "society/22"
 	                };
 			    
 	            
@@ -1149,7 +1162,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
         		});
-                
+        		 // 행 hover 효과 추가
+        	    $("#messageTable").on("mouseenter", "tr", function() {
+        	        $(this).addClass("hover");
+        	    }).on("mouseleave", "tr", function() {
+        	        $(this).removeClass("hover");
+        	    });
           
                 // 재난 종류를 변환한 후 배너를 생성
                 disasterTypesInEnglish = convertDisasterTypes(disasterTypeSet);
@@ -1238,6 +1256,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
         		});
+        		
+        		 $("#messageTable").on("mouseenter", "tr", function() {
+                     $(this).addClass("hover");
+                 }).on("mouseleave", "tr", function() {
+                     $(this).removeClass("hover");
+                 });
+           
+        		
         		
         		
                 // 재난 종류를 변환한 후 배너를 생성
