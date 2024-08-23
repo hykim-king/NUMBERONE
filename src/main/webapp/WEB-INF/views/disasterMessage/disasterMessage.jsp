@@ -26,7 +26,8 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 30px;
-            margin-top: 25px;
+            margin-top: 35px;
+            margin-bottom: 35px;
         }
         h2 {
             font-size: 2rem;
@@ -54,7 +55,9 @@
             background-color: #134b70;
             color: white;
             font-weight: bold;
+             text-align: center;
         }
+
         .table tbody tr:nth-child(odd) {
             background-color: #f9f9f9;
         }
@@ -277,60 +280,81 @@ function sigunguSet() {
     }
 }
 
-function retrieve(){
-	let loccode=$("#subRegion option:selected").val();
-	let startDate=$("#startDate").val();
-	let endDate=$("#endDate").val();
-	let pageNo =1;
-	let pageSize =10;
-	let condition = new StatisticsCondition(loccode,startDate,endDate,pageNo,pageSize);
-	console.log(condition);
-	
-	fetch('/ehr/messageRetrieve2', {
+function retrieve() {
+    let loccode = $("#subRegion option:selected").val();
+    let startDate = $("#startDate").val();
+    let endDate = $("#endDate").val();
+    let pageNo = 1;
+    let pageSize = 10;
+    let condition = new StatisticsCondition(loccode, startDate, endDate, pageNo, pageSize);
+    console.log(condition);
+
+    fetch('/ehr/messageRetrieve2', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(condition), 
+        body: JSON.stringify(condition),
     })
-    .then(function(response) { //통신상태 확인
+    .then(function(response) { 
         if (!response.ok) {
-            throw new Error('네트워크 응답이 좋지 않습니다.');
+            throw new Error('Network response was not ok.');
         }
         return response.json();
     })
-    .then(function(data) { //정상일시 데이터 사용
+    .then(function(data) {
         console.log('data:', data);
         $("#msgContents").empty();
-        if(data.length==0){
-        	$("#msgContents").append($("<td colspan='5' class='text-center'>조회된 재난문자가 없습니다.</td>"));
-        }else{
-        	messageData = data;
-        	messageData.forEach(function(item) {
-        	    // 새로운 tr 요소 생성
-        	    var $tr = $("<tr onclick='location.href=\"/ehr/disasterMsg/disasterMsg/" + item.messageSeq + "\"'>");
-
-        	    // td 요소 추가
-        	    $tr.append($("<td>").text(item.messageSeq));
-        	    $tr.append($("<td>").text(item.disasterType));
-        	    $tr.append($("<td>").text(item.emergencyLevel));
-        	    $tr.append($("<td>").text(item.messageContext));
-        	    $tr.append($("<td>").text(item.msgRegDt));
-
-        	    // tr 요소를 테이블에 추가
-        	    $("#msgContents").append($tr);
-        	    
-        	    // 전체 건수 업데이트
-        	    $("#total").text(" 전체 " + item.totalCnt + " 건");
-        	});
-        	
-        }
         
+        if (data.length == 0) {
+            $("#msgContents").append($("<tr><td colspan='5' class='text-center'>조회된 재난문자가 없습니다.</td></tr>"));
+        } else {
+            messageData = data;
+            messageData.forEach(function(item) {
+                
+                var $tr = $("<tr onclick='location.href=\"/ehr/disasterMsg/disasterMsg/" + item.messageSeq + "\"'>");
+
+                
+                let emergencyLevelColor;
+                switch (item.emergencyLevel) {
+                    case "안전안내":
+                        emergencyLevelColor = "#FFF176";
+                        break;
+                    case "긴급재난":
+                        emergencyLevelColor = "#FFD54F";
+                        break;
+                    case "위급재난":
+                        emergencyLevelColor = "#FF8A65";
+                        break;
+                    default:
+                        emergencyLevelColor = "white"; // Default color
+                }
+
+                
+                $tr.append($("<td>").text(item.messageSeq));
+                $tr.append($("<td>").text(item.disasterType).css({
+                    "text-align": "center",
+                    "width" : "150px"
+                }));
+                $tr.append($("<td>").text(item.emergencyLevel).css({
+                    "background-color": emergencyLevelColor,
+                    "text-align": "center",
+                    "width" : "100px"
+                }));
+                $tr.append($("<td>").text(item.messageContext));
+                $tr.append($("<td>").text(item.msgRegDt));
+
+            
+                $("#msgContents").append($tr);
+
+                
+                $("#total").text(" 전체 " + item.totalCnt + " 건");
+            });
+        }
     })
     .catch(function(error) { 
-        console.error('문제가 발생했습니다:', error);
+        console.error('An error occurred:', error);
     });
-	
 }
 
 

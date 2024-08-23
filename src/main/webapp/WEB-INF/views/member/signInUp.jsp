@@ -631,11 +631,15 @@
             }
     
 	        
-	        if ($("#sido").val() === "" || $("#sigungu").val() === "" || $("#eupmyeondong").val() === "") {
-                alert("위치 설정을 해주세요.");
-                return;
-            }
-	
+	        if ($("#sido").val() === "") {
+	            alert("시/도를 선택해주세요.");
+	            return;
+	        }
+
+	        if ($("#sido").val() !== "세종특별자치시" && ($("#sigungu").val() === "" || $("#eupmyeondong").val() === "")) {
+	            alert("위치 설정을 해주세요.");
+	            return;
+	        }
 	
 	        
 	        
