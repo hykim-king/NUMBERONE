@@ -228,9 +228,11 @@ document.addEventListener("DOMContentLoaded", function(){
             return true; // null 또는 undefined인 경우
         }
         if (typeof value === 'string') {
+        	console.log("string");
             return value.trim() === '';
         }
         if (typeof value === 'number') {
+        	console.log("number");
             return false; // 숫자는 항상 비어있지 않은 것으로 간주
         }
         return false; // 그 외의 경우 (배열, 객체 등)

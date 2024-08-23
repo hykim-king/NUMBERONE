@@ -155,7 +155,7 @@ public class BoardController implements PLog {
 		
 		search.setPageSize(Integer.parseInt(pageSize));
 		search.setPageNo(Integer.parseInt(pageNo));
-		
+
 		// 1.
 		log.debug("1.param search:" + search);		
 		List<Board> list = this.boardService.doRetrieve(search);

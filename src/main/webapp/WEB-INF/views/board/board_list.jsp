@@ -94,9 +94,18 @@ body {
 }
 
 .btn:hover {
-    background-color: #134b70;
+  background-color: #201e4b;
 }
 
+#doRetrieve{
+    position: relative;
+    top: 53px;
+    right: -78px;
+    background-color: #134b70;
+}
+#doRetrieve:hover{
+    background-color: #201e4b;
+}
 /* Form Styles */
 .form-label {
     font-weight: bold;
@@ -300,7 +309,6 @@ body {
         </div>
         <div class="col-sm-2">
             <select name="searchDiv" class="form-select" id="searchDiv">
-                <option value="">전체</option>
                 <c:forEach var="item" items="${BOARD_SEARCH }">
                    <option value="${item.detCode}"  <c:if test="${item.detCode == search.searchDiv }">selected</c:if>    >${ item.detNm}</option>
                 </c:forEach>
@@ -311,7 +319,7 @@ body {
              value="${search.searchWord }"
              placeholder="검색어">
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1" id="pageSizehidden">
             <select name="pageSize" id="pageSize" class="form-select">
                 <c:forEach var="item" items="${COM_PAGE_SIZE }">
                    <option value="${item.detCode}"   <c:if test="${item.detCode == search.pageSize }">selected</c:if> >${ item.detNm}</option>
@@ -366,24 +374,28 @@ body {
   <!-- pagination -->
   <div class="text-center">
      <div id="page-selection" class="text-center page">    
-      <c:if test="${totalCnt > 0 }"> 
-            <c:if test="${totalCnt > 0 && totalCnt < search.pageSize }">
-                        총 <strong><c:out value="${totalCnt }" /></strong><strong><c:out value="${totalCnt }" /></strong> 개의 게시글이 있습니다.
-            </c:if>
-            
-            <c:if test="${totalCnt > search.pageSize }">
-           <strong><c:out value="${firstCnt }" /></strong>총<strong><c:out value="${lastCnt }" /></strong> <strong><c:out value="${totalCnt }" /></strong>개의 게시글이 있습니다.
-            </c:if>
-          <ul class="pagination justify-content-center">
-             <c:forEach var="item" items="${PAGE_DATA }">
-                 <li class="page-item <c:if test='${item.active }'>active</c:if>'">
-                     <a href="javascript:pageRetrieve('/ehr/board/doRetrieve.do', ${item.pageNo })" class="page-link">${item.pageNo }</a>
-                 </li>
-             </c:forEach>
-          </ul>
-       </c:if>      
+      <c:if test="${totalCnt > 0}">
+        <c:set var="currentPageItemCount" value="${list.size()}" />
+        <c:choose>
+            <c:when test="${currentPageItemCount < totalCnt}">
+                <c:set var="startNum" value="${(search.pageNo - 1) * search.pageSize + 1}" />
+                <c:set var="endNum" value="${startNum + currentPageItemCount - 1}" />
+                <strong>${startNum}</strong>-<strong>${endNum}</strong> / 총 <strong>${totalCnt}</strong> 개의 게시글이 있습니다.
+            </c:when>
+            <c:otherwise>
+                총 <strong>${totalCnt}</strong> 개의 게시글이 있습니다.
+            </c:otherwise>
+        </c:choose>
+        <ul class="pagination justify-content-center">
+           <c:forEach var="item" items="${PAGE_DATA}">
+               <li class="page-item <c:if test='${item.active}'>active</c:if>">
+                   <a href="javascript:pageRetrieve('/ehr/board/doRetrieve.do', ${item.pageNo})" class="page-link">${item.pageNo}</a>
+               </li>
+           </c:forEach>
+        </ul>
+      </c:if>      
      </div>     
-  </div>
+</div>
   <!--// pagination end ------------------------------------------------------------->
   <div class="text-center">
      <div id="page-selection" class="text-center page">    
