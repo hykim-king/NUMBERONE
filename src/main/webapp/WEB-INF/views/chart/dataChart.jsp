@@ -140,21 +140,56 @@
 </style>
     
     <script>
+    function getSession() {
+        fetch('/ehr/session/api/session', {
+            method: 'GET',
+            credentials: 'include' // 쿠키 포함
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json(); 
+        })
+        .then(data => {
+            console.log(data);
+            memberFromSession = data;
+            console.log("memberFromSession:",memberFromSession);
 
-        function showGraph(statistics) {
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'pie'
-                },
-                title: {
-                    text: '재난 누적 그래프'
-                },
-                series: [{
-                    name: '재난 수',
-                    data: statistics
-                }]
-            });
-        }
+            if (data.locCode!=0 && memberFromSession!==undefined) {
+            	callServerUpward(memberFromSession.locCode,formattedLastMonth,formattedToday);
+                
+            } else{
+            	callServer(1000000000,formattedLastMonth,formattedToday);
+                
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error: ', error);
+        });
+    }
+    
+    function showGraph(dataArray,statistics) {
+		let titleText ='전국 재난 문자 누적 통계(실종문자 제외)';
+		console.log(statistics.locCode);
+		if(statistics.locCode!=1000000000){
+			titleText ='우리 동네 재난 문자 누적 통계(실종문자 제외)'
+		}
+	    $("#graphContainer").empty();
+        Highcharts.chart('container', {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: titleText
+            },
+            series: [{
+                name: '문자 수',
+                data: dataArray
+            }]
+        });
+        
+    }
 
         class StatisticsCondition {
             constructor(locCode, startDate, endDate) {
@@ -165,10 +200,10 @@
         }
 
 
-        function callServer(startDate, endDate) {
-            const condition = new StatisticsCondition(2811010100, startDate, endDate);
-            fetch('/ehr/messages', {
-                method: 'GET',
+        function callServer(locCode,startDate, endDate) {
+        	const condition = new StatisticsCondition(1000000000, startDate, endDate);
+            fetch('/ehr/statistics/3', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -181,28 +216,79 @@
                 return response.json();
             })
             .then(function(data) { //정상일시 데이터 사용
-                console.log('data:', data);
-                const dataMap = new Map(Object.entries(data));
-                const resultObject = Object.fromEntries(dataMap);
-                let datasize =dataMap.size; 
-                const keysArray = [...dataMap.keys()];
-                const resultArray =[]
-                for (let i =0;i<datasize; i++) {
-                     const key = keysArray[i];
-                     const value = dataMap.get(keysArray[i]);
-                    
-                     resultArray.push([key,value]); 
-                }
+            	console.log('condition:',condition);
+            	console.log('data:', data);
+            	let dataMap = new Map(Object.entries(data));
+            	let datasize =dataMap.size; 
+            	let keysArray = [...dataMap.keys()];
+            	let resultArray =[];
+            	for (let i =0;i<datasize; i++) {
+            		 const key = keysArray[i];
+   					 const value = dataMap.get(keysArray[i]);
+   					
+   					 resultArray.push([key,value]); 
+				}
+            	resultArray.sort(([, valueA], [, valueB]) => valueB - valueA);
                 
-                showGraph(resultArray);
-                
+            	
+            	console.log(resultArray);
+            	showGraph(resultArray,condition);
+            	
                 
             })
             .catch(function(error) { 
                 console.error('문제가 발생했습니다:', error);
             });
         }
-
+        
+        function callServerUpward(locCode,startDate, endDate) {
+        	const condition = new StatisticsCondition(locCode, startDate, endDate);
+            fetch('/ehr/statistics/1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(condition), 
+            })
+            .then(function(response) { //통신상태 확인
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 좋지 않습니다.');
+                }
+                return response.json();
+            })
+            .then(function(data) { //정상일시 데이터 사용
+            	console.log('data:', data);
+            	let dataMap = new Map(Object.entries(data));
+            	let datasize =dataMap.size; 
+            	let keysArray = [...dataMap.keys()];
+            	let resultArray =[];
+            	for (let i =0;i<datasize; i++) {
+            		 const key = keysArray[i];
+   					 const value = dataMap.get(keysArray[i]);
+   					
+   					 resultArray.push([key,value]); 
+				}
+            	resultArray.sort(([, valueA], [, valueB]) => valueB - valueA);
+                
+            	let num = 4-disasterTypeSet.size;
+            	if(resultArray.find(([key]) => key === '기타')){
+            		num++;
+            	}
+            	resultArray.slice(0, num).forEach(([key]) => {
+            		if (key !== '기타') {
+            		disasterTypeSet.add(key); // Set에 key 추가
+            		}
+            	});
+            	
+            	console.log(resultArray);
+            	showGraph(resultArray,condition);
+            	
+                
+            })
+            .catch(function(error) { 
+                console.error('문제가 발생했습니다:', error);
+            });
+        }
         
         
         function setPeriod(months) {
@@ -228,7 +314,7 @@
             
         }
 
-         function updateMap() {
+         function updateMap(locCode) {
                 const startYear = $('#startYear').val();
                 const startMonth = $('#startMonth').val();
                 const startDay = $('#startDay').val();
@@ -242,7 +328,7 @@
                 console.log("Start Date:", startDate);
                 console.log("End Date:", endDate);
 
-                callServer(startDate, endDate);
+                callServer(locCode,startDate, endDate);
             }
 
         
