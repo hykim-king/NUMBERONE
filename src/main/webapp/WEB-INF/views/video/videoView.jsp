@@ -84,34 +84,34 @@
         <table>
             <tbody>
                 <tr>
-                    <td><a href="http://localhost:8080/ehr/video/video01.do"><span>침수</span></a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video02.do">태풍</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video03.do">호우</a></td>
+                    <td><a href="/ehr/video/video01.do"><span>침수</span></a></td>
+                    <td><a href="/ehr/video/video02.do">태풍</a></td>
+                    <td><a href="/ehr/video/video03.do">호우</a></td>
                 </tr>
                 <tr>
-                    <td><a href="http://localhost:8080/ehr/video/video04.do">낙뢰</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video05.do">폭염</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video06.do">대설</a></td>
+                    <td><a href="/ehr/video/video04.do">낙뢰</a></td>
+                    <td><a href="/ehr/video/video05.do">폭염</a></td>
+                    <td><a href="/ehr/video/video06.do">대설</a></td>
                 </tr>
                 <tr>
-                    <td><a href="http://localhost:8080/ehr/video/video07.do">한파</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video08.do">지진</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video09.do">산사태</a></td>
+                    <td><a href="/ehr/video/video07.do">한파</a></td>
+                    <td><a href="/ehr/video/video08.do">지진</a></td>
+                    <td><a href="/ehr/video/video09.do">산사태</a></td>
                 </tr>
                 <tr>
-                    <td><a href="http://localhost:8080/ehr/video/video10.do">황사</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video11.do">테러</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video12.do">핵</a></td>
+                    <td><a href="/ehr/video/video10.do">황사</a></td>
+                    <td><a href="/ehr/video/video11.do">테러</a></td>
+                    <td><a href="/ehr/video/video12.do">핵</a></td>
                 </tr>
                 <tr>
-                    <td><a href="http://localhost:8080/ehr/video/video13.do">화학</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video14.do">생물학</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video15.do">화재</a></td>
+                    <td><a href="/ehr/video/video13.do">화학</a></td>
+                    <td><a href="/ehr/video/video14.do">생물학</a></td>
+                    <td><a href="/ehr/video/video15.do">화재</a></td>
                 </tr>
                 <tr>
-                    <td><a href="http://localhost:8080/ehr/video/video16.do">폭발사고</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video17.do">원전사고</a></td>
-                    <td><a href="http://localhost:8080/ehr/video/video18.do">감염병</a></td>
+                    <td><a href="/ehr/video/video16.do">폭발사고</a></td>
+                    <td><a href="/ehr/video/video17.do">원전사고</a></td>
+                    <td><a href="/ehr/video/video18.do">감염병</a></td>
                 </tr>
             </tbody>
         </table>
