@@ -240,14 +240,14 @@
                   <div class="find-id-htm">
                     <div class="group">
                       <label for="userName" class="label">이름</label>
-                      <input id="user" type="text" class="input">
+                      <input id="userName" type="text" class="input">
                       <label for="userEmail" class="label">이메일</label>
                       <input id="userEmail" type="text" class="input">
                       
                     </div>
                       
                     <div class="group">
-                       <button class="button1" type="button" onclick="findMemberId()">아이디 찾기</button>
+                       <button class="button1" type="button" onclick="findMemberId()" id="findMemberId">아이디 찾기</button>
                     </div>
                     
                     
@@ -323,6 +323,91 @@
                 }
             });
         }
+        
+        
+        
+        
+        document.addEventListener("DOMContentLoaded", function(){
+            const findIdBtn = document.querySelector("#findMemberId"); 
+            const userNameInput = document.querySelector("#userName");
+            const emailInput = document.querySelector("#userEmail"); 
+            const resultDiv = document.querySelector("#result");
+            
+            const form = document.querySelector("form");
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+                findMemberId(); 
+            });
+            
+            function formatPhoneNumber(value) {
+                value = value.replace(/\D/g, '');
+                if (value.length < 4) return value;
+                if (value.length < 7) return value.slice(0, 3) + '-' + value.slice(3);
+                return value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7);
+            }
+
+            $('#tel').on('input', function() {
+                let formattedValue = formatPhoneNumber($(this).val());
+                $(this).val(formattedValue);
+            });
+
+            $('#tel').on('keydown', function(event) {
+                const key = event.key;
+                const cursorPos = this.selectionStart;
+                const currentValue = $(this).val();
+                
+                if (key === 'Backspace' || key === 'Delete') {
+                    if (key === 'Backspace' && currentValue[cursorPos - 1] === '-') {
+                        this.setSelectionRange(cursorPos - 1, cursorPos - 1);
+                    } else if (key === 'Delete' && currentValue[cursorPos] === '-') {
+                        this.setSelectionRange(cursorPos + 1, cursorPos + 1);
+                    }
+                }
+            });
+           
+            function findMemberId(){
+                if (isEmpty(userName.value)) {
+                    alert("이름을 입력하세요.");
+                    userNameInput.focus();
+                    return;
+                }
+                
+
+                if (isEmpty(userEmail.value)) {
+                    alert("이메일을 입력하세요.");
+                    emailInput.focus();
+                    return;
+                }       
+
+                $.ajax({
+                    type: "POST",
+                    url: "/ehr/member/findMemberId.do",
+                    data: {
+                        userName: userName.value.trim(),
+                        email: userEmail.value.trim()
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("Server response:", data);
+                        
+                        if (data && data.messageContents) {
+                            resultDiv.innerHTML = "<p><strong>"+data.messageContents+"</strong></p><a href='${CP}/member/login.do' class='btn btn-primary w-100'>로그인</a>";
+                        } else {
+                            resultDiv.innerHTML = `<p>입력한 정보중, 일치하지 않는 항목이 있습니다.</p>`;
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        resultDiv.innerHTML = `<p>아이디 찾기 처리 중 오류가 발생했습니다.</p>`;
+                        console.error("Error: " + error);
+                        console.log("Response Text: ", xhr.responseText);
+                    }
+                });
+            }
+            
+            function isEmpty(value) {
+                return value === null || value.trim() === "";
+            }
+        });
     </script>
 </body>
 </html>

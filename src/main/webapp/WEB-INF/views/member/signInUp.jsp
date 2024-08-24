@@ -444,9 +444,8 @@
 
 	
 	
-    let idDuplicatedClick = 0;
-    let isNicknameChecked = false; // 닉네임 중복 체크 완료 플래그
-    let isIdChecked = false; // 아이디 중복 체크 완료 플래그
+
+    
     
 	
 	
@@ -454,6 +453,9 @@
 	$(document).ready(function() {
 	    console.log("document ready!");
 	
+	    let isNicknameChecked = false; // 닉네임 중복 체크 완료 플래그
+	    let isIdChecked = false; // 아이디 중복 체크 완료 플래그
+	    
 	    // 아이디 중복 체크
 	    $("#idDuplicateCheck").on("click", function(event) {
 	        event.preventDefault();
