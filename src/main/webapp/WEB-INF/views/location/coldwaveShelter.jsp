@@ -184,6 +184,52 @@ body {
     margin: 0 5px; /* 좌우 여백 추가 */
 }
 
+#shelterSelect {
+    width: 900px;
+    height: 100px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 30px;
+    text-align: center;
+}
+
+body {
+    background-color: #ddd; /* 배경색 */
+}
+
+#shelterSelect {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin: 20px 25px; /* 위아래 여백 */
+}
+
+.nav {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 0;
+}
+
+.nav-item {
+    margin: 0 10px; /* 항목 간 간격 */
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 15px; /* 패딩 추가 */
+    text-decoration: none; /* 밑줄 제거 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    transition: background-color 0.3s; /* 배경색 변화 효과 */
+}
+
+.nav-link.active99 {
+    background-color: #134b70; /* 활성 페이지 색상 */
+    border-color: #007bff; /* 활성 페이지 테두리 색상 */
+    color: #eee; /* 활성 페이지 텍스트 색상 */
+}
+
+
 </style>
 <script>
 //시도 비동기 통신
@@ -306,7 +352,7 @@ function eupmyeondongSet() {
                         </li>
                         
                         <li class="nav-item">
-                            <a id="shelter40" href="/ehr/location/location/10" title="선택됨" tabindex="0" class="nav-link active">한파쉼터</a>
+                            <a id="shelter40" href="/ehr/location/location/10" title="선택됨" tabindex="0" class="nav-link active99">한파쉼터</a>
                         </li>
                     </ul>
                 </div>
@@ -498,15 +544,21 @@ function shelterRetrieve(pageNo,totalCnt) {
              $("#shelterList").empty();
              
              
+             
              shelterData.forEach(function(item){
+            	 let roadAddressElement;
                  totalCnt = item.totalCnt;
                  $("#totalCnt").data("total", item.totalCnt); // 총 개수를 data-attribute로 저장
                  $("#totalCnt").html("전체 " + item.totalCnt + " 건");
                  
                  $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
                  
-	              // roadAddress 클릭 이벤트 추가
-	                 let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+	                 if(item.roadAddress == "undefined"){
+	                     roadAddressElement = $("<td></td>").html(item.adminAddress);
+	                 }else {
+	                     roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+	                 }
+	                 
 	                 roadAddressElement.css({
 	                     "cursor": "pointer"
 	                 }); // 클릭 가능한 커서 스타일
