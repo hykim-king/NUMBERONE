@@ -18,8 +18,8 @@
           WHERE eupmyeondong is null
           AND sigungu is not null
           START WITH loc_code = #{locCode}
-          CONNECT BY parent_loc_code = PRIOR loc_code
-          ORDER SIBLINGS BY sigungu
+         CONNECT BY  parent_loc_code = PRIOR loc_code
+         ORDER SIBLINGS BY eupmyeondong
     </select>
     
     <select id="eupmyeondongRetrieve" parameterType="Location" resultType="Location">
