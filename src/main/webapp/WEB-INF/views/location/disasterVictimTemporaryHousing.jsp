@@ -196,10 +196,10 @@ body {
     text-align: center;
 }
 
-#shelter30{
+#shelter40 {
     display: block;
     height: 50px;
-    border-width: 1px 0 0 1px;
+    border-width: 1px 0 0 110px;
     border-style: solid;
     border-color: #ddd;
     font-size: 35px;
@@ -523,6 +523,7 @@ function shelterRetrieve(pageNo,totalCnt) {
              
              
              shelterData.forEach(function(item){
+            	 let roadAddressElement;
                  totalCnt = item.totalCnt;
                  $("#totalCnt").data("total", item.totalCnt); // 총 개수를 data-attribute로 저장
                  $("#totalCnt").html("전체 " + item.totalCnt + " 건");
@@ -530,7 +531,11 @@ function shelterRetrieve(pageNo,totalCnt) {
                  $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
                  
 	              // roadAddress 클릭 이벤트 추가
-	                 let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+	                 if(item.roadAddress == "undefined"){
+	                     roadAddressElement = $("<td></td>").html(item.adminAddress);
+	                 }else {
+	                     roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+	                 }
 	                 roadAddressElement.css({
 	                     "cursor": "pointer"
 	                 }); // 클릭 가능한 커서 스타일
