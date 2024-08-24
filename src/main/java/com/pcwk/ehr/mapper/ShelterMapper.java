@@ -13,4 +13,5 @@ public interface ShelterMapper extends WorkDiv<Shelter> {
 	
 	List<Shelter> shelterRetrieve() throws SQLException;
 	
+	List<Shelter> shelterRetrieveWithParent(Shelter shelter) throws SQLException;
 }

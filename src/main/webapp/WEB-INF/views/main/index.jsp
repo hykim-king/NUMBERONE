@@ -893,7 +893,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            roadAddressElement.on("click", function(event) {
 		                openKakaoMap(item.lat, item.lon, item.facilityName);
 		            });
-
+		            
 		            // 행에 데이터 추가
 		            row.append(roadAddressElement);
 		            row.append($("<td>").text(item.facilityName));
@@ -1482,9 +1482,85 @@ document.addEventListener('DOMContentLoaded', function() {
             toast.show();
         };	
         	
-        	
+        const disasterData = [
+            { koreanName: "침수",         shelterNumber: 10 },
+            { koreanName: "태풍",         shelterNumber: 10 },
+            { koreanName: "호우",         shelterNumber: 10 },
+            { koreanName: "낙뢰",         shelterNumber: 10 },
+            { koreanName: "강풍",         shelterNumber: 10 },
+            { koreanName: "풍랑",         shelterNumber: 40 },
+            { koreanName: "대설",         shelterNumber: 10 },
+            { koreanName: "한파",         shelterNumber: 100 },
+            { koreanName: "폭염",         shelterNumber: 80 },
+            { koreanName: "황사",         shelterNumber: 90 },
+            { koreanName: "지진",         shelterNumber: 30 },
+            { koreanName: "해일",         shelterNumber: 40 },
+            { koreanName: "지진해일",       shelterNumber: 40 },
+            { koreanName: "화산폭발",       shelterNumber: 10 },
+            { koreanName: "가뭄",         shelterNumber: 10 },
+            { koreanName: "홍수",         shelterNumber: 10 },
+            { koreanName: "조수",         shelterNumber: 10 },
+            { koreanName: "산사태",        shelterNumber: 30 },
+            { koreanName: "자연우주물체추락", shelterNumber: 10 },
+            { koreanName: "우주전파재난",    shelterNumber: 10 },
+            { koreanName: "조류대발생",     shelterNumber: 10 },
+            { koreanName: "적조",         shelterNumber: 10 },
+            { koreanName: "화재",         shelterNumber: 10 },
+            { koreanName: "산불",         shelterNumber: 10 },
+            { koreanName: "건축물붕괴",     shelterNumber: 10 },
+            { koreanName: "폭발",         shelterNumber: 10 },
+            { koreanName: "교통사고",       shelterNumber: 10 },
+            { koreanName: "전기가스사고",     shelterNumber: 10 },
+            { koreanName: "철도사고",       shelterNumber: 10 },
+            { koreanName: "유도선사고",      shelterNumber: 10 },
+            { koreanName: "해양선박사고",     shelterNumber: 10 },
+            { koreanName: "식용수",        shelterNumber: 10 },
+            { koreanName: "원전사고",       shelterNumber: 10 },
+            { koreanName: "공동구재난",      shelterNumber: 10 },
+            { koreanName: "대규모수질오염",    shelterNumber: 10 },
+            { koreanName: "가축질병",       shelterNumber: 10 },
+            { koreanName: "댐붕괴",         shelterNumber: 10 },
+            { koreanName: "정전 및 전력부족",  shelterNumber: 10 },
+            { koreanName: "감염병예방",      shelterNumber: 10 },
+            { koreanName: "해양오염사고",     shelterNumber: 10 },
+            { koreanName: "화학물질사고",     shelterNumber: 70 },
+            { koreanName: "항공기사고",       shelterNumber: 10 },
+            { koreanName: "인공우주물체추락",   shelterNumber: 10 },
+            { koreanName: "미세먼지",         shelterNumber: 90 },
+            { koreanName: "정보통신사고",      shelterNumber: 10 },
+            { koreanName: "gps전파혼신재난",   shelterNumber: 10 },
+            { koreanName: "보건의료재난",      shelterNumber: 10 },
+            { koreanName: "사업장대규모인적사고", shelterNumber: 10 },
+            { koreanName: "공연장안전",        shelterNumber: 10 },
+            { koreanName: "도로터널사고",       shelterNumber: 10 },
+            { koreanName: "경기장안전",        shelterNumber: 10 },
+            { koreanName: "원유수급위기",       shelterNumber: 10 },
+            { koreanName: "여름철물놀이",       shelterNumber: 10 },
+            { koreanName: "산행안전사고",       shelterNumber: 10 },
+            { koreanName: "응급처치",          shelterNumber: 10 },
+            { koreanName: "해파리피해",         shelterNumber: 10 },
+            { koreanName: "심폐소생술",         shelterNumber: 10 },
+            { koreanName: "붉은불개미",         shelterNumber: 10 },
+            { koreanName: "승강기안전사고",      shelterNumber: 10 },
+            { koreanName: "어린이놀이시설",      shelterNumber: 10 },
+            { koreanName: "식중독",           shelterNumber: 10 },
+            { koreanName: "실종유괴예방",       shelterNumber: 10 },
+            { koreanName: "학교폭력예방",       shelterNumber: 10 },
+            { koreanName: "가정폭력예방",       shelterNumber: 10 },
+            { koreanName: "석유제품사고",       shelterNumber: 10 },
+            { koreanName: "테러",            shelterNumber: 10 },
+            { koreanName: "비상사태",          shelterNumber: 10 },
+            { koreanName: "민방공경보",         shelterNumber: 10 },
+            { koreanName: "비상대비물자준비",     shelterNumber: 10 },
+        ];        	
 
-        
+        // Map 객체 생성
+        const disasterMap = new Map();
+
+        // 데이터를 Map에 추가
+        disasterData.forEach(disaster => {
+            disasterMap.set(disaster.koreanName, disaster.shelterNumber);
+        });
         
 </script>
 </body>

@@ -46,8 +46,21 @@ public class ShelterController implements PLog {
 		String jsonString = "";
 		
 		List<Shelter> shelterSearch = this.shelterService.doRetrieve(shelter);
+		log.debug("======================================");
+		log.debug("======================================");
+		log.debug("======================================");
+		log.debug("shelterSearch"+ shelterSearch);
+		log.debug("======================================");
+		log.debug("======================================");
+		log.debug("======================================");
 		
 		jsonString = new Gson().toJson(shelterSearch);
+		
+		if(shelterSearch.size() == 0) {
+			List<Shelter> list = this.shelterService.shelterRetrieveWithParent(shelter);
+			
+			jsonString = new Gson().toJson(list);
+		}
 		
 		return jsonString;
 	}
