@@ -2,6 +2,8 @@ package com.pcwk.ehr.mapper;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import com.pcwk.ehr.cmn.Search;
 import com.pcwk.ehr.cmn.WorkDiv;
@@ -44,13 +46,16 @@ public interface MemberMapper extends WorkDiv<Member> {
     int doUpdate(Member user) throws SQLException;
 
 
-	Member findMemberId(Member member);
+    String findMemberId(Map<String, Object> params);
 
 
 	  int locCodeUpdate(Member member);
 
 
 	Member getMemberById(String memberId);
+
+
+
 
 
 

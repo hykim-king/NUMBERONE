@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">  
 <link href="/ehr/resources/css/behavior.css" rel="stylesheet" />
-<title>임시주거시설 - 지진겸용 임시주거시설</title>
+<title>임시주거시설 - 이재민 임시주거시설</title>
 <style>
 * {
     margin: 0;
@@ -185,26 +185,23 @@ body {
 }
 
 #shelterSelect {
-    width: 900px;
-    height: 100px;
-    margin: 20px auto;
+    width: 955px;
+    height: 70px;
     padding: 20px;
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    margin: 0px 0px 20px 0px;
+    font-size: 20px;
     text-align: center;
+    /* border: 1px solid;
 }
 
 body {
     background-color: #ddd; /* 배경색 */
 }
 
-#shelterSelect {
-    display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    margin: 20px 25px; /* 위아래 여백 */
-}
+
 
 .nav {
     list-style: none; /* 기본 리스트 스타일 제거 */
@@ -217,15 +214,15 @@ body {
 
 .nav-link {
     display: block;
-    padding: 10px 15px; /* 패딩 추가 */
+    padding: 1px 90px 1px 90px; /* 패딩 추가 */
     text-decoration: none; /* 밑줄 제거 */
-    border-radius: 5px; /* 모서리 둥글게 */
+    border-bottom:3px solid #134b70;
     transition: background-color 0.3s; /* 배경색 변화 효과 */
 }
 
 .nav-link.active99 {
     background-color: #134b70; /* 활성 페이지 색상 */
-    border-color: #007bff; /* 활성 페이지 테두리 색상 */
+    border-color: #508c9b; /* 활성 페이지 테두리 색상 */
     color: #eee; /* 활성 페이지 텍스트 색상 */
 }
 
@@ -349,7 +346,9 @@ function eupmyeondongSet() {
                     </li>
                 </ul>
             </div>
-            
+            <div>
+                <p style="font-size: 14px ; font-weight: 500; text-align: center; margin-bottom: 20px">·각종 재난으로 인해 주고시설을 상실하거나 사실상 주거가 불가능한 경우 이재민 및 일시대피자의 임시 거주를 위하여 제공되는 시설물입니다.</p>
+            </div>
             <div class="container-sm">
                 <form action="#" name="locationForm" class="row g-2 align-items-right" id="locationForm">
                     <div class="row g-3">
@@ -369,9 +368,7 @@ function eupmyeondongSet() {
                 </form>
             </div>
             
-            <div>
-                <p style="font-size: 17px;">·각종 재난으로 인해 주고시설을 상실하거나 사실상 주거가 불가능한 경우 이재민 및 일시대피자의 임시 거주를 위하여 제공되는 시설물입니다.</p>
-            </div>
+            
             
          
          <div class="container mt-4">

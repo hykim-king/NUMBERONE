@@ -183,14 +183,14 @@ body {
 }
 
 #shelterSelect {
-    width: 900px;
-    height: 100px;
-    margin: 20px auto;
+    width: 955px;
+    height: 70px;
     padding: 20px;
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    margin: 0px 0px 20px 0px;
+    font-size: 20px;
     text-align: center;
 }
 
@@ -198,11 +198,7 @@ body {
     background-color: #ddd; /* 배경색 */
 }
 
-#shelterSelect {
-    display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    margin: 20px 25px; /* 위아래 여백 */
-}
+
 
 .nav {
     list-style: none; /* 기본 리스트 스타일 제거 */
@@ -215,15 +211,15 @@ body {
 
 .nav-link {
     display: block;
-    padding: 10px 15px; /* 패딩 추가 */
+    padding: 1px 90px 1px 90px; /* 패딩 추가 */
     text-decoration: none; /* 밑줄 제거 */
-    border-radius: 5px; /* 모서리 둥글게 */
+    border-bottom:3px solid #134b70;
     transition: background-color 0.3s; /* 배경색 변화 효과 */
 }
 
 .nav-link.active99 {
     background-color: #134b70; /* 활성 페이지 색상 */
-    border-color: #007bff; /* 활성 페이지 테두리 색상 */
+    border-color: #508c9b; /* 활성 페이지 테두리 색상 */
     color: #eee; /* 활성 페이지 텍스트 색상 */
 }
 

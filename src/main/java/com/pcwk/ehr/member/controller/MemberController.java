@@ -4,17 +4,14 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
@@ -44,35 +41,23 @@ public class MemberController implements PLog {
 
 
 
-
-
- // ID 찾기 처리
     @RequestMapping(value = "/findMemberId.do", method = RequestMethod.POST)
     @ResponseBody
-    public String findMemberId(Member inVO) throws SQLException {
+    public String findMemberId(@RequestParam("name") String name, @RequestParam("email") String email) {
+        try {
+            String id = memberService.findMemberId(name, email);
 
-        log.debug("1. param: " + inVO);
-
-        // 사용자 아이디 찾기
-        Member foundMemberId = memberService.findMemberId(inVO);
-        String message;
-        int flag;
-
-        if (foundMemberId != null) {
-            message = "회원님의 아이디는☛" + foundMemberId.getMemberId() + "☚입니다."; // memberId 필드를 사용
-            flag = 1;  
-        } else {
-            message = "해당 정보와 일치하는 아이디가 없습니다";
-            flag = 0;  
+            if (id != null && !id.isEmpty()) {
+                return id; // 사용자의 아이디를 반환
+            } else {
+                return "아이디를 찾을 수 없습니다."; // 아이디를 찾지 못했을 경우의 응답
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해주세요."; // 서버 오류 처리
         }
-
-        Message messageObj = new Message(flag, message);
-        String jsonString = new Gson().toJson(messageObj); // Gson 객체를 재사용할 수 있도록 개선
-
-        log.debug("2. jsonString: " + jsonString);
-
-        return jsonString;
     }
+    
     
     
     @GetMapping("locCodeUpdate.do")

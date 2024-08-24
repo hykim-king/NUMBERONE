@@ -1,6 +1,8 @@
 package com.pcwk.ehr.member.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,13 +119,14 @@ public class MemberServiceImpl implements MemberService, PLog {
         }
     }
 
-    @Override
-    public Member findMemberId(Member member) {
-        return memberMapper.findMemberId(member);
+
+    public String findMemberId(String name, String email) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", name);
+        params.put("email", email);
+
+        return memberMapper.findMemberId(params);
     }
-
-
-
     @Override
     public int locCodeUpdate(Member member) {
         int flag= memberMapper.locCodeUpdate(member);

@@ -230,56 +230,45 @@
         <a href="/ehr/main/index.do"><img src="/ehr/resources/images/logo1.png" alt="logo" id="logo"></a>
     </div>
     
-    <section>
-           <div class="find-wrap">
-             
-              <div class="find-html">
-                <input id="tab-1" type="radio" name="tab" class="findId" checked><label for="tab-1" class="tab">아이디 찾기</label>
-                <input id="tab-2" type="radio" name="tab" class="findPw"><label for="tab-2" class="tab">비밀번호 초기화</label>
+<section>
+        <div class="find-wrap">
+            <div class="find-html">
+                <input id="tab-1" type="radio" name="tab" class="findId" checked>
+                <label for="tab-1" class="tab">아이디 찾기</label>
+                <input id="tab-2" type="radio" name="tab" class="findPw">
+                <label for="tab-2" class="tab">비밀번호 초기화</label>
                 <div class="findId-form">
-                  <div class="find-id-htm">
-                    <div class="group">
-                      <label for="userName" class="label">이름</label>
-                      <input id="userName" type="text" class="input">
-                      <label for="userEmail" class="label">이메일</label>
-                      <input id="userEmail" type="text" class="input">
-                      
+                    <div class="find-id-htm">
+                        <div class="group">
+                            <label for="userName" class="label">이름</label>
+                            <input id="userName" type="text" class="input">
+                            <label for="userEmail" class="label">이메일</label>
+                            <input id="userEmail" type="text" class="input">
+                        </div>
+                        <div class="group">
+                            <button class="button1" type="button" onclick="findMemberId()" id="findMemberId">아이디 찾기</button>
+                        </div>
+                        <div class="result" id="result"></div>
                     </div>
-                      
-                    <div class="group">
-                       <button class="button1" type="button" onclick="findMemberId()" id="findMemberId">아이디 찾기</button>
+                    <div class="find-pw-htm">
+                        <div class="group">
+                            <label for="userEmail2" class="label">이메일</label>
+                            <input id="userEmail2" type="text" class="input">
+                        </div>
+                        <div class="group">
+                            <label for="memId" class="label">아이디</label>
+                            <input id="memId" type="text" class="input">
+                        </div>
+                        <div class="group">
+                            <button class="button2" type="button" value="비밀번호초기화">비밀번호 초기화</button>
+                        </div>
                     </div>
-                    
-                    
-                 <div class="result" id="result"></div>
-                    
-                  </div>
-                  
-        
-                  <div class="find-pw-htm">
-                    <div class="group">
-                      <label for="userEmail2" class="label">이메일</label>
-                      <input id="userEmail2" type="text" class="input">
-                    </div>
-                    <div class="group">
-                      <label for="memId" class="label">아이디</label>
-                      <input id="memId" type="text" class="input">
-                    </div>
-                    <div class="group">
-                      <button class="button2" type="button" value="비밀번호초기화">비밀번호 초기화</button>
-                    </div>
-                    
-                   
-                  </div>
-                  
                 </div> <!-- findId-form end -->
-                
-              </div> <!-- find-html end -->
-            </div>  <!-- find-wrap end -->
-            
-            <div class="foot-lnk">
-                  <a href="/ehr/member/signInUp.do">로그인 화면으로 돌아가기</a>
-            </div>
+            </div> <!-- find-html end -->
+        </div>  <!-- find-wrap end -->
+        <div class="foot-lnk">
+            <a href="/ehr/member/signInUp.do">로그인 화면으로 돌아가기</a>
+        </div>
     </section>
 
     <script>
@@ -296,118 +285,43 @@
                 findHtml.classList.add('white-background');
             });
         });
-        
 
-        
-        
-        
-        
         function findMemberId() {
-            var name = $('#userName').val();
-            var email = $('#userEmail').val();
+            const userNameInput = document.getElementById('userName');
+            const emailInput = document.getElementById('userEmail');
+            const resultDiv = document.getElementById('result');
+            
+            if (isEmpty(userNameInput.value)) {
+                alert("이름을 입력하세요.");
+                userNameInput.focus();
+                return;
+            }
+
+            if (isEmpty(emailInput.value)) {
+                alert("이메일을 입력하세요.");
+                emailInput.focus();
+                return;
+            }
 
             $.ajax({
-                url: '/ehr/member/findMemberId.do',  
                 type: 'POST',
-                data: { name: name, email: email },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.memberId) {
-                        $('#result').html('찾은 아이디: ' + response.memberId);
-                    } else {
-                        $('#result').html('해당하는 아이디를 찾을 수 없습니다.');
-                    }
+                url: '/ehr/member/findMemberId.do',
+                data: {
+                    name: userNameInput.value,
+                    email: emailInput.value
                 },
-                error: function(xhr, status, error) {
-                    $('#result').html('서버 오류가 발생했습니다. 다시 시도해 주세요.');
+                success: function(response) {
+                    resultDiv.innerHTML = '회원님의 아이디는 : ' + response;
+                },
+                error: function() {
+                    resultDiv.innerHTML = '아이디를 찾을 수 없습니다.';
                 }
             });
         }
-        
-        
-        
-        
-        document.addEventListener("DOMContentLoaded", function(){
-            const findIdBtn = document.querySelector("#findMemberId"); 
-            const userNameInput = document.querySelector("#userName");
-            const emailInput = document.querySelector("#userEmail"); 
-            const resultDiv = document.querySelector("#result");
-            
-            const form = document.querySelector("form");
-            form.addEventListener("submit", function(event) {
-                event.preventDefault();
-                findMemberId(); 
-            });
-            
-            function formatPhoneNumber(value) {
-                value = value.replace(/\D/g, '');
-                if (value.length < 4) return value;
-                if (value.length < 7) return value.slice(0, 3) + '-' + value.slice(3);
-                return value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7);
-            }
 
-            $('#tel').on('input', function() {
-                let formattedValue = formatPhoneNumber($(this).val());
-                $(this).val(formattedValue);
-            });
-
-            $('#tel').on('keydown', function(event) {
-                const key = event.key;
-                const cursorPos = this.selectionStart;
-                const currentValue = $(this).val();
-                
-                if (key === 'Backspace' || key === 'Delete') {
-                    if (key === 'Backspace' && currentValue[cursorPos - 1] === '-') {
-                        this.setSelectionRange(cursorPos - 1, cursorPos - 1);
-                    } else if (key === 'Delete' && currentValue[cursorPos] === '-') {
-                        this.setSelectionRange(cursorPos + 1, cursorPos + 1);
-                    }
-                }
-            });
-           
-            function findMemberId(){
-                if (isEmpty(userName.value)) {
-                    alert("이름을 입력하세요.");
-                    userNameInput.focus();
-                    return;
-                }
-                
-
-                if (isEmpty(userEmail.value)) {
-                    alert("이메일을 입력하세요.");
-                    emailInput.focus();
-                    return;
-                }       
-
-                $.ajax({
-                    type: "POST",
-                    url: "/ehr/member/findMemberId.do",
-                    data: {
-                        userName: userName.value.trim(),
-                        email: userEmail.value.trim()
-                    },
-                    dataType: "json",
-                    success: function (data) {
-                        console.log("Server response:", data);
-                        
-                        if (data && data.messageContents) {
-                            resultDiv.innerHTML = "<p><strong>"+data.messageContents+"</strong></p><a href='${CP}/member/login.do' class='btn btn-primary w-100'>로그인</a>";
-                        } else {
-                            resultDiv.innerHTML = `<p>입력한 정보중, 일치하지 않는 항목이 있습니다.</p>`;
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        resultDiv.innerHTML = `<p>아이디 찾기 처리 중 오류가 발생했습니다.</p>`;
-                        console.error("Error: " + error);
-                        console.log("Response Text: ", xhr.responseText);
-                    }
-                });
-            }
-            
-            function isEmpty(value) {
-                return value === null || value.trim() === "";
-            }
-        });
+        function isEmpty(value) {
+            return value === null || value.trim() === "";
+        }
     </script>
 </body>
 </html>

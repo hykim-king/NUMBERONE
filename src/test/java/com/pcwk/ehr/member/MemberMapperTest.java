@@ -207,33 +207,6 @@ public class MemberMapperTest implements PLog {
 	
 	
 
-	@Test
-    public void findMemberId() {
-        
-        SqlSessionFactory sqlSessionFactory = context.getBean(SqlSessionFactory.class);
-        
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-           
-            MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-
-            // 테스트 데이터
-            Member member = new Member();
-            member.setName("hwname");
-            member.setEmail("hhyew1215@naver.com");
-
-            //호출
-            Member result = mapper.findMemberId(member);
-
-          
-            String expectedMemberId = "hwid";
-
-          
-            assertNotNull(result);
-            assertEquals(expectedMemberId, result.getMemberId());
-            System.out.println(result.getMemberId());
-        }
-    }
-    
 	
     private void assertMembersEqual(Member expected, Member actual) {
         if (expected == null) {

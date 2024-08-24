@@ -11,7 +11,10 @@ public interface MemberService {
     boolean nicknameDuplicateCheck(String nickname);
     boolean idDuplicateCheck(String memberId);
 	int idPasswordCheck(Member member) throws SQLException;
-	Member findMemberId(Member member) throws SQLException;
+	
+
+	String findMemberId(String name, String email);
+
 	Member getAll(Member member);
 
 	Member doSelectOne(String memberId);
