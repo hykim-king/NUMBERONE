@@ -56,10 +56,20 @@ public class ShelterTest implements PLog{
 		log.debug("└──────────────────────────────────────────────┘");
 	}
 	
+	@Ignore
 	@Test
 	public void doRetrieve() throws Exception {
 		
 		List<Shelter> list = shelterMapper.doRetrieve(shelter);
+		for(Shelter vo : list) {
+			log.debug(vo);
+		}
+	}
+	
+	@Test
+	public void doRetrieveWithParent() throws Exception {
+		
+		List<Shelter> list = shelterMapper.shelterRetrieveWithParent(shelter);
 		for(Shelter vo : list) {
 			log.debug(vo);
 		}

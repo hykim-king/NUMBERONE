@@ -66,4 +66,17 @@ public class ShelterServiceImpl implements ShelterService, PLog {
 		return 0;
 	}
 
+	@Override
+	public List<Shelter> shelterRetrieveWithParent(Shelter shelter) throws SQLException {
+		log.debug("1. param :" + shelter);
+		log.debug("======================================");
+		log.debug("======================================");
+		log.debug("======================================");
+		log.debug("======================================");
+		//Shelter의 locCode를 받아와야 하기 때문에 DTO search를 형변환.
+		List<Shelter> list = shelterMapper.shelterRetrieveWithParent(shelter);
+		log.debug("list:" + list);
+		return list;
+	}
+
 }

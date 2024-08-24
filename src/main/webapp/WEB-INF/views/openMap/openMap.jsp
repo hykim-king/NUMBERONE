@@ -31,13 +31,13 @@
 <%-- common.js --%>
 <script src="${CP}/resources/js/common.js"></script>
 <%-- kakao Map --%>
-<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=caeb693362f61c09ef1fc4e0b640aaf4"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=58e22ea14fa4d3c6d85c5d37f98f128b"></script>
 <title>Insert title here</title>
 <style>
     /* 지도 크기 지정 */
     #map {
         width: 100%;
-        height: 700px; /* 원하는 높이로 조정 */
+        height: 720px; /* 원하는 높이로 조정 */
     }
     #header {
        background-color: #0558be;
