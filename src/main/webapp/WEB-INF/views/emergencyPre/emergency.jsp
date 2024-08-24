@@ -99,35 +99,9 @@
                                 ※ 집 밖으로 나오지 말고, TV·라디오·민방위 방송을 계속 들으면서 정부의 안내를 따라야 합니다.
                                 <br>
                                 ※ 통화량 급증으로 통신망이 마비되지 않도록 불필요한 전화 사용은 자제합니다.
-                                <br>
-                                ※ 아래 민방위 영상파일은 용량관계로 분할압축되어있습니다. 분할압축집(1)~(4)를 다운 후 압축풀기 해주시길 바랍니다.
+                                                
                               </p>
-                              
-                              <ul class="linkType_listWrap" style="margin-top:15px;">
-                                    <li class="linkType_listCell">
-                                        <a class="mbDownload_fcBlack_link" onclick="fn_btnOnclick('1')" title="민방위 영상파일  분할압축집 다운로드 1">
-                                            <span class="txt">민방위 영상파일 분할압축집(1)</span><i class="download_imgSet_icon"></i>
-                                        </a>
-                                    </li>
-                                    <li class="linkType_listCell">
-                                        <a class="mbDownload_fcBlack_link" onclick="fn_btnOnclick('2')" title="민방위 영상파일  분할압축집 다운로드 2">
-                                        <span class="txt">민방위 영상파일 분할압축집(2)</span>
-                                            <i class="download_imgSet_icon"></i>
-                                        </a>
-                                    </li>
-                                    <li class="linkType_listCell">
-                                        <a class="mbDownload_fcBlack_link" onclick="fn_btnOnclick('3')" title="민방위 영상파일  분할압축집 다운로드 3">
-                                            <span class="txt">민방위 영상파일 분할압축집(3)</span><i class="download_imgSet_icon"></i>
-                                        </a>
-                                    </li>
-                                    <li class="linkType_listCell">
-                                        <a class="mbDownload_fcBlack_link" onclick="fn_btnOnclick('4')" title="민방위 영상파일  분할압축집 다운로드 4">
-                                            <span class="txt">민방위 영상파일 분할압축집(4)</span><i class="download_imgSet_icon"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                                    
-                                    
+
                               <h3 class="title_01">일상생활 비상대비 3가지</h3>
                               <h3 class="title_02">대피장소 확인</h3>
                               <p>
