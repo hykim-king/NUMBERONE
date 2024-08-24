@@ -779,7 +779,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <li><a href="/ehr/disasterMsg/disasterMsg">재난문자</a></li>
                         <li><a href="/ehr/news">안전뉴스</a></li>
                         <li><a href="/ehr/video/videoView.do">훈련영상</a></li>
-                        <li><a href="/ehr/location/location/1">대피시설</a></li>
+                        <li><a href="/ehr/chart/dataChartMap.do">전국통계</a></li>
                         </ul>
                     </div>
                 </div>
@@ -1097,6 +1097,14 @@ document.addEventListener('DOMContentLoaded', function() {
             	msgList=data;
         		$.each(msgList, function(index, msg) {
         			let row = $("<tr></tr>");
+        			 row.hover(
+                             function() {
+                                 $(this).css("background-color", "#eee"); 
+                             }, 
+                             function() {
+                                 $(this).css("background-color", ""); 
+                             }
+                         );
                     row.append($("<td></td>").text(msg.broadcastOrganization).css({
                     	"width": "30px", /* 첫 번째 열 너비 */
                         "white-space": "nowrap",
@@ -1195,6 +1203,16 @@ document.addEventListener('DOMContentLoaded', function() {
             	msgList=data;
         		$.each(msgList, function(index, msg) {
         			let row = $("<tr></tr>");
+        			
+  
+                    row.hover(
+                        function() {
+                            $(this).css("background-color", "#eee"); 
+                        }, 
+                        function() {
+                            $(this).css("background-color", ""); 
+                        }
+                    );
                     row.append($("<td></td>").text(msg.broadcastOrganization).css({
                     	"width": "30px", /* 첫 번째 열 너비 */
                         "white-space": "nowrap",

@@ -629,19 +629,21 @@
                 $("#email").focus();
                 return;
             }
-    
+	        if (!isValidEmail($("#email").val())) {
+	            alert("유효하지 않은 이메일 주소입니다. 이메일 형식을 확인해주세요.");
+	            $("#email").focus();
+	            return;
+	        }
 	        
 	        if ($("#sido").val() === "") {
 	            alert("시/도를 선택해주세요.");
 	            return;
 	        }
 
-	        if ($("#sido").val() !== "세종특별자치시" && ($("#sigungu").val() === "" || $("#eupmyeondong").val() === "")) {
-	            alert("위치 설정을 해주세요.");
-	            return;
-	        }
-	
+
 	        
+
+
 	        
 	        
 	        function callServer() {
@@ -704,124 +706,109 @@
 	    }
 	        callServer();
 	    }
-	});
-	
-	
-	function isEmpty(value) {
-	    if (value == null || typeof value !== 'string') {
-	        return true; // value가 null, undefined, 혹은 문자열이 아닌 경우
-	    }
-	    return value.trim() === '';
-	}
-	
-	
-	
-	$(document).ready(function() {
-	    console.log("document ready!");
 
-	    // 로그인 폼 제출
+	
+    function isValidEmail(email) {
+        // 이메일 정규 표현식
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    }
+
+	
+	
+
+
+	    // 로그인 폼에서 엔터 키를 눌렀을 때 로그인 처리
 	    $("#signInForm").on("keydown", function(event) {
 	        if (event.key === "Enter") {
-	            event.preventDefault();
+	            event.preventDefault(); 
 	            login();
 	        }
 	    });
 
-	    // 회원가입 폼 제출
-	    $("#signUpForm").on("keydown", function(event) {
-	        if (event.key === "Enter") {
-	            event.preventDefault();
-	            doSave();
-	        }
-	    });
-
+	    // 로그인 버튼 클릭 시 로그인 처리
 	    $("#loginInfoBtn").on("click", function(event) {
-	        event.stopPropagation();
+	        event.preventDefault();
 	        login();
 	    });
 
+	    // 회원가입 버튼 클릭 시 회원가입 처리
 	    $("#doSave").on("click", function(event) {
-	        event.preventDefault();
-	        doSave();
+	        event.preventDefault(); 
+	        doSave(); 
 	    });
 
-	        
+	    function login() {
+	        console.log("login()");
 
-	        
-	        
-	        
-	        
+	        let memberId = $("#memberId").val(); 
+	        let pw = $("#password").val();
+	        let password = sha256(pw); 
 
+	        console.log("memberId:", memberId);
+	        console.log("password:", password);
 
-	        function login() {
-	            console.log("login()");
-	            
-	            let memberId = $("#memberId").val(); 
-	            
-	            let pw = $("#password").val();
-	            let password = sha256(pw); 
-	            
-	            console.log("memberId:", memberId);
-	            console.log("password:", password);
-	            
-	            if (isEmpty(memberId)) {
-	                alert('아이디를 입력 하세요.');
-	                $("#memberId").focus();
-	                return;
-	            }
-
-	            if (isEmpty(password)) {
-	                alert('비밀번호를 입력 하세요.');
-	                password.focus();
-	                return;
-	            }
-	            
-	            $.ajax({
-	                url: '/ehr/member/login.do',
-	                type: "POST",
-	                dataType: "json",
-	                data: {
-	                    memberId: memberId,
-	                    password: password
-	                },
-	                success: function(data) {
-	                    if (data) {
-	                        try {
-	                            if (data.messageId === 10) {
-	                                alert(data.messageContents);
-	                                $("#memberId").focus();
-	                            } else if (data.messageId === 20) {
-	                                alert(data.messageContents);
-	                                password.focus();
-	                            } else if (data.messageId === 30) {
-	                                alert(data.messageContents);
-	                                
-	                                //로그인 성공시 
-	                                 $("#loginBtn").text("로그아웃");
-	                                 $("#loginBtn").attr("href", "/ehr/member/logout.do");
-	                                window.location.href = "/ehr/main/index.do";
-	                            } else {
-	                                alert(data.messageContents);
-	                            }
-	                        } catch(e) {
-	                            alert("data를 확인 하세요.");     
-	                        }           
-	                    }
-	                },
-	                error: function(xhr, status, error) {
-	                    console.error("AJAX Error:", status, error);
-	                    alert("로그인 처리 중 오류가 발생했습니다.");
-	                }
-	            });
+	        if (isEmpty(memberId)) {
+	            alert('아이디를 입력 하세요.');
+	            $("#memberId").focus();
+	            return;
 	        }
-	    });
 
-	    // 빈 값 검사 함수
+	        if (isEmpty(password)) {
+	            alert('비밀번호를 입력 하세요.');
+	            $("#password").focus();
+	            return;
+	        }
+
+	        $.ajax({
+	            url: '/ehr/member/login.do',
+	            type: "POST",
+	            dataType: "json",
+	            data: {
+	                memberId: memberId,
+	                password: password
+	            },
+	            success: function(data) {
+	                if (data) {
+	                    try {
+	                        if (data.messageId === 10) {
+	                            alert(data.messageContents);
+	                            $("#memberId").focus();
+	                        } else if (data.messageId === 20) {
+	                            alert(data.messageContents);
+	                            $("#password").focus();
+	                        } else if (data.messageId === 30) {
+	                            alert(data.messageContents);
+	                            
+	                            $("#loginBtn").text("로그아웃");
+	                            $("#loginBtn").attr("href", "/ehr/member/logout.do");
+	                            
+	                            window.location.href = "/ehr/main/index.do";
+	                        } else {
+	                            alert(data.messageContents);
+	                        }
+	                    } catch(e) {
+	                        console.error("Error handling response:", e);
+	                        alert("data를 확인 하세요.");
+	                    }
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("AJAX Error:", status, error);
+	                alert("로그인 처리 중 오류가 발생했습니다.");
+	            }
+	        });
+	    }
+
+	  
+
+	    
+
 	    function isEmpty(value) {
 	        return value === undefined || value === null || typeof value !== 'string' || value.trim() === '';
 	    }
-	
-	
+	});
+
 	
 	
 	
@@ -934,56 +921,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    function submitFormOnEnter(event, formId) {
-        if (event.key === 'Enter') {
-            event.preventDefault(); // 기본 동작 방지
-            const form = document.getElementById(formId);
-            if (form) {
-                form.submit(); // 폼 제출
-            }
-        }
-    }
 
-    // 로그인 폼에 대한 Enter 키 이벤트
-    const signInForm = document.getElementById('signInForm');
-    if (signInForm) {
-        signInForm.addEventListener('keydown', function(event) {
-            submitFormOnEnter(event, 'signInForm');
-        });
-    }
-
-    // 회원가입 폼에 대한 Enter 키 이벤트
-    const signUpForm = document.getElementById('signUpForm');
-    if (signUpForm) {
-        signUpForm.addEventListener('keydown', function(event) {
-            submitFormOnEnter(event, 'signUpForm');
-        });
-    }
-
-    // 로그인 버튼 클릭 시 폼 제출
-    const loginBtn = document.getElementById('loginInfoBtn');
-    if (loginBtn) {
-        loginBtn.addEventListener('click', function() {
-            const signInForm = document.getElementById('signInForm');
-            if (signInForm) {
-                login();
-               
-            }
-        });
-    }
-
-    // 회원가입 버튼 클릭 시 폼 제출
-    const signUpBtn = document.getElementById('doSave');
-    if (signUpBtn) {
-        signUpBtn.addEventListener('click', function() {
-            const signUpForm = document.getElementById('signUpForm');
-            if (signUpForm) {
-                signUpForm.submit();
-            }
-        });
-    }
-});
 </script>
 	
 	</body>
