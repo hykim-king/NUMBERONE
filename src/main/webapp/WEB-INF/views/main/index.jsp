@@ -1095,7 +1095,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(function(data) { 
             	$("#messageTable").empty();
             	msgList=data;
-        		$.each(msgList, funct ion(index, msg) {
+        		$.each(msgList, function(index, msg) {
         			let row = $("<tr></tr>");
                     row.append($("<td></td>").text(msg.broadcastOrganization).css({
                     	"width": "30px", /* 첫 번째 열 너비 */
