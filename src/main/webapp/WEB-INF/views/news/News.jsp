@@ -164,6 +164,7 @@ class StatisticsCondition {
         }
         .search-box button:hover {
             background-color: #134b70;
+            cursor:pointer;
         }
         table {
             width: 100%;
@@ -186,6 +187,7 @@ class StatisticsCondition {
         }
         tbody tr:hover {
             background-color: #e0e0e0;
+            cursor:pointer;
         }
         .pagination {
             display: flex;

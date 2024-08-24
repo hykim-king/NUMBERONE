@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function(){
             if(data){
                 try{
                     const message = JSON.parse(data);
-                    if(isEmpty(message) === false && 1 === message.messageId){
+                    if(message !== null && 1 === message.messageId){
                         alert(message.messageContents);
                         window.location.href ="/ehr/board/doSelectOne.do?boardNo=" + boardNoInput.value;
                     } else {

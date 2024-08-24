@@ -254,12 +254,12 @@
     
     
     #sheltersBtn {
-        display:none;
-        width: 598px;
+	    display: none;
+	    width: 630px;
 	    height: 424px;
 	    position: relative;
-        top: 600px;
-        left: 100px;
+	    top: 600px;
+	    left: 82px;
 	    align-items: center;
 	    z-index: 10;
     }
@@ -311,10 +311,10 @@
 	        display: none;
 	    }
 	    #shelterBottom>span{
-	        color: #0d354f;
-	        font-weight: 800;
-	        line-height: 0.6;
-	        font-size: 50px;
+		    color: #0d354f;
+		    font-weight: 900;
+		    line-height: 0.5;
+		    font-size: 57px;
 	    }
     
     
@@ -508,7 +508,7 @@
 	    line-height: 2.2;
 	    text-align: center;
 	    font-size: 15px;
-	    font-weight: 500;
+	    font-weight: 600;
 	    box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
 	}
 	
@@ -717,7 +717,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			             <div class = "table table-bordered" id="shelterList"></div>
 			           
 			           </div>
-		               <div class="shelterBottom" id="shelterBottom"><span>──────────────────────────────────────────────────</span></div>
+		               <div class="shelterBottom" id="shelterBottom"><span>◤◢◣◥◤◢◣◥◤◢◣◥◤◢◣◥<span></div>
 			        
 			        </div>
 			        </div><!-- sheltersDiv end -->        
@@ -897,6 +897,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		            // 행에 데이터 추가
 		            row.append(roadAddressElement);
 		            row.append($("<td>").text(item.facilityName));
+		            
+		            row.hover(
+		                    function() {
+		                        $(this).css("background-color", "#eeeeee"); // 마우스를 올렸을 때 배경색 변경
+		                    },
+		                    function() {
+		                        $(this).css("background-color", ""); // 마우스를 벗어났을 때 배경색 초기화
+		                    }
+		                );
 		            
 		            // 행을 tbody에 추가
 		            tbody.append(row);
@@ -1086,7 +1095,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(function(data) { 
             	$("#messageTable").empty();
             	msgList=data;
-        		$.each(msgList, function(index, msg) {
+        		$.each(msgList, funct ion(index, msg) {
         			let row = $("<tr></tr>");
                     row.append($("<td></td>").text(msg.broadcastOrganization).css({
                     	"width": "30px", /* 첫 번째 열 너비 */
@@ -1127,7 +1136,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }));
                     
                     row.append($("<td></td>").text(msg.msgRegDt).css({
-                        "width": "30px", /* 세 번째 열 너비 */
+                        "width": "50px", /* 세 번째 열 너비 */
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",

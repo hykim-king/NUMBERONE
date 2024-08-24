@@ -631,11 +631,15 @@
             }
     
 	        
-	        if ($("#sido").val() === "" || $("#sigungu").val() === "" || $("#eupmyeondong").val() === "") {
-                alert("위치 설정을 해주세요.");
-                return;
-            }
-	
+	        if ($("#sido").val() === "") {
+	            alert("시/도를 선택해주세요.");
+	            return;
+	        }
+
+	        if ($("#sido").val() !== "세종특별자치시" && ($("#sigungu").val() === "" || $("#eupmyeondong").val() === "")) {
+	            alert("위치 설정을 해주세요.");
+	            return;
+	        }
 	
 	        
 	        
@@ -712,25 +716,41 @@
 	
 	
 	
-	   document.addEventListener("DOMContentLoaded", function(){
-	        console.log("DOMContentLoaded");
-	        //로그인
-	        const loginInfoBtn = document.querySelector("#loginInfoBtn");
-	        console.log("loginInfoBtn",loginInfoBtn);
-	        
-	        //아이디: userId
-	        const memberIdInput  = document.querySelector("#memberId");
-	        //비밀번호: passowrd
-	        const passwordInput  = document.querySelector("#password"); 
-	        
-	        loginInfoBtn.addEventListener("click",function(event){
-	            console.log("loginInfoBtn click",event);
-	            event.stopPropagation();
-	             
-	            login(); 
-	        });
+	$(document).ready(function() {
+	    console.log("document ready!");
+
+	    // 로그인 폼 제출
+	    $("#signInForm").on("keydown", function(event) {
+	        if (event.key === "Enter") {
+	            event.preventDefault();
+	            login();
+	        }
+	    });
+
+	    // 회원가입 폼 제출
+	    $("#signUpForm").on("keydown", function(event) {
+	        if (event.key === "Enter") {
+	            event.preventDefault();
+	            doSave();
+	        }
+	    });
+
+	    $("#loginInfoBtn").on("click", function(event) {
+	        event.stopPropagation();
+	        login();
+	    });
+
+	    $("#doSave").on("click", function(event) {
+	        event.preventDefault();
+	        doSave();
+	    });
+
 	        
 
+	        
+	        
+	        
+	        
 
 
 	        function login() {
@@ -914,7 +934,56 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    function submitFormOnEnter(event, formId) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 기본 동작 방지
+            const form = document.getElementById(formId);
+            if (form) {
+                form.submit(); // 폼 제출
+            }
+        }
+    }
 
+    // 로그인 폼에 대한 Enter 키 이벤트
+    const signInForm = document.getElementById('signInForm');
+    if (signInForm) {
+        signInForm.addEventListener('keydown', function(event) {
+            submitFormOnEnter(event, 'signInForm');
+        });
+    }
+
+    // 회원가입 폼에 대한 Enter 키 이벤트
+    const signUpForm = document.getElementById('signUpForm');
+    if (signUpForm) {
+        signUpForm.addEventListener('keydown', function(event) {
+            submitFormOnEnter(event, 'signUpForm');
+        });
+    }
+
+    // 로그인 버튼 클릭 시 폼 제출
+    const loginBtn = document.getElementById('loginInfoBtn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', function() {
+            const signInForm = document.getElementById('signInForm');
+            if (signInForm) {
+                login();
+               
+            }
+        });
+    }
+
+    // 회원가입 버튼 클릭 시 폼 제출
+    const signUpBtn = document.getElementById('doSave');
+    if (signUpBtn) {
+        signUpBtn.addEventListener('click', function() {
+            const signUpForm = document.getElementById('signUpForm');
+            if (signUpForm) {
+                signUpForm.submit();
+            }
+        });
+    }
+});
 </script>
 	
 	</body>

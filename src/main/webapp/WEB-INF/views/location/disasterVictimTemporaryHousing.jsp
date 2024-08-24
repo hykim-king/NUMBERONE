@@ -1,11 +1,11 @@
 <%--
 /**
-	Class Name: civilDefenseShelter.jsp
-	Description: 민방위 대피시설
-	Author: Jinseo
-	Modification information
-	
-	수정일         수정자        수정내용
+    Class Name: 
+    Description: 이재민 임시주거시설
+    Author: Jinseo
+    Modification information
+    
+    수정일         수정자        수정내용
     -----   -----  -------------------------------------------
     2024.   7. 27   최초작성 
     
@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">  
 <link href="/ehr/resources/css/behavior.css" rel="stylesheet" />
-<title>대피시설</title>
+<title>임시주거시설 - 지진겸용 임시주거시설</title>
 <style>
 * {
     margin: 0;
@@ -74,7 +74,7 @@ body {
     color: #2c3e50;
     margin-bottom: 20px;
 }
-.btn {
+#search{
     padding: 10px 20px;
     font-size: 1rem;
     border-radius: 5px;
@@ -184,10 +184,35 @@ body {
     margin: 0 5px; /* 좌우 여백 추가 */
 }
 
+#shelterSelect {
+    width: 900px;
+    height: 100px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 30px;
+    text-align: center;
+}
+
+#shelter30{
+    display: block;
+    height: 50px;
+    border-width: 1px 0 0 1px;
+    border-style: solid;
+    border-color: #ddd;
+    font-size: 35px;
+    line-height: 1;
+    text-align: center;
+
+    }
+
 </style>
 <script>
 //시도 비동기 통신
 function sidoSet(){
+    $("#eupmyeondong").empty();
     let type = "GET";
     let url = "/ehr/location/location";
     let async = "false";
@@ -197,8 +222,6 @@ function sidoSet(){
         "locCode" : 0
     };
     
-	$("#eupmyeondong").empty();
-	
     PClass.pAjax(url,params,dataType,type,async,function(data){
     
            var optionSidoData = JSON.parse(data);
@@ -287,88 +310,93 @@ function eupmyeondongSet() {
 <body>
     <%@ include file="/WEB-INF/views/main/header.jsp" %>
  
- <div id="containerWrap">
-	    
-	    <div class="container-sm" id="content" style="display: block;">
-	        <div class="level1_titleWrap">
-	          <h2 class="level1_title">대피시설</h2>
-	        </div>
-	    
-	        <div class="contextIndent_oneDepList">
-	            <li><span class="dot_bulTxt_txtIndent">· 시도, 시군구별로 대피시설 정보를 조회하실 수 있습니다.</span></li><br>
-	            <li><span class="dot_bulTxt_txtIndent">· 세종특별자치시는 시군구가 없으므로 읍면동에서 조회하시기 바랍니다.</span></li><br>
-	            <li><span class="dot_bulTxt_txtIndent">· 지도 아이콘을 클릭하시면 지도를 통해 위치를 확인하실 수 있습니다.</span></li><br>
-	            <li><span class="dot_bulTxt_txtIndent">· 본 지도는 네이버에서 제공하는 서비스로 실제와 차이가 있을 수 있습니다.</span></li><br>  
-	            <li><span class="dot_bulTxt_txtIndent">· 민방위사태 발생시 주민의 생명과 재산을 보호하기 위하여 정부지원으로 설치 또는 공공용으로 지정 지하 대피시설</span></li>
-	            <li><span class="dot_bulTxt_txtIndent" style="color:#134b70; font-weight:600; ">· 주거지역의 대피시설이 검색되지 않을 경우(법정동과 행정동의 차이)인근 지역으로 재검색 시행 필요</span></li>
-	            <li><span class="dot_bulTxt_txtIndent" style="color:#134b70; font-weight:600;">· 타 시스템 연계를 통해 제공되는 정보로 일시적 장애 및 조회 지연이 있을 수 있습니다.</span></li>
-	            <li><span class="dot_bulTxt_txtIndent" style="color:#134b70; font-weight:600;">· 행정구역 경계에 위치한 시설은 활용도에 따라 인접 관할 행정기관에서 해당 시설을 관리할 수 있어 검색된 시설의 주소가 인접 시군구(읍면동)로 검색  될 수 있습니다.</span></li>
-	        </div>
-	        
-	     </div>
-	        <div class="container-sm">
-	            <form action="#" name="locationForm" class="row g-2 align-items-right" id="locationForm">
-	                <div class="row g-3">
-	                    <select name="sido" class="form-select" id="sido" onchange="sigunguSet()">
-	                        <option value="">시도선택</option>
-	                    </select>
-	
-	                    <select name="sigungu" class="form-select" id="sigungu" onchange="eupmyeondongSet()">
-	                        <option value="">시군구선택</option>
-	                    </select>
-	
-	                    <select name="eupmyeondong" class="form-select" id="eupmyeondong">
-	                        <option value="">읍면동선택</option>
-	                    </select>
-	                </div>
-	                <button type="button" class="btn btn-primary" id="search">검색</button>
-	            </form>
-	        </div>
-	        
-	     <div class="container mt-4">
-	    <div class="d-flex justify-content-between align-items-center">
-	        <h5 id="totalCnt">전체  0 건</h5>
-	    </div>
-	    
-	    <div class="header-line"></div>
-	
-	    <table id="shelterTable" class="table table-bordered">
-	        <colgroup>
-	            <col style="width:46%">
-	            <col style="width:13%">
-	            <col style="width:7%">
-	            <col style="width:10%">  
-	        </colgroup>
-	    
-	        <thead>
-	            <tr class="table-light.table-striped">
-	                <th class="text-center">위치</th>
-	                <th class="text-center">시설</th>
-	                <th class="text-center">규모</th>
-	                <th class="text-center">최대수용인원</th>
-	            </tr>
-	        </thead>
-	        <tbody id="shelterList">
-	        </tbody>
-	    </table>
-	
-	    <nav aria-label="Page navigation">
-	        <ul class="pagination justify-content-center">
-	            <li class="page-item disabled">
-	                <a class="page-link" href="#" id="pageBack" type="button">이전</a>
-	            </li>
-	            
-	            <li class="page-item active">
-	                <span class="page-link" id="currentPageNo">1/<span id="totalPageNo">1</span></span> <!-- 총 페이지 수 추가 -->
-	            </li>
-	            
-	            <li class="page-item">
-	                <a class="page-link" href="#" id="pageNext" type="button">다음</a>
-	            </li>
-	        </ul>
-	        <h5 class="mt-4">소관부서 : 위기관리지원과 (044-205-4432)</h5>
-	    </nav>
-	</div>
+    <div id="containerWrap">
+        
+            <div class="container-sm" id="content" style="display: block;">
+                <div class="level1_titleWrap">
+                  <h2 class="level1_title">지진대피장소</h2>
+                </div>
+            </div>
+        
+            <div id="shelterSelect">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a id="shelter30" href="/ehr/location/location/5" title="선택됨" tabindex="0" class="nav-link" >지진겸용 임시주거시설</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="shelter40" href="/ehr/location/location/6" title="선택됨" tabindex="0" class="nav-link active">이재민 임시주거시설</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="container-sm">
+                <form action="#" name="locationForm" class="row g-2 align-items-right" id="locationForm">
+                    <div class="row g-3">
+                        <select name="sido" class="form-select" id="sido" onchange="sigunguSet()">
+                            <option value="">시도선택</option>
+                        </select>
+    
+                        <select name="sigungu" class="form-select" id="sigungu" onchange="eupmyeondongSet()">
+                            <option value="">시군구선택</option>
+                        </select>
+    
+                        <select name="eupmyeondong" class="form-select" id="eupmyeondong">
+                            <option value="">읍면동선택</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="search">검색</button>
+                </form>
+            </div>
+            
+            <div>
+                <p style="font-size: 17px;">·각종 재난으로 인해 주고시설을 상실하거나 사실상 주거가 불가능한 경우 이재민 및 일시대피자의 임시 거주를 위하여 제공되는 시설물입니다.</p>
+            </div>
+            
+         
+         <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+             <h5 id="totalCnt">전체  0 건</h5>
+        </div>
+        
+        <div class="header-line"></div>
+    
+        <table id="shelterTable" class="table table-bordered">
+            <colgroup>
+                <col style="width:10%">
+                <col style="width:35%">
+                <col style="width:10%">
+                <col style="width:20%">
+            </colgroup>
+        
+            <thead>
+                <tr class="table-light.table-striped">
+                    <th class="text-center">시설명</th>
+                    <th class="text-center">상세주소</th>
+                    <th class="text-center">수용가능면적</th>
+                    <th class="text-center">연락처</th>
+                </tr>
+            </thead>
+            <tbody id="shelterList">
+            </tbody>
+        </table>
+    
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" id="pageBack" type="button">이전</a>
+                </li>
+                
+                <li class="page-item active">
+                    <span class="page-link" id="currentPageNo">1/<span id="totalPageNo">1</span></span> <!-- 총 페이지 수 추가 -->
+                </li>
+                
+                <li class="page-item">
+                    <a class="page-link" href="#" id="pageNext" type="button">다음</a>
+                </li>
+            </ul>
+            <h5 class="mt-4">소관부서 : 재난구호과 (044-205-5335)</h5>
+        </nav>
+    </div>
 </div>
 <script src="${CP}/resources/js/bootstrap.min.js"></script>
 
@@ -377,39 +405,39 @@ let currentPageNo = 1; // 현재 페이지 번호 초기화
 let maxPageNo;         //전역변수
 let totalCount;        //전역변수
 $(document).ready(function(){
-	
+    
     //시도 데이터 비동기 통신
-	sidoSet();
-	
-	//검색 버튼 클릭 이벤트
-	$("#search").on("click",function(event){
-		//이벤트 버블링 방지
+    sidoSet();
+    
+    //검색 버튼 클릭 이벤트
+    $("#search").on("click",function(event){
+        //이벤트 버블링 방지
         event.preventDefault();
         currentPageNo = 1;
         shelterRetrieve(1,totalCnt);
         
         if($("#sido option:selected").val() === ""){
-        	   alert("시도를 선택하세요.");
-        	   totalCnt = 0; // totalCnt 초기화
+               alert("시도를 선택하세요.");
+               totalCnt = 0; // totalCnt 초기화
                $("#totalCnt").data("total", 0); // "totald"을 0으로 초기화
                $("#currentPageNo").text("1/1");
                $("#sigungu").empty();
                $("#sigungu").append('<option value="">' + "시군구선택" + '</option>');
                
         }else if($("#sigungu option:selected").val() === ""){
-	        	alert("시군구를 선택하세요.");
-	        	totalCnt = 0; // totalCnt 초기화
-	        	$("#totalCnt").data("total", 0); // "totald"을 0으로 초기화
-	            $("#currentPageNo").text("1/1");
-	        	$("#eupmyeondong").empty();
-	        	$("#eupmyeondong").append('<option value="">' + "" + '</option>');
-	        	return;
+                alert("시군구를 선택하세요.");
+                totalCnt = 0; // totalCnt 초기화
+                $("#totalCnt").data("total", 0); // "totald"을 0으로 초기화
+                $("#currentPageNo").text("1/1");
+                $("#eupmyeondong").empty();
+                $("#eupmyeondong").append('<option value="">' + "" + '</option>');
+                return;
         }
-	});
+    });
     
-	//페이지 다음 버튼 클릭 이벤트
+    //페이지 다음 버튼 클릭 이벤트
     $("#pageNext").on("click",function(event){
-		//이벤트 버블링 방지
+        //이벤트 버블링 방지
         event.preventDefault();
         
         totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
@@ -423,7 +451,7 @@ $(document).ready(function(){
             console.log("마지막 페이지입니다.");
         }
         
-	});
+    });
     
     // 페이지 이전 버튼 클릭 이벤트
     $("#pageBack").on("click", function(event) {
@@ -436,53 +464,53 @@ $(document).ready(function(){
         } else {
             console.log("첫 번째 페이지입니다.");
         }
-    });	
+    }); 
 
 //shelterRetrieve
 function shelterRetrieve(pageNo,totalCnt) {
-	    
-		let locCode = "";
-		
-		$("#totalCnt").html("전체 0 건");
-		
-		
-		if($("#sido option:selected").val() === ""){
-			$("#shelterList").empty();
-			return "";
-			
-		} else if($("#sigungu option:selected").val() === ""){
-			locCode = $("#sido option:selected").val();
-			$("#shelterList").empty();
-			return "";
-			
-		} else if($("#eupmyeondong option:selected").val() === ""){
-			 locCode = $("#sigungu option:selected").val();
-			 $("#shelterList").empty();
-		}else{
-			$("#shelterList").empty();
-			locCode = $("#eupmyeondong option:selected").val();
-			
-		}
-		
-		let type = "GET";
-		let url = "/ehr/shelter/shelter";
-		let async = "false";
-		let dataType = "html";
-		
-		let params = {
-			"locCode" : locCode,
-			"shelterDiv" : "10",
-			"pageNo" : pageNo
-		};
-		
-		 PClass.pAjax(url,params,dataType,type,async,function(data){
-	         
-	         var shelterData = JSON.parse(data);
-	         totalCnt = 0; // totalCnt 초기화
-	         // shelterList를 비우고 데이터가 없음을 표시
-	         console.log("shelterData.length:",shelterData.length);
-	          if (shelterData.length === 0) {
-	        	     maxPageNo = 0;
+        
+        let locCode = "";
+        
+        $("#totalCnt").html("전체 0 건");
+        
+        
+        if($("#sido option:selected").val() === ""){
+            $("#shelterList").empty();
+            return "";
+            
+        } else if($("#sigungu option:selected").val() === ""){
+            locCode = $("#sido option:selected").val();
+            $("#shelterList").empty();
+            return "";
+            
+        } else if($("#eupmyeondong option:selected").val() === ""){
+             locCode = $("#sigungu option:selected").val();
+             $("#shelterList").empty();
+        }else{
+            $("#shelterList").empty();
+            locCode = $("#eupmyeondong option:selected").val();
+            
+        }
+        
+        let type = "GET";
+        let url = "/ehr/shelter/shelter";
+        let async = "false";
+        let dataType = "html";
+        
+        let params = {
+            "locCode" : locCode,
+            "shelterDiv" : "60",
+            "pageNo" : pageNo
+        };
+        
+         PClass.pAjax(url,params,dataType,type,async,function(data){
+             
+             var shelterData = JSON.parse(data);
+             totalCnt = 0; // totalCnt 초기화
+             // shelterList를 비우고 데이터가 없음을 표시
+             console.log("shelterData.length:",shelterData.length);
+              if (shelterData.length === 0) {
+                     maxPageNo = 0;
                      $("#shelterList").append($("<tr>"));
                      $("#shelterList").append($("<td class='text-center' colspan='4'>").html("대피소가 없는 지역입니다."));
                      $("#shelterList").append($("</tr>"));
@@ -490,43 +518,51 @@ function shelterRetrieve(pageNo,totalCnt) {
                      $("#currentPageNo").text("1/1");
                      return;
                  }
-	         
-	         $("#shelterList").empty();
-	         
-	         
-	         shelterData.forEach(function(item){
-	        	 totalCnt = item.totalCnt;
-	        	 $("#totalCnt").data("total", item.totalCnt); // 총 개수를 data-attribute로 저장
-	        	 $("#totalCnt").html("전체 " + item.totalCnt + " 건");
-	        	 
-	        	 $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
-	        	 
-		        	  // roadAddress 클릭 이벤트 추가
-		              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
-		              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
-		              roadAddressElement.on("click", function(event) {
-		            	  openKakaoMap(item.lat,item.lon,item.facilityName);
-			          });
-		              
-		                  $("#shelterList").append($("<tr>"));
-			        	  $("#shelterList").append(roadAddressElement);
-			              $("#shelterList").append($("<td>").text(item.facilityName));
-			              $("#shelterList").append($("<td>").text(item.scale + "m²"));
-			              $("#shelterList").append($("<td>").text(item.maxCapacity + "명"));
-			              $("#shelterList").append($("</tr>"));
-			              
-			              //-------------------------------------------------------------------------------
-			              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
-			              maxPageNo = Math.ceil(totalCount / 10);
-			              $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
-		              
-	      });
-	   
-	 }); 
-		 
+             
+             $("#shelterList").empty();
+             
+             
+             shelterData.forEach(function(item){
+                 totalCnt = item.totalCnt;
+                 $("#totalCnt").data("total", item.totalCnt); // 총 개수를 data-attribute로 저장
+                 $("#totalCnt").html("전체 " + item.totalCnt + " 건");
+                 
+                 $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
+                 
+	              // roadAddress 클릭 이벤트 추가
+	                 let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
+	                 roadAddressElement.css({
+	                     "cursor": "pointer"
+	                 }); // 클릭 가능한 커서 스타일
+	                 
+	                 roadAddressElement.on("click", function(event) {
+	                     openKakaoMap(item.lat,item.lon,item.facilityName);
+	                 });
+	                 
+	                 
+	                 /*hover 효과---------------------------------------------------------------------- */
+	                 $("#shelterList").append($("<tr>")
+	                         .append($("<td>").text(item.facilityName))
+	                         .append(roadAddressElement)
+	                         .append($("<td>").text(item.scale + "m²"))
+	                         .append($("<td>").text(item.contactInfo))
+	                         .hover(
+	                             function () { $(this).css("background-color", "#eeeeee"); }, 
+	                             function () { $(this).css("background-color", ""); }      
+	                         )
+	                     );
+	                  //-------------------------------------------------------------------------------
+                          totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
+                          maxPageNo = Math.ceil(totalCount / 10);
+                          $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
+                      
+          });
+       
+     }); 
+         
    }//--shelterRetrieve end
    
-	
+    
 });//--document end
 
 function openKakaoMap(lat,lon,facilityName){

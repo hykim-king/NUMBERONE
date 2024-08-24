@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	const divInput = document.querySelector("#div");
 	//Event감지
 	doSaveBtn.addEventListener("click", function(event){
-	    console.log("doSaveBtn click");		
+	    console.log("doSaveBtn click");	
 	    doSave();
 	});
 	
@@ -140,12 +140,6 @@ document.addEventListener("DOMContentLoaded", function(){
         moveToList();
     });
 	
-	function isEmpty(value) {
-        if (value == null || typeof value !== 'string') {
-            return true; // value가 null, undefined, 혹은 문자열이 아닌 경우
-        }
-        return value.trim() === '';
-    }
 	
 	function moveToList(){
         window.location.href = "/ehr/board/doRetrieve.do";
@@ -181,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function(){
         //비동기 통신
         let type= "POST";  
         let url = "/ehr/board/doSave.do";
-        let async = "true";
+        let async = "false";
         let dataType = "html";
         
         //markdown getter : simplemde.value()
@@ -197,9 +191,9 @@ document.addEventListener("DOMContentLoaded", function(){
         	if(data){
         		try{
         			const message = JSON.parse(data);
-        			if(isEmpty(message) === false && 1 === message.messageId){
+        			if(message !== null && 1 === message.messageId){
         				alert(message.messageContents);
-        				window.location.href ="/ehr/board/doRetrieve.do?div="+divInput.value;
+        				moveToList();
         			}else{
         				alert(message.messageContents);
         				
@@ -232,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <c:when test="${ '10'==board.getDiv() }">공지사항-등록</c:when>
             <c:when test="${ '20'==board.getDiv() }">자유게시판-등록</c:when>
             <c:otherwise>
-                                 공지사항/자유게시판
+                                 재난 커뮤니티
             </c:otherwise>
         </c:choose>
       </h2>  

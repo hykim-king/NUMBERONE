@@ -121,7 +121,7 @@ body {
 .table-striped tbody tr:nth-child(odd) {
     background-color: #eeeeee;
 }
-.table-hover tbody tr:hover {
+.table tbody tr:hover {
     background-color: #e0e0e0;
 }
 .table thead th {
@@ -184,6 +184,13 @@ body {
     margin: 0 5px; /* 좌우 여백 추가 */
 }
 
+.roadAddressElement {
+    text-decoration: none; /* 기본적으로 밑줄 제거 */
+}
+
+.roadAddressElement:hover {
+    
+}
 </style>
 <script>
 //시도 비동기 통신
@@ -503,19 +510,27 @@ function shelterRetrieve(pageNo,totalCnt) {
 	        	 
 		        	  // roadAddress 클릭 이벤트 추가
 		              let roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
-		              roadAddressElement.css("cursor", "pointer"); // 클릭 가능한 커서 스타일
+		              roadAddressElement.css({
+		            	  "cursor": "pointer"
+		              }); // 클릭 가능한 커서 스타일
+		              
 		              roadAddressElement.on("click", function(event) {
 		            	  openKakaoMap(item.lat,item.lon,item.facilityName);
 			          });
 		              
-		                  $("#shelterList").append($("<tr>"));
-			        	  $("#shelterList").append(roadAddressElement);
-			              $("#shelterList").append($("<td>").text(item.facilityName));
-			              $("#shelterList").append($("<td>").text(item.scale + "m²"));
-			              $("#shelterList").append($("<td>").text(item.maxCapacity + "명"));
-			              $("#shelterList").append($("</tr>"));
-			              
-			              //-------------------------------------------------------------------------------
+		              
+		              /*hover 효과---------------------------------------------------------------------- */
+		              $("#shelterList").append($("<tr>")
+		                      .append(roadAddressElement)
+		                      .append($("<td>").text(item.facilityName))
+		                      .append($("<td>").text(item.scale + "m²"))
+		                      .append($("<td>").text(item.maxCapacity + "명"))
+		                      .hover(
+		                          function () { $(this).css("background-color", "#eeeeee"); }, 
+		                          function () { $(this).css("background-color", ""); }      
+		                      )
+		                  );
+			           //-------------------------------------------------------------------------------
 			              totalCount = Number($("#totalCnt").data("total")); // data-attribute에서 총 개수 가져오기
 			              maxPageNo = Math.ceil(totalCount / 10);
 			              $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
@@ -533,6 +548,9 @@ function openKakaoMap(lat,lon,facilityName){
     //팝업창 생성
     var popup = window.open("/ehr/shelter/shelter_map?lat="+lat+"&lon="+lon+"&FacilityName="+facilityName, "Kakao Map", "width=700,height=500");
 }//-- openKakaoMap end  
+
+
+
 
 </script>
 

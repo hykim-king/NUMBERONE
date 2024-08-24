@@ -127,16 +127,17 @@ textarea.content-area {
 }
 
 #replyList .reply button {
-    background-color: #e74c3c;
+    background-color: #134b70;
     border: none;
     color: #fff;
-    padding: 5px 10px;
+    padding: 4px 8px;
     border-radius: 3px;
     cursor: pointer;
+    margin: 2px;
 }
 
 #replyList .reply button:hover {
-    background-color: #c0392b;
+    background-color: #201e4b;
 }
 
 /* 댓글 입력 폼 스타일 */
@@ -228,9 +229,11 @@ document.addEventListener("DOMContentLoaded", function(){
             return true; // null 또는 undefined인 경우
         }
         if (typeof value === 'string') {
+        	console.log("string");
             return value.trim() === '';
         }
         if (typeof value === 'number') {
+        	console.log("number");
             return false; // 숫자는 항상 비어있지 않은 것으로 간주
         }
         return false; // 그 외의 경우 (배열, 객체 등)
