@@ -122,14 +122,14 @@
         <div class="form-row align-items-end">
             <div class="form-group col-md-4">
                 <label for="startDate">등록일</label>
-                <input type="date" name="startDate" class="form-control" id="startDate" value="2024-08-16">
+                <input type="date" name="startDate" class="form-control" id="startDate">
             </div>
             <div class="form-group col-md-4">
                 <label for="endDate">~</label>
-                <input type="date" name="endDate" class="form-control" id="endDate" value="2024-08-18">
+                <input type="date" name="endDate" class="form-control" id="endDate">
             </div>
             <div class="form-group col-md-4">
-                <button id="searchBtn" class="btn btn-primary" onclick="retrieve()">검색</button>
+                <button id="searchBtn" class="btn btn-primary" onclick="retrieve(1)">검색</button>
             </div>
         </div>
 
@@ -151,11 +151,11 @@
         </tbody>
     </table>
 
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center" id="pages">
-            
-        </ul>
-    </nav>
+    <div class="pagination">
+        <button onclick="prevPage()">이전</button>
+        	<span id ="pageItems"></span>
+        <button onclick="nextPage()">다음</button>
+    </div>
 </div>
 
 
@@ -163,7 +163,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-
+let currentPage;
+let totalPages;
 const today = new Date();
 
 // 오늘 날짜를 YYYY/MM/DD 형태로 포맷하는 함수
@@ -172,12 +173,19 @@ function formatDate(date) {
     const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
     const day = String(date.getDate()).padStart(2, '0'); // 날짜는 2자리로 맞추기
 
-    return year + '/' + month + '/' + day;
+    return year + '-' + month + '-' + day;
 }
 
 // 포맷된 오늘 날짜
 const formattedToday = formatDate(today);
+const lastWeekDate = new Date(today);
+lastWeekDate.setDate(today.getDate() - 7); // 현재 날짜에서 7일을 뺌
 
+// 포맷된 일주일 전 날짜
+const formattedLastWeek = formatDate(lastWeekDate);
+console.log(formattedLastWeek);
+$("#endDate").val(formattedToday);
+$("#startDate").val(formattedLastWeek);
 
 class StatisticsCondition {
     constructor(locCode, startDate, endDate, pageNo, pageSize) {
@@ -294,12 +302,13 @@ function sigunguSet() {
     }
 }
 
-function retrieve() {
+function retrieve(pageNumber) {
     let loccode = $("#subRegion option:selected").val();
     let startDate = $("#startDate").val();
     let endDate = $("#endDate").val();
-    let pageNo = 1;
+    let pageNo = pageNumber;
     let pageSize = 10;
+    currentPage =pageNumber;
     let condition = new StatisticsCondition(loccode, startDate, endDate, pageNo, pageSize);
     console.log(condition);
 
@@ -328,7 +337,7 @@ function retrieve() {
                 
                 var $tr = $("<tr onclick='location.href=\"/ehr/disasterMsg/disasterMsg/" + item.messageSeq + "\"'>");
 
-                
+                totalPages = Math.ceil(item.totalCnt / 10);
                 let emergencyLevelColor;
                 switch (item.emergencyLevel) {
                     case "안전안내":
@@ -363,6 +372,7 @@ function retrieve() {
 
                 
                 $("#total").text(" 전체 " + item.totalCnt + " 건");
+                $("#pageItems").text( pageNumber +"/"+ totalPages)
             });
         }
     })
@@ -371,6 +381,20 @@ function retrieve() {
     });
 }
 
+
+function prevPage() {
+	if(currentPage>1){
+		search(currentPage-1);
+	}
+    
+}
+
+function nextPage() {
+	if(currentPage<totalPages){
+		search(currentPage+1);
+	}
+    
+}
 
 </script>
     <%@ include file="/WEB-INF/views/main/footer.jsp" %>

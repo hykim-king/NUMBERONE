@@ -16,7 +16,8 @@
 <%-- common.js --%>
 <script src="${CP}/resources/js/common.js"></script>
 <script>
-
+let currentPage;
+let totalPages;
 class StatisticsCondition {
     constructor(startDate, endDate, pageNo, pageSize, searchDiv, searchWord) {
         this.startDate = startDate;   // 시작 날짜
@@ -28,14 +29,16 @@ class StatisticsCondition {
     }
 }
 
-    function search() {
+    function search(pageNumber) {
     	let searchWord=$("#searchWord").val();
     	let startDate=$("#startDate").val();
     	let endDate=$("#endDate").val();
-    	let pageNo =1;
+    	let pageNo =pageNumber;
     	let pageSize =10;
     	let searchDiv=$("#searchType  option:selected").val();
+    	currentPage =pageNumber;
     	console.log(searchDiv);
+    	
     	let condition = new StatisticsCondition(startDate,endDate,pageNo,pageSize,searchDiv,searchWord);
     	console.log(condition);
     	
@@ -62,7 +65,7 @@ class StatisticsCondition {
             	messageData.forEach(function(item) {
             	    // 새로운 tr 요소 생성
             	    var $tr = $("<tr onclick='location.href=\"/ehr/news/" + item.newsSeq + "\"'>");
-
+            	    totalPages = Math.ceil(item.totalCnt / 10);
             	    // td 요소 추가
             	    $tr.append($("<td>").text(item.newsSeq));
             	    $tr.append($("<td>").text(item.newsTitle));
@@ -74,6 +77,7 @@ class StatisticsCondition {
             	    
             	    // 전체 건수 업데이트
             	    $("#total").text(" 전체 " + item.totalCnt + " 건");
+            	    $("#pageItems").text( pageNumber +"/"+ totalPages);
             	});
             	
             }
@@ -86,13 +90,17 @@ class StatisticsCondition {
     }
     
     function prevPage() {
-        // 이전 페이지 기능 구현
-        alert("이전 페이지 기능은 아직 구현되지 않았습니다.");
+    	if(currentPage>1){
+    		search(currentPage-1);
+    	}
+        
     }
 
     function nextPage() {
-        // 다음 페이지 기능 구현
-        alert("다음 페이지 기능은 아직 구현되지 않았습니다.");
+    	if(currentPage<totalPages){
+    		search(currentPage+1);
+    	}
+        
     }
 </script>
     <style>
@@ -229,13 +237,13 @@ class StatisticsCondition {
                 <option value="20">제목</option>
                 <option value="30">내용</option>
             </select>
-            <input type="date" id="startDate" value="2024-08-18">
-            <input type="date" id="endDate" value="2024-08-20">
+            <input type="date" id="startDate" >
+            <input type="date" id="endDate" >
             <input type ="text" id="searchWord">
-            <button onclick="search()">검색</button>
+            <button onclick="search(1)">검색</button>
         </div>
         <div>
-            <span id="total">전체 229 건</span>
+            <span id="total"></span>
         </div>
     </div>
 
@@ -255,13 +263,37 @@ class StatisticsCondition {
 
     <div class="pagination">
         <button onclick="prevPage()">이전</button>
-        <span>1 / 23</span>
+        	<span id ="pageItems"></span>
         <button onclick="nextPage()">다음</button>
     </div>
 </div>
 
+<script>
+const today = new Date();
 
+//오늘 날짜를 YYYY/MM/DD 형태로 포맷하는 함수
+function formatDate(date) {
+ const year = date.getFullYear();
+ const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+ const day = String(date.getDate()).padStart(2, '0'); // 날짜는 2자리로 맞추기
+
+ return year + '-' + month + '-' + day;
+}
+
+//포맷된 오늘 날짜
+const formattedToday = formatDate(today);
+const lastWeekDate = new Date(today);
+lastWeekDate.setDate(today.getDate() - 7); // 현재 날짜에서 7일을 뺌
+
+//포맷된 일주일 전 날짜
+const formattedLastWeek = formatDate(lastWeekDate);
+console.log(formattedLastWeek);
+$("#endDate").val(formattedToday);
+$("#startDate").val(formattedLastWeek);
+
+</script>
    
 </body>
+
  <%@ include file="/WEB-INF/views/main/footer.jsp" %>
 </html>

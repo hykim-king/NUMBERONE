@@ -49,10 +49,14 @@ public interface MemberMapper extends WorkDiv<Member> {
     String findMemberId(Map<String, Object> params);
 
 
-	  int locCodeUpdate(Member member);
+	int locCodeUpdate(Member member);
 
 
 	Member getMemberById(String memberId);
+	
+	int updatePassword(Member member);
+	
+	int isCorrectIdAndEmail(Member member);
 
 
 

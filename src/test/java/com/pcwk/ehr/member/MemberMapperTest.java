@@ -56,7 +56,16 @@ public class MemberMapperTest implements PLog {
         
         search = new Search();
     }
-
+    
+    
+    @Test
+    public void isCorrectIdAndEmailTest() throws SQLException{
+    	Member member = new Member();
+    	member.setEmail("dltjddus88@naver.com");
+    	member.setMemberId("lukelee");
+    	int flag =memberMapper.isCorrectIdAndEmail(member);
+    	log.debug(flag);
+    }
     
     @Ignore
     @Test

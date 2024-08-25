@@ -77,24 +77,12 @@
         <p id="emergencyLevel">· 위험수준: ${msg.emergencyLevel}</p>
         <p id="context">${msg.messageContext}</p>
     </div>
-    <div class ="">
-        <button id="behaving" class="hidden">버튼</button>
-        <button id="shelter" class="hidden"></button>
-    </div>
+    
     <a href="/ehr/disasterMsg/disasterMsg" class="back-button">목록</a>
     </div>
         <%@ include file="/WEB-INF/views/main/footer.jsp" %>
 <script>
-    const dType="${msg.disasterType}";
-    if(dType!='기타'){
-    	$("#behaving").removeClass("hidden");
-    	$("#behaving").text("대처 요령 알아보기");
-    	
-    	$("#shelter").removeClass("hidden");
-    	$("#shelter").text("대피소 알아보기");
-    }else{
-    	
-    }
+    
 </script>
 </body>
 </html>

@@ -260,7 +260,7 @@
                             <input id="memId" type="text" class="input">
                         </div>
                         <div class="group">
-                            <button class="button2" type="button" value="비밀번호초기화">비밀번호 초기화</button>
+                            <button class="button2" type="button" onclick="resetPassword()">비밀번호 초기화</button>
                         </div>
                     </div>
                 </div> <!-- findId-form end -->
@@ -287,10 +287,10 @@
         });
 
         function findMemberId() {
+            
             const userNameInput = document.getElementById('userName');
             const emailInput = document.getElementById('userEmail');
-            const resultDiv = document.getElementById('result');
-            
+            const resultDiv =document.getElementById('result');
             if (isEmpty(userNameInput.value)) {
                 alert("이름을 입력하세요.");
                 userNameInput.focus();
@@ -311,10 +311,54 @@
                     email: emailInput.value
                 },
                 success: function(response) {
-                    resultDiv.innerHTML = '회원님의 아이디는 : ' + response;
+                	console.log(response);
+                	if (response !== "") {
+                	    resultDiv.innerHTML = "당신의 아이디는: " + response + " 입니다.";
+                	} else {
+                	    resultDiv.innerHTML = "해당 정보와 일치하는 아이디가 없습니다.";
+                	}
+                    
                 },
                 error: function() {
-                    resultDiv.innerHTML = '아이디를 찾을 수 없습니다.';
+                	alert('찾을 수 없습니다.');
+                }
+            });
+        }
+        
+        function resetPassword(){
+        	const memIdInput = document.getElementById('memId');
+            const userEmail2nput = document.getElementById('userEmail2');
+            console.log(memIdInput,userEmail2nput);
+            
+            if (isEmpty(memIdInput.value)) {
+                alert("아이디를 입력하세요.");
+                userIdInput.focus();
+                return;
+            }
+
+            if (isEmpty(userEmail2nput.value)) {
+                alert("이메일을 입력하세요.");
+                userEmail2nput.focus();
+                return;
+            }
+            
+            $.ajax({
+                type: 'POST',
+                url: '/ehr/member/resetPassword.do',
+                data: {
+                	memberId: memIdInput.value,
+                    email: userEmail2nput.value
+                },
+                success: function(response) {
+                	if(""!=response ){
+                		alert(response);
+                	}else{
+                		alert("오류발생");
+                	}
+                    
+                },
+                error: function() {
+                	alert("오류발생");
                 }
             });
         }

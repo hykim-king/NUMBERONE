@@ -1096,7 +1096,8 @@ document.addEventListener('DOMContentLoaded', function() {
             	$("#messageTable").empty();
             	msgList=data;
         		$.each(msgList, function(index, msg) {
-        			let row = $("<tr></tr>");
+        			let row = $("<tr onclick='location.href=\"/ehr/disasterMsg/disasterMsgFromMain/" + msg.messageSeq + "\"'></tr>");
+
         			 row.hover(
                              function() {
                                  $(this).css("background-color", "#eee"); 
@@ -1202,8 +1203,8 @@ document.addEventListener('DOMContentLoaded', function() {
             	$("#messageTable").empty();
             	msgList=data;
         		$.each(msgList, function(index, msg) {
-        			let row = $("<tr></tr>");
-        			
+        			let row = $("<tr onclick='location.href=\"/ehr/disasterMsg/disasterMsgFromMain/" + msg.messageSeq + "\"'></tr>");
+
   
                     row.hover(
                         function() {

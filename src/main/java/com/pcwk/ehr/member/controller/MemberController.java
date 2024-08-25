@@ -50,15 +50,31 @@ public class MemberController implements PLog {
             if (id != null && !id.isEmpty()) {
                 return id; // 사용자의 아이디를 반환
             } else {
-                return "아이디를 찾을 수 없습니다."; // 아이디를 찾지 못했을 경우의 응답
+                return null; // 아이디를 찾지 못했을 경우의 응답
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해주세요."; // 서버 오류 처리
+            return null; // 서버 오류 처리
         }
     }
     
-    
+    @RequestMapping(value = "/resetPassword.do", method = RequestMethod.POST)
+    @ResponseBody
+    public String resetPassword(@RequestParam("memberId") String memberId, @RequestParam("email") String email) {
+        String result="";
+    	try {
+            Member member = new Member();
+            member.setMemberId(memberId);
+            member.setEmail(email);
+            result=memberService.resetPassword(member);
+
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return result; // 서버 오류 처리
+        }
+		return result;
+    }
     
     @GetMapping("locCodeUpdate.do")
     public String locCodeUpdate() {
