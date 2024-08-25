@@ -154,9 +154,11 @@
         .then(data => {
             console.log(data);
             memberFromSession = data;
+            console.log("-----------------");
             console.log("memberFromSession:",memberFromSession);
-
-            if (data.locCode!=0 && memberFromSession!==undefined) {
+            console.log("-----------------");
+            console.log(memberFromSession.locCode);
+            if (memberFromSession.locCode!=0) {
             	callServerUpward(memberFromSession.locCode,formattedLastMonth,formattedToday);
                 
             } else{
