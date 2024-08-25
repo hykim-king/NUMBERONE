@@ -12,10 +12,6 @@
 <script src="${CP}/resources/js/jquery-1.11.1.min.js"></script>
 <%-- jquery --%>
 <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
-
-<%-- common.js --%>
-<script src="${CP}/resources/js/common.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
   
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -390,17 +386,6 @@ function eupmyeondongSet() {
 
 
 
-class Member {
-    constructor(locCode) {
-        this.locCode = locCode;
-       
-    }
-}
-
-
-
-
-// 함수 정의
 function locCodeUpdate() {
     console.log("locCodeUpdate 함수 호출됨");
     const sido = document.getElementById('sido').value;
@@ -414,33 +399,29 @@ function locCodeUpdate() {
         return;
     }
     console.log(locCode);
-    
+
     const member = new Member(locCode);
-    
+
     fetch('/ehr/member/locCodeUpdate', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(member),
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('네트워크 응답이 좋지 않습니다.');
-        }
-        return response.json();
-    })
+    .then(response => response.ok ? response.json() : Promise.reject('네트워크 응답이 좋지 않습니다.'))
     .then(data => {
         alert("위치가 성공적으로 저장되었습니다.");
-       
+        window.location.href = '/ehr/main/index.do'; // 메인 페이지의 URL로 변경
     })
     .catch(error => {
         console.error('문제가 발생했습니다:', error);
     });
 }
 
-
 $(document).ready(function() {
+    $('#locCodeUpdate').click(function() {
+        locCodeUpdate(); // locCodeUpdate 함수 호출
+    });
+
     $('#saveButton').click(function() {
         const newPassword = $('#newPassword').val();
         const confirmPassword = $('#confirmPassword').val();
@@ -470,7 +451,7 @@ $(document).ready(function() {
             success: function(response) {
                 console.log('서버 응답:', response);
                 const result = response;
-                if (result== "변경 성공") {
+                if (result == "변경 성공") {
                     alert("비밀번호가 성공적으로 변경되었습니다.");
                     window.location.href = '/ehr/main/index.do'; // 메인 페이지의 URL로 변경
                 } else {
@@ -484,6 +465,12 @@ $(document).ready(function() {
         });
     });
 });
+
+class Member {
+    constructor(locCode) {
+        this.locCode = locCode;
+    }
+}
 </script>
 
 </head>
@@ -510,7 +497,7 @@ $(document).ready(function() {
                     <option value="">읍면동선택</option>
                 </select>
             </div>
-            <button type="button" class="btn btn-primary" id="locCodeUpdate" onclick="locCodeUpdate()">저장</button>
+            <button type="button" class="btn btn-primary" id="locCodeUpdate">저장</button>
         </form>
     </div>
     
