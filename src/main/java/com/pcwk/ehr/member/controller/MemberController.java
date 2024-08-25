@@ -77,8 +77,7 @@ public class MemberController implements PLog {
     	Member memberVO = (Member)session.getAttribute("member");
     	log.debug(memberVO);
         String memberId=memberVO.getMemberId();
-        String jsonString="";
-        Gson gson = new Gson();
+        
         int flag=0;
         long locCode = member.getLocCode(); 
         String message = "변경 성공";
@@ -93,8 +92,7 @@ public class MemberController implements PLog {
             	updatedMember=memberService.getMemberById(memberId);
             	session.removeAttribute("member");
             	session.setAttribute("member", updatedMember);
-            	jsonString=gson.toJson(message);
-            	return jsonString;  
+            	return message;  
             }else {
             	return "";
             }
@@ -103,6 +101,26 @@ public class MemberController implements PLog {
             return "";  
         }
     }
+    
+    @RequestMapping(value = "/resetPassword.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String resetPassword(@RequestParam("memberId") String memberId, @RequestParam("email") String email) {
+        String result="";
+    	try {
+            Member member = new Member();
+            member.setMemberId(memberId);
+            member.setEmail(email);
+            result=memberService.resetPassword(member);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return result; // 서버 오류 처리
+        }
+		return result;
+    }
+    
+    
     
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody
