@@ -1,6 +1,8 @@
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:134B70,100:508C9B&height=180&section=header&fontSize=50" />
-<img src="https://capsule-render.vercel.app/api?type=venom&color=EEEEEE&height=150&section=header&text=재난탈출𝐍𝐎.𝟏&fontSize=50" />
+<img src="https://capsule-render.vercel.app/api?type=venom&color=EEEEEE&font=Hahmlet&height=150&section=header&text=재난안전포털𝐍𝐎.𝟏&fontSize=40" />
 
     
 
@@ -10,10 +12,11 @@
 <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Franklin Gothic Medium&pause=1000&random=false&color=546E7A&width=435&lines=　 　 𝑨 𝑫𝒊𝒔𝒂𝒔𝒕𝒆𝒓 𝑭𝒐𝒓𝒆𝒄𝒂𝒔𝒕𝒊𝒏𝒈 𝑾𝒆𝒃𝒔𝒊𝒕𝒆" alt="Typing SVG" /></a>
 </div>
 
+***
 
 <details>
 <summary>
-<h3 align="center"> 프로젝트 소개 <h4>${\textsf{\color{#90A4AE} ㅤ────────────────────────────────* 。 • ☀️}}$  </h4> </h3>
+<h3 align="center"> 프로젝트 소개 <h4>${\textsf{\color{#90A4AE} ㅤ──────────────────────────────* 。 • ☀️}}$  </h4> </h3>
 </summary>
 <h4>• 프로젝트 주제   : 재난 예보 시스템</h4> <br>
 <h4>• 조이름         : 재난탈출 넘버원</h4><br>
@@ -21,6 +24,7 @@
 <h4>• 프로젝트 배경     :<br><br> -- 최근 기후 변화와 자연재해 빈도가 증가하면서 재난 예보 시스템의 필요성이 대두되고 있어, <br>재난문자 서비스가 운영되고 있지만 재난상황의 구체적 위험도나, 재난에 대처하는 요령 및 대피소 정보는 따로 검색해야 아는 불편함이 있음을 확인 하였다.<br><br>
 -- 재난 발생 시 신속하고 정확한 정보 제공은 인명 구조와 피해 최소화에 매우 중요하기 때문에 발생한 재난상황의 파악 및 대처를 위한 정보를 한번에 사용자의 위치및 재난에 맞춰 제공하는 서비스가 필요하다고 판단하였다.
 </h4><br>
+<h4>• 참고 사이트  : <a href="https://www.safekorea.go.kr/idsiSFK/neo/main/main.html">국민재난안전포털</a></h4> <br>
 </details>   
 
  <details>
@@ -84,14 +88,15 @@
 </summary>
 
 <h3>${\textsf{\color{#5A72A0}• 사용자 맞춤 정보 제공}}$  </h3>
-<strong>⸰ 맞춤형 재난 정보 알림 : </strong>${\textsf{\color{#1A2130} 사용자가 설정한 위치에 따라 맞춤형 재난 정보 알림 기능 제공.}}$<br>
-<strong>⸰ 실시간 재난 위험도 파악 : </strong> ${\textsf{\color{#1A2130}사용자가 설정한 지역에 대한 실시간 위험도 파악 기능 제공.}}$<br>
+<strong>⸰ 맞춤형 재난 정보 알림 : </strong>${\textsf{\color{#1A2130} 사용자가 설정한 지역에 따라 맞춤형 재난 정보 알림 기능 제공.}}$<br>
+<strong>⸰ 실시간 재난 현황 파악 : </strong> ${\textsf{\color{#1A2130}사용자가 설정한 지역에 대한 실시간 문자를 기반으로 위험도 파악 기능 제공.}}$<br>
+<strong>⸰ 재난 그래프 : </strong> ${\textsf{\color{#1A2130}사용자가 설정한 지역에 대한 지역 통계 그래프 제공.}}$<br>
 
 <h3>${\textsf{\color{#5A72A0}• 재난 발생 시 대처 요령}}$  </h3>
 <strong>⸰ 재난별 대응 지침 : </strong>${\textsf{\color{#1A2130} 기상특보가 발효되었을 때 각 재난 유형별로 구체적인 대처 요령을 제공.}}$<br>
 
-<h3>${\textsf{\color{#5A72A0}• 가까운 대피소 및 병원 정보 제공}}$  </h3>
-<strong>⸰ 위치 안내 : </strong> ${\textsf{\color{#1A2130} 재난이 발생한 위치를 기반으로 가까운 대피소나 병원, 약국 등의 위치를 제공.}}$<br>
+<h3>${\textsf{\color{#5A72A0}• 가까운 대피소 정보 제공}}$  </h3>
+<strong>⸰ 위치 안내 : </strong> ${\textsf{\color{#1A2130} 재난이 발생한 위치를 기반으로 가까운 대피소의 위치를 제공.}}$<br>
 
 <h3>${\textsf{\color{#5A72A0}• 커뮤니티 기능}}$  </h3>
 <strong>⸰ 정보 공유 및 제보 : </strong> ${\textsf{\color{#1A2130} 사용자가 재난 정보를 공유하고, 재난 상황을 제보할 수 있는 기능 제공.}}$<br>
@@ -99,7 +104,7 @@
 
 <h3>${\textsf{\color{#5A72A0}• 재난 종류에 따른 그래프 제공}}$  </h3>
 <strong>⸰ 재난 발생 건수 그래프 : </strong> ${\textsf{\color{#1A2130}다양한 재난 유형별로 발생 건수를 시각화하여 제공.}}$<br>
-<strong>⸰ 재난 위험도 그래프 : </strong> ${\textsf{\color{#1A2130}재난 위험도를 시각화하여 사용자가 쉽게 이해할 수 있도록 제공.}}$<br>
+<strong>⸰ 전국 통계 그래프 : </strong> ${\textsf{\color{#1A2130}전국 재난 문자를 통계로 그래프를 시각화,  색을 입혀 한눈에 파악 가능한 지도 제공.  }}$<br>
 
 <h3>${\textsf{\color{#5A72A0}• 재난 관련 뉴스 제공}}$  </h3>
 <strong>⸰ 분류별 뉴스 제공 : </strong> ${\textsf{\color{#1A2130}재난에 관련된 최신 뉴스를 재난 유형별로 분류하여 제공. }}$<br>
@@ -140,6 +145,33 @@
 </details>   
 
 
+
+<details>
+<summary>
+<h3 align="center"> 페이지 시연 영상 <h4>${\textsf{\color{#90A4AE} ㅤ───────────────────────────* 。 • ☂️}}$  </h4> </h3>
+</summary>
+<h4>소제목 칸</h4>
+
+
+
+<h4>소제목 칸</h4>
+
+
+
+<h4>소제목 칸</h4>
+
+
+
+<h4>소제목 칸</h4>
+
+
+
+<h4>소제목 칸</h4>
+
+</details>   
+
+
+***
 
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=0:508C9B,100:134B70&height=200&section=footer)
 
