@@ -677,7 +677,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            <a href="/ehr/member/signInUp.do"><button id="loginGoBtn" >로그인하러가기</button></a>
 		            <p id= "showName"></p>
 		            <p id= "showLocation">* 로그인 하시면 맞춤 정보로 확인 가능 합니다. </p>
-		            <a href="/ehr/member/locCodeUpdate.do" ><button id="locResetButton" >위치 재설정</button></a>
+		            <a href="/ehr/member/locCodeUpdate.do" ><button id="locResetButton" >마이페이지</button></a>
 		        </div>
 		        
 		        

@@ -1,16 +1,10 @@
 package com.pcwk.ehr.member.service;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.pcwk.ehr.cmn.EmailService;
 import com.pcwk.ehr.cmn.PLog;
 import com.pcwk.ehr.mapper.MemberMapper;
@@ -25,43 +19,6 @@ public class MemberServiceImpl implements MemberService, PLog {
     
     public MemberServiceImpl() {}
     
-    public String generateRandomBase64String() {
-        byte[] randomBytes = new byte[16]; // 16바이트 랜덤 바이트 생성
-        new Random().nextBytes(randomBytes);
-        return Base64.getEncoder().encodeToString(randomBytes);
-    }
-    
-    public String hashWithSHA256(String input) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = digest.digest(input.getBytes());
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : hash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
-        }
-        return hexString.toString();
-    }
-    
-    @Override
-	public String resetPassword(Member member) throws NoSuchAlgorithmException {
-    	log.debug("1. param :" + member);
-    	int flag =memberMapper.isCorrectIdAndEmail(member);
-    	if(flag==1) {
-    		String randomString = generateRandomBase64String();
-    		String body ="비밀번호가 "+randomString+" 으로 변경 되었습니다.";
-    		emailService.sendEmail(member.getEmail(), "비밀번호 변경알림", body);
-			String hashedString = hashWithSHA256(randomString);
-    		member.setPassword(hashedString); 
-    		memberMapper.updatePassword(member);
-    		return "메일을 발송했습니다.";
-			
-    		
-    		 
-    	}else {
-    		return "no User Found";
-    	}
-	}
 
 	@Override
     public int idPasswordCheck(Member member) throws SQLException {
@@ -223,7 +180,12 @@ public class MemberServiceImpl implements MemberService, PLog {
 	}
 
 
-	
+
+    @Override
+    public int updatePassword(Member member) {
+        int flag= memberMapper.updatePassword(member);
+		return flag;
+    }
 
 	
 

@@ -1,11 +1,9 @@
 package com.pcwk.ehr.member.controller;
 
 import java.sql.SQLException;
-
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,23 +56,7 @@ public class MemberController implements PLog {
         }
     }
     
-    @RequestMapping(value = "/resetPassword.do", method = RequestMethod.POST)
-    @ResponseBody
-    public String resetPassword(@RequestParam("memberId") String memberId, @RequestParam("email") String email) {
-        String result="";
-    	try {
-            Member member = new Member();
-            member.setMemberId(memberId);
-            member.setEmail(email);
-            result=memberService.resetPassword(member);
 
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            return result; // 서버 오류 처리
-        }
-		return result;
-    }
     
     @GetMapping("locCodeUpdate.do")
     public String locCodeUpdate() {
@@ -115,6 +97,37 @@ public class MemberController implements PLog {
         } else {
             return "";  
         }
+    }
+    
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String updatePassword(@RequestBody Member member,HttpSession session) {
+    	  log.debug(member);
+      	Member memberVO = (Member)session.getAttribute("member");
+      	log.debug(memberVO);
+          String memberId=memberVO.getMemberId();
+          int flag=0;
+          String password = member.getPassword(); 
+          String message = "변경 성공";
+          Member member1 = memberService.getMemberById(memberId);
+          Member updatedMember;
+          log.debug(member1);
+          if (member1 != null) {
+
+              member1.setPassword(password);
+              flag =memberService.updatePassword(member1);
+              if(flag ==1) {
+              	updatedMember=memberService.getMemberById(memberId);
+              	session.removeAttribute("member");
+              	session.setAttribute("member", updatedMember);
+              	return message;  
+              }else {
+              	return "";
+              }
+              
+          } else {
+              return "";  
+          }
     }
     
     @RequestMapping(value="/login.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")

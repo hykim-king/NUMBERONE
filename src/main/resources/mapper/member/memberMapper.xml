@@ -13,11 +13,11 @@
         <result column="email" property="email"/>
     </resultMap>
     
-    <update id="updatePassword" parameterType="Member">
-     update member
-  		set password = #{password}
-		where member_id =#{memberId}
-    </update>
+	<update id="updatePassword" parameterType="com.pcwk.ehr.member.domain.Member">
+	    UPDATE member
+	    SET password = #{password}
+	    WHERE member_id = #{memberId}
+	</update>
     
     <select id="isCorrectIdAndEmail" parameterType="Member" resultType="int" >
     SELECT 

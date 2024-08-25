@@ -16,7 +16,8 @@
 <%-- common.js --%>
 <script src="${CP}/resources/js/common.js"></script>
 
-   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+  
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">  
@@ -104,6 +105,22 @@ body {
     outline: none;
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
 }
+#saveButton{
+    display:none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #508c9b;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative;
+    left: 695px;
+}
+#saveButton:hover {
+    background-color: #134b70;
+}
 </style>
 <!-- jQuery 및 공통 JS 파일 추가 -->
 <script src="${CP}/resources/js/jquery_3_7_1.js"></script>
@@ -126,14 +143,15 @@ function getSession() {
         return response.json(); 
     })
     .then(data => {
-        console.log(data);
+ 
         memberFromSession = data;
 
         // 세션에 locCode가 존재하고 0이 아닌 경우
         if (data.locCode && data.locCode != 0) {
             document.getElementById('nowLocCodeShow').style.display = 'inline-block'; 
             document.getElementById('locCodeUpdate').style.display = 'inline-block';
-
+            document.getElementById('saveButton').style.display = 'inline-block';
+            
             // 현재 위치를 주소로 변환하여 표시
             locToAddress(data.locCode);
         } else {
@@ -372,14 +390,109 @@ function eupmyeondongSet() {
 
 
 
+class Member {
+    constructor(locCode) {
+        this.locCode = locCode;
+       
+    }
+}
+
+
+
+
+// 함수 정의
+function locCodeUpdate() {
+    console.log("locCodeUpdate 함수 호출됨");
+    const sido = document.getElementById('sido').value;
+    const sigungu = document.getElementById('sigungu').value;
+    const eupmyeondong = document.getElementById('eupmyeondong').value;
+
+    const locCode = eupmyeondong || sigungu || sido;
+
+    if (sido === "" || sigungu === "" || eupmyeondong === "") {
+        alert("위치 설정을 해주세요.");
+        return;
+    }
+    console.log(locCode);
+    
+    const member = new Member(locCode);
+    
+    fetch('/ehr/member/locCodeUpdate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(member),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 좋지 않습니다.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert("위치가 성공적으로 저장되었습니다.");
+       
+    })
+    .catch(error => {
+        console.error('문제가 발생했습니다:', error);
+    });
+}
+
+
+$(document).ready(function() {
+    $('#saveButton').click(function() {
+        const newPassword = $('#newPassword').val();
+        const confirmPassword = $('#confirmPassword').val();
+        
+        if (newPassword !== confirmPassword) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        if (newPassword === "" || confirmPassword === "") {
+            alert("모든 필드를 채워주세요.");
+            return;
+        }
+
+        // SHA-256 해시화
+        let shaPassword = sha256(newPassword);
+        
+        const member1 = {
+            password: shaPassword
+        };
+
+        $.ajax({
+            url: '/ehr/member/updatePassword',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(member1),
+            success: function(response) {
+                console.log('서버 응답:', response);
+                const result = JSON.parse(response);
+                if (result.message === "변경 성공") {
+                    alert("비밀번호가 성공적으로 변경되었습니다.");
+                    window.location.href = '/ehr/main/index'; // 메인 페이지의 URL로 변경
+                } else {
+                    alert("비밀번호 변경 중 문제가 발생했습니다.");
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('문제가 발생했습니다:', textStatus, errorThrown);
+                alert('비밀번호 변경 중 문제가 발생했습니다: ' + jqXHR.responseText);
+            }
+        });
+    });
+});
 </script>
+
 </head>
 <body>
   <%@ include file="/WEB-INF/views/main/header.jsp" %>   
-
+<h1 style="text-align: center; margin: 0 auto; color: #201e4b; padding: 20px">마이페이지</h1>
 <div id="containerWrap">
     <div class="container">
-        <h2 class="level1_title">마이페이지 - 위치 재설정</h2>
+        <h2 class="level1_title">위치 재설정</h2>
         <h3 class="nowLocCodeShow" id ="nowLocCodeShow" ></h3>
        
         
@@ -400,69 +513,26 @@ function eupmyeondongSet() {
             <button type="button" class="btn btn-primary" id="locCodeUpdate" onclick="locCodeUpdate()">저장</button>
         </form>
     </div>
+    
+    
+    <div class ="container">
+        <h2 class="level1_title">비밀번호 재설정</h2>
+			<form id="passwordUpdateForm">
+			        <label for="newPassword">새 비밀번호:</label>
+			        <input type="password" id="newPassword" name="newPassword" required><br><br>
+			
+			        <label for="confirmPassword">새 비밀번호 확인:</label>
+			        <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+			
+			        <button type="button" id="saveButton" >비밀번호 변경</button>
+			    </form>
+    </div>
 </div>
 
   <%@ include file="/WEB-INF/views/main/footer.jsp" %>
   
   
   
-  
-<script>
 
-class Member {
-    constructor(locCode) {
-        this.locCode = locCode;
-    }
-}
-
-
-
-
-// 함수 정의
-function locCodeUpdate() {
-    console.log("locCodeUpdate 함수 호출됨");
-    const sido = document.getElementById('sido').value;
-    const sigungu = document.getElementById('sigungu').value;
-    const eupmyeondong = document.getElementById('eupmyeondong').value;
-
-    const locCode = eupmyeondong || sigungu || sido;
-
-    if ($("#sido").val() === "" || $("#sigungu").val() === "" || $("#eupmyeondong").val() === "") {
-        alert("위치 설정을 해주세요.");
-        return;
-    }
-    console.log(locCode);
-    
-    
-    member = new Member(locCode);
-    
-    fetch('/ehr/member/locCodeUpdate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(member),
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('네트워크 응답이 좋지 않습니다.');
-        }
-        return response;
-    })
-    .then(data => {
-        alert("위치가 성공적으로 저장되었습니다.");
-        console.log(data);
-    })
-    .catch(error => {
-        console.error('문제가 발생했습니다:', error);
-    });
-}
-
-// DOMContentLoaded 이벤트에서 이벤트 핸들러 설정
-document.addEventListener('DOMContentLoaded', function() {
-    // 버튼 클릭 시 locCodeUpdate 함수 호출
-    document.getElementById('locCodeUpdate').onclick = locCodeUpdate;
-});
-</script>
 </body>
 </html>

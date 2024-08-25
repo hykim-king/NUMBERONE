@@ -1,6 +1,6 @@
 package com.pcwk.ehr.member.service;
 
-import java.security.NoSuchAlgorithmException;
+
 import java.sql.SQLException;
 import com.pcwk.ehr.member.domain.Member;
 
@@ -24,8 +24,8 @@ public interface MemberService {
 	 Member getMemberById(String memberId); 
 	 int locCodeUpdate(Member member);
 	
-	 String resetPassword(Member member) throws NoSuchAlgorithmException ;
-
+	 
+	 int updatePassword(Member member);
 
 
     
