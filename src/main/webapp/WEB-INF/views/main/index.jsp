@@ -841,7 +841,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            document.getElementById('shelterBottom').style.display = 'inline-block'; // 위치 재설정 버튼 보이게 하기
 		            callServer(1000000000,formattedLastMonth,formattedToday);
 
-		            getDisasterMsgListAll();
+		            
 		        }
 		    })
 		    .catch(error => {
@@ -1185,7 +1185,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			const tempDate = new Date(today); // 오늘 날짜를 기반으로 새 객체 생성
 			tempDate.setMonth(today.getMonth() - 1);
 			const endDay=formatDate(tempDate);
-			const condition = new StatisticsCondition(locCode, startDay, endDay);
+			const condition = new StatisticsCondition(locCode, startDay, endDay,1,5);
             fetch('/ehr/messageRetrieve', {
                 method: 'POST',
                 headers: {
@@ -1310,18 +1310,20 @@ document.addEventListener('DOMContentLoaded', function() {
             
         }
 
-        class StatisticsCondition {
-            constructor(locCode, startDate, endDate) {
-                this.locCode = locCode;
-                this.startDate = startDate;
-                this.endDate = endDate;
-            }
-        }
+		class StatisticsCondition {
+		    constructor(locCode, startDate, endDate, pageNo, pageSize) {
+		        this.locCode = locCode;
+		        this.startDate = startDate;
+		        this.endDate = endDate;
+		        this.pageNo = pageNo;
+		        this.pageSize = pageSize;
+		    }
+		}
         
         
         
         function callServer(locCode,startDate, endDate) {
-        	const condition = new StatisticsCondition(locCode, startDate, endDate);
+        	const condition = new StatisticsCondition(locCode, startDate, endDate,1,5);
             fetch('/ehr/statistics/3', {
                 method: 'POST',
                 headers: {
@@ -1362,7 +1364,7 @@ document.addEventListener('DOMContentLoaded', function() {
             	
             	console.log(resultArray);
             	showGraph(resultArray,condition);
-            	
+            	getDisasterMsgListAll();
                 
             })
             .catch(function(error) { 
@@ -1371,7 +1373,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         function callServerUpward(locCode,startDate, endDate) {
-        	const condition = new StatisticsCondition(locCode, startDate, endDate);
+        	const condition = new StatisticsCondition(locCode, startDate, endDate,1,5);
             fetch('/ehr/statistics/1', {
                 method: 'POST',
                 headers: {

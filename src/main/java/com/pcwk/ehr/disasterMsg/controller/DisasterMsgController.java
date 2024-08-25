@@ -151,7 +151,10 @@ public class DisasterMsgController implements PLog {
 		List<DisasterMsg> list = null;
 		condition.setSearchDiv("10");
         condition.setSearchWord(String.valueOf(condition.getLocCode()));
-        condition.setPageSize(5);
+        if(condition.getPageSize()==0) {
+        	condition.setPageSize(5);
+        }
+        
 		try {
 			list = disasterMsgService.doRetrieve(condition);
 		} catch (SQLException e) {

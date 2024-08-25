@@ -56,14 +56,15 @@
         FROM location
         START WITH loc_code = TO_NUMBER(#{searchWord})
         CONNECT BY PRIOR parent_loc_code =loc_code
-    ) AND broadcast_organization NOT LIKE '%경찰청')
+    ) AND broadcast_organization NOT LIKE '%경찰청' and MSG_REG_DT between #{endDate} and #{startDate} )
+      
             </when>
             
             <when test ="searchDiv !=null and searchDiv == '20'">
             message_seq In (SELECT DISTINCT message_seq
     FROM message_area
     WHERE area_code =#{searchWord}
-    ) and MSG_REG_DT between #{startDate} and #{endDate}
+    ) and MSG_REG_DT between #{endDate} and #{startDate}
             </when>
             
             
@@ -88,9 +89,9 @@
 	 SELECT TT1.RNUM AS no,
 	        TT1.message_seq as messageSeq,
 	        (SELECT DET_CODE_NM from code where mst_code ='DISASTER_TYPE' and DET_CODE = TT1.disaster_type) as disasterType,
-	        --TT1.disaster_type as disasterType,
+	        
 	        (SELECT DET_CODE_NM from code where mst_code ='EMERGENCY_LEVEL' and DET_CODE = TT1.emergency_level) as emergencyLevel,
-	        --TT1.emergency_level as emergencyLevel,
+	        
 	        TT1.message_context as messageContext,
 	        TT1.broadcast_organization as broadcastOrganization,
 	        DECODE( TO_CHAR(TT1.msg_reg_dt,'YYYYMMDD'), TO_CHAR(SYSDATE,'YYYYMMDD'),      
@@ -101,7 +102,6 @@
 	     FROM (
 	         SELECT *
 	           FROM disasterMSG
-	          --WHERE default : all, not null : locCode
               <include refid="whereDoRetrieve"></include>
 	          ORDER BY message_seq DESC
 	     ) T1

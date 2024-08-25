@@ -106,15 +106,21 @@
         <div class="form-row align-items-end">
             
             <div class="form-group col-md-3">
-                <label for="region">대상지역</label>
+                <label for="region">시도</label>
                 <select id="region" name="region" class="form-control" onchange="sigunguSet()">
                     <option>시도선택</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
-                <label for="subRegion">기본검색</label>
-                <select id="subRegion" name="subRegion" class="form-control">
+                <label for="subRegion">시군구</label>
+                <select id="subRegion" name="subRegion" class="form-control" onchange ="eupmyeondongSet()">
                     <option>시군구선택</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="eupmyeondong">읍면동</label>
+                <select id="eupmyeondong" name="eupmyeondong" class="form-control">
+                    <option value ="">읍면동선택</option>
                 </select>
             </div>
             
@@ -302,17 +308,80 @@ function sigunguSet() {
     }
 }
 
+function eupmyeondongSet() {
+    
+    let locCode = $("#subRegion option:selected").val();
+   
+    
+    console.log("locCode:" + locCode);
+    
+    if("" === locCode){
+        $("#eupmyeondong").empty();
+        $("#eupmyeondong").append('<option value="">' + "읍면동선택" + '</option>');
+   }else{
+       let params = {
+               "locCode": locCode
+           };
+
+           // 쿼리 문자열 생성
+           let queryString = Object.keys(params)
+               .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+               .join('&');
+
+           // fetch 요청을 위한 URL 생성
+           let url = "/ehr/location/location_eupmyeondong?" + queryString;
+
+           // fetch 요청
+           fetch(url, {
+               method: "GET", // 요청 메소드
+               headers: {
+                   "Content-Type": "application/json" // 헤더 설정
+               }
+           })
+           .then(response => {
+               // 응답이 성공적인 경우
+               if (!response.ok) {
+                   throw new Error("Network response was not ok " + response.statusText);
+               }
+               return response.text(); // 응답 데이터를 텍스트로 반환
+           })
+           .then(data => {
+               // JSON 파싱
+               var optionSigunguData = JSON.parse(data);
+               
+               optionSigunguData.forEach(function(item) {
+                   $("#eupmyeondong").append('<option value="' + item.locCode + '">' + item.eupmyeondong + '</option>');
+               });
+           })
+           .catch(error => {
+               // 에러 발생 시 처리
+               console.error("Fetch error: ", error);
+           });
+       }
+    
+}
+
 function retrieve(pageNumber) {
-    let loccode = $("#subRegion option:selected").val();
+	let loccode;
+
+	// eupmyeondong 셀렉트박스의 값 확인
+	if ($("#eupmyeondong option:selected").length > 1) {
+		console.log($("#eupmyeondong option:selected").length);
+	    // 선택된 경우
+	    loccode = $("#eupmyeondong option:selected").val();
+	} else {
+	    // 선택되지 않은 경우
+	    loccode = $("#subRegion option:selected").val();
+	} 
     let startDate = $("#startDate").val();
     let endDate = $("#endDate").val();
     let pageNo = pageNumber;
     let pageSize = 10;
     currentPage =pageNumber;
-    let condition = new StatisticsCondition(loccode, startDate, endDate, pageNo, pageSize);
+    let condition = new StatisticsCondition(loccode, endDate,startDate , pageNo, pageSize);
     console.log(condition);
 
-    fetch('/ehr/messageRetrieve2', {
+    fetch('/ehr/messageRetrieve', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -384,14 +453,14 @@ function retrieve(pageNumber) {
 
 function prevPage() {
 	if(currentPage>1){
-		search(currentPage-1);
+		retrieve(currentPage-1);
 	}
     
 }
 
 function nextPage() {
 	if(currentPage<totalPages){
-		search(currentPage+1);
+		retrieve(currentPage+1);
 	}
     
 }
