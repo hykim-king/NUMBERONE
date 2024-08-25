@@ -165,7 +165,7 @@ function getSession() {
 }
 
 function locToAddress(locCode) {
-    const url = new URL('/ehr/location/locToAddress');
+	const url = new URL('/ehr/location/locToAddress', window.location.origin);
     url.searchParams.append('locCode', locCode);
 
     fetch(url, {
@@ -469,10 +469,10 @@ $(document).ready(function() {
             data: JSON.stringify(member1),
             success: function(response) {
                 console.log('서버 응답:', response);
-                const result = JSON.parse(response);
-                if (result.message === "변경 성공") {
+                const result = response;
+                if (result== "변경 성공") {
                     alert("비밀번호가 성공적으로 변경되었습니다.");
-                    window.location.href = '/ehr/main/index'; // 메인 페이지의 URL로 변경
+                    window.location.href = '/ehr/main/index.do'; // 메인 페이지의 URL로 변경
                 } else {
                     alert("비밀번호 변경 중 문제가 발생했습니다.");
                 }

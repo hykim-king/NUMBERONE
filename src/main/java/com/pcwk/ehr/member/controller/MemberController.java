@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pcwk.ehr.cmn.Message;
 import com.pcwk.ehr.cmn.PLog;
@@ -75,6 +77,8 @@ public class MemberController implements PLog {
     	Member memberVO = (Member)session.getAttribute("member");
     	log.debug(memberVO);
         String memberId=memberVO.getMemberId();
+        String jsonString="";
+        Gson gson = new Gson();
         int flag=0;
         long locCode = member.getLocCode(); 
         String message = "변경 성공";
@@ -89,7 +93,8 @@ public class MemberController implements PLog {
             	updatedMember=memberService.getMemberById(memberId);
             	session.removeAttribute("member");
             	session.setAttribute("member", updatedMember);
-            	return message;  
+            	jsonString=gson.toJson(message);
+            	return jsonString;  
             }else {
             	return "";
             }
@@ -99,36 +104,38 @@ public class MemberController implements PLog {
         }
     }
     
-    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String updatePassword(@RequestBody Member member,HttpSession session) {
-    	  log.debug(member);
-      	Member memberVO = (Member)session.getAttribute("member");
-      	log.debug(memberVO);
-          String memberId=memberVO.getMemberId();
-          int flag=0;
-          String password = member.getPassword(); 
-          String message = "변경 성공";
-          Member member1 = memberService.getMemberById(memberId);
-          Member updatedMember;
-          log.debug(member1);
-          if (member1 != null) {
-
-              member1.setPassword(password);
-              flag =memberService.updatePassword(member1);
-              if(flag ==1) {
-              	updatedMember=memberService.getMemberById(memberId);
-              	session.removeAttribute("member");
-              	session.setAttribute("member", updatedMember);
-              	return message;  
-              }else {
-              	return "";
-              }
-              
-          } else {
-              return "";  
-          }
+    public String updatePassword(@RequestBody Member member, HttpSession session) {
+        log.debug(member);
+        Member memberVO = (Member) session.getAttribute("member");
+        log.debug(memberVO);
+        
+        String memberId = memberVO.getMemberId();
+        int flag = 0;
+        String password = member.getPassword(); 
+        String message = "변경 성공";
+        
+        Member member1 = memberService.getMemberById(memberId);
+        log.debug(member1);
+        
+        if (member1 != null) {
+            member1.setPassword(password);
+            flag = memberService.updatePassword(member1);
+            
+            if (flag == 1) {
+                Member updatedMember = memberService.getMemberById(memberId);
+                session.removeAttribute("member");
+                session.setAttribute("member", updatedMember);
+                return message;  // 텍스트 응답으로 변경
+            } else {
+                return "변경 실패";  // 실패 시 응답
+            }
+        } else {
+            return "회원 정보를 찾을 수 없습니다.";  // 회원이 없는 경우 응답
+        }
     }
+
     
     @RequestMapping(value="/login.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     @ResponseBody

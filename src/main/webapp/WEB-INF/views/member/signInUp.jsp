@@ -563,12 +563,13 @@
 	    
 	    
 	
-	    // 등록: doSave
 	    $("#doSave").on("click", function(event) {
 	        event.preventDefault();
+	        event.stopPropagation(); // 이벤트 전파 방지
 	        console.log("doSave click");
 	        doSave();
 	    });
+
 	    
 	    
 	    
@@ -734,11 +735,6 @@
 	        login();
 	    });
 
-	    // 회원가입 버튼 클릭 시 회원가입 처리
-	    $("#doSave").on("click", function(event) {
-	        event.preventDefault(); 
-	        doSave(); 
-	    });
 
 	    function login() {
 	        console.log("login()");
