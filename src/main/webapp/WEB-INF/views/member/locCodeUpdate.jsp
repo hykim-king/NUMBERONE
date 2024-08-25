@@ -407,7 +407,7 @@ function locCodeUpdate() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(member),
     })
-    .then(response => response.ok ? response.json() : Promise.reject('네트워크 응답이 좋지 않습니다.'))
+    .then(response => response.ok ? response.text() : Promise.reject('네트워크 응답이 좋지 않습니다.'))
     .then(data => {
         alert("위치가 성공적으로 저장되었습니다.");
         window.location.href = '/ehr/main/index.do'; // 메인 페이지의 URL로 변경
