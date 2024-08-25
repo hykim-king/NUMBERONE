@@ -272,16 +272,6 @@
 				}
             	resultArray.sort(([, valueA], [, valueB]) => valueB - valueA);
                 
-            	let num = 4-disasterTypeSet.size;
-            	if(resultArray.find(([key]) => key === '기타')){
-            		num++;
-            	}
-            	resultArray.slice(0, num).forEach(([key]) => {
-            		if (key !== '기타') {
-            		disasterTypeSet.add(key); // Set에 key 추가
-            		}
-            	});
-            	
             	console.log(resultArray);
             	showGraph(resultArray,condition);
             	
@@ -329,8 +319,15 @@
 
                 console.log("Start Date:", startDate);
                 console.log("End Date:", endDate);
-
-                callServer(locCode,startDate, endDate);
+                
+                console.log("memberFromSession:",memberFromSession);
+                if(memberFromSession.locCode!=0) {
+                	callServerUpward(memberFromSession.locCode,startDate,endDate);
+                    
+                } else{
+                	callServer(1000000000,startDate,endDate);
+                    
+                }
             }
 
         
