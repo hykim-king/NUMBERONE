@@ -40,6 +40,7 @@ public class SseController implements PLog {
         response.setContentType("text/event-stream; charset=UTF-8");
 
         SseEmitter emitter = new SseEmitter(60*1000*10l);
+        
         emitters.add(emitter); // emitters 리스트에 추가
 
         emitter.onCompletion(() -> emitters.remove(emitter)); // 완료 시 리스트에서 제거
@@ -56,8 +57,6 @@ public class SseController implements PLog {
                 String result = disasterService.isNewMessageExist();
                 String message = "New Message Arrived!";
                 Gson gson = new Gson();
-                for (SseEmitter emitter : emitters) {
-                emitter.send(gson.toJson(message));}
                 if ("Y".equals(result)) { // 새로운 메시지가 DB에 등록되면
                 	log.debug(result);
                     if (session != null) {
@@ -84,9 +83,7 @@ public class SseController implements PLog {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-				e.printStackTrace();
-			}
+            }
         }, 0, 10, TimeUnit.SECONDS);
     }
 }
