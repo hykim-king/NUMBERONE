@@ -157,37 +157,63 @@
   <img src="https://github.com/user-attachments/assets/677fcf48-14ea-46e3-be69-18dcfe21f3ee">
 </p>
 
+
 <h5>로그인시</h5>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/fc992111-1e71-46b2-a5ea-c5126b7741f5">
 </p>
 
+
 <h4>게시판</h4>
 
 <h5>비로그인시</h5>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/66a40a60-e155-4f23-8289-93ddb17bfe12">
+</p>
+
 
 <h5>로그인시</h5>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f48ed795-9848-407c-ae77-ed4943a02d60">
+</p>
+
 
 <h4>훈련영상 및 행동요령</h4>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5ed5a36b-7326-4acf-a9ff-de9169ab01bf">
+</p>
 
 
+<h4>안전뉴스</h4>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3ea60626-b247-4905-926c-58367bbf9831">
+</p>
 
-<h4>안전뉴스 및 재난문자</h4>
 
+<h4>재난문자</h4>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f5966950-339b-40a6-abc2-a1e62b4b9071">
+</p>
 
 
 <h4>재난 그래프</h4>
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/bcc3adaa-8885-40ab-a7da-e70039e5c2d5">
+</p>
 
 
 <h4>로그인/회원가입</h4>
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/be9c2356-8ede-4a6c-b0b3-769398c1e603">
+</p>
 
 
 <h4>아이디/비번찾기</h4>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/882052ae-34c3-4c7c-b982-0e287cc778de">
+</p>
 
 
-    
 </details>   
 
 
