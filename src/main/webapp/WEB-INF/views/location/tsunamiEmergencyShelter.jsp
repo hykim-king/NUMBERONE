@@ -372,18 +372,14 @@ function eupmyeondongSet() {
     
         <table id="shelterTable" class="table table-bordered">
             <colgroup>
-                <col style="width:10%">
-                <col style="width:35%">
-                <col style="width:10%">
                 <col style="width:20%">
+                <col style="width:45%">
             </colgroup>
         
             <thead>
                 <tr class="table-light.table-striped">
                     <th class="text-center">시설명</th>
                     <th class="text-center">상세주소</th>
-                    <th class="text-center">수용가능면적</th>
-                    <th class="text-center">연락처</th>
                 </tr>
             </thead>
             <tbody id="shelterList">
@@ -542,7 +538,7 @@ function shelterRetrieve(pageNo,totalCnt) {
                  
 	              
 	                 // roadAddress 클릭 이벤트 추가
-	                 if(item.roadAddress == "undefined"){
+	                 if(item.roadAddress == undefined){
 	                     roadAddressElement = $("<td></td>").html(item.adminAddress);
 	                 }else {
 	                     roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);
@@ -560,8 +556,6 @@ function shelterRetrieve(pageNo,totalCnt) {
 	                 $("#shelterList").append($("<tr>")
 	                         .append($("<td>").text(item.facilityName))
 	                         .append(roadAddressElement)
-	                         .append($("<td>").text(item.scale + "m²"))
-	                         .append($("<td>").text(item.contactInfo))
 	                         .hover(
 	                             function () { $(this).css("background-color", "#eeeeee"); }, 
 	                             function () { $(this).css("background-color", ""); }      

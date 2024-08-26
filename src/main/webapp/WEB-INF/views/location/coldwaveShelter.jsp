@@ -522,7 +522,7 @@ function shelterRetrieve(pageNo,totalCnt) {
         
         let params = {
             "locCode" : locCode,
-            "shelterDiv" : "90",
+            "shelterDiv" : "100",
             "pageNo" : pageNo
         };
         
