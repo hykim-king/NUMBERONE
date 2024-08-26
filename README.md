@@ -153,9 +153,10 @@
 <h4>메인</h4>
 
 <h5>비로그인시</h5>
-
+![메인 비로그인시](https://github.com/user-attachments/assets/677fcf48-14ea-46e3-be69-18dcfe21f3ee)
 
 <h5>로그인시</h5>
+![메인 로그인시](https://github.com/user-attachments/assets/fc992111-1e71-46b2-a5ea-c5126b7741f5)
 
 <h4>게시판</h4>
 
