@@ -45,7 +45,7 @@ public class SseController implements PLog {
         emitter.onCompletion(() -> emitters.remove(emitter)); // 완료 시 리스트에서 제거
         emitter.onTimeout(() -> emitters.remove(emitter)); // 타임아웃 시 리스트에서 제거
 
-        //startEventCheck(session);
+        startEventCheck(session);
 
         return emitter;
     }

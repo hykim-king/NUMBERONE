@@ -1182,7 +1182,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		
 		function getDisasterMsgList(locCode){
-			const startDay =formatDate(today);
+			const startDay =formatDate(new Date(today.getTime() + (24 * 60 * 60 * 1000)))
+			
 			const tempDate = new Date(today); // 오늘 날짜를 기반으로 새 객체 생성
 			tempDate.setMonth(today.getMonth() - 1);
 			const endDay=formatDate(tempDate);

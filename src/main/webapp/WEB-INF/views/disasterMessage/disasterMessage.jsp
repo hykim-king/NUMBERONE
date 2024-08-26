@@ -374,6 +374,7 @@ function retrieve(pageNumber) {
 	    loccode = $("#subRegion option:selected").val();
 	} 
     let startDate = $("#startDate").val();
+    console.log($("#startDate").val());
     let endDate = $("#endDate").val();
     let pageNo = pageNumber;
     let pageSize = 10;
