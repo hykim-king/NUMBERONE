@@ -832,7 +832,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            console.log(memberFromSession);
 		            callServerUpward(memberFromSession.locCode,formattedLastMonth,formattedToday);
 		            getDisasterMsgList(memberFromSession.locCode);
-		            getShelter(Number(memberFromSession.locCode),"10");
+		            
 		            
 		        } else{
 		            document.getElementById('showLocation').textContent = '* 로그인 하시면 맞춤 정보로 확인 가능 합니다.';
@@ -1075,7 +1075,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 //------------------------------------------------------------------------------------
 		
-		
+		const disasterTypeList=[];
         const disasterTypeSet = new Set();
 		function getDisasterMsgListAll(){
 			
@@ -1264,9 +1264,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     }));
                     $("#messageTable").append(row);
                     if(msg.disasterType != "기타"){
+                    	disasterTypeList.push(msg.disasterType);
                     	disasterTypeSet.add(msg.disasterType);
                     }
-                    
+                    console.log(disasterTypeSet.values().next().value);
+                    getShelter(Number(memberFromSession.locCode),disasterMap.get(disasterTypeList[0]));
         		});
         		
         		
