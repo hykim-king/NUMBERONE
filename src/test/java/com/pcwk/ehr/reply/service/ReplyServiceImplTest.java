@@ -46,7 +46,7 @@ public class ReplyServiceImplTest implements PLog {
         log.debug("└─────────────────────────────────────────────────────────┘");
         
         // 초기 테스트 데이터 설정
-        reply01 = new Reply(5, 2, "USER0002", "댓글내용 0005", 1, "사용안함", "사용안함", 1, "abc");
+        //reply01 = new Reply(5, 2, "USER0002", "댓글내용 0005", 1, "사용안함", "사용안함", 1, "abc");
     }
 
     @After

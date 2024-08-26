@@ -3,6 +3,7 @@ package com.pcwk.ehr.reply.service;
 import java.sql.SQLException;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +28,11 @@ public class ReplyServiceImpl implements ReplyService, PLog {
 	}
 
 	@Override
-	public List<Reply> doRetrieve(DTO search) throws SQLException {
-		log.debug("1. param :"+search);
-		return this.replyMapper.doRetrieve(search);
-	}
+    public List<Reply> doRetrieve(DTO search) throws SQLException {
+        log.debug("1. param :" + search);
+        return this.replyMapper.doRetrieve(search);
+    }
+
 
 	@Override
 	public int doUpdate(Reply inVO) throws SQLException {

@@ -411,18 +411,11 @@ document.addEventListener("DOMContentLoaded", function(){
         }
         
         PClass.pAjax(url, params, dataType, type, async, function(data){
-            if(data){
-                try{
-                    if(!isEmpty(data) && 1 === data.messageId){
-                        alert(data.messageContents);
-                        loadReplies();
-                    } else {
-                        alert(data.messageContents);
-                    }
-                } catch(e) {
-                    console.error("Error parsing response:", e);
-                    alert("데이터 처리 중 오류가 발생했습니다.");
-                }
+            if(data && data.messageId === 1){
+                alert(data.messageContents);
+                loadReplies(); // 댓글 삭제 후 전체 댓글 목록을 다시 로드
+            } else {
+                alert(data.messageContents || "댓글 삭제에 실패했습니다.");
             }
         });
     }
@@ -510,23 +503,8 @@ document.addEventListener("DOMContentLoaded", function(){
         PClass.pAjax(url, params, dataType, type, async, function(data){
             console.log("Received response:", data);
             if(data && data.list){
-                let replyHtml = '';
-                let replyMap = new Map();
-
-                data.list.forEach(function(reply){
-                    reply.children = [];
-                    replyMap.set(reply.replyNo, reply);
-                });
-
-                data.list.forEach(function(reply){
-                    if(reply.parentReply !== 0 && replyMap.has(reply.parentReply)){
-                        replyMap.get(reply.parentReply).children.push(reply);
-                    }
-                });
-
-                data.list.filter(reply => reply.parentReply === 0).forEach(function(reply){
-                    replyHtml += ReplyHtml(reply, 0);
-                });
+                let replyTree = buildReplyTree(data.list);
+                let replyHtml = renderReplyTree(replyTree);
 
                 const replyListElement = document.querySelector("#replyList");
                 if (replyListElement) {
@@ -544,15 +522,14 @@ document.addEventListener("DOMContentLoaded", function(){
     function ReplyHtml(reply, depth) {
         let indentation = 'margin-left: ' + (depth * 20) + 'px;';
         let html = '<div id="reply' + reply.replyNo + '" class="reply" style="' + indentation + '" data-reg-id="' + reply.regId + '">';
+        
         html += '<p><strong>' + reply.nickname + '</strong>: <span class="reply-content">' + reply.replyContents + '</span></p>';
         html += '<p><small>' + reply.regDt + '</small></p>';
         html += '<div class="reply-buttons">';
         html += '<button onclick="showReplyForm(' + reply.replyNo + ')">답글</button>';
         
-        // 현재 로그인한 사용자의 ID를 JavaScript 변수로 설정
         let currentUserId = '${sessionScope.member.memberId}';
         
-        // 댓글 작성자와 현재 로그인한 사용자가 같을 때만 수정, 삭제 버튼 표시
         if (currentUserId === reply.regId) {
             html += '<button onclick="showUpdateReplyForm(' + reply.replyNo + ')">수정</button>';
             html += '<button onclick="doDeleteReply(' + reply.replyNo + ')">삭제</button>';
@@ -564,15 +541,44 @@ document.addEventListener("DOMContentLoaded", function(){
         html += '<button onclick="doSaveReply(' + reply.replyNo + ')">답글 작성</button>';
         html += '</div>';
 
-        if(reply.children && reply.children.length > 0) {
-            reply.children.forEach(function(childReply) {
-                html += ReplyHtml(childReply, depth + 1);
-            });
-        }
-
         html += '</div>';
         return html;
     }
+    
+    function buildReplyTree(replies) {
+        let replyMap = new Map();
+        let rootReplies = [];
+
+        // 모든 댓글을 맵에 추가
+        replies.forEach(reply => {
+            replyMap.set(reply.replyNo, {...reply, children: []});
+        });
+
+        // 트리 구조 생성
+        replies.forEach(reply => {
+            let replyWithChildren = replyMap.get(reply.replyNo);
+            if (reply.parentReply === 0 || !replyMap.has(reply.parentReply)) {
+                rootReplies.push(replyWithChildren);
+            } else {
+                let parent = replyMap.get(reply.parentReply);
+                parent.children.push(replyWithChildren);
+            }
+        });
+
+        return rootReplies;
+    }
+    
+    function renderReplyTree(replyTree, depth = 0) {
+        let html = '';
+        for (let reply of replyTree) {
+            html += ReplyHtml(reply, depth);
+            if (reply.children && reply.children.length > 0) {
+                html += renderReplyTree(reply.children, depth + 1);
+            }
+        }
+        return html;
+    }
+
     
     function createPagination(totalCnt, pageSize, currentPage) {
         const totalPages = Math.ceil(totalCnt / pageSize);

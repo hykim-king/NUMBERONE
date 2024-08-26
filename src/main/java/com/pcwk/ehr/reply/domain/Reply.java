@@ -107,4 +107,5 @@ public class Reply extends DTO{
 				+ replyContents + ", parentReply=" + parentReply + ", regDt=" + regDt + ", modDt=" + modDt
 				+ ", replyLevel=" + replyLevel + ", nickname=" + nickname + ", toString()=" + super.toString() + "]";
 	}
+
 }

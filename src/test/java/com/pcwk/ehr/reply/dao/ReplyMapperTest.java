@@ -45,7 +45,7 @@ public class ReplyMapperTest implements PLog {
         log.debug("│ setUp()                                                 │");
         log.debug("└─────────────────────────────────────────────────────────┘");        
         
-        reply01 = new Reply(1, 2022, "USER0002", "댓글내용 0005", 0, "사용안함", "사용안함", 0, "abc");
+        //reply01 = new Reply(1, 2022, "USER0002", "댓글내용 0005", 0, "사용안함", "사용안함", 0, "abc");
         //reply02 = new Reply(3, 4, "userId02", "댓글내용_02", 34, "사용안함", "사용안함");
         //reply03 = new Reply(5, 6, "userId03", "댓글내용_03", 56, "사용안함", "사용안함");
        

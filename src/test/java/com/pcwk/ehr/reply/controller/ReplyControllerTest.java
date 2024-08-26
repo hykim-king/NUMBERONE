@@ -63,7 +63,7 @@ public class ReplyControllerTest implements PLog {
 
         //replyMapper.deleteAll();
 
-        reply01 = new Reply(5, 582, "USER0002", "댓글내용 0001", 1, "사용안함", "사용안함", 1, "abc");
+        //reply01 = new Reply(5, 582, "USER0002", "댓글내용 0001", 1, "사용안함", "사용안함", 1, "abc");
         //reply02 = new Reply(2, 1, "userId02", "댓글내용_02", "N", "사용안함", "사용안함");
         //reply03 = new Reply(3, 2, "userId03", "댓글내용_03", "N", "사용안함", "사용안함");
 
