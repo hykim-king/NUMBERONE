@@ -1157,7 +1157,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         "white-space": "nowrap",
                         "overflow": "hidden",
                         "text-overflow": "ellipsis",
-                        "max-width": "900px"
+                        "max-width": "900px",
+                        "cursor": "pointer"
                     }));
                     
                     $("#messageTable").append(row);
