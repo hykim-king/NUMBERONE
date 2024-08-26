@@ -187,7 +187,7 @@
 <body>
     <div id="headerMenu">
         <ul>
-            <li><a href="/ehr/member/signInUp.do" id ="loginBtn">로그인/회원가입</a></li>
+            <li><a id ="loginBtn">로그인/회원가입</a></li>
         </ul>
     </div>
     <div>
@@ -281,8 +281,10 @@
             console.log("memberFromSession:",memberFromSession);
 
             if (data.locCode!=0) {
+            	document.getElementById('loginBtn').href = "/ehr/main/index.do";
                 document.getElementById('loginBtn').textContent = '로그아웃';
             } else{
+            	document.getElementById('loginBtn').href = "/ehr/member/signInUp.do";
                 document.getElementById('loginBtn').textContent = '로그인/회원가입';
             }
         })
@@ -313,6 +315,7 @@
             if (data.locCode=0) {
                 // 로그아웃 성공 시
                 document.getElementById('loginBtn').textContent = '로그인/회원가입';
+                
             }
         })
         .catch(error => {
