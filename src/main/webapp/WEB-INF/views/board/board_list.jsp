@@ -319,7 +319,7 @@ body {
              value="${search.searchWord }"
              placeholder="검색어">
         </div>
-        <div class="col-sm-1" id="pageSizehidden">
+        <div class="col-sm-1" id="pageSizehidden" style="display:none;">
             <select name="pageSize" id="pageSize" class="form-select">
                 <c:forEach var="item" items="${COM_PAGE_SIZE }">
                    <option value="${item.detCode}"   <c:if test="${item.detCode == search.pageSize }">selected</c:if> >${ item.detNm}</option>
