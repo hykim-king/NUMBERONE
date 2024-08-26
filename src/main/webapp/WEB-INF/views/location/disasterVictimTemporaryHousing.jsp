@@ -332,7 +332,7 @@ function eupmyeondongSet() {
         
             <div class="container-sm" id="content" style="display: block;">
                 <div class="level1_titleWrap">
-                  <h2 class="level1_title">지진대피장소</h2>
+                  <h2 class="level1_title">임시주거시설</h2>
                 </div>
             </div>
         
@@ -507,7 +507,7 @@ function shelterRetrieve(pageNo,totalCnt) {
         }
         
         let type = "GET";
-        let url = "/ehr/shelter/shelter";
+        let url = "/ehr/shelter/shelterNotParent";
         let async = "false";
         let dataType = "html";
         

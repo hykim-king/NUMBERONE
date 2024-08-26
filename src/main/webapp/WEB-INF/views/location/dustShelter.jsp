@@ -415,6 +415,7 @@ function eupmyeondongSet() {
                     <a class="page-link" href="#" id="pageNext" type="button">다음</a>
                 </li>
             </ul>
+            <h5 class="mt-4">제공기관 : 한국환경공단</h5>
         </nav>
     </div>
 </div>
@@ -513,7 +514,7 @@ function shelterRetrieve(pageNo,totalCnt) {
         }
         
         let type = "GET";
-        let url = "/ehr/shelter/shelter";
+        let url = "/ehr/shelter/shelterNotParent";
         let async = "false";
         let dataType = "html";
         

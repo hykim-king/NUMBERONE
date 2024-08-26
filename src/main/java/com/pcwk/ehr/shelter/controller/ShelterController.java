@@ -65,6 +65,34 @@ public class ShelterController implements PLog {
 		return jsonString;
 	}
 	
+	
+	@RequestMapping(value = "/shelterNotParent"
+			,method = RequestMethod.GET
+			,produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String doRetrieveNotParent(Shelter shelter) throws SQLException {
+		log.debug("┌────────────────────────────────────────┐");
+		log.debug("│ doRetrieve()                           │");
+		log.debug("└────────────────────────────────────────┘");
+		log.debug("======================================");
+		log.debug("shelter:"+ shelter);
+		log.debug("======================================");
+		String jsonString = "";
+		
+		List<Shelter> shelterSearch = this.shelterService.doRetrieve(shelter);
+		log.debug("======================================");
+		log.debug("======================================");
+		log.debug("======================================");
+		log.debug("shelterSearch"+ shelterSearch);
+		log.debug("======================================");
+		log.debug("======================================");
+		log.debug("======================================");
+		
+		jsonString = new Gson().toJson(shelterSearch);
+		
+		return jsonString;
+	}
+	
 	@RequestMapping(value = "/shelter_map"
 			,method = RequestMethod.GET)
 	public String moveToMap(HttpServletRequest req, Model model) throws SQLException {

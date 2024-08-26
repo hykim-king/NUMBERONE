@@ -460,7 +460,7 @@ function shelterRetrieve(pageNo,totalCnt) {
 		}
 		
 		let type = "GET";
-		let url = "/ehr/shelter/shelter";
+		let url = "/ehr/shelter/shelterNotParent";
 		let async = "false";
 		let dataType = "html";
 		
@@ -497,7 +497,7 @@ function shelterRetrieve(pageNo,totalCnt) {
 	        	 
 	        	 $("#currentPageNo").text(currentPageNo+"/"+ maxPageNo);
 	        	 
-	        	 if(item.roadAddress == "undefined"){
+	        	 if(item.roadAddress == undefined){
                      roadAddressElement = $("<td></td>").html(item.adminAddress);
                  }else {
                      roadAddressElement = $("<td></td>").html(item.roadAddress + "<br/>" + item.adminAddress);

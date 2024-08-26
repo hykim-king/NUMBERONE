@@ -516,7 +516,7 @@ function shelterRetrieve(pageNo,totalCnt) {
         }
         
         let type = "GET";
-        let url = "/ehr/shelter/shelter";
+        let url = "/ehr/shelter/shelterNotParent";
         let async = "false";
         let dataType = "html";
         
