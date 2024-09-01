@@ -215,13 +215,13 @@
 
 
 
-</details>   
-
+ 
+<details>
 <summary>
 <h3 align="center"> 크롤링 서버 <h4>${\textsf{\color{#90A4AE}　───────────────────────────────────* 。 • ˚☁️}}$  </h4> </h3>
 </summary>
 <h4>• 링크 주소  : <a href="https://github.com/Lukelee88/pythonCrawling">파이썬 크롤링 서버</a></h4> <br>
-
+</details>  
 ***
 
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=0:508C9B,100:134B70&height=200&section=footer)
