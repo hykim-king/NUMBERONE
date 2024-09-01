@@ -213,6 +213,11 @@
   <img src="https://github.com/user-attachments/assets/882052ae-34c3-4c7c-b982-0e287cc778de">
 </p>
 
+<summary>
+<h3 align="center"> 크롤링 서버 <h4>${\textsf{\color{#90A4AE}　───────────────────────────────────* 。 • ˚☁️}}$  </h4> </h3>
+</summary>
+<h4>• 링크 주소  : <a href="https://github.com/Lukelee88/pythonCrawling">파이썬 크롤링 서</a></h4> <br>
+
 
 </details>   
 
