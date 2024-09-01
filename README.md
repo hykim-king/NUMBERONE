@@ -215,7 +215,7 @@
 
 
 
- 
+</details> 
 <details>
 <summary>
 <h3 align="center"> 크롤링 서버 <h4>${\textsf{\color{#90A4AE}　───────────────────────────────────* 。 • ˚☁️}}$  </h4> </h3>
